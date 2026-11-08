@@ -295,7 +295,7 @@ function sync() {
 let GL = null, glp = null, busy = false, again = false;
 const WRAP = document.createElement("div"); WRAP.className = "v3dwrap"; const MARKS = document.createElement("div"); MARKS.className = "marks3d"; MARKS.setAttribute("aria-hidden", "true");
 const SYM = { good: "✓", caution: "!", bad: "✕" };
-function placeMarks(gl) { if (A.DESIGN || !gl) { MARKS.innerHTML = ""; return; }
+function placeMarks(gl) { if (true) { MARKS.innerHTML = ""; return; }
   MARKS.innerHTML = gl.marks.map(m => { const it = A.S.items.find(i => i.id === m.id), v = it && A.verdict(it); return v && SYM[v] ? `<span class="fsmark ${v}" style="left:${(m.x * 100).toFixed(2)}%;top:${(m.y * 100).toFixed(2)}%">${SYM[v]}</span>` : ""; }).join(""); }
 function ensureGL() {
   if (!glp) glp = import("/assets/room3d-gl.js").then(m => { GL = m.create(A, () => Object.assign({}, look(), { floors: FLOORS }));
@@ -339,7 +339,7 @@ async function png() {
   const top = PAD + HEAD, mid = top + (bodyH - 60) / 2;
   x.drawImage(plan.img, PAD, mid - ph / 2, pw, ph);
   x.drawImage(c3, PAD + COL + GAP, mid - h3 / 2);
-  if (gl && !A.DESIGN) gl.marks.forEach(m => { const it = A.S.items.find(i => i.id === m.id), v = it && A.verdict(it); if (!v || !SYM[v]) return;
+  if (false) gl.marks.forEach(m => { const it = A.S.items.find(i => i.id === m.id), v = it && A.verdict(it); if (!v || !SYM[v]) return;
     const cx = PAD + COL + GAP + m.x * COL, cy = mid - h3 / 2 + m.y * h3; x.beginPath(); x.arc(cx, cy, 15, 0, Math.PI * 2);
     x.fillStyle = v === "good" ? "#3F8A68" : v === "bad" ? "#C2503B" : "#B58A2E"; x.fill(); x.lineWidth = 3; x.strokeStyle = "#fff"; x.stroke();
     x.fillStyle = "#fff"; x.font = "800 18px 'Source Sans 3', Arial, sans-serif"; x.textAlign = "center"; x.textBaseline = "middle"; x.fillText(SYM[v], cx, cy + 1); x.textAlign = "left"; x.textBaseline = "alphabetic"; });

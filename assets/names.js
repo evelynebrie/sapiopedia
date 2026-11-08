@@ -59,7 +59,7 @@
   function open(name, id) {
     load().then(function (D) {
       var r = D[name] || { g: "u" };
-      var vis = items.filter(function (it) { return !it.li.classList.contains("x") && (filter === "all" || it.g === filter); });
+      var seen = {}, vis = items.filter(function (it) { var n = it.li.querySelector("a").dataset.n; if (seen[n] || it.li.classList.contains("x") || !(filter === "all" || it.g === filter)) return false; seen[n] = 1; return true; });
       var i = vis.findIndex(function (it) { return it.li.querySelector("a").dataset.n === name; });
       var prev = i > 0 ? vis[i - 1].li.querySelector("a") : null, next = i >= 0 && i + 1 < vis.length ? vis[i + 1].li.querySelector("a") : null;
       var gl = function (a, arrow) { return a ? '<a href="' + a.getAttribute("href") + '" data-go="' + esc(a.dataset.n) + '">' + (arrow === "l" ? "← " : "") + esc(a.dataset.n) + (arrow === "r" ? " →" : "") + "</a>" : "<span></span>"; };
@@ -67,6 +67,7 @@
         (r.o ? "<tr><th>" + L.origin + "</th><td>" + esc(origin(r)) + "</td></tr>" : "") +
         (r.att ? "<tr><th>" + L.first + "</th><td>" + esc(r.att.replace(/^c\.\s*/, (FR ? "vers " : "about "))) + "</td></tr>" : "") +
         (r.ipa ? "<tr><th>" + L.pron + "</th><td>" + esc(r.ipa) + "</td></tr>" : "") +
+        (r.v ? "<tr><th>" + C.also + "</th><td>" + esc(r.v.join(", ")) + "</td></tr>" : "") +
         (r.der ? "<tr><th>" + L.comp + "</th><td>" + esc(r.der.join(", ")) + "</td></tr>" : "");
       var html = '<div class="guide">' + gl(prev, "l") + "<span>" + L.book + " · " + esc(name.charAt(0).toUpperCase()) + "</span>" + gl(next, "r") + "</div>" +
         '<div class="hd"><span class="ini" aria-hidden="true">' + esc(name.charAt(0)) + '</span><div><h2 id="nf-name">' + esc(name) + "</h2>" +

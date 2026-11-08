@@ -61,6 +61,87 @@ def gender(d):
     if "Prénoms mixtes en français" in c or (f and m): return "n"
     return "f" if f else "m" if m else "u"
 
+# ---------------------------------------------------------------- merging spelling variants
+SUBS = [("y", "i"), ("i", "y"), ("k", "c"), ("c", "k"), ("z", "s"), ("s", "z")]
+
+def same_gender(a, b):
+    return a == b or "u" in (a, b)
+
+def neighbours(k):
+    """Spellings one small step away from k (already folded): a doubled letter, an extra h, a final e, i/y, c/k, s/z."""
+    out = set()
+    for i in range(len(k)):
+        if (i + 1 < len(k) and k[i] == k[i + 1]) or k[i] == "h":
+            out.add(k[:i] + k[i + 1:])                       # drop a doubled letter or an h
+        for a, b in SUBS:
+            if k[i] == a: out.add(k[:i] + b + k[i + 1:])
+    for i in range(len(k) + 1):                              # add a doubled letter or an h
+        if i > 0: out.add(k[:i] + k[i - 1] + k[i:])
+        out.add(k[:i] + "h" + k[i:])
+    if k.endswith("e") and len(k) > 2 and k[-2] not in "aeiouy": out.add(k[:-1])   # Anne -> Ann, not Anaé -> Ana
+    elif k[-1:] not in "aeiouy": out.add(k + "e")
+    out.discard(k)
+    return out
+
+def richness(r):
+    return sum(1 for f in ("ipa", "mp3", "att", "et", "tr", "der", "c", "q", "pf", "o") if f in r) + len(r.get("tr", {})) / 10
+
+def merge(names):
+    """Group names that are accent-only or one-small-step spelling variants (same gender), or declared variants
+    ("Variante de X"). Each group becomes one card with pooled information. Index rows: the main spelling plus
+    every spelling that differs by more than accents, all pointing to the same card."""
+    edges = {w: set() for w in names}
+    def link(a, b):
+        if a != b and same_gender(names[a]["g"], names[b]["g"]): edges[a].add(b); edges[b].add(a)
+    by_fold = {}
+    for w in names: by_fold.setdefault(fold(w).replace("œ", "oe").replace("-", " "), []).append(w)
+    for ws in by_fold.values():
+        for x in ws:
+            for y in ws: link(x, y)
+    for k, ws in by_fold.items():
+        for n in neighbours(k):
+            for w2 in by_fold.get(n, []):
+                for w in ws: link(w, w2)
+    for w, r in names.items():
+        for a in r.get("alt", []):
+            if a in names: link(w, a)
+    # groups: the richest spelling first, then everything within two small steps of it (stops long chains)
+    groups, left = [], set(names)
+    for w in sorted(names, key=lambda w: (-richness(names[w]), w)):
+        if w not in left: continue
+        grp, frontier = {w}, {w}
+        for _ in range(2):
+            frontier = {y for x in frontier for y in edges[x] if y in left and y not in grp}
+            grp |= frontier
+        left -= grp; groups.append(list(grp))
+    groups = {g[0]: g for g in groups}
+    det, rows = {}, []
+    for members in groups.values():
+        main = max(members, key=lambda w: (richness(names[w]), any(ord(ch) > 127 for ch in w), -len(w)))
+        rec = dict(names[main])
+        for w in members:
+            if w == main: continue
+            o = names[w]
+            for f in ("ipa", "mp3", "by", "acc", "att", "et", "q", "pf", "o", "oe"):
+                if f not in rec and f in o: rec[f] = o[f]
+            for lang, words in o.get("tr", {}).items():
+                cur = rec.setdefault("tr", {}).setdefault(lang, [])
+                for x in words:
+                    if x not in cur and len(cur) < 4: cur.append(x)
+            for f in ("der", "c"):
+                for x in o.get(f, []):
+                    if x not in rec.setdefault(f, []): rec[f].append(x)
+            if rec["g"] == "u": rec["g"] = o["g"]
+        rec.pop("alt", None)
+        shown = [main] + sorted({w for w in members if w != main and fold(w) != fold(main)}, key=str.lower)
+        if len(members) > 1: rec["v"] = [w for w in sorted(members, key=str.lower) if w != main]
+        det[main] = rec
+        for w in shown: rows.append([w, rec["g"], 1 if "mp3" in rec else 0, main])
+    rows.sort(key=lambda r: (fold(r[0]), r[0]))
+    det = dict(sorted(det.items(), key=lambda kv: fold(kv[0])))
+    print(f"merged {len(names)} spellings into {len(det)} cards; index shows {len(rows)} names")
+    return det, rows
+
 def main():
     lines = subprocess.run(["grep", "-F", '"pos_title": "Prénom"', SRC], capture_output=True, text=True, env={**os.environ, "LC_ALL": "C"}).stdout.splitlines()
     names = {}; C = countries()
@@ -91,7 +172,8 @@ def main():
         if der: rec["der"] = der
         if d.get("etymology_texts"):
             et = " ".join(d["etymology_texts"]).strip()
-            if len(et) > 8:
+            if len(et) > 8 and not re.search(r"Étymologie manquante|ajouter en cliquant", et):
+                et = re.sub(r"\b([Nn]om|[Pp]rénom|[Mm]ot|[Tt]oponyme|ou)(composé|dérivé)", r"\1 \2", et)  # the dump glues these words
                 rec["et"] = et[:700]
                 o = origin(et)
                 if o: rec["o"] = o; rec["oe"] = ORIG_EN.get(o, o.capitalize())
@@ -106,15 +188,17 @@ def main():
             if f and m_:
                 fv = int(re.sub(r"\D", "", f.group(1)) or 0); mv = int(re.sub(r"\D", "", m_.group(1)) or 0)
                 if fv + mv > 0: rec["pf"] = round(100 * fv / (fv + mv))
+        alt = [a["word"] for sn in d.get("senses", []) for a in sn.get("alt_of", []) if a.get("word")]
+        if alt: rec["alt"] = alt
         cs = C.get(fold(w))
         if cs: rec["c"] = cs[:10]
         names[w] = rec
-    det = dict(sorted(names.items(), key=lambda kv: kv[0].lower()))
+    det, index_rows = merge(names)
     os.makedirs(os.path.join(ROOT, "assets"), exist_ok=True)
     json.dump(det, open(os.path.join(ROOT, "assets", "names-fr.json"), "w", encoding="utf-8"), ensure_ascii=False, separators=(",", ":"))
-    json.dump([[w, r["g"], 1 if "mp3" in r else 0] for w, r in det.items()], open(os.path.join(ROOT, "data", "names_fr_list.json"), "w", encoding="utf-8"), ensure_ascii=False, separators=(",", ":"))
+    json.dump(index_rows, open(os.path.join(ROOT, "data", "names_fr_list.json"), "w", encoding="utf-8"), ensure_ascii=False, separators=(",", ":"))
     from collections import Counter
-    print(len(det), "names;", Counter(r["g"] for r in det.values()), "; with recording:", sum("mp3" in r for r in det.values()),
+    print(len(det), "cards;", Counter(r["g"] for r in det.values()), "; with recording:", sum("mp3" in r for r in det.values()),
           "; origins:", Counter(r.get("o") for r in det.values()).most_common(8))
 
 if __name__ == "__main__":

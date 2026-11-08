@@ -43,7 +43,7 @@ UI = {
            "kicker": "Tools and Answers Backed by Real Data",
            "h1": "For people who can't stop asking <em>questions</em>.",
            "cta": "What colour are you?", "cta_sub": "· 60 s",
-           "mini": "Birthday converter", "born": "Born on", "mini_hint": "a <b>{dow}</b> · <b>{days}</b> days lived · <b>{weeks}</b> weeks · <b>{months}</b> months · <b>{moons}</b> full moons",
+           "mini": "New tool", "mini_t": "Feng Shui Room Planner",
            "note_k": "Method note", "note": "Every answer is built on real, open-source data, with sources when they matter.", "note_a": "How Sapiopedia is made",
            "counts": {"quizzes": "quizzes", "tools": "tools", "meanings": "entries", "names": "names", "games": "games"}},
     "fr": {"home": "Accueil", "tagline": "L'espèce qui n'arrête pas de poser des questions.",
@@ -53,7 +53,7 @@ UI = {
            "kicker": "Outils et réponses appuyés sur de vraies données",
            "h1": "Pour les gens qui ne cessent de poser des <em>questions</em>.",
            "cta": "Quelle couleur êtes-vous ?", "cta_sub": "· 60 s",
-           "mini": "Convertisseur de naissance", "born": "Né·e le", "mini_hint": "un <b>{dow}</b> · <b>{days}</b> jours vécus · <b>{weeks}</b> semaines · <b>{months}</b> mois · <b>{moons}</b> pleines lunes",
+           "mini": "Nouvel outil", "mini_t": "Planificateur de pièce feng shui",
            "note_k": "Note de méthode", "note": "Chaque réponse s'appuie sur de vraies données ouvertes, avec ses sources quand elles comptent.", "note_a": "Comment Sapiopedia est fait",
            "counts": {"quizzes": "quiz", "tools": "outils", "meanings": "entrées", "names": "prénoms", "games": "jeux"}},
 }
@@ -133,27 +133,22 @@ for lang in ("en", "fr"):
     def url_of(en_slug):
         p = next(p for p in PAGES if p["en"][0] == en_slug)
         return f"/{lang}/{SECTIONS[p['section']][lang][0]}/{p[lang][0]}/"
-    quiz_url = url_of("what-colour-is-your-personality"); birth_url = url_of("birthday-converter-days-weeks-moons")
-    hint = u["mini_hint"]
+    quiz_url = url_of("what-colour-is-your-personality"); fs_url = url_of("fengshui")
     body = f"""<div class="hero-wrap">{BIG_MARK}
 <section class="hero">
   <div class="kicker">{u['kicker']}</div>
   <h1>{u['h1']}</h1>
   <div class="cta">
     <a class="btn" href="{quiz_url}">{u['cta']} <span>{u['cta_sub']}</span> <svg aria-hidden="true" width="18" height="12" viewBox="0 0 18 12"><path d="M1 6h15M11 1l5 5-5 5" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-    <form class="minitool" onsubmit="return false">
+    <a class="minitool" href="{fs_url}">
       <span class="kicker">{u['mini']}</span>
-      <label>{u['born']} <input id="bd" type="date" max="{TODAY}"></label>
-      <output id="bo"><a href="{birth_url}">→</a></output>
-    </form>
+      <output>{u['mini_t']} →</output>
+    </a>
   </div>
 </section></div>
 <section class="cats"><div class="head"><span class="kicker">{u['explore']}</span><i></i></div>{rows}</section>
 <section class="note"><span class="kicker">{u['note_k']}</span><div><p>{u['note']}</p><a href="/{lang}/{LEGAL[lang]['about']}/">{u['note_a']}</a></div></section>
-<script>
-(function(){{var el=document.getElementById('bd'),o=document.getElementById('bo'),H={json.dumps(hint, ensure_ascii=False)},L='{lang}';
-el.addEventListener('input',function(){{var r=SP.birth(el.value,L);if(!r)return;o.innerHTML=H.replace('{{dow}}',r.dow).replace('{{days}}',SP.fmt(r.days,0)).replace('{{weeks}}',SP.fmt(r.weeks,0)).replace('{{months}}',SP.fmt(r.months,0)).replace('{{moons}}',SP.fmt(r.moons,0))+' <a href="{birth_url}">→</a>';}});}})();
-</script>"""
+"""
     write(f"/{lang}/index.html", layout(lang, "Sapiopedia", u["intro"], body, f"/{lang}/", f"/{other}/", main_class="home"))
     add_url(f"/{lang}/")
     # sections

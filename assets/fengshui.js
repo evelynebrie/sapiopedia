@@ -13,7 +13,7 @@ const POINT8=["north","north-east","east","south-east","south","south-west","wes
 const FURN=[
  {k:"bed",name:T("Bed"),w:112,h:160,wall:true},
  {k:"desk",name:T("Desk"),w:96,h:48,wall:true},
- {k:"sofa",name:T("Sofa"),w:160,h:70,wall:true},
+ {k:"sofa",name:T("Sofa"),w:144,h:64,wall:true},
  {k:"tv",name:T("TV"),w:96,h:14,wall:true},
  {k:"wardrobe",name:T("Wardrobe"),w:96,h:48,wall:true},
  {k:"shelf",name:T("Bookshelf"),w:76,h:28,wall:true},
@@ -85,14 +85,7 @@ let S={shape:"wide",room:SHAPES.wide.pts.map(p=>p.slice()),north:0,armed:null,dr
 const pts=()=>S.room;
 function example(){
   Object.assign(S,{shape:"wide",room:SHAPES.wide.pts.map(p=>p.slice()),north:0,items:[],opens:[],next:1,sel:null,armed:null,drawing:null,v:7});
-  buildEdges();
-  S.opens.push({id:S.next++,k:"door",edge:2,t:.76});
-  S.opens.push({id:S.next++,k:"window",edge:0,t:.3});
-  S.opens.push({id:S.next++,k:"window",edge:1,t:.5});
-  S.opens[2].t=.25;
-  [["desk",150,320],["sofa",420,430]].forEach(([k,x,y])=>{const o=orient(k,x,y);S.items.push({id:S.next++,k,x:o.x,y:o.y});});
-  const bs=bestSpot("bed");const bed={id:S.next++,k:"bed",x:bs?bs.x:470,y:bs?bs.y:200};S.items.unshift(bed);
-  S.sel={t:"item",id:bed.id};
+  buildEdges(); /* start with an empty room */
 }
 function valid(){
   if(S.v!==7)return false;
@@ -105,13 +98,13 @@ function valid(){
   return true;
 }
 let loaded=false;
-try{const s=JSON.parse(localStorage.getItem("fengshui-room7")||"null");if(s){Object.assign(S,s,{armed:null,drawing:null});loaded=true;}}catch(e){}
+try{const s=JSON.parse(localStorage.getItem("sapiopedia-fengshui-1")||"null");if(s){Object.assign(S,s,{armed:null,drawing:null});loaded=true;}}catch(e){}
 const hot=window.claude&&window.claude.hot;
 if(hot&&hot.data&&hot.data.v===7){Object.assign(S,hot.data,{armed:null,drawing:null});loaded=true;}
 if(!loaded||!valid())example();
 buildEdges();
 if(hot&&hot.snapshot)hot.snapshot(()=>S);
-function save(){try{localStorage.setItem("fengshui-room7",JSON.stringify(S));}catch(e){}}
+function save(){try{localStorage.setItem("sapiopedia-fengshui-1",JSON.stringify(S));}catch(e){}}
 
 /* ---------- Rules ---------- */
 function lines(){ /* door↔window and window↔window on opposite walls */
@@ -508,7 +501,7 @@ function drawControls(){
     mk("chip",T("Cancel"),()=>{S.drawing=null;render();});
   } else {
     Object.entries(SHAPES).forEach(([k,s])=>mk("shape",`<svg viewBox="30 30 580 580" aria-hidden="true"><polygon points="${s.pts.map(p=>p.join(",")).join(" ")}" fill="none" stroke="currentColor" stroke-width="44"/></svg>`,
-      ()=>{S.shape=k;S.room=s.pts.map(p=>p.slice());buildEdges();S.opens=[];S.items=S.items.filter(i=>inside(i.x,i.y,s.pts)).map(i=>{const o=oi(i);return Object.assign(i,{x:o.x,y:o.y});});S.sel=null;HEAT=null;save();render();},
+      ()=>{S.shape=k;S.room=s.pts.map(p=>p.slice());buildEdges();S.opens=[];S.items=S.items.filter(i=>inside(i.x,i.y,s.pts)).map(i=>{const o=oi(i);return Object.assign(i,{x:o.x,y:o.y});});S.items=S.items.filter(i=>{const f=FBY[i.k];if(fits(f,oi(i))&&!overlaps(f,oi(i),i.id))return true;delete i.rot;const b=bestSpot(i.k,i.id);if(!b)return false;i.x=b.x;i.y=b.y;return true;});S.sel=null;HEAT=null;save();render();},
       b=>{b.title=s.name;b.setAttribute("aria-label",T("{x} room",{x:s.name}));b.setAttribute("aria-pressed",S.shape===k);}));
     mk("shape draw","✎ "+T("Draw"),()=>{S.drawing=[];S.armed=null;S.sel=null;HEAT=null;render();},b=>b.setAttribute("aria-pressed",S.shape==="custom"));
   }

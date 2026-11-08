@@ -19,7 +19,9 @@ const WOOD = "#D8C2A0", FABRIC = "#C3BBB0", WHITE = "#F3F1ED", DARK = "#3B3B3E",
 
 function look() { const S = A.S; if (!S.look) S.look = { floor: "oak", wall: WALLS[0], rot: 0 }; return S.look; }
 function shade(hex, f) {
-  const n = parseInt(hex.slice(1), 16), r = n >> 16, g = (n >> 8) & 255, b = n & 255;
+  let r, g, b;
+  if (hex[0] === "#") { const n = parseInt(hex.slice(1), 16); r = n >> 16; g = (n >> 8) & 255; b = n & 255; }
+  else { const m = String(hex).match(/[\d.]+/g) || [200, 200, 200]; [r, g, b] = m.map(Number); }
   const c = v => Math.max(0, Math.min(255, Math.round(v * f)));
   return `rgb(${c(r)},${c(g)},${c(b)})`;
 }
@@ -303,20 +305,34 @@ colorIn.addEventListener("input", () => { look().wall = colorIn.value; A.save();
 try { on = localStorage.getItem("sapiopedia-roomplanner-view") === "3d"; } catch (_) {}
 if (window.ResizeObserver) new ResizeObserver(() => update()).observe(stage);
 
-/* PNG of the 3D view with the Sapiopedia band */
+/* PNG export: 2D plan on the left, 3D view on the right, Sapiopedia band below */
 async function png() {
-  const W = 1600, c = document.createElement("canvas"), h = draw(c, W - 140, 1), BAND = 200, GAP = 40, H = 70 + h + GAP + BAND;
+  const plan = await A.planShot();
+  const W = 2200, PAD = 70, GAP = 70, COL = (W - PAD * 2 - GAP) / 2, HEAD = 64;
+  const c3 = document.createElement("canvas"), h3 = draw(c3, COL, 1);
+  const pw = COL, ph = Math.round(plan.h * COL / plan.w), bodyH = Math.max(ph, h3) + 60, BAND = 200;
+  const H = PAD + HEAD + bodyH + BAND;
   const out = document.createElement("canvas"); out.width = W; out.height = H; const x = out.getContext("2d");
-  x.fillStyle = "#FFFFFF"; x.fillRect(0, 0, W, H); x.drawImage(c, 70, 70);
-  const by = 70 + h + GAP; x.fillStyle = "#F7E9EC"; x.fillRect(0, by, W, BAND); x.fillStyle = "#DCC9CE"; x.fillRect(0, by, W, 2);
-  const logo = await new Promise((res, rej) => { const i = new Image(); i.onload = () => res(i); i.onerror = rej; i.src = "/assets/logo-horizontal.png"; });
-  const lh = 120; x.drawImage(logo, 60, by + (BAND - lh) / 2, logo.width * lh / logo.height, lh);
-  const P = A.pts(), xs = P.map(q => q[0]), ys = P.map(q => q[1]), loc = document.documentElement.lang || "en";
-  const m = v => (v / PX).toLocaleString(loc, { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+  x.fillStyle = "#FFFFFF"; x.fillRect(0, 0, W, H);
+  x.font = "600 22px 'Source Sans 3', Arial, sans-serif"; x.fillStyle = "#6E5A62"; x.textAlign = "left";
+  const sp = s => s.toUpperCase().split("").join(String.fromCharCode(8202));
+  x.fillText(sp(T("2D plan")), PAD, PAD + 24); x.fillText(sp(T("3D view")), PAD + COL + GAP, PAD + 24);
+  const top = PAD + HEAD, mid = top + (bodyH - 60) / 2;
+  x.drawImage(plan.img, PAD, mid - ph / 2, pw, ph);
+  x.drawImage(c3, PAD + COL + GAP, mid - h3 / 2);
+  x.fillStyle = "#EADDE1"; x.fillRect(PAD + COL + GAP / 2 - 1, top, 2, bodyH - 60);
+  /* legend under the plan */
+  const LEG = [[plan.VL.good, "rgba(63,138,104,.18)", "#3f8a68"], [plan.VL.caution, "rgba(181,138,46,.17)", "#b58a2e"], [plan.VL.bad, "rgba(194,80,59,.16)", "#c2503b"]];
+  x.font = "500 22px 'Source Sans 3', Arial, sans-serif"; x.textBaseline = "middle"; let lx = PAD; const ly = top + bodyH - 30;
+  LEG.forEach(([t, bg, st]) => { x.fillStyle = bg; x.fillRect(lx, ly - 11, 22, 22); x.strokeStyle = st; x.lineWidth = 2.5; x.strokeRect(lx + 1, ly - 10, 20, 20); x.fillStyle = "#2A1F26"; x.fillText(t, lx + 32, ly + 1); lx += 32 + x.measureText(t).width + 36; });
+  x.textBaseline = "alphabetic";
+  const by = H - BAND; x.fillStyle = "#F7E9EC"; x.fillRect(0, by, W, BAND); x.fillStyle = "#DCC9CE"; x.fillRect(0, by, W, 2);
+  const lh = 120; x.drawImage(plan.logo, PAD - 10, by + (BAND - lh) / 2, plan.logo.width * lh / plan.logo.height, lh);
   x.textAlign = "right"; x.fillStyle = "#2A1F26"; x.font = "600 36px 'Source Sans 3', Arial, sans-serif";
-  x.fillText(A.FR ? "sapiopedia.com/fr/outils/planificateur-de-piece" : "sapiopedia.com/en/tools/room-planner", W - 70, by + 82);
+  x.fillText(A.FR ? "sapiopedia.com/fr/outils/planificateur-de-piece" : "sapiopedia.com/en/tools/room-planner", W - PAD, by + 82);
   x.fillStyle = "#6E5A62"; x.font = "400 24px 'Source Sans 3', Arial, sans-serif";
-  x.fillText(T("Room Planner") + " · " + T("Room ≈ {w} × {h} m", { w: m(Math.max(...xs) - Math.min(...xs)), h: m(Math.max(...ys) - Math.min(...ys)) }), W - 70, by + 124);
+  x.fillText(T("Room Planner") + " · " + plan.dims, W - PAD, by + 124);
+  x.fillText(`${plan.counts.good} ${plan.VW.good} · ${plan.counts.caution} ${plan.VW.caution} · ${plan.counts.bad} ${plan.VW.bad}`, W - PAD, by + 158);
   return await new Promise(res => out.toBlob(res, "image/png"));
 }
 window.FS3D = { update, active: () => on, png };

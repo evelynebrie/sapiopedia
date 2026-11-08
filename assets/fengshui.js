@@ -681,7 +681,7 @@ const LSW=(()=>{const st=document.querySelector(".fs .stage");if(!st)return null
   b.innerHTML=`<svg viewBox="0 0 32 44" aria-hidden="true"><rect class="pl" x="1" y="1" width="30" height="42" rx="7"/><rect class="sl" x="9" y="7" width="14" height="30" rx="4"/><rect class="rk" x="10.5" y="8.5" width="11" height="13" rx="3"/></svg><span>${T("Lights")}</span>`;
   b.addEventListener("click",()=>{S.lights=!S.lights;persist();render();});st.appendChild(b);return b;})();
 function syncSwitch(){if(!LSW)return;const has=S.items.some(i=>i.k==="lamp");if(!has&&S.lights)S.lights=false;LSW.hidden=!has;LSW.setAttribute("aria-pressed",!!S.lights);LSW.title=T(S.lights?"Turn the lights off":"Turn the lights on");LSW.setAttribute("aria-label",LSW.title);}
-window.FSAPI={get S(){return S;},FBY,FI,OPEN,PXM,T,FR,pts,oi,openPos,centroid,save,render:()=>render()};
+window.FSAPI={planShot:()=>buildPNG(true),get S(){return S;},FBY,FI,OPEN,PXM,T,FR,pts,oi,openPos,centroid,save,render:()=>render()};
 computeHeat();render();
 
 /* ---------- Export PNG with Sapiopedia branding ---------- */
@@ -692,7 +692,7 @@ if(window.claude&&typeof window.claude.use==="function"){
   window.claude.use("downloads").then(d=>{downloads=d;expBtn.hidden=!d;}).catch(()=>{expBtn.hidden=true;});
 } else {plainDownload=true;expBtn.hidden=false;}
 const loadImg=src=>new Promise((res,rej)=>{const i=new Image();i.onload=()=>res(i);i.onerror=rej;i.src=src;});
-async function buildPNG(){
+async function buildPNG(planOnly){
   const root=document.documentElement,prevTheme=root.getAttribute("data-theme");
   const keep={sel:S.sel,armed:S.armed,heat:HEAT};
   S.sel=null;S.armed=null;HEAT=null;root.setAttribute("data-theme","light");draw();
@@ -708,6 +708,7 @@ async function buildPNG(){
   const svgUrl="data:image/svg+xml;charset=utf-8,"+encodeURIComponent(new XMLSerializer().serializeToString(clone));
   await (document.fonts&&document.fonts.ready);
   const[planImg,logo]=await Promise.all([loadImg(svgUrl),loadImg(LOGO)]);
+  if(planOnly)return{img:planImg,w:planW,h:planH,counts,logo,dims:T("Room ≈ {w} × {h} m",{w:num((Math.max(...xs)-Math.min(...xs))/PXM,1),h:num((Math.max(...ys)-Math.min(...ys))/PXM,1)}),VL,VW};
   const c=document.createElement("canvas");c.width=W;c.height=H;const x=c.getContext("2d");
   x.fillStyle="#ffffff";x.fillRect(0,0,W,H);
   x.drawImage(planImg,PAD,PAD,planW,planH);
@@ -750,7 +751,7 @@ function preview(blob){
 expBtn.addEventListener("click",async()=>{
   expBtn.disabled=true;expMsg.textContent=T("Preparing image…");
   try{
-    const blob=await(window.FS3D&&window.FS3D.active()?window.FS3D.png():buildPNG());
+    const blob=await(window.FS3D?window.FS3D.png():buildPNG());
     expMsg.textContent="";preview(blob);
   }catch(e){const code=e&&e.code;expMsg.textContent=code==="declined"?T("Export cancelled."):code==="rate_limited"?T("Another save is open: try again in a moment."):T("Export isn't available here.");if(code&&code!=="declined"&&code!=="rate_limited"&&!plainDownload)expBtn.hidden=true;}
   finally{expBtn.disabled=false;setTimeout(()=>{if(expMsg.textContent===T("Saved."))expMsg.textContent="";},3000);}

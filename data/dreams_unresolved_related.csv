@@ -1,0 +1,300 @@
+lang,entry,related_name
+en,abhor,Hate
+en,awake,Awaking
+en,balcony,Adieu
+en,bantam,Hen
+en,bird-s-nest,Egg
+en,bird-s-nest-2,Egg
+en,breakfast,Egg
+en,brewing-and-baking,Lazy
+en,brood,Hen
+en,cackle,Hen
+en,capon,Hen
+en,chicken,Hen
+en,rooster,Hen
+en,cruelty,Hate
+en,custard,Egg
+en,earrings,Ear
+en,earwig,Ear
+en,eggs,Hen
+en,election,Vote
+en,envy,Hate
+en,farewell,Adieu
+en,fowl,Hen
+en,handkerchiefs,Adieu
+en,haste,Run
+en,hatching,Hen
+en,hatching,Egg
+en,hatred,Hate
+en,hens,Egg
+en,hog,Hog
+en,idleness,Lazy
+en,legislature,Vote
+en,lovely,Handsome
+en,malice,Hate
+en,man,Handsome
+en,mute,Ear
+en,nest,Egg
+en,nest,Hen
+en,omelette,Egg
+en,politician,Vote
+en,poultry,Hen
+en,pursued,Run
+en,race,Run
+en,racing,Run
+en,rat,Rat
+en,rooster-2,Hen
+en,rotten,Egg
+en,rouse,Awaking
+en,running-2,Run
+en,side,Rib
+en,(alias) alarm clock,AWAKING
+en,(alias) aperitif,COCKTAIL
+en,(alias) attractive,HANDSOME
+en,(alias) baby toy,RATTLE
+en,(alias) ballot,VOTE
+en,(alias) beautiful,HANDSOME
+en,(alias) billy goat,YOUNG GOAT
+en,(alias) breastbone,RIB
+en,(alias) bristles,HOG BRISTLES
+en,(alias) chest,RIB
+en,(alias) code,PASSWORD
+en,(alias) despise,HATE
+en,(alias) detest,HATE
+en,(alias) earlobe,EAR
+en,(alias) eggshell,EGG
+en,(alias) good-looking,HANDSOME
+en,(alias) goodbye,ADIEU
+en,(alias) hearing,EAR
+en,(alias) idle,LAZY
+en,(alias) jog,RUN
+en,(alias) listening,EAR
+en,(alias) loathe,HATE
+en,(alias) martini,COCKTAIL
+en,(alias) massage,RUB
+en,(alias) mixed drink,COCKTAIL
+en,(alias) nanny goat,YOUNG GOAT
+en,(alias) pin,PASSWORD
+en,(alias) polish,RUB
+en,(alias) ribcage,RIB
+en,(alias) scrub,RUB
+en,(alias) slothful,LAZY
+en,(alias) sluggish,LAZY
+en,(alias) sprint,RUN
+en,(alias) toy,RATTLE
+en,(alias) voting,VOTE
+en,(alias) waking up,AWAKING
+en,(alias) watchword,PASSWORD
+en,(alias) yolk,EGG
+fr,academie,Étude
+fr,gonie,Être malade
+fr,amateur,"Jeu, spectacle"
+fr,amoureux,Amoureux
+fr,baillement,Être malade
+fr,baiser,Être embrassé
+fr,bandage-herniaire,Être malade
+fr,belette,Rat
+fr,bibliotheque,Étude
+fr,bronchite,Toux
+fr,e-cabane,Être malade
+fr,cancer,Être malade
+fr,caoutchouc-2,Être malade
+fr,cerveau,Étude
+fr,chant-du-coq,Chant (du coq)
+fr,chats,Rat
+fr,chaufour,Chaux / Citron vert
+fr,chaulage,Chaux / Citron vert
+fr,chemise-de-dessous,Chemise (de dessous)
+fr,chien-de-compagnie,Giron
+fr,colere-2,Être malade
+fr,variante,"Jeu, spectacle"
+fr,courses,Courses
+fr,creme-anglaise,Œuf
+fr,creuser,Exploitation minière
+fr,crises-convulsives,Être malade
+fr,croup,Toux
+fr,croup,Être malade
+fr,dictionnaire,Étude
+fr,douleur,Être malade
+fr,douleurs,Être malade
+fr,echo,Être malade
+fr,eclosion,Œuf
+fr,ecole,Étude
+fr,effraie,Être malade
+fr,encyclopedie,Étude
+fr,engelure,Être malade
+fr,engourdissement,Être malade
+fr,esquinancie,Être malade
+fr,esquinancie,Toux
+fr,evanouissement,Être malade
+fr,evanouissement-2,Être malade
+fr,faction-ou-sedition,Faction ou sédition
+fr,faiblesse,Être malade
+fr,fatigue,Être malade
+fr,fevrier,Être malade
+fr,fievre,Être malade
+fr,fievre-quarte,Être malade
+fr,fievre-quarte-2,Être malade
+fr,filer,Filer
+fr,filet-de-peche,Filage du lin
+fr,flamme,Flamme
+fr,dysenterie,Être malade
+fr,folie-2,Être malade
+fr,fougeres,Être malade
+fr,four-a-chaux,Chaux / Citron vert
+fr,froid,Être malade
+fr,gangrene,Être malade
+fr,goutte,Être malade
+fr,grammaire,Étude
+fr,grec,Étude
+fr,gruau,Être malade
+fr,hernie,Être malade
+fr,histoire,Étude
+fr,hopital,Être malade
+fr,hydropisie,Être malade
+fr,indigestion,Être malade
+fr,infirmerie,Être malade
+fr,infirmiere,Être malade
+fr,infirmites,Être malade
+fr,instituteur,Étude
+fr,instruction,Étude
+fr,intestins,Être malade
+fr,invalide,Être malade
+fr,jaunisse,Être malade
+fr,latin,Étude
+fr,lavage,Lavage
+fr,lecture,Étude
+fr,lessive,Lavandière
+fr,lin,Filage du lin
+fr,lit-de-camp,Être malade
+fr,livres,Étude
+fr,lycee,Étude
+fr,maladie,Être malade
+fr,maladie-2,Être malade
+fr,medecin-charlatan,Être malade
+fr,medecin-charlatan-2,Être malade
+fr,mine,Exploitation minière
+fr,mine-de-charbon,Exploitation minière
+fr,mouches,Être malade
+fr,musee,Étude
+fr,myrte,Hêtre et myrte
+fr,mystere,Étude
+fr,neige,Promenade en traîneau
+fr,nid,Œuf
+fr,nid-d-oiseau,Œuf
+fr,nid-d-oiseau-2,Œuf
+fr,adhesion,Être malade
+fr,omelette,Œuf
+fr,ongles,Étude
+fr,papier-tue-mouches,Être malade
+fr,paralysie-2,Être malade
+fr,paralysie-3,Être malade
+fr,peindre,Être malade
+fr,pepite,Exploitation minière
+fr,peste,Être malade
+fr,petit-dejeuner,Œuf
+fr,phtisie,Être malade
+fr,phtisie,Toux
+fr,planche-a-laver,Lavandière
+fr,platre,Chaux / Citron vert
+fr,plomb,Exploitation minière
+fr,poule,Œuf
+fr,poulet,Poulet
+fr,son-pouls,Être malade
+fr,pourri,Œuf
+fr,pourri,Être malade
+fr,quenouille,Filage du lin
+fr,racines,Être malade
+fr,ratiere,Rat
+fr,reins,Être malade
+fr,repassage,Lavandière
+fr,rhumatisme,Être malade
+fr,sagesse,Étude
+fr,salade,Être malade
+fr,sanskrit,Étude
+fr,saute-mouton,"Jeu, spectacle"
+fr,scarlatine,Être malade
+fr,souris,Rat
+fr,souris-2,Rat
+fr,stethoscope,Être malade
+fr,taupes-ou-de-grains-de-beaute,Rat
+fr,teigne,Être malade
+fr,teigne-du-cuir-chevelu,Être malade
+fr,tenia,Être malade
+fr,theatre,Salle de spectacle
+fr,tonnelet,Tonnelet
+fr,tonnerre-et-eclairs,Tonnerre et éclairs
+fr,tousser,Être malade
+fr,traineau,Promenade en traîneau
+fr,typhoide,Être malade
+fr,universite,Étude
+fr,urticaire,Être malade
+fr,vaccination,Être malade
+fr,verrues,Taupes / Grains de beauté
+fr,vif-argent,Être malade
+fr,violon,Violon
+fr,vomi,Être malade
+fr,(alias) apprentissage,ÉTUDE
+fr,(alias) arbres,HÊTRE ET MYRTE
+fr,(alias) balade en traîneau,PROMENADE EN TRAÎNEAU
+fr,(alias) bise,ÊTRE EMBRASSÉ
+fr,(alias) bisou,ÊTRE EMBRASSÉ
+fr,(alias) blanchisseuse,LAVANDIÈRE
+fr,(alias) calcaire,CHAUX / CITRON VERT
+fr,(alias) centime,SOU
+fr,(alias) colique,FLUX DE VENTRE
+fr,(alias) collaborateur,ASSOCIÉ
+fr,(alias) collaborateur,PARTENAIRE
+fr,(alias) collègue,ASSOCIÉ
+fr,(alias) collègue,PARTENAIRE
+fr,(alias) conduite,PIPE
+fr,(alias) conduite,TUYAU
+fr,(alias) copropriétaire,ASSOCIÉ
+fr,(alias) copropriétaire,PARTENAIRE
+fr,(alias) coquille,ŒUF
+fr,(alias) cuisses,GIRON
+fr,(alias) diarrhée,FLUX DE VENTRE
+fr,(alias) dysenterie,FLUX DE VENTRE
+fr,(alias) éducation,ÉTUDE
+fr,(alias) études,ÉTUDE
+fr,(alias) extraction,EXPLOITATION MINIÈRE
+fr,(alias) forage,EXPLOITATION MINIÈRE
+fr,(alias) genoux,GIRON
+fr,(alias) grain de beauté,TAUPES / GRAINS DE BEAUTÉ
+fr,(alias) gros lot,PRIX
+fr,(alias) gros lot,LOT
+fr,(alias) hêtre,HÊTRE ET MYRTE
+fr,(alias) jaune d'œuf,ŒUF
+fr,(alias) jeu,JEU
+fr,(alias) jeu,SPECTACLE
+fr,(alias) jeu de cartes,TISONNIER
+fr,(alias) jeu de cartes,POKER
+fr,(alias) judaïsme,JUIF
+fr,(alias) laverie,LAVANDIÈRE
+fr,(alias) limette,CHAUX / CITRON VERT
+fr,(alias) luge,PROMENADE EN TRAÎNEAU
+fr,(alias) mal,ÊTRE MALADE
+fr,(alias) malaise,ÊTRE MALADE
+fr,(alias) mineur,EXPLOITATION MINIÈRE
+fr,(alias) mirabelle,PRUNE DE DAMAS
+fr,(alias) monnaie,SOU
+fr,(alias) pièce,JEU
+fr,(alias) pièce,SPECTACLE
+fr,(alias) pièce,SALLE DE SPECTACLE
+fr,(alias) pièces,SOU
+fr,(alias) pique-feu,TISONNIER
+fr,(alias) pique-feu,POKER
+fr,(alias) plomberie,PIPE
+fr,(alias) plomberie,TUYAU
+fr,(alias) propriété,BIENS
+fr,(alias) prune,PRUNE DE DAMAS
+fr,(alias) quetsche,PRUNE DE DAMAS
+fr,(alias) rabbin,JUIF
+fr,(alias) rhume,TOUX
+fr,(alias) rongeur,RAT
+fr,(alias) rouet,FILAGE DU LIN
+fr,(alias) spectacle,SALLE DE SPECTACLE
+fr,(alias) tache de naissance,TAUPES / GRAINS DE BEAUTÉ
+fr,(alias) taupe,TAUPES / GRAINS DE BEAUTÉ
+fr,(alias) terrain,BIENS
+fr,(alias) tousser,TOUX

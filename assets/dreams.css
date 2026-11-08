@@ -1,0 +1,92 @@
+/* Sapiopedia: Dream Dictionary (old dream-book look, scoped under .dd) */
+@import url("https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,600;1,400&family=IM+Fell+English:ital@0;1&family=IM+Fell+English+SC&display=swap");
+main.page.dream{max-width:900px}
+main.page.dream h1{font-family:'IM Fell English',Georgia,serif;font-variation-settings:normal;letter-spacing:0}
+.dd{--ink6:#2B2320;--sepia:#5B4A40;--rule6:#BFAE9F;--paper:#FCF7F2;--edge:#E6D9CC;--wine:#8E2F48;--g6:#6E8F63;--g6s:#3E5638;--y6:#D4AE52;--y6s:#8A6A22;--r6:#B0564A;--r6s:#6E2C25;font-family:'EB Garamond',Georgia,serif;color:var(--ink6)}
+.dd .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.dd p.dd-intro{font-family:'EB Garamond',Georgia,serif;font-style:italic;font-size:21px;color:var(--ink6)}
+.dd .dd-note{font-family:'EB Garamond',Georgia,serif;font-size:15.5px;color:var(--sepia);max-width:70ch}
+/* search + A–Z, sticky */
+.dd-bar{position:sticky;top:0;z-index:5;background:var(--bg);padding:10px 0 8px;margin:18px 0 8px;border-bottom:3px double var(--rule6);display:grid;gap:8px}
+.dd-search{position:relative}
+.dd-search input{width:100%;font:400 19px 'EB Garamond',Georgia,serif;color:var(--ink6);background:var(--paper);border:1px solid var(--edge);box-shadow:inset 0 0 0 3px var(--paper),inset 0 0 0 4px var(--edge);padding:12px 16px;border-radius:2px}
+.dd-search input:focus{outline:2px solid var(--wine);outline-offset:2px}
+.dd-res{position:absolute;left:0;right:0;top:calc(100% + 4px);list-style:none;margin:0;padding:6px 0;background:var(--paper);border:1px solid var(--edge);box-shadow:0 12px 30px -12px rgba(42,31,38,.35);max-height:60vh;overflow:auto;z-index:6}
+.dd-res li a{display:block;padding:7px 16px;color:var(--ink6);font-size:18px;text-decoration:none}
+.dd-res li a:hover,.dd-res li a[aria-selected="true"]{background:#F3E9E0}
+.dd-res li a i{color:var(--sepia)}
+.dd-res li a small{display:block;color:var(--sepia);font-size:14.5px;font-style:italic;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.dd-none{margin:6px 2px 0;font-style:italic;color:var(--sepia)}
+.dd-az{display:flex;flex-wrap:wrap;gap:2px 0;font-family:'IM Fell English SC',Georgia,serif;font-size:19px}
+.dd-az a{color:var(--wine);text-decoration:none;padding:2px 7px}
+.dd-az a:hover{background:#F3E9E0;color:var(--ink6)}
+/* index */
+.dd-ix{margin:8px 0 18px;border-bottom:3px double var(--rule6);padding-bottom:10px}
+.dd-ix summary{cursor:pointer;font-family:'IM Fell English SC',Georgia,serif;font-size:22px;color:var(--ink6);padding:8px 0}
+.dd-ix summary span{font-family:'EB Garamond',Georgia,serif;font-style:italic;font-size:16px;color:var(--sepia)}
+.ixc{columns:3 200px;column-gap:28px;column-rule:1px solid var(--edge);font-size:16px}
+.ixl h3{font-family:'IM Fell English',Georgia,serif;font-weight:400;color:var(--wine);font-size:26px;margin:8px 0 2px;break-after:avoid}
+.ixl ul{list-style:none;margin:0 0 6px;padding:0}
+.ixl li{margin:0;padding:1px 0;font-size:16px !important}
+.ixl a{color:var(--ink6);text-decoration:none}
+.ixl a:hover{color:var(--wine);text-decoration:underline}
+.ixl .al{color:var(--sepia);font-style:italic}
+.ixl .al a{font-style:normal;color:var(--wine)}
+.dd-legend{text-align:center;font-style:italic;color:var(--sepia);font-size:16px !important;display:flex;justify-content:center;align-items:center;gap:6px;flex-wrap:wrap}
+/* letters + entries */
+.dd-letter{content-visibility:auto;contain-intrinsic-size:auto 6000px}
+.bigl{font-family:'IM Fell English',Georgia,serif !important;font-weight:400 !important;font-size:96px !important;color:var(--wine);text-align:center;margin:40px 0 0 !important;line-height:1}
+.dd-e{background:var(--paper);border:1px solid var(--edge);box-shadow:inset 0 0 0 6px var(--paper),inset 0 0 0 7px var(--edge);padding:30px 36px 24px;margin:22px 0;display:grid;gap:14px;scroll-margin-top:150px}
+.dd-e:target{box-shadow:inset 0 0 0 6px var(--paper),inset 0 0 0 7px var(--wine),0 0 0 3px rgba(142,47,72,.2)}
+.dd-e .guide{display:flex;justify-content:space-between;gap:10px;font-family:'IM Fell English SC',Georgia,serif;font-size:15px;letter-spacing:.06em;color:var(--sepia);border-bottom:3px double var(--rule6);padding-bottom:7px}
+.dd-e .guide a{color:var(--sepia);text-decoration:none}
+.dd-e .guide a:hover{color:var(--wine)}
+.dd-e header{display:grid;grid-template-columns:auto minmax(0,1fr);gap:0 16px;align-items:start}
+.dd-e .ini{font-family:'IM Fell English',Georgia,serif;font-size:96px;line-height:.8;color:var(--wine);margin-top:4px}
+.dd-e h2{font-family:'IM Fell English',Georgia,serif !important;font-weight:400 !important;font-size:38px !important;letter-spacing:0 !important;margin:0 !important;line-height:1.08;color:var(--ink6)}
+.dd-e .pos{margin:6px 0 0;font-style:italic;color:var(--sepia);font-size:16px !important}
+.dd-e .dots{color:var(--wine);letter-spacing:2px;font-style:normal}
+.dd-e .dots s{text-decoration:none;color:#E2D5CB}
+.dd-e p.lead{font-family:'EB Garamond',Georgia,serif;font-style:italic;font-weight:400;font-size:21px;color:var(--ink6);text-align:center;margin:4px 0;padding:0 4%;max-width:none}
+.dd-e h3{font-family:'IM Fell English SC',Georgia,serif;font-weight:400;font-size:21px;letter-spacing:.04em;color:var(--ink6);display:flex;align-items:center;gap:14px;margin:4px 0 8px}
+.dd-e h3::before,.dd-e h3::after{content:"";flex:1;border-top:3px double var(--rule6)}
+.dd-e ul{list-style:none;margin:0;padding:0;display:grid;gap:4px}
+.dd-e ul li{font-size:18px !important;color:#3A302B !important;line-height:1.45;margin:0 !important}
+.dd-e ul.sit li{display:grid;grid-template-columns:30px minmax(0,1fr);gap:4px;align-items:start}
+.dd-e ul.fl li{padding-left:28px;position:relative}
+.dd-e ul.fl li::before{content:"❧";position:absolute;left:2px;color:var(--rule6)}
+.dd-e li i{color:var(--ink6)}
+.dd .th{width:22px;height:22px;margin-top:3px;stroke-width:1.1;stroke-linejoin:round;flex:none}
+.dd .th.up{fill:var(--g6);stroke:var(--g6s)}
+.dd .th.mid{fill:var(--y6);stroke:var(--y6s);transform:rotate(-90deg)}
+.dd .th.down{fill:var(--r6);stroke:var(--r6s);transform:rotate(180deg)}
+.dd-legend .th{margin:0}
+.dd-e .see{font-family:'IM Fell English SC',Georgia,serif;font-size:18px !important;letter-spacing:.03em;color:var(--sepia) !important;text-align:center;margin:4px 0 0}
+.dd-e .see::before{content:"❦ ";color:var(--wine)}
+.dd-e .see a{color:var(--wine);text-decoration:none}
+.dd-e .see a:hover{text-decoration:underline}
+.dd-e .refs{font-style:italic;font-size:14.5px !important;color:var(--sepia) !important;border-top:3px double var(--rule6);padding-top:10px;margin:0;text-align:center}
+.dd-e .acts{display:flex;justify-content:center;align-items:center;gap:18px;flex-wrap:wrap}
+.dd-e .share{all:unset;cursor:pointer;font-family:'IM Fell English SC',Georgia,serif;font-size:17px;letter-spacing:.04em;color:var(--paper);background:var(--wine);padding:7px 18px;border-radius:2px;box-shadow:inset 0 0 0 1px var(--paper),inset 0 0 0 2px var(--wine)}
+.dd-e .share:hover{background:#7A2640}
+.dd-e .share:focus-visible{outline:2px solid var(--wine);outline-offset:3px}
+.dd-e .share:disabled{opacity:.7;cursor:wait}
+.dd-e .top{font-style:italic;color:var(--sepia);font-size:15px;text-decoration:none}
+/* share preview */
+.dd-ov{position:fixed;inset:0;z-index:50;background:rgba(42,31,38,.6);display:grid;place-items:center;padding:16px}
+.dd-ov[hidden]{display:none}
+.dd-ovbox{background:var(--bg);border-radius:14px;padding:12px;max-width:min(560px,100%);max-height:100%;overflow:auto;display:grid;gap:10px}
+.dd-ovbox img{width:100%;height:auto;display:block;border:1px solid var(--line);border-radius:6px}
+.dd-ovact{display:flex;justify-content:flex-end;gap:8px}
+.dd-ovact button{all:unset;cursor:pointer;font:600 15px var(--sans);padding:9px 18px;border-radius:999px;border:1px solid var(--line);color:var(--ink);background:var(--sheet,#fff)}
+.dd-ovact button.solid{background:var(--accent);border-color:var(--accent);color:#fff}
+.dd-ovact button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media (max-width:640px){
+  .dd-e{padding:20px 16px 18px}
+  .dd-e .ini{font-size:66px}
+  .dd-e h2{font-size:28px !important}
+  .dd-e p.lead{font-size:19px;padding:0}
+  .dd-e .guide{font-size:13px}
+  .dd-az{font-size:17px}
+  .bigl{font-size:72px !important}
+}

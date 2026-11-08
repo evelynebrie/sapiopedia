@@ -30,6 +30,8 @@ SECTIONS = {
                  "fr": ("prenoms", "Prénoms", "Prénoms avec de vraies données de popularité")},
     "games":    {"en": ("games", "Games", "Party games, rules and generators"),
                  "fr": ("jeux", "Jeux", "Jeux de groupe, règles et générateurs")},
+    "dreams":   {"en": ("dreams", "Dreams", "A dream dictionary from four old dream books, in plain English"),
+                 "fr": ("reves", "Rêves", "Un dictionnaire des rêves tiré de quatre anciens recueils")},
 }
 LEGAL = {
     "en": {"about": "about", "privacy": "privacy", "contact": "contact"},
@@ -37,7 +39,7 @@ LEGAL = {
 }
 UI = {
     "en": {"home": "Home", "tagline": "The species that can't stop asking questions.",
-           "intro": "Sapiopedia is a growing collection of quizzes, calculators, meanings, names and games. One question per page, a clear answer, and a result you can share.", "desc": {"quizzes": "What your choices reveal. Colour, mental age, which country suits you…", "tools": "Everyday calculations, checked. Kitchen, baby, home, garden.", "meanings": "Symbols, flowers, stones, superstitions, and the stories behind them.", "names": "Origins, real popularity curves, and the quiet favourites.", "games": "Good questions for lively tables. Truth or dare, and more."},
+           "intro": "Sapiopedia is a growing collection of quizzes, calculators, meanings, names and games. One question per page, a clear answer, and a result you can share.", "desc": {"quizzes": "What your choices reveal. Colour, mental age, which country suits you…", "tools": "Everyday calculations, checked. Kitchen, baby, home, garden.", "meanings": "Symbols, flowers, stones, superstitions, and the stories behind them.", "names": "Origins, real popularity curves, and the quiet favourites.", "games": "Good questions for lively tables. Truth or dare, and more.", "dreams": "What your dreams meant to our ancestors, symbol by symbol, from abandonment to zodiac."},
            "explore": "Categories", "related": "Related pages", "about": "About", "privacy": "Privacy", "contact": "Contact",
            "ad": "advertisement", "lang_other": "EN", "footer": "Made in Montréal",
            "kicker": "Tools and Answers Backed by Real Data",
@@ -45,9 +47,9 @@ UI = {
            "cta": "What colour are you?", "cta_sub": "· 60 s",
            "mini": "New tool", "mini_t": "Feng Shui Room Planner",
            "note_k": "Method note", "note": "Every answer is built on real, open-source data, with sources when they matter.", "note_a": "How Sapiopedia is made",
-           "counts": {"quizzes": "quizzes", "tools": "tools", "meanings": "entries", "names": "names", "games": "games"}},
+           "counts": {"quizzes": "quizzes", "tools": "tools", "meanings": "entries", "names": "names", "games": "games", "dreams": "dreams"}},
     "fr": {"home": "Accueil", "tagline": "L'espèce qui n'arrête pas de poser des questions.",
-           "intro": "Sapiopedia est une collection grandissante de quiz, de calculateurs, de significations, de prénoms et de jeux. Une question par page, une réponse claire, un résultat à partager.", "desc": {"quizzes": "Ce que vos choix révèlent. Couleur, âge mental, quel pays vous ressemble…", "tools": "Les calculs du quotidien, vérifiés. Cuisine, bébé, maison, jardin.", "meanings": "Symboles, fleurs, pierres, superstitions, et les histoires derrière.", "names": "Origines, courbes de popularité réelles, et les discrets favoris.", "games": "De bonnes questions pour les tablées animées. Action ou vérité, et plus."},
+           "intro": "Sapiopedia est une collection grandissante de quiz, de calculateurs, de significations, de prénoms et de jeux. Une question par page, une réponse claire, un résultat à partager.", "desc": {"quizzes": "Ce que vos choix révèlent. Couleur, âge mental, quel pays vous ressemble…", "tools": "Les calculs du quotidien, vérifiés. Cuisine, bébé, maison, jardin.", "meanings": "Symboles, fleurs, pierres, superstitions, et les histoires derrière.", "names": "Origines, courbes de popularité réelles, et les discrets favoris.", "games": "De bonnes questions pour les tablées animées. Action ou vérité, et plus.", "dreams": "Ce que vos rêves voulaient dire pour nos ancêtres, symbole par symbole, d\'abandon à zodiaque."},
            "explore": "Catégories", "related": "Pages liées", "about": "À propos", "privacy": "Confidentialité", "contact": "Contact",
            "ad": "publicité", "lang_other": "FR", "footer": "Créé à Montréal",
            "kicker": "Outils et réponses appuyés sur de vraies données",
@@ -55,7 +57,7 @@ UI = {
            "cta": "Quelle couleur êtes-vous ?", "cta_sub": "· 60 s",
            "mini": "Nouvel outil", "mini_t": "Planificateur de pièce feng shui",
            "note_k": "Note de méthode", "note": "Chaque réponse s'appuie sur de vraies données ouvertes, avec ses sources quand elles comptent.", "note_a": "Comment Sapiopedia est fait",
-           "counts": {"quizzes": "quiz", "tools": "outils", "meanings": "entrées", "names": "prénoms", "games": "jeux"}},
+           "counts": {"quizzes": "quiz", "tools": "outils", "meanings": "entrées", "names": "prénoms", "games": "jeux", "dreams": "rêves"}},
 }
 
 def esc(s): return html.escape(s, quote=True)
@@ -110,6 +112,7 @@ def write(path, content):
 # ---------------------------------------------------------------- content
 from sp import PAGES, quiz_page, article_page, tool_page  # noqa
 import content  # registers every page (content/*.py)
+from content import dreams  # one-page dream dictionary per language
 
 # ---------------------------------------------------------------- build
 urls = []
@@ -123,10 +126,11 @@ for lang in ("en", "fr"):
             "tools": '<path d="M22 4a6 6 0 0 1 0 12 6 6 0 0 1-6-6V4zM16 10 6 28" stroke="#2E5F6E"/>',
             "meanings": '<path d="M6 26C8 14 16 6 28 5c-1 12-9 20-21 22M6 26l10-10" stroke="#6E4A78"/>',
             "names": '<path d="M16 5c7 0 12 4 12 9.5S23 24 16 24c-1.3 0-2.6-.1-3.8-.4L6 27l1.6-5.2C5.3 20 4 17.4 4 14.5 4 9 9 5 16 5z" stroke="#D9915F"/>',
-            "games": '<path d="M9 5h14a2 2 0 0 1 2 2v18a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2zM16 12l3 4-3 4-3-4z" stroke="#6C8C66"/>'}
+            "games": '<path d="M9 5h14a2 2 0 0 1 2 2v18a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2zM16 12l3 4-3 4-3-4z" stroke="#6C8C66"/>',
+            "dreams": '<path d="M20 4.5A11 11 0 1 0 27.5 22 9 9 0 0 1 20 4.5zM24 6.5l.8 1.7 1.7.8-1.7.8-.8 1.7-.8-1.7-1.7-.8 1.7-.8z" stroke="#8E2F48"/>'}
     rows = ""
     for i, s_ in enumerate(SECTIONS, 1):
-        n = len([p for p in PAGES if p["section"] == s_])
+        n = dreams.count(lang) if s_ == "dreams" else len([p for p in PAGES if p["section"] == s_])
         rows += (f'<a class="row" href="/{lang}/{SECTIONS[s_][lang][0]}/"><div class="g"><span class="n">{i:02d}</span>'
                  f'<span class="t">{SECTIONS[s_][lang][1]}</span><span class="d">{u["desc"][s_]}</span><span class="c">{n} {u["counts"][s_]}</span>'
                  f'<svg aria-hidden="true" width="32" height="32" viewBox="0 0 32 32" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">{ICON[s_]}</svg></div><span class="rule"></span></a>')
@@ -153,6 +157,9 @@ for lang in ("en", "fr"):
     add_url(f"/{lang}/")
     # sections
     for s, d in SECTIONS.items():
+        if s == "dreams":
+            dreams.build(lang, layout, write, add_url, d[lang][0], f"/{other}/{d[other][0]}/")
+            continue
         slug, title, desc = d[lang]
         items = [p for p in PAGES if p["section"] == s]
         cards = "".join(f'<a href="/{lang}/{slug}/{p[lang][0]}/"><h3>{esc(p[lang][1])}</h3><p>{esc(p[lang][2])}</p></a>' for p in items)

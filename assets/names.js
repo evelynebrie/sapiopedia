@@ -43,7 +43,7 @@
       women: "femmes", men: "hommes", bearsTxt: "{f} % des personnes qui portent ce prénom en France sont des femmes, {m} % des hommes.",
       gshort: { f: "Féminin", m: "Masculin", n: "Féminin et masculin (mixte)", u: "Non indiqué" }, book: "Prénoms français", around: "vers" }
     : { glance: "At a glance", gender: "Gender", origin: "Origin", first: "First recorded", pron: "Pronunciation", comp: "Compound names",
-      meaning: "Origin and meaning", bears: "Who bears it", where: "Where it is given", world: "Around the world", lit: "In literature", src: "Sources",
+      meaning: "Origin and meaning", bears: "Who bears it", where: "Where it is mostly given", world: "Around the world", lit: "In literature", src: "Sources",
       women: "women", men: "men", bearsTxt: "In France, {f}% of people with this name are women and {m}% are men.",
       gshort: { f: "Feminine", m: "Masculine", n: "Feminine and masculine (unisex)", u: "Not recorded" }, book: "French Names", around: "around", inFrench: "In French, from the French Wiktionary:" };
   function origin(r) { if (!r.o) return ""; return FR ? r.o.charAt(0).toUpperCase() + r.o.slice(1) : r.oe; }

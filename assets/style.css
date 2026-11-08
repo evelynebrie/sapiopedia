@@ -34,7 +34,7 @@ a:hover { color: var(--accent-dark); }
 header.site { border-bottom: 1px solid var(--line); }
 header.site .wrap { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding-top: 22px; padding-bottom: 22px; }
 .logo { display: inline-flex; align-items: center; gap: 10px; color: var(--ink); font-family: var(--serif); font-weight: 500; font-size: 26px; letter-spacing: -.01em; }
-.logo svg { width: 18px; height: 24px; }
+.logo svg { width: 24px; height: 33px; }
 nav.main { display: flex; gap: 32px; align-items: center; font-size: 12px; letter-spacing: .18em; text-transform: uppercase; font-weight: 600; }
 nav.main a { color: var(--ink); }
 nav.main a:hover { color: var(--accent); }

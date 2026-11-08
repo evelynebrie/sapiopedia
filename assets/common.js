@@ -27,7 +27,7 @@ window.SP = {
     var g = c.getContext('2d');
     g.fillStyle = '#F7E9EC'; g.fillRect(0, 0, 1080, 1080);
     g.fillStyle = '#F1DCE1'; g.fillRect(90, 90, 900, 900);
-    SP._mark(g, 150, 120, 0.55);
+    SP._mark(g, 150, 140, 1.75);
     var ink = '#2A1F26', acc = opts.color || '#B8405E';
     g.textAlign = 'left'; g.fillStyle = '#6E5A62';
     g.font = '600 26px "Source Sans 3", system-ui, sans-serif';
@@ -40,14 +40,19 @@ window.SP = {
     g.fillText('S A P I O P E D I A . C O M', 170, 950);
     return c.toDataURL('image/png');
   },
-  // Risograph "?" mark: two offset inks plus a thin raspberry line
+  // Logo mark: "?" in two offset inks + raspberry line, sparkles, ringed-planet dot (logo.svg coordinates)
   _mark: function (g, x, y, s) {
-    var P = new Path2D('M60 150 C52 66 128 26 196 40 C280 58 292 158 232 206 C198 232 170 246 168 300 L168 332');
-    function stroke(col, w, dx, dy) { g.save(); g.translate(x + dx * s, y + dy * s); g.scale(s, s); g.lineCap = 'round'; g.lineJoin = 'round'; g.strokeStyle = col; g.lineWidth = w; g.stroke(P); g.restore(); }
-    function dot(col, r, dx, dy, ring) { g.save(); g.translate(x + dx * s, y + dy * s); g.scale(s, s); g.beginPath(); g.arc(168, 402, r, 0, Math.PI * 2); if (ring) { g.strokeStyle = col; g.lineWidth = 12; g.stroke(); } else { g.fillStyle = col; g.fill(); } g.restore(); }
-    g.save(); g.globalCompositeOperation = 'multiply';
-    stroke('#B9CFE0', 46, -14, 10); stroke('#E9A9B8', 46, 14, -8); stroke('#B8405E', 12, 0, 0);
-    dot('#B9CFE0', 30, -14, 10); dot('#E9A9B8', 30, 14, -8); dot('#B8405E', 30, 0, 0, true);
+    var Q = new Path2D('M62 70 C58 36 96 20 124 28 C160 38 164 86 132 104 C114 114 104 122 104 144');
+    g.save(); g.translate(x - 30 * s, y - 10 * s); g.scale(s, s); g.lineCap = 'round'; g.lineJoin = 'round';
+    function st(col, w, dx, dy) { g.save(); g.translate(dx, dy); g.strokeStyle = col; g.lineWidth = w; g.stroke(Q); g.restore(); }
+    st('#B9CFE0', 24, -6, 5); st('#E9A9B8', 24, 6, -4); st('#B8405E', 7, 0, 0);
+    function ring(d) { g.save(); g.translate(104, 176); g.rotate(-18 * Math.PI / 180); g.translate(-104, -176); g.strokeStyle = '#B9CFE0'; g.lineWidth = 4; g.stroke(new Path2D(d)); g.restore(); }
+    ring('M77.6 176 A26.4 7.2 0 0 1 130.4 176');
+    g.fillStyle = '#B8405E'; g.beginPath(); g.arc(104, 176, 12, 0, Math.PI * 2); g.fill();
+    ring('M77.6 176 A26.4 7.2 0 0 0 130.4 176');
+    ['M108 53 Q108 62 117 62 Q108 62 108 71 Q108 62 99 62 Q108 62 108 53Z',
+     'M128 44.5 Q128 48 131.5 48 Q128 48 128 51.5 Q128 48 124.5 48 Q128 48 128 44.5Z',
+     'M90 77 Q90 80 93 80 Q90 80 90 83 Q90 80 87 80 Q90 80 90 77Z'].forEach(function (d) { g.fill(new Path2D(d)); });
     g.restore();
   },
   _wrap: function (g, text, x, y, maxW, lh) {

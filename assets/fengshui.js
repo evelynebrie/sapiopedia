@@ -2,6 +2,7 @@
 (function(){
 "use strict";
 /* i18n: English strings are the keys; window.FS_FR (fengshui-fr.js) supplies French. */
+const DESIGN=window.FS_MODE==="design";
 const FR=document.documentElement.lang==="fr"&&window.FS_FR?window.FS_FR:null;
 function T(s,v){let r=FR&&FR[s]!=null?FR[s]:s;if(v)for(const k in v)r=r.split("{"+k+"}").join(v[k]);return r;}
 const THE={bed:"the bed",desk:"the desk",sofa:"the sofa",armchair:"the armchair",chair:"the chair",table:"the table",countertop:"the countertop",appliance:"the appliance",tv:"the TV",wardrobe:"the wardrobe",shelf:"the bookshelf",screen:"the folding screen",plant:"the plant",door:"the door",window:"the window",mirror:"the mirror"};
@@ -28,7 +29,8 @@ const FURN=[
 const PXM=80; /* pixels per metre */
 const FBY=Object.fromEntries(FURN.map(f=>[f.k,f]));
 const OPEN={door:{name:T("Door"),len:72},window:{name:T("Window"),len:96},mirror:{name:T("Mirror"),len:52}};
-const VL={good:T("Good"),caution:T("Caution"),bad:T("Avoid"),neutral:T("No rule")};
+const VL=DESIGN?{good:T("Fits"),caution:T("Tight"),bad:T("Blocked"),neutral:T("Note")}:{good:T("Good"),caution:T("Caution"),bad:T("Avoid"),neutral:T("No rule")};
+const VW=DESIGN?{good:T("fit"),caution:T("tight"),bad:T("blocked")}:{good:T("good"),caution:T("caution"),bad:T("avoid")};
 const ACTIVE=["desk","tv","sofa","armchair","appliance","countertop"],DIVIDERS=["screen","shelf","plant"];
 
 /* ---------- Geometry ---------- */
@@ -103,13 +105,13 @@ function valid(){
   return true;
 }
 let loaded=false;
-try{const s=JSON.parse(localStorage.getItem("sapiopedia-fengshui-1")||"null");if(s){Object.assign(S,s,{armed:null,drawing:null});loaded=true;}}catch(e){}
+try{const s=JSON.parse(localStorage.getItem((DESIGN?"sapiopedia-roomplanner-1":"sapiopedia-fengshui-1"))||"null");if(s){Object.assign(S,s,{armed:null,drawing:null});loaded=true;}}catch(e){}
 const hot=window.claude&&window.claude.hot;
 if(hot&&hot.data&&hot.data.v===7){Object.assign(S,hot.data,{armed:null,drawing:null});loaded=true;}
 if(!loaded||!valid())example();
 buildEdges();
 if(hot&&hot.snapshot)hot.snapshot(()=>S);
-function save(){try{localStorage.setItem("sapiopedia-fengshui-1",JSON.stringify(S));}catch(e){}}
+function save(){try{localStorage.setItem((DESIGN?"sapiopedia-roomplanner-1":"sapiopedia-fengshui-1"),JSON.stringify(S));}catch(e){}}
 
 /* ---------- Rules ---------- */
 function lines(){ /* door↔window and window↔window on opposite walls */
@@ -129,7 +131,33 @@ function between(A,B,skipIds){ /* is a divider standing between points A and B? 
   return S.items.some(it=>{if(!DIVIDERS.includes(it.k)||skipIds.includes(it.id))return false;const o=oi(it),f=FBY[it.k];
     const d=segDist(o.x,o.y,A[0],A[1],B[0],B[1]);return d<Math.max(f.w,f.h)/2+6&&Math.hypot(o.x-A[0],o.y-A[1])>40&&Math.hypot(o.x-B[0],o.y-B[1])>40;});
 }
+const cm=px=>Math.max(0,Math.round(px/PXM*100));
+const sizeTxt=f=>T("{w} × {d} cm",{w:cm(f.w),d:cm(f.h)});
+function frontClear(f,o,selfId){ /* free distance straight out from the front of a piece */
+  if(f.round)return null;const fx=-o.bx,fy=-o.by,x1=o.x+fx*f.h/2,y1=o.y+fy*f.h/2;let d=rayDist(x1,y1,fx,fy);if(d>5000)return null;
+  for(let s=2;s<d;s+=3){const x=x1+fx*s,y=y1+fy*s;if(S.items.some(it=>it.id!==selfId&&contains(it,x,y))){d=s;break;}}
+  return{x1,y1,x2:x1+fx*d,y2:y1+fy*d,d};
+}
+function inSwing(f,o,op){ /* does the piece sit in the quarter-circle a door sweeps? */
+  const p=openPos(op);if(!p)return false;const R=p.len;
+  for(let r=8;r<=R;r+=8)for(let a=-80;a<=80;a+=10){const t=a*Math.PI/180,x=p.x+(p.nx*Math.cos(t)+p.tx*Math.sin(t))*r*.95,y=p.y+(p.ny*Math.cos(t)+p.ty*Math.sin(t))*r*.95;if(containsAt(f,o,x,y))return true;}
+  return false;
+}
+function blocksWindow(f,o,k){if(k!=="wardrobe"&&k!=="shelf")return null;return S.opens.find(op=>{if(op.k!=="window")return false;const p=openPos(op);return p&&p.edge===o.edge&&o.gap<30&&Math.abs(dot(p.x-o.x,p.y-o.y,o.tx,o.ty))<f.w/2+p.len/2-6;});}
+function evalDesign(k,o,selfId){
+  const f=FBY[k],C=[],add=(v,t,x)=>C.push({v,t:T(t,x)});
+  const A=aabb(f,o),hit=S.items.find(it=>{if(it.id===selfId)return false;const B=aabb(FBY[it.k],oi(it));return A[0]<B[2]-4&&A[2]>B[0]+4&&A[1]<B[3]-4&&A[3]>B[1]+4;});
+  if(!fits(f,o))add("bad","Doesn't fit inside the walls.");
+  if(hit)add("bad","Overlaps {x}.",{x:the(hit.k)});
+  if(f.wall){if(o.gap<14)add("good","Against the wall.");else add("neutral","Free-standing, {d} cm from the wall.",{d:cm(o.gap)});}
+  const fc=frontClear(f,o,selfId);
+  if(fc){const d=cm(fc.d);if(fc.d<PXM*.3)add("bad","Only {d} cm free in front: too tight to use.",{d});else if(fc.d<PXM*.6)add("caution","{d} cm free in front: 60 cm is the usual minimum to walk past, 90 cm is comfortable.",{d});else add("good","{d} cm free in front.",{d});}
+  if(S.opens.some(op=>op.k==="door"&&inSwing(f,o,op)))add("bad","In the door's swing: the door can't open fully.");
+  if(blocksWindow(f,o,k))add("caution","Tall piece in front of a window: it blocks daylight.");
+  return C;
+}
 function evaluate(k,o,selfId){
+  if(DESIGN)return evalDesign(k,o,selfId);
   const f=FBY[k],C=[],add=(v,t,x)=>C.push({v,t:T(t,x)});
   const fx=-o.bx,fy=-o.by;
   const against=f.wall&&o.gap<14;
@@ -254,6 +282,12 @@ function evaluate(k,o,selfId){
 }
 function evaluateOpen(op){
   const p=openPos(op),C=[],add=(v,t,x)=>C.push({v,t:T(t,x)});if(!p)return C;
+  if(DESIGN){
+    if(op.k==="door"){const h=S.items.find(it=>inSwing(FBY[it.k],oi(it),op));if(h)add("bad","In the door's swing: {x}.",{x:the(h.k)});else add("good","The door can swing open freely.");}
+    else if(op.k==="window"){const h=S.items.find(it=>blocksWindow(FBY[it.k],oi(it),it.k));if(h)add("caution","Partly blocked by {x}.",{x:the(h.k)});else add("good","Nothing tall in front of it.");}
+    else add("neutral","A mirror across from a window makes a room feel bigger and brighter.");
+    return C;
+  }
   const L=lines().filter(l=>l.a.op===op||l.b.op===op);
   if(op.k==="door"||op.k==="window"){
     if(L.some(l=>l.kind==="door-window"))add("caution",op.k==="door"?"Faces a window across the room: energy enters and leaves in a straight line. Keep the bed and desk out of that line.":"Faces the door across the room: keep the bed and desk out of the line between them.");
@@ -312,8 +346,8 @@ function draw(){
   el("polygon",{points:poly,fill:css("--floor")});
   const g=el("g",{"clip-path":"url(#room)"});
   if(HEAT)HEAT.cells.forEach(([x,y,v])=>{if(v!=="neutral")el("rect",{x,y,width:HEAT.step+.5,height:HEAT.step+.5,fill:VBG(v)},g);});
-  bedPaths().forEach(pth=>el("line",{x1:pth.A[0],y1:pth.A[1],x2:pth.B[0],y2:pth.B[1],stroke:pth.by.length?css("--warn"):css("--good"),"stroke-width":1.6,"stroke-dasharray":"2 5","stroke-linecap":"round",opacity:.9},g));
-  lines().forEach(l=>el("line",{x1:l.a.x,y1:l.a.y,x2:l.b.x,y2:l.b.y,stroke:l.kind==="door-window"?css("--bad"):css("--warn"),"stroke-width":2,"stroke-dasharray":"7 6",opacity:.8},g));
+  if(!DESIGN)bedPaths().forEach(pth=>el("line",{x1:pth.A[0],y1:pth.A[1],x2:pth.B[0],y2:pth.B[1],stroke:pth.by.length?css("--warn"):css("--good"),"stroke-width":1.6,"stroke-dasharray":"2 5","stroke-linecap":"round",opacity:.9},g));
+  if(!DESIGN)lines().forEach(l=>el("line",{x1:l.a.x,y1:l.a.y,x2:l.b.x,y2:l.b.y,stroke:l.kind==="door-window"?css("--bad"):css("--warn"),"stroke-width":2,"stroke-dasharray":"7 6",opacity:.8},g));
   el("polygon",{points:poly,fill:"none",stroke:css("--ink"),"stroke-width":7,"stroke-linejoin":"miter"});
   EDGES.forEach(e=>{const L=e.L/PXM;if(L<.9)return;const mx=(e.a[0]+e.b[0])/2-e.nx*17,my=(e.a[1]+e.b[1])/2-e.ny*17;
     el("text",{x:mx,y:my+4,"text-anchor":"middle","font-size":11.5,fill:css("--muted"),"font-family":"'Source Sans 3', Helvetica, Arial, sans-serif",stroke:css("--sheet"),"stroke-width":3,"paint-order":"stroke"},null,num(Math.round(L*10)/10,(Math.round(L*10)%10)?1:0)+" m");});
@@ -373,17 +407,22 @@ function draw(){
       el("title",{},hg,T("Drag to turn, click to turn 90°"));
     }
   });
+  if(DESIGN&&S.sel&&S.sel.t==="item"){const it=S.items.find(i=>i.id===S.sel.id);const fc=it&&frontClear(FBY[it.k],oi(it),it.id);
+    if(fc&&fc.d>3){const col=fc.d<PXM*.3?css("--bad"):fc.d<PXM*.6?css("--warn"):css("--good");
+      el("line",{x1:fc.x1,y1:fc.y1,x2:fc.x2,y2:fc.y2,stroke:col,"stroke-width":2,"stroke-linecap":"round"});
+      [[fc.x1,fc.y1],[fc.x2,fc.y2]].forEach(([x,y])=>el("circle",{cx:x,cy:y,r:3,fill:col}));
+      el("text",{x:(fc.x1+fc.x2)/2+8,y:(fc.y1+fc.y2)/2+4,"font-size":12,"font-weight":700,fill:col,"font-family":"'Source Sans 3', Helvetica, Arial, sans-serif",stroke:css("--floor"),"stroke-width":3,"paint-order":"stroke"},null,cm(fc.d)+" cm");}}
   if(S.armed)el("g",{id:"ghost","pointer-events":"none"});
   // corner handles
   P.forEach((q,i)=>{const hg=el("g",{"data-v":i,style:"cursor:move"});el("circle",{cx:q[0],cy:q[1],r:16,fill:"transparent"},hg);el("circle",{cx:q[0],cy:q[1],r:7.5,fill:css("--sheet"),stroke:css("--ink"),"stroke-width":2.2},hg);});
   // north marker
-  [["N",0],["E",90],["S",180],["W",270]].forEach(([t,b])=>{const[x,y]=edgeAt(b+S.north);
+  if(!DESIGN)[["N",0],["E",90],["S",180],["W",270]].forEach(([t,b])=>{const[x,y]=edgeAt(b+S.north);
     if(t==="N"){el("circle",{cx:x,cy:y,r:12,fill:css("--bad")});el("text",{x,y:y+5,"text-anchor":"middle","font-size":13,"font-weight":700,fill:"#fff","font-family":"'Source Sans 3', Helvetica, Arial, sans-serif"},null,T(t));}
     else el("text",{x,y:y+5,"text-anchor":"middle","font-size":13,"font-weight":600,fill:css("--muted"),"font-family":"'Source Sans 3', Helvetica, Arial, sans-serif"},null,T(t));});
   const m=document.getElementById("mode"),sel=selName();
   const dimTxt=T("Room ≈ {w} × {h} m. Drag a corner to resize. ",{w:num((Math.max(...xs)-Math.min(...xs))/PXM,1),h:num((Math.max(...ys)-Math.min(...ys))/PXM,1)});
   if(S.armed)m.textContent=T("Placing {x}: move over a wall and click. Esc to cancel.",{x:a1(S.armed)});
-  else if(HEAT)m.textContent=dimTxt+T("Coloured floor: where {x} works.",{x:the(HEAT.k)});
+  else if(HEAT)m.textContent=dimTxt+(DESIGN?T("Coloured floor: where {x} fits.",{x:the(HEAT.k)}):T("Coloured floor: where {x} works.",{x:the(HEAT.k)}));
   else m.textContent=dimTxt+(sel?T("{x} selected.",{x:sel}):T("Pick a piece to see where it works."));
 }
 function selName(){if(S.sel&&S.sel.t==="open"){const o=S.opens.find(i=>i.id===S.sel.id);return o?OPEN[o.k].name:null;}if(S.sel&&S.sel.t==="item"){const i=S.items.find(i=>i.id===S.sel.id);return i?FBY[i.k].name:null;}return null;}
@@ -486,7 +525,7 @@ function drawDetail(){
   if(S.sel&&S.sel.t==="item"){
     const it=S.items.find(i=>i.id===S.sel.id);if(!it){S.sel=null;return drawDetail();}
     const f=FBY[it.k],o=oi(it),C=evaluate(it.k,o,it.id),v=overall(C);stripe=VCOL(v);
-    html=`<h3>${f.name}</h3><p class="muted" style="margin:4px 0 0"><span class="pill ${v}">${VL[v]}</span> &nbsp;${T("{z} of the room",{z:dirT(zoneOf(o.x,o.y))})}${f.wall&&!f.round?T(", facing {d}",{d:dirT(dir8(bearingOf(-o.bx,-o.by)))}):""}</p>${checkList(C)}
+    html=`<h3>${f.name}</h3><p class="muted" style="margin:4px 0 0"><span class="pill ${v}">${VL[v]}</span> &nbsp;${DESIGN?sizeTxt(f):T("{z} of the room",{z:dirT(zoneOf(o.x,o.y))})+(f.wall&&!f.round?T(", facing {d}",{d:dirT(dir8(bearingOf(-o.bx,-o.by)))}):"")}</p>${checkList(C)}
       <div class="actions">${f.round?"":`<button type="button" class="chip" id="tl" aria-label="${T("Turn left")}">↺ ${T("Turn")}</button><button type="button" class="chip" id="tr" aria-label="${T("Turn right")}">${T("Turn")} ↻</button>`}${it.rot!=null&&!f.round?`<button type="button" class="chip" id="auto">${T("Back to wall")}</button>`:""}<button type="button" class="chip" id="rm">${T("Remove")}</button></div>
       ${f.round?"":`<p class="muted" style="font-size:13px;margin:8px 0 0">${T("Tip: drag the round handle on the plan to turn it freely, or press R.")}</p>`}`;
     box.style.setProperty("--stripe",stripe);box.innerHTML=html;
@@ -502,7 +541,7 @@ function drawDetail(){
     const op=S.opens.find(i=>i.id===S.sel.id);if(!op){S.sel=null;return drawDetail();}
     const C=evaluateOpen(op),v=overall(C),p=openPos(op);stripe=VCOL(v);
     const[cx,cy]=centroid(pts());
-    html=`<h3>${OPEN[op.k].name}</h3><p class="muted" style="margin:4px 0 0"><span class="pill ${v}">${VL[v]}</span> &nbsp;${T("on the {d} wall",{d:dirT(dir8(bearingOf(p.x-cx,p.y-cy)))})}</p>${checkList(C)}
+    html=`<h3>${OPEN[op.k].name}</h3><p class="muted" style="margin:4px 0 0"><span class="pill ${v}">${VL[v]}</span> &nbsp;${DESIGN?T("{w} cm wide",{w:cm(p.len)}):T("on the {d} wall",{d:dirT(dir8(bearingOf(p.x-cx,p.y-cy)))})}</p>${checkList(C)}
       <p class="muted" style="font-size:13.5px;margin:10px 0 0">${T("Drag it along the walls to move it, or onto the bin to remove it.")}</p>
       <div class="actions"><button type="button" class="chip" id="rm">${T("Remove")}</button></div>`;
     box.style.setProperty("--stripe",stripe);box.innerHTML=html;
@@ -510,11 +549,21 @@ function drawDetail(){
     return;
   }
   if(S.drawing)html=`<h3>${T("Draw your room")}</h3><p class="muted">${T("Click each corner of the room in turn. Points snap to a grid. Close the shape by clicking the first corner.")}</p>`;
+  else if(DESIGN)html=`<h3>${T("How it works")}</h3><p class="muted">${T("Set the exact size of your room, add the door and windows, then add furniture. Select a piece to see how much room is free in front of it; the floor shows where it fits. Drag anything onto the bin to remove it.")}</p>`;
   else html=`<h3>${T("How it works")}</h3><p class="muted">${T("Add your door and windows on the walls and point the arrow north. Then pick a piece of furniture: it goes to its best spot, and while it's selected the floor shows how it would do anywhere in the room. Drag anything onto the bin to remove it.")}</p>`;
   box.style.setProperty("--stripe",stripe);box.innerHTML=html;
 }
 function drawNotes(){
   const N=[],L=lines();
+  if(DESIGN){const P=pts();let a=0;P.forEach((q,i)=>{const r=P[(i+1)%P.length];a+=q[0]*r[1]-r[0]*q[1];});a=Math.abs(a)/2/(PXM*PXM);
+    const used=S.items.reduce((s,i)=>s+FBY[i.k].w*FBY[i.k].h,0)/(PXM*PXM),pct=a?Math.round(used/a*100):0;
+    N.push(["neutral",T("Floor area: {a} m².",{a:num(a,1)})]);
+    if(S.items.length)N.push([pct>45?"caution":"good",T("Furniture covers {u} m² ({p} %), leaving {f} m² of free floor.",{u:num(used,1),p:pct,f:num(Math.max(0,a-used),1)})+(pct>45?" "+T("Above about 45 %, a room starts to feel crowded."):"")]);
+    if(!S.opens.some(o=>o.k==="door"))N.push(["caution",T("Add your door to check that it can swing open.")]);
+    const tight=S.items.filter(it=>overall(evaluate(it.k,oi(it),it.id))!=="good").length;
+    if(S.items.length)N.push(tight?["caution",T("{n} piece(s) need more room: select them to see why.",{n:tight})]:["good",T("Every piece has enough room around it.")]);
+    document.getElementById("notes").innerHTML=N.map(([v,t])=>`<li class="${v}"><span class="m" style="color:${v==="good"?"var(--good)":v==="bad"?"var(--bad)":v==="caution"?"var(--warn)":"var(--muted)"}">${MARK[v]}</span><span>${t}</span></li>`).join("");
+    return;}
   if(!S.opens.some(o=>o.k==="door"))N.push(["caution","Add your entrance door: most rules depend on it."]);
   L.filter(l=>l.kind==="door-window").forEach(()=>N.push(["bad","Your door lines up with a window (red dashed line): keep the bed and desk out of that path."]));
   L.filter(l=>l.kind==="window-window").forEach(()=>N.push(["caution","Two windows face each other (amber dashed line): avoid resting or working in between."]));
@@ -530,9 +579,9 @@ function drawNotes(){
 function drawList(){
   const ul=document.getElementById("list"),c={good:0,caution:0,bad:0,neutral:0};
   const rows=[...S.opens.map(op=>{const v=overall(evaluateOpen(op));c[v]++;return{t:"open",id:op.id,name:OPEN[op.k].name,v,where:T("on a wall")};}),
-              ...S.items.map(it=>{const o=oi(it),v=overall(evaluate(it.k,o,it.id));c[v]++;return{t:"item",id:it.id,name:FBY[it.k].name,v,where:T("{z} of the room",{z:dirT(zoneOf(o.x,o.y))})};})];
+              ...S.items.map(it=>{const o=oi(it),v=overall(evaluate(it.k,o,it.id));c[v]++;return{t:"item",id:it.id,name:FBY[it.k].name,v,where:DESIGN?sizeTxt(FBY[it.k]):T("{z} of the room",{z:dirT(zoneOf(o.x,o.y))})};})];
   ul.innerHTML=rows.map(w=>`<li><span class="nm"><button type="button" data-t="${w.t}" data-id="${w.id}">${w.name}</button><small>${w.where}</small></span><span class="pill ${w.v}">${VL[w.v]}</span><button type="button" class="x" aria-label="${T("Remove")} ${w.name}" data-rmt="${w.t}" data-rm="${w.id}">✕</button></li>`).join("")||`<li class="muted">${T("The room is empty.")}</li>`;
-  document.getElementById("tally").innerHTML=rows.length?`<span><b>${c.good}</b> ${T("good")}</span><span><b>${c.caution}</b> ${T("caution")}</span><span><b>${c.bad}</b> ${T("avoid")}</span>`:"";
+  document.getElementById("tally").innerHTML=rows.length?`<span><b>${c.good}</b> ${VW.good}</span><span><b>${c.caution}</b> ${VW.caution}</span><span><b>${c.bad}</b> ${VW.bad}</span>`:"";
   ul.querySelectorAll("[data-id]").forEach(b=>b.addEventListener("click",()=>{S.sel={t:b.dataset.t,id:+b.dataset.id};computeHeat();render();}));
   ul.querySelectorAll("[data-rm]").forEach(b=>b.addEventListener("click",()=>{const id=+b.dataset.rm;if(b.dataset.rmt==="item")S.items=S.items.filter(i=>i.id!==id);else S.opens=S.opens.filter(i=>i.id!==id);if(S.sel&&S.sel.id===id){S.sel=null;HEAT=null;}save();render();}));
 }
@@ -557,7 +606,16 @@ function drawControls(){
     b.addEventListener("click",()=>{let s=bestSpot(f.k);if(!s){const[cx,cy]=centroid(pts());const o=orient(f.k,cx,cy);s={x:o.x,y:o.y};}
       const it={id:S.next++,k:f.k,x:s.x,y:s.y};S.items.push(it);S.sel={t:"item",id:it.id};S.armed=null;computeHeat();save();render();});pc.appendChild(b);});
 }
-function render(light){svg.style.cursor=S.armed?"copy":"";if(!light)drawControls();drawDial();draw();drawDetail();drawNotes();drawList();}
+function syncSize(){if(!DESIGN)return;const P=pts(),xs=P.map(q=>q[0]),ys=P.map(q=>q[1]),rw=document.getElementById("rw"),rl=document.getElementById("rl");
+  if(rw&&document.activeElement!==rw)rw.value=num((Math.max(...xs)-Math.min(...xs))/PXM,1);if(rl&&document.activeElement!==rl)rl.value=num((Math.max(...ys)-Math.min(...ys))/PXM,1);}
+function refit(){S.items=S.items.filter(i=>inside(i.x,i.y,pts())).map(i=>{const o=oi(i);return Object.assign(i,{x:o.x,y:o.y});});
+  S.items=S.items.filter(i=>{const f=FBY[i.k];if(fits(f,oi(i))&&!overlaps(f,oi(i),i.id))return true;delete i.rot;const b=bestSpot(i.k,i.id);if(!b)return false;i.x=b.x;i.y=b.y;return true;});}
+if(DESIGN){const sf=document.getElementById("sizeform");if(sf)sf.addEventListener("submit",e=>{e.preventDefault();
+  const rd=id=>parseFloat(String(document.getElementById(id).value).replace(",","."));const w=rd("rw"),l=rd("rl"),msg=document.getElementById("sizemsg");
+  if(!(w>=1.5&&w<=12&&l>=1.5&&l<=12)){msg.textContent=T("Enter a size between 1.5 and 12 m.");return;}msg.textContent="";
+  const W=w*PXM,L=l*PXM;S.shape="sized";S.room=[[320-W/2,320-L/2],[320+W/2,320-L/2],[320+W/2,320+L/2],[320-W/2,320+L/2]];
+  buildEdges();S.opens=[];refit();S.sel=null;HEAT=null;save();render();});}
+function render(light){syncSize();svg.style.cursor=S.armed?"copy":"";if(!light)drawControls();drawDial();draw();drawDetail();drawNotes();drawList();}
 
 document.getElementById("clear").addEventListener("click",()=>{S.items=[];S.opens=[];S.sel=null;S.armed=null;HEAT=null;save();render();});
 document.addEventListener("keydown",e=>{if(e.key==="Escape"){S.drawing=null;S.armed=null;render();}
@@ -596,7 +654,7 @@ async function buildPNG(){
   const by=PAD+planH+GAP;
   /* legend */
   x.font="500 26px 'Source Sans 3', Arial, sans-serif";x.textAlign="left";x.textBaseline="middle";
-  const LEG=[[T("Good"),"rgba(63,138,104,.18)","#3f8a68"],[T("Caution"),"rgba(181,138,46,.17)","#b58a2e"],[T("Avoid"),"rgba(194,80,59,.16)","#c2503b"]];
+  const LEG=[[VL.good,"rgba(63,138,104,.18)","#3f8a68"],[VL.caution,"rgba(181,138,46,.17)","#b58a2e"],[VL.bad,"rgba(194,80,59,.16)","#c2503b"]];
   const sw=26,gapL=14,gapI=44,widths=LEG.map(l=>sw+gapL+x.measureText(l[0]).width),total=widths.reduce((a,b)=>a+b,0)+gapI*(LEG.length-1);
   let lx=(W-total)/2;const ly=PAD+planH+GAP/2-4;
   LEG.forEach((l,i)=>{x.fillStyle="#ffffff";x.fillRect(lx,ly-sw/2,sw,sw);x.fillStyle=l[1];x.fillRect(lx,ly-sw/2,sw,sw);x.strokeStyle=l[2];x.lineWidth=3;x.strokeRect(lx+1.5,ly-sw/2+1.5,sw-3,sw-3);
@@ -604,15 +662,15 @@ async function buildPNG(){
   x.textBaseline="alphabetic";
   x.fillStyle="#F7E9EC";x.fillRect(0,by,W,BAND);x.fillStyle="#DCC9CE";x.fillRect(0,by,W,2);
   const lh=120,lw=logo.width*lh/logo.height;x.drawImage(logo,PAD-10,by+(BAND-lh)/2,lw,lh);
-  x.textAlign="right";x.fillStyle="#2A1F26";x.font="600 36px 'Source Sans 3', Arial, sans-serif";x.fillText((FR?"sapiopedia.com/fr/outils/fengshui":"sapiopedia.com/en/tools/fengshui"),W-PAD,by+82);
+  x.textAlign="right";x.fillStyle="#2A1F26";x.font="600 36px 'Source Sans 3', Arial, sans-serif";x.fillText((DESIGN?(FR?"sapiopedia.com/fr/outils/planificateur-de-piece":"sapiopedia.com/en/tools/room-planner"):(FR?"sapiopedia.com/fr/outils/fengshui":"sapiopedia.com/en/tools/fengshui")),W-PAD,by+82);
   x.fillStyle="#6E5A62";x.font="400 24px 'Source Sans 3', Arial, sans-serif";
   const dims=T("Room ≈ {w} × {h} m",{w:num((Math.max(...xs)-Math.min(...xs))/PXM,1),h:num((Math.max(...ys)-Math.min(...ys))/PXM,1)});
-  x.fillText(T("Feng Shui Room Planner")+" · "+dims,W-PAD,by+124);
-  x.fillText(`${counts.good} ${T("good")} · ${counts.caution} ${T("caution")} · ${counts.bad} ${T("avoid")}`,W-PAD,by+158);
+  x.fillText((DESIGN?T("Room Planner"):T("Feng Shui Room Planner"))+" · "+dims,W-PAD,by+124);
+  x.fillText(`${counts.good} ${VW.good} · ${counts.caution} ${VW.caution} · ${counts.bad} ${VW.bad}`,W-PAD,by+158);
   return await new Promise(res=>c.toBlob(res,"image/png"));
 }
 /* Preview the PNG in an overlay; download only when asked */
-const FN="sapiopedia-feng-shui-room.png";
+const FN=DESIGN?"sapiopedia-room-plan.png":"sapiopedia-feng-shui-room.png";
 function preview(blob){
   const url=URL.createObjectURL(blob),ov=document.createElement("div"),touch=matchMedia("(pointer:coarse)").matches;
   ov.className="fs-ov";ov.setAttribute("role","dialog");ov.setAttribute("aria-modal","true");ov.setAttribute("aria-label",T("Your room plan"));

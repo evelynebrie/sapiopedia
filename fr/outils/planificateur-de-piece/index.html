@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Planificateur de pièce · Sapiopedia</title>
+<meta name="description" content="Planifiez une pièce au centimètre près : taille exacte, portes, fenêtres et meubles, avec les dégagements autour de chaque meuble.">
+<link rel="canonical" href="https://sapiopedia.com/fr/outils/planificateur-de-piece/">
+<link rel="alternate" hreflang="fr" href="https://sapiopedia.com/fr/outils/planificateur-de-piece/">
+<link rel="alternate" hreflang="en" href="https://sapiopedia.com/en/tools/room-planner/">
+<link rel="alternate" hreflang="x-default" href="https://sapiopedia.com/en/tools/room-planner/">
+<meta property="og:title" content="Planificateur de pièce">
+<meta property="og:description" content="Planifiez une pièce au centimètre près : taille exacte, portes, fenêtres et meubles, avec les dégagements autour de chaque meuble.">
+<meta property="og:url" content="https://sapiopedia.com/fr/outils/planificateur-de-piece/">
+<meta property="og:type" content="website">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/assets/style.css">
+
+
+</head>
+<body>
+<header class="site"><div class="wrap">
+  <a class="logo" href="/fr/"><svg aria-hidden="true" viewBox="22 4 160 202"><g style="mix-blend-mode:multiply"><path d="M62 70 C58 36 96 20 124 28 C160 38 164 86 132 104 C114 114 104 122 104 144" fill="none" stroke="#B9CFE0" stroke-width="24" stroke-linecap="round" stroke-linejoin="round" transform="translate(-6,5)"/><path d="M62 70 C58 36 96 20 124 28 C160 38 164 86 132 104 C114 114 104 122 104 144" fill="none" stroke="#E9A9B8" stroke-width="24" stroke-linecap="round" stroke-linejoin="round" transform="translate(6,-4)"/><path d="M62 70 C58 36 96 20 124 28 C160 38 164 86 132 104 C114 114 104 122 104 144" fill="none" stroke="#B8405E" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" /></g><path d="M77.6 176 A26.400000000000002 7.199999999999999 0 0 1 130.4 176" fill="none" stroke="#B9CFE0" stroke-width="4" transform="rotate(-18 104 176)"/><circle cx="104" cy="176" r="12" fill="#B8405E"/><path d="M77.6 176 A26.400000000000002 7.199999999999999 0 0 0 130.4 176" fill="none" stroke="#B9CFE0" stroke-width="4" transform="rotate(-18 104 176)"/><path d="M108 53 Q108 62 117 62 Q108 62 108 71 Q108 62 99 62 Q108 62 108 53Z" fill="#B8405E"/><path d="M128 44.5 Q128 48 131.5 48 Q128 48 128 51.5 Q128 48 124.5 48 Q128 48 128 44.5Z" fill="#B8405E"/><path d="M90 77 Q90 80 93 80 Q90 80 90 83 Q90 80 87 80 Q90 80 90 77Z" fill="#B8405E"/></svg>Sapiopedia</a>
+  <nav class="main"><a href="/fr/quiz/">Quiz</a><a href="/fr/outils/">Outils</a><a href="/fr/significations/">Significations</a><a href="/fr/prenoms/">Prénoms</a><a href="/fr/jeux/">Jeux</a><span class="lang"><b>FR</b> / <a href="/en/tools/room-planner/">EN</a></span></nav>
+</div></header>
+<main class="page wide">
+<h1>Planificateur de pièce</h1><p class="lead">Planifiez une pièce au centimètre près : taille exacte, portes, fenêtres et meubles, avec les dégagements autour de chaque meuble.</p><link rel="stylesheet" href="/assets/fengshui.css">
+<div class="fs">
+<div class="grid">
+  <div class="sheet work">
+    <div class="toolbar">
+      <div class="tgroup" id="shapes" role="group" aria-label="Forme de la pièce"><span class="tlabel">Pièce</span></div>
+      <div class="tgroup" id="openings" role="group" aria-label="Portes, fenêtres et miroirs"></div>
+      <form class="tgroup sizeform" id="sizeform"><span class="tlabel">Taille</span>
+        <label><span class="sr">Largeur en mètres</span><input id="rw" inputmode="decimal" aria-label="Largeur en mètres"></label><span class="by">×</span>
+        <label><span class="sr">Longueur en mètres</span><input id="rl" inputmode="decimal" aria-label="Longueur en mètres"></label><span class="by">m</span>
+        <button type="submit" class="chip">Appliquer</button><span id="sizemsg" class="muted" aria-live="polite"></span></form>
+      <div class="compass" hidden>
+        <span class="deg"><b>Nord</b><br>glissez la flèche</span>
+        <svg id="dial" viewBox="-30 -30 60 60" tabindex="0" role="slider" aria-label="Flèche du nord : glissez pour la faire pivoter, ou utilisez les flèches du clavier" aria-valuemin="0" aria-valuemax="355"></svg>
+      </div>
+    </div>
+    <div class="stage">
+      <svg id="plan" viewBox="0 0 640 640" aria-label="Plan de la pièce"></svg>
+      <div class="trash" id="trash" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13M10 11v6M14 11v6"/></svg><span>Glissez ici pour retirer</span></div>
+    </div>
+    <div class="status"><span id="mode"></span>
+      <span class="key"><span><i style="background:var(--good-bg);box-shadow:inset 0 0 0 1px var(--good)"></i>Ça passe</span><span><i style="background:var(--warn-bg);box-shadow:inset 0 0 0 1px var(--warn)"></i>Serré</span><span><i style="background:var(--bad-bg);box-shadow:inset 0 0 0 1px var(--bad)"></i>Bloqué</span></span>
+      <span class="exp"><button type="button" class="chip solid" id="export" hidden>Exporter en PNG</button><span id="exp-msg" class="muted" style="font-size:13px"></span></span>
+    </div>
+    <div class="furn">
+      <h2>Ajouter un meuble <span>Il se place au meilleur endroit libre. Sélectionnez un meuble pour voir l'espace devant lui.</span></h2>
+      <div class="pieces" id="pieces" role="group" aria-label="Meubles"></div>
+    </div>
+  </div>
+  <div class="side">
+    <div class="sheet detail" id="detail" aria-live="polite"></div>
+    <div class="sheet block">
+      <h2>Surface et dégagements</h2>
+      <ul class="notes" id="notes"></ul>
+    </div>
+    <div class="sheet block">
+      <div class="frow" style="justify-content:space-between;margin-bottom:6px"><h2 style="margin:0">Dans votre pièce</h2><button type="button" class="linkbtn" id="clear">Vider la pièce</button></div>
+      <div class="tally" id="tally"></div>
+      <ul class="flist" id="list"></ul>
+    </div>
+  </div>
+</div>
+</div>
+<section class="fs-intro"><h2>Comment fonctionne le planificateur</h2><p>Entrez la taille exacte de votre pièce, ou choisissez une forme et glissez ses coins. Ajoutez la porte et les fenêtres, puis les meubles : chacun a une taille courante et se place au meilleur endroit libre.</p>
+<p>Sélectionnez un meuble pour voir une ligne de mesure entre sa façade et le mur ou le meuble le plus proche. Il est noté <strong>ça passe</strong> avec au moins 60 cm de libre, <strong>serré</strong> entre 30 et 60 cm, et <strong>bloqué</strong> s'il chevauche autre chose, laisse moins de 30 cm ou gêne l'ouverture de la porte. On prévoit habituellement 60 cm pour passer à côté d'un meuble et 90 cm pour un passage principal confortable.</p>
+<p>Le panneau <em>Surface et dégagements</em> calcule la surface au sol et la part occupée par les meubles. Votre plan est enregistré uniquement dans votre navigateur. Envie de savoir ce que l'agencement dit de l'énergie et du sommeil ? Essayez le <a href="/fr/outils/fengshui/">planificateur feng shui</a>.</p></section>
+<script>window.FS_MODE="design"</script><script src="/assets/fengshui-fr.js"></script><script src="/assets/fengshui.js"></script><div class="ad">publicité</div><div class="related"><h2>Pages liées</h2><ul><li><a href="/fr/outils/fengshui/">Planificateur de pièce feng shui</a></li></ul></div>
+</main>
+<footer class="site"><div class="wrap">
+  <span>Sapiopedia</span><span>·</span><span>Créé à Montréal</span><span>·</span><a href="/fr/a-propos/">À propos</a><span>·</span><a href="/fr/confidentialite/">Confidentialité</a><span>·</span><a href="/fr/contact/">Contact</a>
+</div></footer>
+<script src="/assets/common.js"></script>
+</body>
+</html>

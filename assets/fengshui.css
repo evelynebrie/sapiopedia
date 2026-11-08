@@ -101,6 +101,16 @@ main.page.wide{max-width:var(--max)}
 .fs .flist li{font-size:14px}
 .fs-intro{margin-top:2rem}
 
+/* room size form (Room Planner) */
+.fs .sizeform{gap:6px}
+.fs .sizeform input{width:52px;font:600 14px var(--sans);color:var(--ink);background:transparent;border:0;border-bottom:1.5px solid var(--accent);padding:6px 2px;text-align:center}
+.fs .sizeform input:focus{outline:none;border-bottom-color:var(--ink)}
+.fs .sizeform .by{color:var(--muted);font-size:14px}
+.fs .sizeform #sizemsg{flex-basis:100%;font-size:12.5px;color:var(--bad)}
+.fs .sizeform #sizemsg:empty{display:none}
+.fs .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.fs [hidden]{display:none!important}
+
 /* export preview */
 .fs .fs-ov{position:fixed;inset:0;z-index:50;background:rgba(42,31,38,.55);display:grid;place-items:center;padding:20px}
 .fs .fs-ovbox{background:var(--bg);border-radius:18px;padding:16px;max-width:min(920px,100%);max-height:100%;overflow:auto;display:grid;gap:12px;box-shadow:0 20px 60px rgba(42,31,38,.3)}

@@ -22,8 +22,8 @@ TXT = {
 <p class="small">Le feng shui est une tradition culturelle, pas une science. Voyez ces conseils comme une liste de vérification pour une pièce plus apaisante, pas comme une prédiction.</p>"""),
 }
 
-def body(lang):
-    t = TXT[lang]
+def body(lang, design=False):
+    t = dict(TXT[lang], **(DTXT[lang] if design else {}))
     fr = '<script src="/assets/fengshui-fr.js"></script>' if lang == "fr" else ""
     return f"""<link rel="stylesheet" href="/assets/fengshui.css">
 <div class="fs">
@@ -32,7 +32,8 @@ def body(lang):
     <div class="toolbar">
       <div class="tgroup" id="shapes" role="group" aria-label="{t['room_aria']}"><span class="tlabel">{t['room']}</span></div>
       <div class="tgroup" id="openings" role="group" aria-label="{t['open_aria']}"></div>
-      <div class="compass">
+      {size_form(t) if design else ""}
+      <div class="compass"{' hidden' if design else ''}>
         <span class="deg"><b>{t['north']}</b><br>{t['drag_arrow']}</span>
         <svg id="dial" viewBox="-30 -30 60 60" tabindex="0" role="slider" aria-label="{t['dial_aria']}" aria-valuemin="0" aria-valuemax="355"></svg>
       </div>
@@ -65,7 +66,34 @@ def body(lang):
 </div>
 </div>
 <section class="fs-intro"><h2>{t['about_h']}</h2>{t['about']}</section>
-{fr}<script src="/assets/fengshui.js"></script>"""
+{'<script>window.FS_MODE="design"</script>' if design else ''}{fr}<script src="/assets/fengshui.js"></script>"""
+
+def size_form(t):
+    return f"""<form class="tgroup sizeform" id="sizeform"><span class="tlabel">{t['size']}</span>
+        <label><span class="sr">{t['width']}</span><input id="rw" inputmode="decimal" aria-label="{t['width']}"></label><span class="by">×</span>
+        <label><span class="sr">{t['length']}</span><input id="rl" inputmode="decimal" aria-label="{t['length']}"></label><span class="by">m</span>
+        <button type="submit" class="chip">{t['set']}</button><span id="sizemsg" class="muted" aria-live="polite"></span></form>"""
+
+DTXT = {
+ "en": dict(good="Fits", caution="Tight", avoid="Blocked", check="Floor and fit", size="Size", width="Width in metres", length="Length in metres", set="Apply",
+    add_sub="It lands on the best free spot. Select a piece to see how much room is in front of it.",
+    about_h="How the room planner works",
+    about="""<p>Type the exact size of your room, or pick a shape and drag its corners. Add the door and windows, then the furniture: each piece is drawn to a typical size and lands on the best free spot.</p>
+<p>Select a piece to see a measuring line from its front to the nearest wall or piece of furniture. It is rated <strong>fits</strong> when at least 60 cm is free, <strong>tight</strong> between 30 and 60 cm, and <strong>blocked</strong> when it overlaps something, leaves less than 30 cm, or sits where the door swings open. Planners usually allow 60 cm to walk past furniture and 90 cm for a comfortable main path.</p>
+<p>The <em>Floor and fit</em> panel adds up the floor area and how much of it the furniture covers. Your layout is saved in your browser only. Want to know what the arrangement says about energy and sleep? Try the <a href="/en/tools/fengshui/">Feng Shui Room Planner</a>.</p>"""),
+ "fr": dict(good="Ça passe", caution="Serré", avoid="Bloqué", check="Surface et dégagements", size="Taille", width="Largeur en mètres", length="Longueur en mètres", set="Appliquer",
+    add_sub="Il se place au meilleur endroit libre. Sélectionnez un meuble pour voir l'espace devant lui.",
+    about_h="Comment fonctionne le planificateur",
+    about="""<p>Entrez la taille exacte de votre pièce, ou choisissez une forme et glissez ses coins. Ajoutez la porte et les fenêtres, puis les meubles : chacun a une taille courante et se place au meilleur endroit libre.</p>
+<p>Sélectionnez un meuble pour voir une ligne de mesure entre sa façade et le mur ou le meuble le plus proche. Il est noté <strong>ça passe</strong> avec au moins 60 cm de libre, <strong>serré</strong> entre 30 et 60 cm, et <strong>bloqué</strong> s'il chevauche autre chose, laisse moins de 30 cm ou gêne l'ouverture de la porte. On prévoit habituellement 60 cm pour passer à côté d'un meuble et 90 cm pour un passage principal confortable.</p>
+<p>Le panneau <em>Surface et dégagements</em> calcule la surface au sol et la part occupée par les meubles. Votre plan est enregistré uniquement dans votre navigateur. Envie de savoir ce que l'agencement dit de l'énergie et du sommeil ? Essayez le <a href="/fr/outils/fengshui/">planificateur feng shui</a>.</p>"""),
+}
+
+PAGES.append({"section": "tools", "wide": True,
+    "en": ("room-planner", "Room Planner",
+           "Plan a room to the centimetre: set its exact size, add doors, windows and furniture, and check the clearance around every piece.", body("en", True)),
+    "fr": ("planificateur-de-piece", "Planificateur de pièce",
+           "Planifiez une pièce au centimètre près : taille exacte, portes, fenêtres et meubles, avec les dégagements autour de chaque meuble.", body("fr", True))})
 
 PAGES.append({"section": "tools", "wide": True,
     "en": ("fengshui", "Feng Shui Room Planner",

@@ -4,7 +4,7 @@
 /* i18n: English strings are the keys; window.FS_FR (fengshui-fr.js) supplies French. */
 const FR=document.documentElement.lang==="fr"&&window.FS_FR?window.FS_FR:null;
 function T(s,v){let r=FR&&FR[s]!=null?FR[s]:s;if(v)for(const k in v)r=r.split("{"+k+"}").join(v[k]);return r;}
-const THE={bed:"the bed",desk:"the desk",sofa:"the sofa",tv:"the TV",wardrobe:"the wardrobe",shelf:"the bookshelf",screen:"the folding screen",plant:"the plant",door:"the door",window:"the window",mirror:"the mirror"};
+const THE={bed:"the bed",desk:"the desk",sofa:"the sofa",armchair:"the armchair",chair:"the chair",table:"the table",countertop:"the countertop",appliance:"the appliance",tv:"the TV",wardrobe:"the wardrobe",shelf:"the bookshelf",screen:"the folding screen",plant:"the plant",door:"the door",window:"the window",mirror:"the mirror"};
 const A1={door:"a door",window:"a window",mirror:"a mirror"};
 const the=k=>T(THE[k]),a1=k=>T(A1[k]),dirT=d=>T(d);
 const num=(n,d)=>Number(n).toLocaleString(document.documentElement.lang||"en",{minimumFractionDigits:d,maximumFractionDigits:d});
@@ -14,8 +14,13 @@ const FURN=[
  {k:"bed",name:T("Bed"),w:112,h:160,wall:true},
  {k:"desk",name:T("Desk"),w:96,h:48,wall:true},
  {k:"sofa",name:T("Sofa"),w:144,h:64,wall:true},
+ {k:"armchair",name:T("Armchair"),w:68,h:68,wall:true},
+ {k:"chair",name:T("Chair"),w:36,h:40,wall:false},
+ {k:"table",name:T("Table"),w:96,h:64,wall:false},
  {k:"tv",name:T("TV"),w:96,h:14,wall:true},
  {k:"wardrobe",name:T("Wardrobe"),w:96,h:48,wall:true},
+ {k:"countertop",name:T("Countertop"),w:160,h:48,wall:true},
+ {k:"appliance",name:T("Appliance"),w:48,h:48,wall:true},
  {k:"shelf",name:T("Bookshelf"),w:76,h:28,wall:true},
  {k:"screen",name:T("Folding screen"),w:116,h:12,wall:false},
  {k:"plant",name:T("Plant"),w:36,h:36,wall:false,round:true}
@@ -24,7 +29,7 @@ const PXM=80; /* pixels per metre */
 const FBY=Object.fromEntries(FURN.map(f=>[f.k,f]));
 const OPEN={door:{name:T("Door"),len:72},window:{name:T("Window"),len:96},mirror:{name:T("Mirror"),len:52}};
 const VL={good:T("Good"),caution:T("Caution"),bad:T("Avoid"),neutral:T("No rule")};
-const ACTIVE=["desk","tv","sofa"],DIVIDERS=["screen","shelf","plant"];
+const ACTIVE=["desk","tv","sofa","armchair","appliance","countertop"],DIVIDERS=["screen","shelf","plant"];
 
 /* ---------- Geometry ---------- */
 const SHAPES={
@@ -160,7 +165,7 @@ function evaluate(k,o,selfId){
     const BP=bedPaths(o,selfId);
     BP.forEach(pth=>{if(pth.by.length)add("caution","The way to {op} is blocked by {by}: keep paths straight and clear.",{op:the(pth.op.k),by:pth.by.map(b=>the(b.k)).join(T(" and "))});});
     if(BP.length&&BP.every(pth=>!pth.by.length))add("good","Straight, clear paths from the bed to the door and windows.");
-    others.filter(i=>i.k==="desk"||i.k==="tv").forEach(i=>{const oo=oi(i),v=[oo.x-o.x,oo.y-o.y];
+    others.filter(i=>i.k==="desk"||i.k==="tv"||i.k==="appliance").forEach(i=>{const oo=oi(i),v=[oo.x-o.x,oo.y-o.y];
       if(dot(v[0],v[1],fx,fy)>0&&Math.abs(dot(v[0],v[1],o.tx,o.ty))<170&&!between([o.x,o.y],[oo.x,oo.y],[]))add("caution","You can see {x} from your pillow: hide it with a screen, bookshelf or large plant.",{x:the(i.k)});});
   }
   else if(k==="desk"){
@@ -183,7 +188,11 @@ function evaluate(k,o,selfId){
     if(zone==="north")add("good","North zone: governs career.");
     else if(zone==="south-east")add("good","South-east zone: governs wealth.");
   }
-  else if(k==="sofa"){
+  else if(k==="sofa"||k==="armchair"){
+    if(!doors.length)add("neutral","Add your door to check the command position.");
+    else if(!behind.some(p=>p.op.k==="door")){const d=doors[0],ahead=dot(d.x-o.x,d.y-o.y,fx,fy);
+      if(ahead>-20)add("good","Seated here, you can see the door.");
+      else add("caution","Seated here, your back is to the door: turn it so you can see who comes in.");}
     if(behind.some(p=>p.op.k==="window"))add("caution","Backed onto a window: a solid wall feels more protective.");
     else if(against)add("good","Backed by a solid wall: protective for you and your guests.");
     else add("caution","Floating sofa: ground it against a wall.");
@@ -191,6 +200,36 @@ function evaluate(k,o,selfId){
     const bed=others.find(i=>i.k==="bed");
     if(bed){const bo=oi(bed);if(dot(bo.bx,bo.by,o.bx,o.by)<-.5)add("good","Opposite the bed: keeps the living area separate from sleep.");}
     if(inLine.some(l=>l.kind==="door-window"))add("caution","In the door-to-window line: a restless spot to sit.");
+  }
+  else if(k==="chair"){
+    if(!doors.length)add("neutral","Add your door to check the command position.");
+    else if(!behind.some(p=>p.op.k==="door")){const d=doors[0],ahead=dot(d.x-o.x,d.y-o.y,fx,fy);
+      if(ahead>-20)add("good","Seated here, you can see the door.");
+      else add("caution","Seated here, your back is to the door: turn it so you can see who comes in.");}
+    if(inLine.some(l=>l.kind==="door-window"))add("caution","In the door-to-window line: a restless spot to sit.");
+  }
+  else if(k==="table"){
+    if(inLine.some(l=>l.kind==="door-window"))add("caution","In the door-to-window line: energy rushes past the table.");
+    const[cx,cy]=centroid(pts());if(Math.hypot(o.x-cx,o.y-cy)<PXM*.9)add("good","Near the centre of the room: a natural gathering point.");
+    const clear=Math.min(...corners(f,o).map(([x,y])=>{const n=nearestEdge(x,y);return n?n.d:999;}));
+    if(clear<PXM*.6)add("caution","Less than 60 cm between the table and a wall: leave room to pull out the chairs.");
+    else add("good","Room to move all around the table.");
+  }
+  else if(k==="countertop"){
+    if(behind.some(p=>p.op.k==="window"))add("good","A window above the counter: daylight where you work.");
+    else if(against)add("good","Against a solid wall.");
+    else add("caution","Stand it against a wall.");
+    if(!doors.length)add("neutral","Add your door to check the command position.");
+    else if(doors.some(d=>d.edge!==o.edge&&dot(d.x-o.x,d.y-o.y,fx,fy)>10))add("caution","While you work here your back is to the door: a mirror or shiny backsplash lets you see who comes in.");
+    else add("good","You can see the door while you work.");
+    if(inLine.some(l=>l.kind==="door-window"))add("caution","In the straight line between the door and a window.");
+  }
+  else if(k==="appliance"){
+    if(against)add("good","Against a wall, out of the way.");
+    else add("caution","Stand it against a wall.");
+    const bed=others.find(i=>i.k==="bed");
+    if(bed){const bo=oi(bed);if(Math.hypot(bo.x-o.x,bo.y-o.y)<FBY.bed.h/2+f.h/2+PXM)add("bad","Too close to the bed: its hum and heat disturb sleep. Keep appliances at least a metre away.");}
+    if(inLine.some(l=>l.kind==="door-window"))add("caution","In the straight line between the door and a window.");
   }
   else if(k==="tv"){
     if(against)add("good","Against a wall.");
@@ -277,7 +316,7 @@ function draw(){
   lines().forEach(l=>el("line",{x1:l.a.x,y1:l.a.y,x2:l.b.x,y2:l.b.y,stroke:l.kind==="door-window"?css("--bad"):css("--warn"),"stroke-width":2,"stroke-dasharray":"7 6",opacity:.8},g));
   el("polygon",{points:poly,fill:"none",stroke:css("--ink"),"stroke-width":7,"stroke-linejoin":"miter"});
   EDGES.forEach(e=>{const L=e.L/PXM;if(L<.9)return;const mx=(e.a[0]+e.b[0])/2-e.nx*17,my=(e.a[1]+e.b[1])/2-e.ny*17;
-    el("text",{x:mx,y:my+4,"text-anchor":"middle","font-size":11.5,fill:css("--muted"),"font-family":"Source Sans 3, sans-serif",stroke:css("--sheet"),"stroke-width":3,"paint-order":"stroke"},null,num(Math.round(L*10)/10,(Math.round(L*10)%10)?1:0)+" m");});
+    el("text",{x:mx,y:my+4,"text-anchor":"middle","font-size":11.5,fill:css("--muted"),"font-family":"'Source Sans 3', Helvetica, Arial, sans-serif",stroke:css("--sheet"),"stroke-width":3,"paint-order":"stroke"},null,num(Math.round(L*10)/10,(Math.round(L*10)%10)?1:0)+" m");});
   // openings
   S.opens.forEach(op=>{
     const p=openPos(op);if(!p)return;const v=overall(evaluateOpen(op)),sel=S.sel&&S.sel.t==="open"&&S.sel.id===op.id,h=p.len/2,col=VCOL(v);
@@ -295,7 +334,7 @@ function draw(){
     } else {
       const ox=p.nx*7,oy=p.ny*7;
       el("line",{x1:x1+ox,y1:y1+oy,x2:x2+ox,y2:y2+oy,stroke:col,"stroke-width":sel?6:4,"stroke-linecap":"round"},og);
-      el("text",{x:p.x+p.nx*20,y:p.y+p.ny*20+4,"text-anchor":"middle","font-size":11,"font-weight":600,fill:css("--muted"),"font-family":"Source Sans 3, sans-serif"},og,T("Mirror"));
+      el("text",{x:p.x+p.nx*20,y:p.y+p.ny*20+4,"text-anchor":"middle","font-size":11,"font-weight":600,fill:css("--muted"),"font-family":"'Source Sans 3', Helvetica, Arial, sans-serif"},og,T("Mirror"));
     }
   });
   // furniture
@@ -312,6 +351,11 @@ function draw(){
       if(it.k==="bed"){[-1,1].forEach(s=>el("rect",{x:s*f.w/4-17,y:-f.h/2+8,width:34,height:16,rx:4,fill:css("--sheet"),stroke:col,"stroke-width":1.2},rg));el("line",{x1:-f.w/2,y1:-f.h/2+34,x2:f.w/2,y2:-f.h/2+34,stroke:col,"stroke-width":1,opacity:.6},rg);}
       if(it.k==="desk")el("circle",{cx:0,cy:f.h/2+13,r:10,fill:css("--sheet"),stroke:col,"stroke-width":1.4},rg);
       if(it.k==="sofa")el("rect",{x:-f.w/2,y:-f.h/2,width:f.w,height:12,rx:3,fill:col,opacity:.35},rg);
+      if(it.k==="armchair"){el("rect",{x:-f.w/2,y:-f.h/2,width:f.w,height:12,rx:3,fill:col,opacity:.35},rg);[-1,1].forEach(s=>el("rect",{x:s<0?-f.w/2:f.w/2-10,y:-f.h/2,width:10,height:f.h,rx:3,fill:col,opacity:.25},rg));}
+      if(it.k==="chair")el("rect",{x:-f.w/2,y:-f.h/2,width:f.w,height:7,rx:2,fill:col,opacity:.4},rg);
+      if(it.k==="table")el("rect",{x:-f.w/2+7,y:-f.h/2+7,width:f.w-14,height:f.h-14,rx:3,fill:"none",stroke:col,"stroke-width":1,opacity:.6},rg);
+      if(it.k==="countertop"){el("rect",{x:-f.w/2+14,y:-f.h/2+8,width:34,height:24,rx:5,fill:"none",stroke:col,"stroke-width":1.3},rg);[0,1].forEach(s=>el("circle",{cx:f.w/2-34+s*18,cy:-2,r:6,fill:"none",stroke:col,"stroke-width":1.2},rg));}
+      if(it.k==="appliance")el("circle",{cx:0,cy:2,r:13,fill:"none",stroke:col,"stroke-width":1.4},rg);
       if(it.k==="tv")el("line",{x1:-f.w/2+6,y1:f.h/2,x2:f.w/2-6,y2:f.h/2,stroke:col,"stroke-width":3},rg);
       if(it.k==="wardrobe")el("line",{x1:0,y1:-f.h/2,x2:0,y2:f.h/2,stroke:col,"stroke-width":1.2},rg);
       if(it.k==="shelf")[-1,0,1].forEach(s=>el("line",{x1:s*f.w/4,y1:-f.h/2,x2:s*f.w/4,y2:f.h/2,stroke:col,"stroke-width":1},rg));
@@ -319,7 +363,7 @@ function draw(){
     }
     const thin=f.h<32,off=thin?f.h/2+13:0;
     const lx=f.round?0:-o.bx*off,ly=f.round?f.w/2+14:-o.by*off+4;
-    el("text",{x:lx,y:ly,"text-anchor":"middle","font-size":12,"font-weight":600,fill:css("--ink"),"font-family":"Source Sans 3, sans-serif",stroke:css("--floor"),"stroke-width":3,"paint-order":"stroke"},ig,f.name);
+    el("text",{x:lx,y:ly,"text-anchor":"middle","font-size":Math.max(8,Math.min(12,(Math.max(f.w,f.h)-6)/(f.name.length*.58))).toFixed(1),"font-weight":600,fill:css("--ink"),"font-family":"'Source Sans 3', Helvetica, Arial, sans-serif",stroke:css("--floor"),"stroke-width":3,"paint-order":"stroke"},ig,f.name);
     if(sel&&!f.round){
       const hx=o.tx*(f.w/2+16)-o.bx*(f.h/2+4),hy=o.ty*(f.w/2+16)-o.by*(f.h/2+4);
       const hg=el("g",{"data-rot":it.id,style:"cursor:alias",transform:`translate(${(o.x+hx).toFixed(1)} ${(o.y+hy).toFixed(1)})`});
@@ -334,8 +378,8 @@ function draw(){
   P.forEach((q,i)=>{const hg=el("g",{"data-v":i,style:"cursor:move"});el("circle",{cx:q[0],cy:q[1],r:16,fill:"transparent"},hg);el("circle",{cx:q[0],cy:q[1],r:7.5,fill:css("--sheet"),stroke:css("--ink"),"stroke-width":2.2},hg);});
   // north marker
   [["N",0],["E",90],["S",180],["W",270]].forEach(([t,b])=>{const[x,y]=edgeAt(b+S.north);
-    if(t==="N"){el("circle",{cx:x,cy:y,r:12,fill:css("--bad")});el("text",{x,y:y+5,"text-anchor":"middle","font-size":13,"font-weight":700,fill:"#fff","font-family":"Source Sans 3, sans-serif"},null,T(t));}
-    else el("text",{x,y:y+5,"text-anchor":"middle","font-size":13,"font-weight":600,fill:css("--muted"),"font-family":"Source Sans 3, sans-serif"},null,T(t));});
+    if(t==="N"){el("circle",{cx:x,cy:y,r:12,fill:css("--bad")});el("text",{x,y:y+5,"text-anchor":"middle","font-size":13,"font-weight":700,fill:"#fff","font-family":"'Source Sans 3', Helvetica, Arial, sans-serif"},null,T(t));}
+    else el("text",{x,y:y+5,"text-anchor":"middle","font-size":13,"font-weight":600,fill:css("--muted"),"font-family":"'Source Sans 3', Helvetica, Arial, sans-serif"},null,T(t));});
   const m=document.getElementById("mode"),sel=selName();
   const dimTxt=T("Room ≈ {w} × {h} m. Drag a corner to resize. ",{w:num((Math.max(...xs)-Math.min(...xs))/PXM,1),h:num((Math.max(...ys)-Math.min(...ys))/PXM,1)});
   if(S.armed)m.textContent=T("Placing {x}: move over a wall and click. Esc to cancel.",{x:a1(S.armed)});
@@ -358,7 +402,7 @@ function drawDial(){
   e("circle",{r:29,fill:"transparent"});
   const g=e("g",{transform:`rotate(${S.north})`});
   e("path",{d:"M0 -27 L10 -9 L3.5 -9 L3.5 24 L-3.5 24 L-3.5 -9 L-10 -9 Z",fill:css("--ink")},g);
-  const t=e("text",{x:0,y:8,"text-anchor":"middle","font-size":10,"font-weight":700,fill:css("--sheet"),"font-family":"Source Sans 3, sans-serif",transform:`rotate(${-S.north} 0 4)`},g);t.textContent="N";
+  const t=e("text",{x:0,y:8,"text-anchor":"middle","font-size":10,"font-weight":700,fill:css("--sheet"),"font-family":"'Source Sans 3', Helvetica, Arial, sans-serif",transform:`rotate(${-S.north} 0 4)`},g);t.textContent="N";
   dial.setAttribute("aria-valuenow",S.north);
 }
 function setNorth(v){S.north=((Math.round(v/5)*5)%360+360)%360;}
@@ -415,7 +459,7 @@ function drawGhost(p){
   const e=EDGES[ne.i],t=Math.max(.06,Math.min(.94,ne.t)),x=e.a[0]+t*e.dx,y=e.a[1]+t*e.dy,h=OPEN[S.armed].len/2,near=ne.d<45;
   const col=near?css("--ink"):css("--muted");
   el("line",{x1:x-e.tx*h,y1:y-e.ty*h,x2:x+e.tx*h,y2:y+e.ty*h,stroke:col,"stroke-width":9,opacity:near?.75:.35,"stroke-linecap":"round"},g);
-  el("text",{x:p.x+14,y:p.y-12,"font-size":12.5,"font-weight":600,fill:css("--ink"),"font-family":"Source Sans 3, sans-serif",stroke:css("--sheet"),"stroke-width":3,"paint-order":"stroke"},g,near?T("Click to place {x}",{x:the(S.armed)}):T("Move to a wall: {x}",{x:the(S.armed)}));
+  el("text",{x:p.x+14,y:p.y-12,"font-size":12.5,"font-weight":600,fill:css("--ink"),"font-family":"'Source Sans 3', Helvetica, Arial, sans-serif",stroke:css("--sheet"),"stroke-width":3,"paint-order":"stroke"},g,near?T("Click to place {x}",{x:the(S.armed)}):T("Move to a wall: {x}",{x:the(S.armed)}));
 }
 function moveVertex(i,p){
   const R=S.room,n=R.length,old=R[i].slice(),x=Math.round(p.x/8)*8,y=Math.round(p.y/8)*8;
@@ -567,12 +611,29 @@ async function buildPNG(){
   x.fillText(`${counts.good} ${T("good")} · ${counts.caution} ${T("caution")} · ${counts.bad} ${T("avoid")}`,W-PAD,by+158);
   return await new Promise(res=>c.toBlob(res,"image/png"));
 }
+/* Preview the PNG in an overlay; download only when asked */
+const FN="sapiopedia-feng-shui-room.png";
+function preview(blob){
+  const url=URL.createObjectURL(blob),ov=document.createElement("div"),touch=matchMedia("(pointer:coarse)").matches;
+  ov.className="fs-ov";ov.setAttribute("role","dialog");ov.setAttribute("aria-modal","true");ov.setAttribute("aria-label",T("Your room plan"));
+  ov.innerHTML=`<div class="fs-ovbox"><img src="${url}" alt="${T("Your room plan")}">${touch?`<p class="muted fs-ovhint">${T("On a phone, you can also press and hold the image to save it.")}</p>`:""}<div class="fs-ovact"><button type="button" class="chip" data-a="close">${T("Close")}</button><button type="button" class="chip solid" data-a="dl">${T("Download PNG")}</button></div><span class="muted fs-ovmsg" aria-live="polite"></span></div>`;
+  const msg=ov.querySelector(".fs-ovmsg"),prevOverflow=document.body.style.overflow;
+  const close=()=>{ov.remove();URL.revokeObjectURL(url);document.removeEventListener("keydown",esc,true);document.body.style.overflow=prevOverflow;expBtn.focus();};
+  const esc=e=>{if(e.key==="Escape"){e.stopPropagation();close();}};
+  ov.addEventListener("click",async e=>{const a=e.target.closest("[data-a]");
+    if(e.target===ov||(a&&a.dataset.a==="close"))return close();
+    if(a&&a.dataset.a==="dl"){
+      if(downloads){try{await downloads.save({filename:FN,data:blob});msg.textContent=T("Saved.");}catch(err){msg.textContent=err&&err.code==="declined"?T("Export cancelled."):T("Export isn't available here.");}}
+      else{const l=document.createElement("a");l.href=url;l.download=FN;document.body.appendChild(l);l.click();l.remove();}
+    }});
+  document.addEventListener("keydown",esc,true);document.body.style.overflow="hidden";
+  document.querySelector(".fs").appendChild(ov);ov.querySelector('[data-a="dl"]').focus();
+}
 expBtn.addEventListener("click",async()=>{
   expBtn.disabled=true;expMsg.textContent=T("Preparing image…");
   try{
     const blob=await buildPNG();
-    if(downloads){await downloads.save({filename:"sapiopedia-feng-shui-room.png",data:blob});expMsg.textContent=T("Saved.");}
-    else if(plainDownload){const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="sapiopedia-feng-shui-room.png";document.body.appendChild(a);a.click();a.remove();expMsg.textContent="";}
+    expMsg.textContent="";preview(blob);
   }catch(e){const code=e&&e.code;expMsg.textContent=code==="declined"?T("Export cancelled."):code==="rate_limited"?T("Another save is open: try again in a moment."):T("Export isn't available here.");if(code&&code!=="declined"&&code!=="rate_limited"&&!plainDownload)expBtn.hidden=true;}
   finally{expBtn.disabled=false;setTimeout(()=>{if(expMsg.textContent===T("Saved."))expMsg.textContent="";},3000);}
 });

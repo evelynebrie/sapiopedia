@@ -101,6 +101,14 @@ main.page.wide{max-width:var(--max)}
 .fs .flist li{font-size:14px}
 .fs-intro{margin-top:2rem}
 
+/* export preview */
+.fs .fs-ov{position:fixed;inset:0;z-index:50;background:rgba(42,31,38,.55);display:grid;place-items:center;padding:20px}
+.fs .fs-ovbox{background:var(--bg);border-radius:18px;padding:16px;max-width:min(920px,100%);max-height:100%;overflow:auto;display:grid;gap:12px;box-shadow:0 20px 60px rgba(42,31,38,.3)}
+.fs .fs-ovbox img{display:block;width:100%;height:auto;max-height:70vh;object-fit:contain;border-radius:10px;border:1px solid var(--line);background:#fff}
+.fs .fs-ovact{display:flex;gap:8px;justify-content:flex-end}
+.fs .fs-ovhint,.fs .fs-ovmsg{font-size:13px;margin:0}
+.fs .fs-ovmsg:empty{display:none}
+
 /* phones */
 @media (max-width:600px){
   main.page.wide{padding-left:12px;padding-right:12px}
@@ -120,4 +128,7 @@ main.page.wide{max-width:var(--max)}
   .fs .detail h3{font-size:24px}
   .fs .checks li{font-size:14.5px}
   .fs .x{padding:8px 10px}
+  .fs .fs-ov{padding:10px}
+  .fs .fs-ovbox{padding:10px}
+  .fs .fs-ovact .chip{flex:1;text-align:center;padding:12px}
 }

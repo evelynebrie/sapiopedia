@@ -111,6 +111,31 @@ main.page.wide{max-width:var(--max)}
 .fs .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
 .fs [hidden]{display:none!important}
 
+/* 2D / 3D view bar (Room Planner) */
+.fs .viewbar{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;padding:10px 0 4px}
+.fs .look{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center}
+.fs .look[hidden]{display:none}
+.fs .sw{all:unset;cursor:pointer;width:26px;height:26px;border-radius:50%;box-shadow:inset 0 0 0 1px rgba(42,31,38,.18);position:relative;display:inline-block}
+.fs .sw[aria-pressed="true"]{box-shadow:inset 0 0 0 1px rgba(42,31,38,.18),0 0 0 2px var(--sheet),0 0 0 4px var(--accent)}
+.fs .sw.custom{background:conic-gradient(#e9a9b8,#b9cfe0,#c9d3c0,#f3e3a8,#e9a9b8)}
+.fs .sw.custom input{opacity:0;position:absolute;inset:0;width:100%;height:100%;cursor:pointer;border:0;padding:0}
+.fs canvas.v3d{display:block;width:100%;margin-top:6px;border-radius:12px;background:linear-gradient(#FBF8F8,#F3EEEF)}
+.fs canvas.v3d[hidden]{display:none}
+
+/* properties list */
+.fs .props{display:grid;grid-template-columns:auto 1fr;gap:3px 14px;margin:12px 0 0;font-size:13.5px}
+.fs .props dt{color:var(--muted);font-size:11px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;padding-top:2px}
+.fs .props dd{margin:0;color:var(--ink);font-variant-numeric:tabular-nums}
+.fs .chip.undo{font-weight:700}
+
+/* per-piece size editor */
+.fs .sizeedit{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin-top:12px;padding-top:12px;border-top:1px solid var(--line)}
+.fs .sizeedit input{width:56px;font:600 14px var(--sans);color:var(--ink);background:transparent;border:0;border-bottom:1.5px solid var(--accent);padding:6px 2px;text-align:center}
+.fs .sizeedit input:focus{outline:none;border-bottom-color:var(--ink)}
+.fs .sizeedit .by{color:var(--muted);font-size:14px}
+.fs .szmsg{flex-basis:100%;font-size:12.5px;color:var(--bad)}
+.fs .szmsg:empty{display:none}
+
 /* export preview */
 .fs .fs-ov{position:fixed;inset:0;z-index:50;background:rgba(42,31,38,.55);display:grid;place-items:center;padding:20px}
 .fs .fs-ovbox{background:var(--bg);border-radius:18px;padding:16px;max-width:min(920px,100%);max-height:100%;overflow:auto;display:grid;gap:12px;box-shadow:0 20px 60px rgba(42,31,38,.3)}

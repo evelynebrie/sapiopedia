@@ -66,7 +66,7 @@ def body(lang, design=False):
 </div>
 </div>
 <section class="fs-intro"><h2>{t['about_h']}</h2>{t['about']}</section>
-{'<script>window.FS_MODE="design"</script>' if design else ''}{fr}<script src="/assets/fengshui.js"></script>"""
+{'<script>window.FS_MODE="design"</script>' if design else ''}{fr}<script src="/assets/fengshui.js"></script>{'<script src="/assets/room3d.js"></script>' if design else ''}"""
 
 def size_form(t):
     return f"""<form class="tgroup sizeform" id="sizeform"><span class="tlabel">{t['size']}</span>

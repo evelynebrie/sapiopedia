@@ -5,7 +5,7 @@
 const DESIGN=window.FS_MODE==="design";
 const FR=document.documentElement.lang==="fr"&&window.FS_FR?window.FS_FR:null;
 function T(s,v){let r=FR&&FR[s]!=null?FR[s]:s;if(v)for(const k in v)r=r.split("{"+k+"}").join(v[k]);return r;}
-const THE={bed:"the bed",desk:"the desk",sofa:"the sofa",lamp:"the lamp",armchair:"the armchair",chair:"the chair",table:"the table",countertop:"the countertop",appliance:"the appliance",tv:"the TV",wardrobe:"the wardrobe",shelf:"the bookshelf",screen:"the folding screen",plant:"the plant",door:"the door",window:"the window",mirror:"the mirror"};
+const THE={bed:"the bed",desk:"the desk",sofa:"the sofa",lamp:"the lamp",coffee:"the coffee table",armchair:"the armchair",chair:"the chair",table:"the table",countertop:"the countertop",appliance:"the appliance",tv:"the TV",wardrobe:"the wardrobe",shelf:"the bookshelf",screen:"the folding screen",plant:"the plant",door:"the door",window:"the window",mirror:"the mirror"};
 const A1={door:"a door",window:"a window",mirror:"a mirror"};
 const the=k=>T(THE[k]),a1=k=>T(A1[k]),dirT=d=>T(d);
 const num=(n,d)=>Number(n).toLocaleString(document.documentElement.lang||"en",{minimumFractionDigits:d,maximumFractionDigits:d});
@@ -18,6 +18,7 @@ const FURN=[
  {k:"armchair",name:T("Armchair"),w:68,h:68,wall:true},
  {k:"chair",name:T("Chair"),w:36,h:40,wall:false},
  {k:"table",name:T("Table"),w:96,h:64,wall:false},
+ {k:"coffee",name:T("Coffee table"),w:88,h:48,wall:false},
  {k:"tv",name:T("TV"),w:96,h:14,wall:true},
  {k:"wardrobe",name:T("Wardrobe"),w:96,h:48,wall:true},
  {k:"countertop",name:T("Countertop"),w:160,h:48,wall:true},
@@ -30,7 +31,7 @@ const FURN=[
 const PXM=80; /* pixels per metre */
 const LR=2.5*PXM; /* lamp light radius */
 /* recommended free space in front of each piece, in cm */
-const REQ={bed:60,desk:90,sofa:60,armchair:60,chair:60,table:60,tv:60,wardrobe:90,countertop:100,appliance:90,shelf:60,screen:0,plant:0,lamp:0};
+const REQ={bed:60,desk:90,sofa:60,armchair:60,chair:60,table:60,coffee:45,tv:60,wardrobe:90,countertop:100,appliance:90,shelf:60,screen:0,plant:0,lamp:0};
 const FBY=Object.fromEntries(FURN.map(f=>[f.k,f]));
 function FI(it){const b=FBY[it.k];return it!==b&&it.w>0&&it.h>0?Object.assign({},b,{w:it.w,h:it.h}):b;}
 const TUCK=(a,b)=>(a==="chair"&&(b==="table"||b==="desk"))||(b==="chair"&&(a==="table"||a==="desk"));
@@ -90,7 +91,7 @@ const oi=(it,x,y)=>orient(it.k,x==null?it.x:x,y==null?it.y:y,it.rot,FI(it));
 function corners(f,o){const hw=f.w/2,hh=f.h/2;return[[-1,-1],[1,-1],[1,1],[-1,1]].map(([a,b])=>[o.x+o.tx*hw*a+o.bx*hh*-b,o.y+o.ty*hw*a+o.by*hh*-b]);}
 function fits(f,o){const P=pts();return inside(o.x,o.y,P)&&corners(f,o).every(([x,y])=>inside(x+(o.x-x)*.04,y+(o.y-y)*.04,P));}
 function aabb(f,o){const c=corners(f,o),xs=c.map(p=>p[0]),ys=c.map(p=>p[1]);return[Math.min(...xs),Math.min(...ys),Math.max(...xs),Math.max(...ys)];}
-function overlaps(f,o,skip){const A=aabb(f,o);return S.items.some(it=>{if(it.id===skip||TUCK(f.k,it.k))return false;const g=FI(it),B=aabb(g,oi(it));return A[0]<B[2]-4&&A[2]>B[0]+4&&A[1]<B[3]-4&&A[3]>B[1]+4;});}
+function overlaps(f,o,skip){const A=aabb(f,o);return S.items.some(it=>{if(it.id===skip)return false;const g=FI(it),B=aabb(g,oi(it));return A[0]<B[2]-4&&A[2]>B[0]+4&&A[1]<B[3]-4&&A[3]>B[1]+4;});}
 function openPos(o){const e=EDGES[o.edge];if(!e)return null;const t=Math.max(.06,Math.min(.94,o.t));return{x:e.a[0]+t*e.dx,y:e.a[1]+t*e.dy,nx:e.nx,ny:e.ny,tx:e.tx,ty:e.ty,edge:o.edge,len:OPEN[o.k].len};}
 
 /* ---------- State ---------- */
@@ -156,7 +157,7 @@ function inSwing(f,o,op){ /* does the piece sit in the quarter-circle a door swe
 function blocksWindow(f,o,k){if(k!=="wardrobe"&&k!=="shelf")return null;return S.opens.find(op=>{if(op.k!=="window")return false;const p=openPos(op);return p&&p.edge===o.edge&&o.gap<30&&Math.abs(dot(p.x-o.x,p.y-o.y,o.tx,o.ty))<f.w/2+p.len/2-6;});}
 function evalDesign(k,o,selfId){
   const me=S.items.find(i=>i.id===selfId),f=me?FI(me):FBY[k],C=[],add=(v,t,x)=>C.push({v,t:T(t,x)});
-  const A=aabb(f,o),hit=S.items.find(it=>{if(it.id===selfId||TUCK(k,it.k))return false;const B=aabb(FI(it),oi(it));return A[0]<B[2]-4&&A[2]>B[0]+4&&A[1]<B[3]-4&&A[3]>B[1]+4;});
+  const A=aabb(f,o),hit=S.items.find(it=>{if(it.id===selfId)return false;const B=aabb(FI(it),oi(it));return A[0]<B[2]-4&&A[2]>B[0]+4&&A[1]<B[3]-4&&A[3]>B[1]+4;});
   if(!fits(f,o))add("bad","Doesn't fit inside the walls.");
   if(hit)add("bad","Overlaps {x}.",{x:the(hit.k)});
   if(f.wall){if(o.gap<14)add("good","Against the wall.");else add("neutral","Free-standing, {d} cm from the wall.",{d:cm(o.gap)});}
@@ -164,6 +165,8 @@ function evalDesign(k,o,selfId){
   if(k==="chair"&&fc&&fc.hit&&TUCK("chair",fc.hit.k)&&fc.d<PXM*.6){add("good","Pulled up to {x}.",{x:the(fc.hit.k)});
     const bc=frontClear(f,o,selfId,true);if(bc){const d=cm(bc.d),need=60-d;if(need>0)add(d<30?"bad":"caution","{x} needs {n} cm more clearance behind it to pull out ({d} cm free, 60 cm recommended).",{x:f.name,n:need,d});else add("good","{d} cm behind it to pull out.",{d});}}
   else if(k==="chair"&&!(fc&&fc.d<PXM*.6))add("neutral","Pull it up to a table or desk.");
+  else if((k==="sofa"||k==="armchair")&&fc&&fc.hit&&fc.hit.k==="coffee"&&fc.d<PXM*.65){const d=cm(fc.d);
+    if(d<30)add("caution","Only {d} cm to the coffee table: 40 to 50 cm leaves room for your legs.",{d});else add("good","{d} cm to the coffee table: within easy reach.",{d});}
   else if(fc&&REQ[k]){const d=cm(fc.d),r=REQ[k],need=r-d;
     if(need>0)add(d<Math.min(30,r/2)?"bad":"caution","{x} needs {n} cm more clearance in front ({d} cm free, {r} cm recommended).",{x:f.name,n:need,d,r});
     else add("good","{d} cm free in front ({r} cm recommended).",{d,r});}
@@ -275,6 +278,10 @@ function evaluate(k,o,selfId){
     if(bed){const bo=oi(bed);if(Math.hypot(bo.x-o.x,bo.y-o.y)<FBY.bed.h/2+f.h/2+PXM)add("bad","Too close to the bed: its hum and heat disturb sleep. Keep appliances at least a metre away.");}
     if(inLine.some(l=>l.kind==="door-window"))add("caution","In the straight line between the door and a window.");
   }
+  else if(k==="coffee"){const seat=others.find(i=>(i.k==="sofa"||i.k==="armchair")&&Math.hypot(oi(i).x-o.x,oi(i).y-o.y)<PXM*1.4);
+    if(seat)add("good","In front of {x}: a natural gathering point.",{x:the(seat.k)});else add("neutral","Place it in front of the sofa or an armchair.");
+    if(inLine.some(l=>l.kind==="door-window"))add("caution","In the door-to-window line: energy rushes past it.");
+  }
   else if(k==="lamp"){const n=nearestEdge(o.x,o.y),n2=n?nearestEdge(o.x,o.y,n.i):null;
     if(n&&n2&&n.d<PXM*.7&&n2.d<PXM*.7)add("good","Lights up a corner: dark corners let energy stagnate.");
     else add("neutral","Lamps do the most good in dark corners.");
@@ -322,7 +329,7 @@ function evaluateOpen(op){
   }
   return C;
 }
-function overall(C){if(C.some(c=>c.v==="bad"))return"bad";if(C.some(c=>c.v==="caution"))return"caution";if(C.some(c=>c.v==="good"))return"good";return"neutral";}
+function overall(C){if(DESIGN&&!C.some(c=>c.v==="bad"||c.v==="caution"))return"good";if(C.some(c=>c.v==="bad"))return"bad";if(C.some(c=>c.v==="caution"))return"caution";if(C.some(c=>c.v==="good"))return"good";return"neutral";}
 function SCORE(C){return C.reduce((s,c)=>s+(c.v==="good"?1:c.v==="caution"?-1.5:c.v==="bad"?-4:0),0);}
 
 /* Best spot and heat map for a piece */
@@ -335,13 +342,16 @@ function bestSpot(k,skip){
   }
   return best;
 }
+/* slide a piece inward until it no longer pokes through a wall (used by the coloured floor) */
+function nudgeIn(k,o,f){for(let n=0;n<8&&!fits(f,o);n++){let mx=0,my=0;corners(f,o).forEach(([x,y])=>{if(inside(x,y,pts()))return;const ne=nearestEdge(x,y);if(!ne)return;const e=EDGES[ne.i];mx+=e.nx*(ne.d+2);my+=e.ny*(ne.d+2);});
+  if(!mx&&!my)break;o=orient(k,o.x+mx,o.y+my,null,f);}return o;}
 let HEAT=null;
 function computeHeat(){
   HEAT=null;const it=S.sel&&S.sel.t==="item"?S.items.find(i=>i.id===S.sel.id):null;if(!it)return;
   const P=pts(),xs=P.map(p=>p[0]),ys=P.map(p=>p[1]),cells=[],step=20;
   for(let x=Math.min(...xs);x<Math.max(...xs);x+=step)for(let y=Math.min(...ys);y<Math.max(...ys);y+=step){
     const cx=x+step/2,cy=y+step/2;if(!inside(cx,cy,P))continue;
-    const o=orient(it.k,cx,cy,null,FI(it));cells.push([x,y,overall(evaluate(it.k,o,it.id))]);
+    const o=nudgeIn(it.k,orient(it.k,cx,cy,null,FI(it)),FI(it));cells.push([x,y,fits(FI(it),o)?overall(evaluate(it.k,o,it.id)):"neutral"]);
   }
   HEAT={k:it.k,cells,step};
 }
@@ -410,6 +420,7 @@ function draw(){
       if(it.k==="sofa")el("rect",{x:-f.w/2,y:-f.h/2,width:f.w,height:12,rx:3,fill:col,opacity:.35},rg);
       if(it.k==="armchair"){el("rect",{x:-f.w/2,y:-f.h/2,width:f.w,height:12,rx:3,fill:col,opacity:.35},rg);[-1,1].forEach(s=>el("rect",{x:s<0?-f.w/2:f.w/2-10,y:-f.h/2,width:10,height:f.h,rx:3,fill:col,opacity:.25},rg));}
       if(it.k==="chair")el("rect",{x:-f.w/2,y:-f.h/2,width:f.w,height:7,rx:2,fill:col,opacity:.4},rg);
+      if(it.k==="coffee")el("rect",{x:-f.w/2+6,y:-f.h/2+6,width:f.w-12,height:f.h-12,rx:2,fill:"none",stroke:col,"stroke-width":1,opacity:.5},rg);
       if(it.k==="table")el("rect",{x:-f.w/2+7,y:-f.h/2+7,width:f.w-14,height:f.h-14,rx:3,fill:"none",stroke:col,"stroke-width":1,opacity:.6},rg);
       if(it.k==="countertop"){el("rect",{x:-f.w/2+14,y:-f.h/2+8,width:34,height:24,rx:5,fill:"none",stroke:col,"stroke-width":1.3},rg);[0,1].forEach(s=>el("circle",{cx:f.w/2-34+s*18,cy:-2,r:6,fill:"none",stroke:col,"stroke-width":1.2},rg));}
       if(it.k==="lamp"){el("circle",{cx:0,cy:0,r:f.w/2-7,fill:S.lights?"#FFD98A":"none",stroke:col,"stroke-width":1.3},rg);el("circle",{cx:0,cy:0,r:2.5,fill:col},rg);}
@@ -657,7 +668,7 @@ if(DESIGN){const sf=document.getElementById("sizeform");if(sf)sf.addEventListene
   if(!(w>=1.5&&w<=12&&l>=1.5&&l<=12)){msg.textContent=T("Enter a size between 1.5 and 12 m.");return;}msg.textContent="";
   const W=w*PXM,L=l*PXM;S.shape="sized";S.room=[[320-W/2,320-L/2],[320+W/2,320-L/2],[320+W/2,320+L/2],[320-W/2,320+L/2]];
   buildEdges();S.opens=[];refit();S.sel=null;HEAT=null;save();render();});}
-function render(light){syncSize();if(window.FS3D)window.FS3D.update();svg.style.cursor=S.armed?"copy":"";if(!light)drawControls();drawDial();draw();drawDetail();drawNotes();drawList();}
+function render(light){syncSize();if(typeof syncSwitch==="function")syncSwitch();if(window.FS3D)window.FS3D.update();svg.style.cursor=S.armed?"copy":"";if(!light)drawControls();drawDial();draw();drawDetail();drawNotes();drawList();}
 
 document.getElementById("clear").addEventListener("click",()=>{S.items=[];S.opens=[];S.sel=null;S.armed=null;HEAT=null;save();render();});
 document.addEventListener("keydown",e=>{if((e.metaKey||e.ctrlKey)&&!e.shiftKey&&(e.key==="z"||e.key==="Z")&&!/INPUT|SELECT|TEXTAREA/.test(document.activeElement.tagName)){e.preventDefault();undo();return;}
@@ -666,11 +677,10 @@ document.addEventListener("keydown",e=>{if((e.metaKey||e.ctrlKey)&&!e.shiftKey&&
 matchMedia("(prefers-color-scheme: dark)").addEventListener("change",()=>render());
 new MutationObserver(()=>render()).observe(document.documentElement,{attributes:true,attributeFilter:["data-theme"]});
 /* small API for the 3D view (room3d.js) */
-{const ex=document.getElementById("export");if(ex){const lb=document.createElement("button");lb.type="button";lb.className="chip";lb.id="lights";
-  const up=()=>{lb.textContent="💡 "+T("Lights");lb.setAttribute("aria-pressed",!!S.lights);};up();
-  lb.addEventListener("click",()=>{S.lights=!S.lights;up();if(S.lights&&!S.items.some(i=>i.k==="lamp"))document.getElementById("exp-msg").textContent=T("Add a lamp to see its light.");else document.getElementById("exp-msg").textContent="";persist();render();});
-  ex.parentNode.insertBefore(lb,ex);}}
-LAST=snap();
+const LSW=(()=>{const st=document.querySelector(".fs .stage");if(!st)return null;const b=document.createElement("button");b.type="button";b.className="lswitch";b.hidden=true;
+  b.innerHTML=`<svg viewBox="0 0 32 44" aria-hidden="true"><rect class="pl" x="1" y="1" width="30" height="42" rx="7"/><rect class="sl" x="9" y="7" width="14" height="30" rx="4"/><rect class="rk" x="10.5" y="8.5" width="11" height="13" rx="3"/></svg><span>${T("Lights")}</span>`;
+  b.addEventListener("click",()=>{S.lights=!S.lights;persist();render();});st.appendChild(b);return b;})();
+function syncSwitch(){if(!LSW)return;const has=S.items.some(i=>i.k==="lamp");if(!has&&S.lights)S.lights=false;LSW.hidden=!has;LSW.setAttribute("aria-pressed",!!S.lights);LSW.title=T(S.lights?"Turn the lights off":"Turn the lights on");LSW.setAttribute("aria-label",LSW.title);}
 window.FSAPI={get S(){return S;},FBY,FI,OPEN,PXM,T,FR,pts,oi,openPos,centroid,save,render:()=>render()};
 computeHeat();render();
 

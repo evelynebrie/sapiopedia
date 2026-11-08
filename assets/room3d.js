@@ -44,32 +44,87 @@ function poly(g, pts, fill, stroke) {
   if (stroke) { g.strokeStyle = stroke; g.lineWidth = 1; g.stroke(); }
 }
 
-/* ---------- furniture as boxes: [u0,u1,v0,v1,z0,z1,colour] in local cm-ish px, v<0 = back ---------- */
+/* ---------- furniture models: primitives in local px (u along width, v<0 = back), heights in cm ---------- */
 function parts(it, f) {
   const w = f.w, h = f.h, W2 = w / 2, H2 = h / 2, B = [];
-  const box = (u0, u1, v0, v1, z0, z1, col) => B.push([u0, u1, v0, v1, cm(z0), cm(z1), col]);
-  const legs = (zt, col, sz) => { const s = sz || cm(4); [[-W2, -H2], [W2 - s, -H2], [-W2, H2 - s], [W2 - s, H2 - s]].forEach(([u, v]) => box(u, u + s, v, v + s, 0, zt, col)); };
+  const box = (u0, u1, v0, v1, z0, z1, col, deco) => { const b = { t: "box", u0, u1, v0, v1, z0: cm(z0), z1: cm(z1), col, deco: deco || [] }; B.push(b); return b; };
+  const cyl = (u, v, r, z0, z1, col, top) => B.push({ t: "cyl", u, v, r, z0: cm(z0), z1: cm(z1), col, top: top || col });
+  const ball = (u, v, r, z, col) => B.push({ t: "ball", u, v, r, z: cm(z), col });
+  const fl = (u0, u1, z0, z1, col) => ({ face: "front", seg: [[u0, z0], [u1, z1]], col: col || "rgba(0,0,0,.18)" }); /* line on the front face */
+  const legs = (zt, col, s, inset) => { const i = inset || 0; [[-W2 + i, -H2 + i], [W2 - s - i, -H2 + i], [-W2 + i, H2 - s - i], [W2 - s - i, H2 - s - i]].forEach(([u, v]) => box(u, u + s, v, v + s, 0, zt, col)); };
   switch (it.k) {
-    case "bed": box(-W2, W2, -H2, -H2 + cm(6), 0, 105, WOOD); box(-W2, W2, -H2 + cm(6), H2, 0, 30, WOOD);
-      box(-W2 + 2, W2 - 2, -H2 + cm(6), H2 - 2, 30, 52, WHITE); [-1, 1].forEach(sg => box(sg < 0 ? -W2 + cm(10) : cm(6), sg < 0 ? -cm(6) : W2 - cm(10), -H2 + cm(10), -H2 + cm(45), 52, 62, "#FBFAF7"));
-      box(-W2 + 1, W2 - 1, -H2 + cm(70), H2 - 1, 52, 56, "#B9C4CC"); break;
-    case "desk": legs(72, METAL, cm(4)); box(-W2, W2, -H2, H2, 72, 76, WOOD); box(W2 - cm(40), W2 - cm(2), -H2 + cm(2), H2 - cm(4), 20, 72, shade(WOOD, .95)); break;
-    case "table": legs(72, METAL, cm(5)); box(-W2, W2, -H2, H2, 72, 76, WOOD); break;
-    case "chair": legs(45, WOOD, cm(3.5)); box(-W2, W2, -H2, H2, 45, 49, FABRIC); box(-W2, W2, -H2, -H2 + cm(3.5), 49, 92, WOOD); break;
-    case "sofa": case "armchair": { const arm = Math.min(cm(18), w * .18);
-      box(-W2, W2, -H2, H2, 8, 40, FABRIC); box(-W2, W2, -H2, -H2 + cm(20), 40, 82, shade(FABRIC, .97));
-      box(-W2, -W2 + arm, -H2, H2, 40, 62, shade(FABRIC, .98)); box(W2 - arm, W2, -H2, H2, 40, 62, shade(FABRIC, .98));
-      box(-W2 + arm, W2 - arm, -H2 + cm(20), H2 - cm(2), 40, 47, shade(FABRIC, 1.05)); legs(8, DARK, cm(4)); break; }
-    case "tv": box(-W2 * .4, W2 * .4, -H2, H2, 0, 50, DARK); box(-W2, W2, -H2, H2, 50, 112, "#1F2022"); break;
-    case "wardrobe": box(-W2, W2, -H2, H2, 0, 205, WHITE); break;
-    case "countertop": box(-W2, W2, -H2, H2 - cm(3), 0, 86, WHITE); box(-W2, W2, -H2, H2, 86, 90, "#8D8984"); break;
-    case "appliance": box(-W2, W2, -H2, H2, 0, 85, "#E4E6E8"); break;
-    case "shelf": box(-W2, W2, -H2, H2, 0, 185, WOOD); break;
-    case "screen": box(-W2, W2, -H2, H2, 0, 170, "#E2D3BC"); break;
-    case "plant": box(-W2 * .45, W2 * .45, -H2 * .45, H2 * .45, 0, 32, "#B9714B"); B.push({ ball: true, r: W2 * 1.05, z: cm(70), col: "#6F8F5E" }); break;
-    case "lamp": box(-W2 * .4, W2 * .4, -H2 * .4, H2 * .4, 0, 3, METAL); box(-cm(1.2), cm(1.2), -cm(1.2), cm(1.2), 3, 135, METAL);
-      B.push({ shade: true, r: W2 * .9, z0: cm(130), z1: cm(160), col: "#F1E6CC" }); break;
-    default: box(-W2, W2, -H2, H2, 0, 60, FABRIC);
+    case "bed": {
+      legs(10, DARK, cm(5), cm(3));
+      box(-W2, W2, -H2, -H2 + cm(7), 10, 112, "#CBBDA9");                       /* upholstered headboard */
+      box(-W2, W2, -H2 + cm(7), H2, 10, 30, WOOD);                               /* frame */
+      box(-W2 + cm(2), W2 - cm(2), -H2 + cm(7), H2 - cm(2), 30, 52, "#FAF9F6");  /* mattress */
+      const pw = (w - cm(14)) / 2;
+      [0, 1].forEach(i => box(-W2 + cm(5) + i * (pw + cm(4)), -W2 + cm(5) + i * (pw + cm(4)) + pw, -H2 + cm(11), -H2 + cm(45), 52, 64, "#FFFFFF"));
+      box(-W2 - 1, W2 + 1, -H2 + cm(62), H2 + 1, 50, 57, "#AFC2CC");           /* duvet */
+      box(-W2 - 1, W2 + 1, -H2 + cm(56), -H2 + cm(66), 52, 59, "#C9D6DD");      /* folded edge */
+      break; }
+    case "desk":
+      legs(72, METAL, cm(3), cm(2));
+      box(W2 - cm(42), W2 - cm(4), -H2 + cm(4), H2 - cm(4), 18, 72, shade(WOOD, .96), [fl(W2 - cm(42), W2 - cm(4), 45, 45), fl(W2 - cm(28), W2 - cm(18), 58, 58, METAL), fl(W2 - cm(28), W2 - cm(18), 31, 31, METAL)]);
+      box(-W2, W2, -H2, H2, 72, 75, WOOD); break;
+    case "coffee":
+      legs(36, shade(WOOD, .8), cm(4), cm(3)); box(-W2 + cm(3), W2 - cm(3), -H2 + cm(3), H2 - cm(3), 10, 12, shade(WOOD, .92)); box(-W2, W2, -H2, H2, 36, 40, WOOD); break;
+    case "table":
+      legs(72, shade(WOOD, .85), cm(5), cm(4)); box(-W2, W2, -H2, H2, 72, 76, WOOD); break;
+    case "chair": {
+      const s = cm(3);
+      legs(45, shade(WOOD, .9), s, cm(1));
+      box(-W2, W2, -H2, H2, 45, 48, shade(WOOD, .95));
+      box(-W2 + cm(2), W2 - cm(2), -H2 + cm(4), H2 - cm(2), 48, 51, "#CFC5B6");   /* seat pad */
+      box(-W2 + cm(1), -W2 + cm(1) + s, -H2 + cm(1), -H2 + cm(1) + s, 48, 92, shade(WOOD, .9));
+      box(W2 - cm(1) - s, W2 - cm(1), -H2 + cm(1), -H2 + cm(1) + s, 48, 92, shade(WOOD, .9));
+      box(-W2 + cm(1), W2 - cm(1), -H2 + cm(1), -H2 + cm(1) + s, 82, 91, WOOD);   /* top rail */
+      box(-W2 + cm(1), W2 - cm(1), -H2 + cm(1), -H2 + cm(1) + s, 64, 68, WOOD);   /* slat */
+      break; }
+    case "sofa": case "armchair": {
+      const arm = Math.min(cm(18), w * .2), back = cm(20), n = it.k === "sofa" ? (w > cm(170) ? 3 : 2) : 1, cw = (w - arm * 2) / n, FAB = "#BDB6AC";
+      legs(10, DARK, cm(4), cm(3));
+      box(-W2, W2, -H2, H2, 10, 38, shade(FAB, .95));
+      box(-W2, W2, -H2, -H2 + cm(12), 38, 82, shade(FAB, .93));
+      box(-W2, -W2 + arm, -H2, H2, 38, 62, FAB); box(W2 - arm, W2, -H2, H2, 38, 62, FAB);
+      for (let i = 0; i < n; i++) {
+        const u0 = -W2 + arm + i * cw + 1, u1 = u0 + cw - 2;
+        box(u0, u1, -H2 + back, H2 - cm(2), 38, 48, shade(FAB, 1.06));          /* seat cushion */
+        box(u0, u1, -H2 + cm(12), -H2 + back, 44, 78, shade(FAB, 1.02));        /* back cushion */
+      }
+      break; }
+    case "tv":
+      box(-cm(15), cm(15), -H2, H2, 0, 2, DARK); box(-cm(3), cm(3), -H2 + cm(4), -H2 + cm(8), 2, 60, DARK);
+      box(-W2, W2, -H2, -H2 + cm(5), 58, 58 + w / PX * 100 * 0.56, "#1C1D20"); break;
+    case "wardrobe": {
+      const ww = w / 2;
+      box(-W2, W2, -H2, H2, 0, 6, shade(WHITE, .85));
+      box(-W2, W2, -H2, H2, 6, 205, WHITE, [fl(0, 0, 8, 203), fl(-cm(5), -cm(5), 95, 125, METAL), fl(cm(5), cm(5), 95, 125, METAL)].concat(ww > cm(70) ? [fl(-W2 / 2 * 0 - ww / 2, -ww / 2, 8, 203)] : []));
+      break; }
+    case "countertop": {
+      const doors = Math.max(1, Math.round(w / cm(60))), dw = w / doors, deco = [];
+      for (let i = 1; i < doors; i++) deco.push(fl(-W2 + i * dw, -W2 + i * dw, 10, 84));
+      for (let i = 0; i < doors; i++) deco.push(fl(-W2 + i * dw + cm(6), -W2 + i * dw + dw - cm(6), 78, 78, METAL));
+      box(-W2 + cm(2), W2 - cm(2), -H2, H2 - cm(6), 0, 10, DARK);
+      box(-W2, W2, -H2, H2 - cm(3), 10, 86, WHITE, deco);
+      box(-W2, W2, -H2, H2, 86, 90, "#9A958F"); break; }
+    case "appliance":
+      box(-W2, W2, -H2, H2, 0, 85, "#ECEEEF", [fl(-W2 + cm(2), W2 - cm(2), 72, 72), fl(-W2 + cm(10), W2 - cm(10), 40, 40, "rgba(0,0,0,.25)"), fl(-W2 + cm(10), -W2 + cm(10), 20, 60, "rgba(0,0,0,.25)"), fl(W2 - cm(10), W2 - cm(10), 20, 60, "rgba(0,0,0,.25)")]); break;
+    case "shelf": {
+      const t = cm(2), BOOKS = ["#9C6B5A", "#5F7A8A", "#C8A96A", "#7E8C6B", "#B9877A", "#4F5B66"], r = rnd(it.id * 31 + 7);
+      box(-W2, W2, -H2, -H2 + cm(1.5), 0, 185, shade(WOOD, .9));
+      [0, 45, 90, 135, 183].forEach(z => box(-W2, W2, -H2, H2, z, z + 2, WOOD));
+      [45, 90, 135].forEach(z0 => { let u = -W2 + t + cm(2); while (u < W2 - t - cm(8)) { const bw = cm(3 + r() * 3), bh = 26 + r() * 12; if (r() > .2) box(u, u + bw, -H2 + cm(4), H2 - cm(4), z0 + 2, z0 + 2 + bh, BOOKS[Math.floor(r() * BOOKS.length)]); u += bw + cm(.5); } });
+      box(-W2, -W2 + t, -H2, H2, 0, 185, WOOD); box(W2 - t, W2, -H2, H2, 0, 185, WOOD); break; }
+    case "screen": { const pw = w / 3; [0, 1, 2].forEach(i => box(-W2 + i * pw + 1, -W2 + (i + 1) * pw - 1, (i % 2 ? -1 : 1) * cm(3) - cm(1.5), (i % 2 ? -1 : 1) * cm(3) + cm(1.5), 4, 170, "#E6D8C2")); break; }
+    case "plant":
+      cyl(0, 0, W2 * .48, 0, 34, "#B66E4A", "#5A4636");
+      [[0, 0, .62, 78], [-.35, .2, .45, 64], [.35, -.15, .45, 66], [.1, .35, .4, 92], [-.15, -.3, .42, 96]].forEach(([u, v, r, z], i) => ball(u * W2, v * W2, r * W2, z, ["#6E9461", "#5F8656", "#7FA36F", "#6A9060", "#88AC77"][i])); break;
+    case "lamp":
+      cyl(0, 0, W2 * .5, 0, 3, "#4A4A4D", "#5E5E62");
+      cyl(0, 0, cm(1), 3, 132, "#55555A", "#55555A");
+      cyl(0, 0, W2 * .72, 130, 160, A.S.lights ? "#FFE3A0" : "#EFE4D0", A.S.lights ? "#FFF2CC" : "#F7EFE2"); break;
+    default: box(-W2, W2, -H2, H2, 0, 60, "#C3BBB0");
   }
   return B;
 }
@@ -145,36 +200,47 @@ function draw(cv, W, dpr) {
         const hp = [B1[0] - p.tx * cm(10) + p.nx, B1[1] - p.ty * cm(10) + p.ny], q = prj(...hp, cm(100));
         g.fillStyle = METAL; g.beginPath(); g.arc(q[0], q[1], Math.max(1.5, G.k * 2.5), 0, Math.PI * 2); g.fill();
       } else {
-        const gr = g.createLinearGradient(...prj(...A1, cm(170)), ...prj(...B1, cm(100)));
-        gr.addColorStop(0, "#E9EEF1"); gr.addColorStop(1, "#C5CDD2"); poly(g, quad(cm(100), cm(175), 0.5), gr, "#FFFFFF");
+        poly(g, quad(cm(95), cm(180), 0.4), "#C9AE8A");
+        const gr = g.createLinearGradient(...prj(...A1, cm(176)), ...prj(...B1, cm(99)));
+        gr.addColorStop(0, "#F6F9FB"); gr.addColorStop(.5, "#DCE5EA"); gr.addColorStop(1, "#C3CFD6"); poly(g, quad(cm(99), cm(176), 0.8), gr);
       }
     });
     /* wall top cap */
     poly(g, [prj(...e.a, WALL_H), prj(...e.b, WALL_H), prj(...out(e.b, e, WT), WALL_H), prj(...out(e.a, e, WT), WALL_H)], "#FFFFFF", "#E2DED8");
   });
 
-  /* furniture: collect boxes, painter's sort by depth */
+  /* contact shadows */
+  g.save(); g.filter = "blur(" + Math.max(2, G.k * 5).toFixed(1) + "px)"; g.fillStyle = "rgba(60,45,35,.16)";
+  S.items.forEach(it => { const f = A.FI(it), o = A.oi(it);
+    if (f.round) { const c = prj(o.x, o.y, 0); g.beginPath(); g.ellipse(c[0], c[1], f.w / 2 * G.k * 1.1, f.w / 2 * G.k * .64, 0, 0, Math.PI * 2); g.fill(); return; }
+    const L2P = (u, v) => [o.x + o.tx * u - o.bx * v, o.y + o.ty * u - o.by * v], W2 = f.w / 2 + 2, H2 = f.h / 2 + 2;
+    poly(g, [L2P(-W2, -H2), L2P(W2, -H2), L2P(W2, H2), L2P(-W2, H2)].map(p => prj(p[0], p[1], 0)), "rgba(60,45,35,.16)"); });
+  g.restore();
+
+  /* furniture: painter's sort of primitives by depth */
   const items = [];
   S.items.forEach(it => {
-    const f = A.FI(it), o = A.oi(it);
-    const L2P = (u, v) => [o.x + o.tx * u - o.bx * v, o.y + o.ty * u - o.by * v];
-    parts(it, f).forEach(b => {
-      if (b.ball || b.shade) { items.push({ d: depth(o.x, o.y) + 0.001, b, o, it }); return; }
-      const [u0, u1, v0, v1] = b, c = L2P((u0 + u1) / 2, (v0 + v1) / 2);
-      items.push({ d: depth(c[0], c[1]) + b[4] * 0.002, b, L2P, o });
+    const f = A.FI(it), o = A.oi(it), L2P = (u, v) => [o.x + o.tx * u - o.bx * v, o.y + o.ty * u - o.by * v];
+    parts(it, f).forEach((b, idx) => {
+      const c = b.t === "box" ? L2P((b.u0 + b.u1) / 2, (b.v0 + b.v1) / 2) : L2P(b.u, b.v);
+      items.push({ d: depth(c[0], c[1]) + (b.z0 != null ? b.z0 : b.z) * 0.004 + idx * 1e-6, b, L2P, o });
     });
   });
   items.sort((p, q) => p.d - q.d).forEach(({ b, L2P, o }) => {
-    if (b.ball) { const c = prj(o.x, o.y, b.z), r = b.r * G.k * 1.1; const gr = g.createRadialGradient(c[0] - r * .3, c[1] - r * .4, r * .1, c[0], c[1], r);
-      gr.addColorStop(0, shade(b.col, 1.25)); gr.addColorStop(1, shade(b.col, .8)); g.fillStyle = gr; g.beginPath(); g.arc(c[0], c[1], r, 0, Math.PI * 2); g.fill(); return; }
-    if (b.shade) { const c0 = prj(o.x, o.y, b.z0), c1 = prj(o.x, o.y, b.z1), rx = b.r * G.k * 1.22, ry = b.r * G.k * .7, on = A.S.lights;
-      g.fillStyle = on ? "#FFE7A8" : b.col; g.beginPath(); g.ellipse(c0[0], c0[1], rx * 1.15, ry * 1.15, 0, 0, Math.PI); g.lineTo(c1[0] - rx * .8, c1[1]);
-      g.ellipse(c1[0], c1[1], rx * .8, ry * .8, 0, Math.PI, 0, true); g.closePath(); g.fill(); g.strokeStyle = shade(b.col, .85); g.stroke(); return; }
-    const [u0, u1, v0, v1, z0, z1, col] = b, base = [L2P(u0, v0), L2P(u1, v0), L2P(u1, v1), L2P(u0, v1)];
-    const sides = [[0, 1, o.bx, o.by], [1, 2, o.tx, o.ty], [2, 3, -o.bx, -o.by], [3, 0, -o.tx, -o.ty]];
-    sides.forEach(([i, j, nx, ny]) => { if (!vis(nx, ny)) return; const [ra, rb] = G.RN(nx, ny);
-      poly(g, [prj(...base[i], z0), prj(...base[j], z0), prj(...base[j], z1), prj(...base[i], z1)], shade(col.startsWith("#") ? col : "#CCCCCC", ra > rb ? .9 : .78), "rgba(0,0,0,.08)"); });
-    poly(g, base.map(p => prj(...p, z1)), col.startsWith("#") ? col : col, "rgba(0,0,0,.08)");
+    if (b.t === "ball") { const p = L2P(b.u, b.v), c = prj(p[0], p[1], b.z), r = b.r * G.k * 1.1;
+      const gr = g.createRadialGradient(c[0] - r * .35, c[1] - r * .45, r * .1, c[0], c[1], r);
+      gr.addColorStop(0, shade(b.col, 1.22)); gr.addColorStop(1, shade(b.col, .78)); g.fillStyle = gr; g.beginPath(); g.arc(c[0], c[1], r, 0, Math.PI * 2); g.fill(); return; }
+    if (b.t === "cyl") { const p = L2P(b.u, b.v), c0 = prj(p[0], p[1], b.z0), c1 = prj(p[0], p[1], b.z1), rx = b.r * G.k * 1.2247, ry = b.r * G.k * .7071;
+      const gr = g.createLinearGradient(c0[0] - rx, 0, c0[0] + rx, 0); gr.addColorStop(0, shade(b.col, 1.08)); gr.addColorStop(.55, shade(b.col, .95)); gr.addColorStop(1, shade(b.col, .78));
+      g.beginPath(); g.moveTo(c0[0] + rx, c0[1]); g.ellipse(c0[0], c0[1], rx, ry, 0, 0, Math.PI); g.lineTo(c1[0] - rx, c1[1]); g.lineTo(c1[0] + rx, c1[1]); g.closePath(); g.fillStyle = gr; g.fill();
+      g.beginPath(); g.ellipse(c1[0], c1[1], rx, ry, 0, 0, Math.PI * 2); g.fillStyle = b.top; g.fill(); g.strokeStyle = "rgba(0,0,0,.08)"; g.lineWidth = 1; g.stroke(); return; }
+    const { u0, u1, v0, v1, z0, z1, col } = b, base = [L2P(u0, v0), L2P(u1, v0), L2P(u1, v1), L2P(u0, v1)];
+    const sides = [[0, 1, o.bx, o.by, "back"], [1, 2, o.tx, o.ty, "right"], [2, 3, -o.bx, -o.by, "front"], [3, 0, -o.tx, -o.ty, "left"]], shown = {};
+    sides.forEach(([i, j, nx, ny, name]) => { if (!vis(nx, ny)) return; shown[name] = true; const [ra, rb] = G.RN(nx, ny);
+      poly(g, [prj(...base[i], z0), prj(...base[j], z0), prj(...base[j], z1), prj(...base[i], z1)], shade(col, ra > rb ? .92 : .8), "rgba(0,0,0,.06)"); });
+    poly(g, base.map(p => prj(...p, z1)), col, "rgba(0,0,0,.06)");
+    if (shown.front) b.deco.forEach(dc => { const [[ua, za], [ub, zb]] = dc.seg, pa = L2P(ua, v1 + .3), pb = L2P(ub, v1 + .3);
+      g.strokeStyle = dc.col; g.lineWidth = Math.max(1, G.k * 1.4); g.lineCap = "round"; g.beginPath(); g.moveTo(...prj(...pa, cm(za))); g.lineTo(...prj(...pb, cm(zb))); g.stroke(); });
   });
 
   /* front walls cut low */
@@ -205,25 +271,25 @@ function inside(x, y, p) { let c = false; for (let i = 0, j = p.length - 1; i < 
 const stage = document.querySelector(".fs .stage"), plan = document.getElementById("plan"), trash = document.getElementById("trash");
 if (!stage) return;
 const bar = document.createElement("div"); bar.className = "viewbar";
-bar.innerHTML = `<div class="tgroup" role="group" aria-label="${T("View")}"><button type="button" class="chip" data-v="2d">${T("Plan")}</button><button type="button" class="chip" data-v="3d">3D</button></div>
+bar.innerHTML = `<div class="seg" role="group" aria-label="${T("View")}"><button type="button" data-v="2d"><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="2.5" y="2.5" width="15" height="15" rx="1.5"/><path d="M2.5 9h7v8.5M9.5 9V2.5"/></svg>${T("2D plan")}</button><button type="button" data-v="3d"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 2 17.5 6v8L10 18 2.5 14V6z"/><path d="M2.5 6 10 10l7.5-4M10 10v8"/></svg>${T("3D view")}</button></div>
 <div class="look" hidden>
   <div class="tgroup" role="group" aria-label="${T("Floor")}"><span class="tlabel">${T("Floor")}</span>${Object.entries(FLOORS).map(([k, f]) => `<button type="button" class="sw" data-f="${k}" title="${T(f.n)}" aria-label="${T(f.n)}" style="background:${f.base}"></button>`).join("")}</div>
   <div class="tgroup" role="group" aria-label="${T("Walls")}"><span class="tlabel">${T("Walls")}</span>${WALLS.map(c => `<button type="button" class="sw" data-w="${c}" aria-label="${c}" style="background:${c}"></button>`).join("")}<label class="sw custom" title="${T("Custom colour")}"><input type="color" aria-label="${T("Custom colour")}"></label></div>
   <button type="button" class="chip" data-rot>⟳ ${T("Rotate")}</button>
 </div>`;
-stage.parentNode.insertBefore(bar, stage);
+const work = document.querySelector(".fs .work"); work.insertBefore(bar, work.firstChild); const lookEl0 = bar.querySelector(".look"); stage.parentNode.insertBefore(lookEl0, stage);
 const cv = document.createElement("canvas"); cv.className = "v3d"; cv.hidden = true; cv.setAttribute("role", "img"); cv.setAttribute("aria-label", T("3D view of the room")); stage.appendChild(cv);
-const lookEl = bar.querySelector(".look"), colorIn = bar.querySelector("input[type=color]");
+const lookEl = lookEl0, colorIn = lookEl0.querySelector("input[type=color]");
 let on = false;
 function sync() {
   bar.querySelectorAll("[data-v]").forEach(b => b.setAttribute("aria-pressed", (b.dataset.v === "3d") === on));
   lookEl.hidden = !on; plan.style.display = on ? "none" : ""; if (trash) trash.style.display = on ? "none" : ""; cv.hidden = !on;
-  const L = look(); bar.querySelectorAll("[data-f]").forEach(b => b.setAttribute("aria-pressed", b.dataset.f === L.floor));
-  bar.querySelectorAll("[data-w]").forEach(b => b.setAttribute("aria-pressed", b.dataset.w.toLowerCase() === String(L.wall).toLowerCase()));
+  const L = look(); lookEl.querySelectorAll("[data-f]").forEach(b => b.setAttribute("aria-pressed", b.dataset.f === L.floor));
+  lookEl.querySelectorAll("[data-w]").forEach(b => b.setAttribute("aria-pressed", b.dataset.w.toLowerCase() === String(L.wall).toLowerCase()));
   colorIn.value = /^#[0-9a-f]{6}$/i.test(L.wall) ? L.wall : "#f4f2ee";
 }
 function update() { if (!on) return; const W = Math.max(280, stage.clientWidth); draw(cv, W, Math.min(2, window.devicePixelRatio || 1)); }
-bar.addEventListener("click", e => {
+const onClick = e => {
   const b = e.target.closest("button"); if (!b) return; const L = look();
   if (b.dataset.v) { on = b.dataset.v === "3d"; try { localStorage.setItem("sapiopedia-roomplanner-view", on ? "3d" : "2d"); } catch (_) {} }
   else if (b.dataset.f) L.floor = b.dataset.f;
@@ -231,7 +297,8 @@ bar.addEventListener("click", e => {
   else if (b.hasAttribute("data-rot")) L.rot = ((L.rot || 0) + 1) % 4;
   else return;
   A.save(); sync(); update();
-});
+};
+bar.addEventListener("click", onClick); lookEl.addEventListener("click", onClick);
 colorIn.addEventListener("input", () => { look().wall = colorIn.value; A.save(); sync(); update(); });
 try { on = localStorage.getItem("sapiopedia-roomplanner-view") === "3d"; } catch (_) {}
 if (window.ResizeObserver) new ResizeObserver(() => update()).observe(stage);

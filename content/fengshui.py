@@ -47,7 +47,7 @@ def body(lang, design=False):
       <span class="exp"><button type="button" class="chip solid" id="export" hidden>{t['export']}</button><span id="exp-msg" class="muted" style="font-size:13px"></span></span>
     </div>
     <div class="furn">
-      <h2>{t['add']} <span>{t['add_sub']}</span></h2>
+      <h2>{t['add']}{(' <span>'+t['add_sub']+'</span>') if t.get('add_sub') else ''}</h2>
       <div class="pieces" id="pieces" role="group" aria-label="{t['furn_aria']}"></div>
     </div>
   </div>
@@ -76,13 +76,13 @@ def size_form(t):
 
 DTXT = {
  "en": dict(good="Fits", caution="Tight", avoid="Blocked", check="Floor and fit", size="Size", width="Width in metres", length="Length in metres", set="Apply",
-    add_sub="It lands on the best free spot. Select a piece to see how much room is in front of it.",
+    add_sub="",
     about_h="How the room planner works",
     about="""<p>Type the exact size of your room, or pick a shape and drag its corners. Add the door and windows, then the furniture: each piece is drawn to a typical size and lands on the best free spot.</p>
 <p>Select a piece to see a measuring line from its front to the nearest wall or piece of furniture. It is rated <strong>fits</strong> when at least 60 cm is free, <strong>tight</strong> between 30 and 60 cm, and <strong>blocked</strong> when it overlaps something, leaves less than 30 cm, or sits where the door swings open. Planners usually allow 60 cm to walk past furniture and 90 cm for a comfortable main path.</p>
 <p>The <em>Floor and fit</em> panel adds up the floor area and how much of it the furniture covers. Your layout is saved in your browser only. Want to know what the arrangement says about energy and sleep? Try the <a href="/en/tools/fengshui/">Feng Shui Room Planner</a>.</p>"""),
  "fr": dict(good="Ça passe", caution="Serré", avoid="Bloqué", check="Surface et dégagements", size="Taille", width="Largeur en mètres", length="Longueur en mètres", set="Appliquer",
-    add_sub="Il se place au meilleur endroit libre. Sélectionnez un meuble pour voir l'espace devant lui.",
+    add_sub="",
     about_h="Comment fonctionne le planificateur",
     about="""<p>Entrez la taille exacte de votre pièce, ou choisissez une forme et glissez ses coins. Ajoutez la porte et les fenêtres, puis les meubles : chacun a une taille courante et se place au meilleur endroit libre.</p>
 <p>Sélectionnez un meuble pour voir une ligne de mesure entre sa façade et le mur ou le meuble le plus proche. Il est noté <strong>ça passe</strong> avec au moins 60 cm de libre, <strong>serré</strong> entre 30 et 60 cm, et <strong>bloqué</strong> s'il chevauche autre chose, laisse moins de 30 cm ou gêne l'ouverture de la porte. On prévoit habituellement 60 cm pour passer à côté d'un meuble et 90 cm pour un passage principal confortable.</p>

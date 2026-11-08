@@ -66,7 +66,7 @@ def body(lang, design=False):
 </div>
 </div>
 <section class="fs-intro"><h2>{t['about_h']}</h2>{t['about']}</section>
-{'<script>window.FS_MODE="design"</script>' if design else ''}{fr}<script src="/assets/fengshui.js"></script>{'<script src="/assets/room3d.js"></script>' if design else ''}"""
+{'<script>window.FS_MODE="design"</script>' if design else ''}{fr}<script src="/assets/fengshui.js"></script>{'<script type="importmap">{"imports":{"three":"/assets/vendor/three/build/three.module.min.js"}}</script><script src="/assets/room3d.js"></script>' if design else ''}"""
 
 def size_form(t):
     return f"""<form class="tgroup sizeform" id="sizeform"><span class="tlabel">{t['size']}</span>
@@ -80,13 +80,15 @@ DTXT = {
     about_h="How the room planner works",
     about="""<p>Type the exact size of your room, or pick a shape and drag its corners. Add the door and windows, then the furniture: each piece is drawn to a typical size and lands on the best free spot.</p>
 <p>Select a piece to see a measuring line from its front to the nearest wall or piece of furniture. It is rated <strong>fits</strong> when at least 60 cm is free, <strong>tight</strong> between 30 and 60 cm, and <strong>blocked</strong> when it overlaps something, leaves less than 30 cm, or sits where the door swings open. Planners usually allow 60 cm to walk past furniture and 90 cm for a comfortable main path.</p>
-<p>The <em>Floor and fit</em> panel adds up the floor area and how much of it the furniture covers. Your layout is saved in your browser only. Want to know what the arrangement says about energy and sleep? Try the <a href="/en/tools/fengshui/">Feng Shui Room Planner</a>.</p>"""),
+<p>The <em>Floor and fit</em> panel adds up the floor area and how much of it the furniture covers. Your layout is saved in your browser only. Want to know what the arrangement says about energy and sleep? Try the <a href="/en/tools/fengshui/">Feng Shui Room Planner</a>.</p>
+<p class="small">3D furniture models: <a href="https://kenney.nl/assets/furniture-kit" rel="noopener">Furniture Kit by Kenney</a> (public domain, CC0). 3D rendering: three.js (MIT licence).</p>"""),
  "fr": dict(good="Ça passe", caution="Serré", avoid="Bloqué", check="Surface et dégagements", size="Taille", width="Largeur en mètres", length="Longueur en mètres", set="Appliquer",
     add_sub="",
     about_h="Comment fonctionne le planificateur",
     about="""<p>Entrez la taille exacte de votre pièce, ou choisissez une forme et glissez ses coins. Ajoutez la porte et les fenêtres, puis les meubles : chacun a une taille courante et se place au meilleur endroit libre.</p>
 <p>Sélectionnez un meuble pour voir une ligne de mesure entre sa façade et le mur ou le meuble le plus proche. Il est noté <strong>ça passe</strong> avec au moins 60 cm de libre, <strong>serré</strong> entre 30 et 60 cm, et <strong>bloqué</strong> s'il chevauche autre chose, laisse moins de 30 cm ou gêne l'ouverture de la porte. On prévoit habituellement 60 cm pour passer à côté d'un meuble et 90 cm pour un passage principal confortable.</p>
-<p>Le panneau <em>Surface et dégagements</em> calcule la surface au sol et la part occupée par les meubles. Votre plan est enregistré uniquement dans votre navigateur. Envie de savoir ce que l'agencement dit de l'énergie et du sommeil ? Essayez le <a href="/fr/outils/fengshui/">planificateur feng shui</a>.</p>"""),
+<p>Le panneau <em>Surface et dégagements</em> calcule la surface au sol et la part occupée par les meubles. Votre plan est enregistré uniquement dans votre navigateur. Envie de savoir ce que l'agencement dit de l'énergie et du sommeil ? Essayez le <a href="/fr/outils/fengshui/">planificateur feng shui</a>.</p>
+<p class="small">Modèles 3D des meubles : <a href="https://kenney.nl/assets/furniture-kit" rel="noopener">Furniture Kit de Kenney</a> (domaine public, CC0). Rendu 3D : three.js (licence MIT).</p>"""),
 }
 
 PAGES.append({"section": "tools", "wide": True,

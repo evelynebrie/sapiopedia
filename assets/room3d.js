@@ -285,12 +285,25 @@ const lookEl = lookEl0, colorIn = lookEl0.querySelector("input[type=color]");
 let on = false;
 function sync() {
   bar.querySelectorAll("[data-v]").forEach(b => b.setAttribute("aria-pressed", (b.dataset.v === "3d") === on));
-  lookEl.hidden = !on; plan.style.display = on ? "none" : ""; if (trash) trash.style.display = on ? "none" : ""; cv.hidden = !on;
+  lookEl.hidden = !on; plan.style.display = on ? "none" : ""; if (trash) trash.style.display = on ? "none" : ""; cv.hidden = !on || !!GL; if (GL) GL.el.hidden = !on;
   const L = look(); lookEl.querySelectorAll("[data-f]").forEach(b => b.setAttribute("aria-pressed", b.dataset.f === L.floor));
   lookEl.querySelectorAll("[data-w]").forEach(b => b.setAttribute("aria-pressed", b.dataset.w.toLowerCase() === String(L.wall).toLowerCase()));
   colorIn.value = /^#[0-9a-f]{6}$/i.test(L.wall) ? L.wall : "#f4f2ee";
 }
-function update() { if (!on) return; const W = Math.max(280, stage.clientWidth); draw(cv, W, Math.min(2, window.devicePixelRatio || 1)); }
+/* WebGL view (three.js + Kenney models), loaded on first use; the drawn view above is the fallback */
+let GL = null, glp = null, busy = false, again = false;
+function ensureGL() {
+  if (!glp) glp = import("/assets/room3d-gl.js").then(m => { GL = m.create(A, () => Object.assign({}, look(), { floors: FLOORS }));
+    GL.el.setAttribute("aria-label", T("3D view of the room")); GL.el.hidden = !on; stage.appendChild(GL.el); cv.hidden = true; return GL; })
+    .catch(err => { console.warn("3D view fallback:", err); GL = null; return null; });
+  return glp;
+}
+function update() {
+  if (!on) return; const W = Math.max(280, stage.clientWidth), dpr = Math.min(2, window.devicePixelRatio || 1);
+  if (busy) { again = true; return; } busy = true;
+  ensureGL().then(gl => gl ? gl.render(W, dpr) : draw(cv, W, dpr)).catch(() => draw(cv, W, dpr))
+    .finally(() => { busy = false; if (again) { again = false; update(); } });
+}
 const onClick = e => {
   const b = e.target.closest("button"); if (!b) return; const L = look();
   if (b.dataset.v) { on = b.dataset.v === "3d"; try { localStorage.setItem("sapiopedia-roomplanner-view", on ? "3d" : "2d"); } catch (_) {} }
@@ -309,7 +322,8 @@ if (window.ResizeObserver) new ResizeObserver(() => update()).observe(stage);
 async function png() {
   const plan = await A.planShot();
   const W = 2200, PAD = 70, GAP = 70, COL = (W - PAD * 2 - GAP) / 2, HEAD = 64;
-  const c3 = document.createElement("canvas"), h3 = draw(c3, COL, 1);
+  const gl = await ensureGL(); let c3, h3;
+  if (gl) { h3 = await gl.render(COL, 1); c3 = gl.el; } else { c3 = document.createElement("canvas"); h3 = draw(c3, COL, 1); }
   const pw = COL, ph = Math.round(plan.h * COL / plan.w), bodyH = Math.max(ph, h3) + 60, BAND = 200;
   const H = PAD + HEAD + bodyH + BAND;
   const out = document.createElement("canvas"); out.width = W; out.height = H; const x = out.getContext("2d");
@@ -333,7 +347,7 @@ async function png() {
   x.fillStyle = "#6E5A62"; x.font = "400 24px 'Source Sans 3', Arial, sans-serif";
   x.fillText(T("Room Planner") + " · " + plan.dims, W - PAD, by + 124);
   x.fillText(`${plan.counts.good} ${plan.VW.good} · ${plan.counts.caution} ${plan.VW.caution} · ${plan.counts.bad} ${plan.VW.bad}`, W - PAD, by + 158);
-  return await new Promise(res => out.toBlob(res, "image/png"));
+  const blob = await new Promise(res => out.toBlob(res, "image/png")); update(); return blob;
 }
 window.FS3D = { update, active: () => on, png };
 sync(); update();

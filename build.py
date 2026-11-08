@@ -44,7 +44,7 @@ UI = {
            "h1": "For people who can't stop asking <em>questions</em>.",
            "cta": "What colour are you?", "cta_sub": "· 60 s",
            "mini": "Birthday converter", "born": "Born on", "mini_hint": "a <b>{dow}</b> · <b>{days}</b> days lived · <b>{weeks}</b> weeks · <b>{months}</b> months · <b>{moons}</b> full moons",
-           "note_k": "Method note", "note": "Curiosity deserves better than filler. Every answer is written by a university professor and data scientist, with sources when they matter.", "note_a": "How Sapiopedia is made",
+           "note_k": "Method note", "note": "Curiosity deserves better than filler. Every answer is built on real, open-source data, with sources when they matter.", "note_a": "How Sapiopedia is made",
            "counts": {"quizzes": "quizzes", "tools": "tools", "meanings": "entries", "names": "names", "games": "games"}},
     "fr": {"home": "Accueil", "tagline": "L'espèce qui n'arrête pas de poser des questions.",
            "intro": "Sapiopedia est une collection grandissante de quiz, de calculateurs, de significations, de prénoms et de jeux. Une question par page, une réponse claire, un résultat à partager.", "desc": {"quizzes": "Ce que vos choix révèlent. Couleur, âge mental, quel pays vous ressemble…", "tools": "Les calculs du quotidien, vérifiés. Cuisine, bébé, maison, jardin.", "meanings": "Symboles, fleurs, pierres, superstitions, et les histoires derrière.", "names": "Origines, courbes de popularité réelles, et les discrets favoris.", "games": "De bonnes questions pour les tablées animées. Action ou vérité, et plus."},
@@ -54,7 +54,7 @@ UI = {
            "h1": "Pour les gens qui ne cessent de poser des <em>questions</em>.",
            "cta": "Quelle couleur êtes-vous ?", "cta_sub": "· 60 s",
            "mini": "Convertisseur de naissance", "born": "Né·e le", "mini_hint": "un <b>{dow}</b> · <b>{days}</b> jours vécus · <b>{weeks}</b> semaines · <b>{months}</b> mois · <b>{moons}</b> pleines lunes",
-           "note_k": "Note de méthode", "note": "La curiosité mérite mieux que du remplissage. Chaque réponse est rédigée par une professeure d'université et scientifique des données, avec ses sources quand elles comptent.", "note_a": "Comment Sapiopedia est fait",
+           "note_k": "Note de méthode", "note": "La curiosité mérite mieux que du remplissage. Chaque réponse s'appuie sur de vraies données ouvertes, avec ses sources quand elles comptent.", "note_a": "Comment Sapiopedia est fait",
            "counts": {"quizzes": "quiz", "tools": "outils", "meanings": "entrées", "names": "prénoms", "games": "jeux"}},
 }
 

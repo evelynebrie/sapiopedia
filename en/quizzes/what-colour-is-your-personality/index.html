@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>What colour is your personality? · Sapiopedia</title>
+<meta name="description" content="A 60-second quiz that gives you a colour and a shareable result card.">
+<link rel="canonical" href="https://sapiopedia.com/en/quizzes/what-colour-is-your-personality/">
+<link rel="alternate" hreflang="en" href="https://sapiopedia.com/en/quizzes/what-colour-is-your-personality/">
+<link rel="alternate" hreflang="fr" href="https://sapiopedia.com/fr/quiz/quelle-couleur-est-votre-personnalite/">
+<link rel="alternate" hreflang="x-default" href="https://sapiopedia.com/en/quizzes/what-colour-is-your-personality/">
+<meta property="og:title" content="What colour is your personality?">
+<meta property="og:description" content="A 60-second quiz that gives you a colour and a shareable result card.">
+<meta property="og:url" content="https://sapiopedia.com/en/quizzes/what-colour-is-your-personality/">
+<meta property="og:type" content="website">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/assets/style.css">
+
+
+</head>
+<body>
+<header class="site"><div class="wrap">
+  <a class="logo" href="/en/">Sapiopedia <svg aria-hidden="true" viewBox="0 0 360 460"><path d="M60 150 C52 66 128 26 196 40 C280 58 292 158 232 206 C198 232 170 246 168 300 L168 332" fill="none" stroke="#B9CFE0" stroke-width="46" stroke-linecap="round" stroke-linejoin="round" transform="translate(-12,8)" opacity="1"/><path d="M60 150 C52 66 128 26 196 40 C280 58 292 158 232 206 C198 232 170 246 168 300 L168 332" fill="none" stroke="#E9A9B8" stroke-width="46" stroke-linecap="round" stroke-linejoin="round" transform="translate(12,-6)" opacity="1"/><path d="M60 150 C52 66 128 26 196 40 C280 58 292 158 232 206 C198 232 170 246 168 300 L168 332" fill="none" stroke="#B8405E" stroke-width="28" stroke-linecap="round" stroke-linejoin="round" transform="translate(0,0)" opacity="1"/><circle cx="156" cy="410" r="30" fill="#B9CFE0" opacity="1"/><circle cx="180" cy="396" r="30" fill="#E9A9B8" opacity="1"/><circle cx="168" cy="402" r="24" fill="#B8405E" opacity="1"/></svg></a>
+  <nav class="main"><a href="/en/quizzes/">Quizzes</a><a href="/en/tools/">Tools</a><a href="/en/meanings/">Meanings</a><a href="/en/names/">Names</a><a href="/en/games/">Games</a><span class="lang"><b>EN</b> / <a href="/fr/quiz/quelle-couleur-est-votre-personnalite/">FR</a></span></nav>
+</div></header>
+<main class="page">
+<h1>What colour is your personality?</h1><p class="lead">A 60-second quiz that gives you a colour and a shareable result card.</p>
+<div class="tool" id="quiz">
+  <div id="qbox"><button onclick="startQ()">Start</button></div>
+  <div id="res" style="display:none">
+    <div class="result" id="rtitle"></div>
+    <p id="rtext"></p>
+    <img id="rimg" alt="" style="width:100%;max-width:420px;border-radius:12px;display:block;margin:1rem auto">
+    <div class="row">
+      <button onclick="SP.share(document.title, document.getElementById('rtitle').textContent)">Share</button>
+      <button onclick="SP.download(document.getElementById('rimg').src,'sapiopedia-what-colour-is-your-personality.png')">Download image</button>
+    </div>
+    <p class="small"><a href="#" onclick="startQ();return false">Try again</a></p>
+  </div>
+</div>
+<script>
+var Q = [["When you have a free evening, you…", ["Plan something with friends", "Start a new project", "Read or watch something quietly", "Go outside, whatever the weather"]], ["At work or school, people count on you to…", ["Bring energy", "Find solutions", "Keep things calm", "Say what others won't"]], ["Your ideal weekend place is…", ["A city full of people", "A workshop or a kitchen", "A quiet lake", "A mountain trail"]], ["When plans change at the last minute, you…", ["Love it", "Adapt and fix it", "Need a moment", "Push for your own plan"]], ["Pick a word:", ["Spark", "Build", "Still", "Bold"]], ["Your friends would say you are…", ["Warm", "Clever", "Steady", "Brave"]]], R = [["Coral", "#d9644a", "Warm, social, the one who gets everyone talking."], ["Teal", "#2f6f8f", "Curious and practical, you fix things and make them better."], ["Sage", "#6b8f71", "Calm and steady, the person people come to when it matters."], ["Amber", "#c9893a", "Bold and direct, you go first and say it straight."]], K = "Your colour is", i = 0, score = [0,0,0,0];
+function startQ(){ i = 0; score = [0,0,0,0]; document.getElementById('res').style.display='none'; document.getElementById('qbox').style.display='block'; show(); }
+function show(){
+  var q = Q[i], h = '<p class="small">Question ' + (i+1) + ' of ' + Q.length + '</p><h2 style="margin-top:.2rem">' + q[0] + '</h2>';
+  for (var k = 0; k < 4; k++) h += '<button style="margin-top:.5rem" onclick="pick(' + k + ')">' + q[1][k] + '</button>';
+  document.getElementById('qbox').innerHTML = h; window.scrollTo({top: document.getElementById('quiz').offsetTop - 20, behavior: 'smooth'});
+}
+function pick(k){ score[k]++; i++; if (i < Q.length) show(); else finish(); }
+function finish(){
+  var best = score.indexOf(Math.max.apply(null, score)), r = R[best];
+  document.getElementById('qbox').style.display='none'; document.getElementById('res').style.display='block';
+  document.getElementById('rtitle').innerHTML = K + ' <b>' + r[0] + '</b>';
+  document.getElementById('rtext').textContent = r[2];
+  document.getElementById('rimg').src = SP.resultCard({color: r[1], kicker: K, title: r[0], subtitle: r[2]});
+}
+</script><div class="ad">advertisement</div><div class="related"><h2>Related pages</h2><ul><li><a href="/en/quizzes/what-is-your-mental-age-quiz/">What is your mental age?</a></li><li><a href="/en/quizzes/which-country-matches-your-personality-quiz/">Which country matches your personality?</a></li><li><a href="/en/quizzes/what-animal-are-you-quiz/">What animal are you?</a></li><li><a href="/en/quizzes/introvert-extrovert-or-ambivert-quiz/">Introvert, extrovert or ambivert?</a></li><li><a href="/en/quizzes/what-season-are-you-quiz/">What season are you?</a></li><li><a href="/en/quizzes/what-flower-are-you-quiz/">What flower are you?</a></li><li><a href="/en/quizzes/what-kind-of-traveller-are-you-quiz/">What kind of traveller are you?</a></li><li><a href="/en/quizzes/which-room-of-the-house-are-you-quiz/">Which room of the house are you?</a></li><li><a href="/en/quizzes/what-should-your-name-have-been-quiz/">What should your name have been?</a></li></ul></div>
+</main>
+<footer class="site"><div class="wrap">
+  <span>Sapiopedia</span><span>·</span><span>Made in Montréal</span><span>·</span><a href="/en/about/">About</a><span>·</span><a href="/en/privacy/">Privacy</a><span>·</span><a href="/en/contact/">Contact</a>
+</div></footer>
+<script src="/assets/common.js"></script>
+</body>
+</html>

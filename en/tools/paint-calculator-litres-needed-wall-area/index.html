@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Paint calculator: how many litres for your walls · Sapiopedia</title>
+<meta name="description" content="Enter the wall area (m² or ft²), coats and coverage to get the litres of paint needed, minus doors and windows.">
+<link rel="canonical" href="https://sapiopedia.com/en/tools/paint-calculator-litres-needed-wall-area/">
+<link rel="alternate" hreflang="en" href="https://sapiopedia.com/en/tools/paint-calculator-litres-needed-wall-area/">
+<link rel="alternate" hreflang="fr" href="https://sapiopedia.com/fr/outils/calculateur-de-peinture-litres-necessaires/">
+<link rel="alternate" hreflang="x-default" href="https://sapiopedia.com/en/tools/paint-calculator-litres-needed-wall-area/">
+<meta property="og:title" content="Paint calculator: how many litres for your walls">
+<meta property="og:description" content="Enter the wall area (m² or ft²), coats and coverage to get the litres of paint needed, minus doors and windows.">
+<meta property="og:url" content="https://sapiopedia.com/en/tools/paint-calculator-litres-needed-wall-area/">
+<meta property="og:type" content="website">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/assets/style.css">
+
+
+</head>
+<body>
+<header class="site"><div class="wrap">
+  <a class="logo" href="/en/">Sapiopedia <svg aria-hidden="true" viewBox="0 0 360 460"><path d="M60 150 C52 66 128 26 196 40 C280 58 292 158 232 206 C198 232 170 246 168 300 L168 332" fill="none" stroke="#B9CFE0" stroke-width="46" stroke-linecap="round" stroke-linejoin="round" transform="translate(-12,8)" opacity="1"/><path d="M60 150 C52 66 128 26 196 40 C280 58 292 158 232 206 C198 232 170 246 168 300 L168 332" fill="none" stroke="#E9A9B8" stroke-width="46" stroke-linecap="round" stroke-linejoin="round" transform="translate(12,-6)" opacity="1"/><path d="M60 150 C52 66 128 26 196 40 C280 58 292 158 232 206 C198 232 170 246 168 300 L168 332" fill="none" stroke="#B8405E" stroke-width="28" stroke-linecap="round" stroke-linejoin="round" transform="translate(0,0)" opacity="1"/><circle cx="156" cy="410" r="30" fill="#B9CFE0" opacity="1"/><circle cx="180" cy="396" r="30" fill="#E9A9B8" opacity="1"/><circle cx="168" cy="402" r="24" fill="#B8405E" opacity="1"/></svg></a>
+  <nav class="main"><a href="/en/quizzes/">Quizzes</a><a href="/en/tools/">Tools</a><a href="/en/meanings/">Meanings</a><a href="/en/names/">Names</a><a href="/en/games/">Games</a><span class="lang"><b>EN</b> / <a href="/fr/outils/calculateur-de-peinture-litres-necessaires/">FR</a></span></nav>
+</div></header>
+<main class="page">
+<h1>Paint calculator: how many litres for your walls</h1><p class="lead">Enter the wall area (m² or ft²), coats and coverage to get the litres of paint needed, minus doors and windows.</p>
+<div class="tool">
+  <div class="row">
+    <div><label for="a">Wall area</label><input id="a" type="number" inputmode="decimal" placeholder="40"></div>
+    <div><label for="u">Unit</label><select id="u"><option value="m2">m²</option><option value="ft2">ft²</option></select></div>
+    <div><label for="o">Doors and windows to subtract</label><input id="o" type="number" inputmode="decimal" placeholder="3.5" value="0"></div>
+    <div><label for="k">Coats</label><input id="k" type="number" inputmode="numeric" min="1" max="5" step="1" value="2"></div>
+  </div>
+  <label for="cv">Coverage (m² per litre)</label><input id="cv" type="number" inputmode="decimal" min="1" step="0.5" value="10">
+  <div class="result" id="r">Enter the wall area to paint.</div>
+</div>
+<p>Litres = (wall area − doors and windows) × number of coats ÷ coverage. Wall area is simply the perimeter of the room multiplied by the height of the walls. A standard door is about 2 m² (20 ft²) and an average window 1.5 m² (16 ft²). Coverage depends on the paint and the surface: 10 m²/L is typical for emulsion on a smooth, primed wall; fresh plaster or textured surfaces absorb more, so check the figure on the tin. The “buy” figure adds 10 % for touch-ups and roller losses, rounded up to the half-litre.</p>
+<p class="small">Default coverage of 10 m² per litre per coat, the usual figure quoted on interior emulsion tins (manufacturers state 8–14 m²/L).</p>
+<script>
+(function(){var H="<b>{l}</b> litres of paint for <b>{a}</b> m² × {c} coats · buy about <b>{buy}</b> L to allow for losses",$=function(i){return document.getElementById(i);},r=$('r');
+function calc(){var a=parseFloat($('a').value),o=parseFloat($('o').value)||0,k=parseInt($('k').value,10)||1,cv=parseFloat($('cv').value)||10;if(isNaN(a))return;
+var f=$('u').value==='ft2'?0.09290304:1,net=Math.max(0,(a-o)*f),l=net*k/cv,buy=Math.ceil(l*1.1*2)/2;
+r.innerHTML=H.replace('{l}',SP.fmt(l,1)).replace('{a}',SP.fmt(net,1)).replace('{c}',k).replace('{buy}',SP.fmt(buy,1));}
+['a','o','k','cv'].forEach(function(i){$(i).addEventListener('input',calc);});$('u').addEventListener('change',calc);})();
+</script><div class="ad">advertisement</div><div class="related"><h2>Related pages</h2><ul><li><a href="/en/tools/flour-cups-to-grams/">Flour: cups to grams converter</a></li><li><a href="/en/tools/birthday-converter-days-weeks-moons/">Birthday converter: days, weeks, months and full moons</a></li><li><a href="/en/tools/butter-cups-tablespoons-grams-sticks-converter/">Butter: cups, tablespoons, grams, sticks converter</a></li><li><a href="/en/tools/sugar-cups-to-grams-converter/">Sugar: cups to grams converter (white, brown, icing)</a></li><li><a href="/en/tools/oven-temperature-converter-fahrenheit-celsius-gas-mark/">Oven temperature converter: °F, °C and gas mark</a></li><li><a href="/en/tools/baby-age-calculator-weeks-months-corrected-age/">Baby age calculator: weeks, months and corrected age</a></li><li><a href="/en/tools/pregnancy-due-date-calculator/">Pregnancy due date calculator (from your last period)</a></li><li><a href="/en/tools/sleep-calculator-bedtime-90-minute-cycles/">Sleep calculator: when to go to bed to wake up refreshed</a></li><li><a href="/en/tools/tip-calculator-bill-split/">Tip and bill split calculator</a></li></ul></div>
+</main>
+<footer class="site"><div class="wrap">
+  <span>Sapiopedia</span><span>·</span><span>Made in Montréal</span><span>·</span><a href="/en/about/">About</a><span>·</span><a href="/en/privacy/">Privacy</a><span>·</span><a href="/en/contact/">Contact</a>
+</div></footer>
+<script src="/assets/common.js"></script>
+</body>
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Butter: cups, tablespoons, grams, sticks converter · Sapiopedia</title>
+<meta name="description" content="Convert butter between cups, tablespoons, grams and US sticks. 1 cup = 227 g, 1 tbsp = 14.2 g, 1 stick = 113 g.">
+<link rel="canonical" href="https://sapiopedia.com/en/tools/butter-cups-tablespoons-grams-sticks-converter/">
+<link rel="alternate" hreflang="en" href="https://sapiopedia.com/en/tools/butter-cups-tablespoons-grams-sticks-converter/">
+<link rel="alternate" hreflang="fr" href="https://sapiopedia.com/fr/outils/beurre-tasses-cuilleres-grammes-batonnets/">
+<link rel="alternate" hreflang="x-default" href="https://sapiopedia.com/en/tools/butter-cups-tablespoons-grams-sticks-converter/">
+<meta property="og:title" content="Butter: cups, tablespoons, grams, sticks converter">
+<meta property="og:description" content="Convert butter between cups, tablespoons, grams and US sticks. 1 cup = 227 g, 1 tbsp = 14.2 g, 1 stick = 113 g.">
+<meta property="og:url" content="https://sapiopedia.com/en/tools/butter-cups-tablespoons-grams-sticks-converter/">
+<meta property="og:type" content="website">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/assets/style.css">
+
+
+</head>
+<body>
+<header class="site"><div class="wrap">
+  <a class="logo" href="/en/">Sapiopedia <svg aria-hidden="true" viewBox="0 0 360 460"><path d="M60 150 C52 66 128 26 196 40 C280 58 292 158 232 206 C198 232 170 246 168 300 L168 332" fill="none" stroke="#B9CFE0" stroke-width="46" stroke-linecap="round" stroke-linejoin="round" transform="translate(-12,8)" opacity="1"/><path d="M60 150 C52 66 128 26 196 40 C280 58 292 158 232 206 C198 232 170 246 168 300 L168 332" fill="none" stroke="#E9A9B8" stroke-width="46" stroke-linecap="round" stroke-linejoin="round" transform="translate(12,-6)" opacity="1"/><path d="M60 150 C52 66 128 26 196 40 C280 58 292 158 232 206 C198 232 170 246 168 300 L168 332" fill="none" stroke="#B8405E" stroke-width="28" stroke-linecap="round" stroke-linejoin="round" transform="translate(0,0)" opacity="1"/><circle cx="156" cy="410" r="30" fill="#B9CFE0" opacity="1"/><circle cx="180" cy="396" r="30" fill="#E9A9B8" opacity="1"/><circle cx="168" cy="402" r="24" fill="#B8405E" opacity="1"/></svg></a>
+  <nav class="main"><a href="/en/quizzes/">Quizzes</a><a href="/en/tools/">Tools</a><a href="/en/meanings/">Meanings</a><a href="/en/names/">Names</a><a href="/en/games/">Games</a><span class="lang"><b>EN</b> / <a href="/fr/outils/beurre-tasses-cuilleres-grammes-batonnets/">FR</a></span></nav>
+</div></header>
+<main class="page">
+<h1>Butter: cups, tablespoons, grams, sticks converter</h1><p class="lead">Convert butter between cups, tablespoons, grams and US sticks. 1 cup = 227 g, 1 tbsp = 14.2 g, 1 stick = 113 g.</p>
+<div class="tool">
+  <div class="row">
+    <div><label for="cups">Cups</label><input id="cups" type="number" inputmode="decimal" placeholder="1"></div>
+    <div><label for="tbsp">Tablespoons</label><input id="tbsp" type="number" inputmode="decimal" placeholder="16"></div>
+    <div><label for="g">Grams</label><input id="g" type="number" inputmode="decimal" placeholder="227"></div>
+    <div><label for="sticks">US sticks</label><input id="sticks" type="number" inputmode="decimal" placeholder="2"></div>
+  </div>
+  <div class="result" id="r">Type an amount in any field; the others fill in.</div>
+</div>
+<p>Butter is dense and barely compressible, so volume-to-weight conversion is more reliable than for flour or sugar. We use the standard figures: 1 US cup = 227 g, 1 tablespoon = 14.2 g, and 1 US stick (½ cup, 8 tablespoons) = 113 g. European butter is sold by weight, usually in 250 g blocks, so 1 cup is just under a full block.</p>
+<p class="small">Assumptions: USDA FoodData Central density for butter (227 g per US cup); US stick = 113 g.</p>
+<script>
+(function(){var H="<b>{cups}</b> cups · <b>{tbsp}</b> tbsp · <b>{g}</b> g · <b>{sticks}</b> sticks",ids=['cups','tbsp','g','sticks'],perG={cups:227,tbsp:14.2,g:1,sticks:113};
+function upd(src){var v=parseFloat(document.getElementById(src).value);if(isNaN(v)||v<0)return;var g=v*perG[src],out={};
+ids.forEach(function(k){out[k]=g/perG[k];if(k!==src)document.getElementById(k).value=Math.round(out[k]*1000)/1000;});
+document.getElementById('r').innerHTML=H.replace('{cups}',SP.fmt(out.cups,2)).replace('{tbsp}',SP.fmt(out.tbsp,1)).replace('{g}',SP.fmt(out.g,0)).replace('{sticks}',SP.fmt(out.sticks,2));}
+ids.forEach(function(k){document.getElementById(k).addEventListener('input',function(){upd(k);});});})();
+</script><div class="ad">advertisement</div><div class="related"><h2>Related pages</h2><ul><li><a href="/en/tools/flour-cups-to-grams/">Flour: cups to grams converter</a></li><li><a href="/en/tools/birthday-converter-days-weeks-moons/">Birthday converter: days, weeks, months and full moons</a></li><li><a href="/en/tools/sugar-cups-to-grams-converter/">Sugar: cups to grams converter (white, brown, icing)</a></li><li><a href="/en/tools/oven-temperature-converter-fahrenheit-celsius-gas-mark/">Oven temperature converter: °F, °C and gas mark</a></li><li><a href="/en/tools/baby-age-calculator-weeks-months-corrected-age/">Baby age calculator: weeks, months and corrected age</a></li><li><a href="/en/tools/pregnancy-due-date-calculator/">Pregnancy due date calculator (from your last period)</a></li><li><a href="/en/tools/sleep-calculator-bedtime-90-minute-cycles/">Sleep calculator: when to go to bed to wake up refreshed</a></li><li><a href="/en/tools/paint-calculator-litres-needed-wall-area/">Paint calculator: how many litres for your walls</a></li><li><a href="/en/tools/tip-calculator-bill-split/">Tip and bill split calculator</a></li></ul></div>
+</main>
+<footer class="site"><div class="wrap">
+  <span>Sapiopedia</span><span>·</span><span>Made in Montréal</span><span>·</span><a href="/en/about/">About</a><span>·</span><a href="/en/privacy/">Privacy</a><span>·</span><a href="/en/contact/">Contact</a>
+</div></footer>
+<script src="/assets/common.js"></script>
+</body>
+</html>

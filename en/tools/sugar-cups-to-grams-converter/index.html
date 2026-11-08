@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sugar: cups to grams converter (white, brown, icing) · Sapiopedia</title>
+<meta name="description" content="Convert cups of granulated, brown or icing sugar to grams and back. 1 cup white sugar = 200 g, brown 220 g, icing 120 g.">
+<link rel="canonical" href="https://sapiopedia.com/en/tools/sugar-cups-to-grams-converter/">
+<link rel="alternate" hreflang="en" href="https://sapiopedia.com/en/tools/sugar-cups-to-grams-converter/">
+<link rel="alternate" hreflang="fr" href="https://sapiopedia.com/fr/outils/sucre-tasses-en-grammes/">
+<link rel="alternate" hreflang="x-default" href="https://sapiopedia.com/en/tools/sugar-cups-to-grams-converter/">
+<meta property="og:title" content="Sugar: cups to grams converter (white, brown, icing)">
+<meta property="og:description" content="Convert cups of granulated, brown or icing sugar to grams and back. 1 cup white sugar = 200 g, brown 220 g, icing 120 g.">
+<meta property="og:url" content="https://sapiopedia.com/en/tools/sugar-cups-to-grams-converter/">
+<meta property="og:type" content="website">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/assets/style.css">
+
+
+</head>
+<body>
+<header class="site"><div class="wrap">
+  <a class="logo" href="/en/">Sapiopedia <svg aria-hidden="true" viewBox="0 0 360 460"><path d="M60 150 C52 66 128 26 196 40 C280 58 292 158 232 206 C198 232 170 246 168 300 L168 332" fill="none" stroke="#B9CFE0" stroke-width="46" stroke-linecap="round" stroke-linejoin="round" transform="translate(-12,8)" opacity="1"/><path d="M60 150 C52 66 128 26 196 40 C280 58 292 158 232 206 C198 232 170 246 168 300 L168 332" fill="none" stroke="#E9A9B8" stroke-width="46" stroke-linecap="round" stroke-linejoin="round" transform="translate(12,-6)" opacity="1"/><path d="M60 150 C52 66 128 26 196 40 C280 58 292 158 232 206 C198 232 170 246 168 300 L168 332" fill="none" stroke="#B8405E" stroke-width="28" stroke-linecap="round" stroke-linejoin="round" transform="translate(0,0)" opacity="1"/><circle cx="156" cy="410" r="30" fill="#B9CFE0" opacity="1"/><circle cx="180" cy="396" r="30" fill="#E9A9B8" opacity="1"/><circle cx="168" cy="402" r="24" fill="#B8405E" opacity="1"/></svg></a>
+  <nav class="main"><a href="/en/quizzes/">Quizzes</a><a href="/en/tools/">Tools</a><a href="/en/meanings/">Meanings</a><a href="/en/names/">Names</a><a href="/en/games/">Games</a><span class="lang"><b>EN</b> / <a href="/fr/outils/sucre-tasses-en-grammes/">FR</a></span></nav>
+</div></header>
+<main class="page">
+<h1>Sugar: cups to grams converter (white, brown, icing)</h1><p class="lead">Convert cups of granulated, brown or icing sugar to grams and back. 1 cup white sugar = 200 g, brown 220 g, icing 120 g.</p>
+<div class="tool">
+  <label for="st">Type of sugar</label><select id="st"><option value="200">Granulated (white) sugar</option><option value="220">Brown sugar, packed</option><option value="120">Icing / powdered sugar</option></select>
+  <div class="row">
+    <div><label for="c">Cups</label><input id="c" type="number" inputmode="decimal" placeholder="1"></div>
+    <div><label for="g">Grams</label><input id="g" type="number" inputmode="decimal" placeholder="200"></div>
+  </div>
+  <div class="result" id="r">Choose a sugar, then type cups or grams.</div>
+</div>
+<p>Sugars differ a lot by volume. Granulated sugar packs tightly and weighs about 200 g per US cup; brown sugar is measured packed in the cup and reaches about 220 g; icing sugar is airy and comes to only about 120 g. Changing the type in the menu recalculates the result instantly.</p>
+<p class="small">Densities from USDA FoodData Central (granulated 200 g, brown packed 220 g, powdered 120 g per US cup).</p>
+<script>
+(function(){var H="<b>{cups}</b> cups = <b>{g}</b> g",st=document.getElementById('st'),c=document.getElementById('c'),g=document.getElementById('g'),r=document.getElementById('r'),last='c';
+function calc(){var d=parseFloat(st.value),cv,gv;
+if(last==='c'){cv=parseFloat(c.value);if(isNaN(cv))return;gv=cv*d;g.value=Math.round(gv);}
+else{gv=parseFloat(g.value);if(isNaN(gv))return;cv=gv/d;c.value=Math.round(cv*100)/100;}
+r.innerHTML=H.replace('{cups}',SP.fmt(cv,2)).replace('{g}',SP.fmt(gv,0));}
+c.addEventListener('input',function(){last='c';calc();});g.addEventListener('input',function(){last='g';calc();});st.addEventListener('change',calc);})();
+</script><div class="ad">advertisement</div><div class="related"><h2>Related pages</h2><ul><li><a href="/en/tools/flour-cups-to-grams/">Flour: cups to grams converter</a></li><li><a href="/en/tools/birthday-converter-days-weeks-moons/">Birthday converter: days, weeks, months and full moons</a></li><li><a href="/en/tools/butter-cups-tablespoons-grams-sticks-converter/">Butter: cups, tablespoons, grams, sticks converter</a></li><li><a href="/en/tools/oven-temperature-converter-fahrenheit-celsius-gas-mark/">Oven temperature converter: °F, °C and gas mark</a></li><li><a href="/en/tools/baby-age-calculator-weeks-months-corrected-age/">Baby age calculator: weeks, months and corrected age</a></li><li><a href="/en/tools/pregnancy-due-date-calculator/">Pregnancy due date calculator (from your last period)</a></li><li><a href="/en/tools/sleep-calculator-bedtime-90-minute-cycles/">Sleep calculator: when to go to bed to wake up refreshed</a></li><li><a href="/en/tools/paint-calculator-litres-needed-wall-area/">Paint calculator: how many litres for your walls</a></li><li><a href="/en/tools/tip-calculator-bill-split/">Tip and bill split calculator</a></li></ul></div>
+</main>
+<footer class="site"><div class="wrap">
+  <span>Sapiopedia</span><span>·</span><span>Made in Montréal</span><span>·</span><a href="/en/about/">About</a><span>·</span><a href="/en/privacy/">Privacy</a><span>·</span><a href="/en/contact/">Contact</a>
+</div></footer>
+<script src="/assets/common.js"></script>
+</body>
+</html>

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>40 two truths and a lie ideas, plus how to play · Sapiopedia</title>
+<meta name="description" content="Stuck for a good lie? 14 themes, 13 truths that sound fake and 13 lies that sound true, with a theme generator and the rules.">
+<link rel="canonical" href="https://sapiopedia.com/en/games/two-truths-and-a-lie-ideas/">
+<link rel="alternate" hreflang="en" href="https://sapiopedia.com/en/games/two-truths-and-a-lie-ideas/">
+<link rel="alternate" hreflang="fr" href="https://sapiopedia.com/fr/jeux/idees-deux-verites-un-mensonge/">
+<link rel="alternate" hreflang="x-default" href="https://sapiopedia.com/en/games/two-truths-and-a-lie-ideas/">
+<meta property="og:title" content="40 two truths and a lie ideas, plus how to play">
+<meta property="og:description" content="Stuck for a good lie? 14 themes, 13 truths that sound fake and 13 lies that sound true, with a theme generator and the rules.">
+<meta property="og:url" content="https://sapiopedia.com/en/games/two-truths-and-a-lie-ideas/">
+<meta property="og:type" content="website">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/assets/style.css">
+
+
+</head>
+<body>
+<header class="site"><div class="wrap">
+  <a class="logo" href="/en/">Sapiopedia <svg aria-hidden="true" viewBox="0 0 360 460"><path d="M60 150 C52 66 128 26 196 40 C280 58 292 158 232 206 C198 232 170 246 168 300 L168 332" fill="none" stroke="#B9CFE0" stroke-width="46" stroke-linecap="round" stroke-linejoin="round" transform="translate(-12,8)" opacity="1"/><path d="M60 150 C52 66 128 26 196 40 C280 58 292 158 232 206 C198 232 170 246 168 300 L168 332" fill="none" stroke="#E9A9B8" stroke-width="46" stroke-linecap="round" stroke-linejoin="round" transform="translate(12,-6)" opacity="1"/><path d="M60 150 C52 66 128 26 196 40 C280 58 292 158 232 206 C198 232 170 246 168 300 L168 332" fill="none" stroke="#B8405E" stroke-width="28" stroke-linecap="round" stroke-linejoin="round" transform="translate(0,0)" opacity="1"/><circle cx="156" cy="410" r="30" fill="#B9CFE0" opacity="1"/><circle cx="180" cy="396" r="30" fill="#E9A9B8" opacity="1"/><circle cx="168" cy="402" r="24" fill="#B8405E" opacity="1"/></svg></a>
+  <nav class="main"><a href="/en/quizzes/">Quizzes</a><a href="/en/tools/">Tools</a><a href="/en/meanings/">Meanings</a><a href="/en/names/">Names</a><a href="/en/games/">Games</a><span class="lang"><b>EN</b> / <a href="/fr/jeux/idees-deux-verites-un-mensonge/">FR</a></span></nav>
+</div></header>
+<main class="page">
+<h1>40 two truths and a lie ideas, plus how to play</h1><p class="lead">Stuck for a good lie? 14 themes, 13 truths that sound fake and 13 lies that sound true, with a theme generator and the rules.</p>
+<p>Two truths and a lie is the ideal first game for a group that does not know each other well: each player says three things about themselves, one of which is false, and the others have to spot it. The hard part is not lying, it is choosing truths strange enough to be doubted. The generator below suggests a theme so nobody freezes when it is their turn.</p>
+<div class="tool" id="game">
+  <div class="row"><button onclick="draw([0])">Suggest a theme</button><button onclick="draw([1, 2])">Random idea</button></div>
+  <div class="result" id="r">Press the button to draw a question.</div>
+  <div class="row" id="acts" style="display:none;margin-top:1rem">
+    <button onclick="again()">Next</button>
+    <button onclick="SP.share(document.title, cur)">Share</button>
+  </div>
+</div>
+<script>
+var G = [["Themes to pick from", ["Childhood: pets, nicknames, school incidents.", "Travel: places, flights, things lost abroad.", "Food: the strangest thing you have eaten, dishes you can cook, allergies.", "Famous people: anyone you have met, seen, or stood next to in a queue.", "Injuries and scars: how you really got them.", "Jobs: your first paycheque, the oddest task you were ever paid for.", "Talents: instruments, languages, party tricks.", "Fears: heights, birds, escalators.", "Collections: what you own far too many of.", "School: awards, detentions, forgotten clubs.", "Technology: your first phone, your longest streak, the game you were best at.", "Family: unusual relatives, surprising ancestors, family legends.", "Sport: teams, medals, spectacular falls.", "Firsts: first concert, first flight, first time abroad."]], ["Truths that sound like lies", ["A celebrity you have actually spoken to, even for ten seconds.", "A skill you learned from a video and now use regularly.", "A time you were on TV, radio or in a newspaper, however briefly.", "A food you have never tasted even though everyone assumes you have.", "A place you have been to that none of your friends have.", "A number that sounds impossible: how many siblings, cousins, moves or pets.", "A record you hold within your family or your group of friends.", "Something you have never done that most adults have (driven a car, seen a famous film).", "A sport or activity you did competitively as a child.", "A coincidence that really happened to you and that nobody believes.", "An item you have kept for over twenty years.", "A language you can say more than ten sentences in.", "The real origin of one of your nicknames."]], ["Lies that sound like truths", ["Give yourself a very ordinary allergy or intolerance.", "Claim a hobby that fits your personality a little too well.", "Invent a middle name nobody has ever heard you use.", "Mention a city you \"lived in for six months\" during a plausible year.", "Say you once met a mildly famous person in a mundane place.", "Add a small, believable injury: a broken toe, a sprained wrist.", "Claim a modest talent: juggling three balls, naming every capital in Europe.", "Say you have a tattoo somewhere nobody can check right now.", "Mention a job you held for \"just one summer\".", "Claim a mundane fear: moths, lifts, balloons.", "Say you have never tried a very common food.", "Give a very specific, slightly boring detail: the exact model of your first car or phone.", "Describe an ordinary pet with one unusual detail: a cat named after a vegetable."]]], pool = [], last = -1, cur = '';
+function draw(ix){
+  pool = [];
+  for (var a = 0; a < ix.length; a++) for (var b = 0; b < G[ix[a]][1].length; b++) pool.push([ix[a], b]);
+  again();
+}
+function again(){
+  if (!pool.length) return;
+  var k = Math.floor(Math.random() * pool.length);
+  if (pool.length > 1 && k === last) k = (k + 1) % pool.length;
+  last = k;
+  var g = G[pool[k][0]], item = g[1][pool[k][1]];
+  cur = g[0] + ' — ' + item;
+  document.getElementById('r').innerHTML = '<span class="small">' + g[0] + '</span><br>' + item;
+  document.getElementById('acts').style.display = 'grid';
+}
+</script>
+<h2>Themes to pick from</h2>
+<ol start="1">
+<li>Childhood: pets, nicknames, school incidents.</li>
+<li>Travel: places, flights, things lost abroad.</li>
+<li>Food: the strangest thing you have eaten, dishes you can cook, allergies.</li>
+<li>Famous people: anyone you have met, seen, or stood next to in a queue.</li>
+<li>Injuries and scars: how you really got them.</li>
+<li>Jobs: your first paycheque, the oddest task you were ever paid for.</li>
+<li>Talents: instruments, languages, party tricks.</li>
+<li>Fears: heights, birds, escalators.</li>
+<li>Collections: what you own far too many of.</li>
+<li>School: awards, detentions, forgotten clubs.</li>
+<li>Technology: your first phone, your longest streak, the game you were best at.</li>
+<li>Family: unusual relatives, surprising ancestors, family legends.</li>
+<li>Sport: teams, medals, spectacular falls.</li>
+<li>Firsts: first concert, first flight, first time abroad.</li>
+</ol>
+<h2>Truths that sound like lies</h2>
+<ol start="15">
+<li>A celebrity you have actually spoken to, even for ten seconds.</li>
+<li>A skill you learned from a video and now use regularly.</li>
+<li>A time you were on TV, radio or in a newspaper, however briefly.</li>
+<li>A food you have never tasted even though everyone assumes you have.</li>
+<li>A place you have been to that none of your friends have.</li>
+<li>A number that sounds impossible: how many siblings, cousins, moves or pets.</li>
+<li>A record you hold within your family or your group of friends.</li>
+<li>Something you have never done that most adults have (driven a car, seen a famous film).</li>
+<li>A sport or activity you did competitively as a child.</li>
+<li>A coincidence that really happened to you and that nobody believes.</li>
+<li>An item you have kept for over twenty years.</li>
+<li>A language you can say more than ten sentences in.</li>
+<li>The real origin of one of your nicknames.</li>
+</ol>
+<h2>Lies that sound like truths</h2>
+<ol start="28">
+<li>Give yourself a very ordinary allergy or intolerance.</li>
+<li>Claim a hobby that fits your personality a little too well.</li>
+<li>Invent a middle name nobody has ever heard you use.</li>
+<li>Mention a city you &quot;lived in for six months&quot; during a plausible year.</li>
+<li>Say you once met a mildly famous person in a mundane place.</li>
+<li>Add a small, believable injury: a broken toe, a sprained wrist.</li>
+<li>Claim a modest talent: juggling three balls, naming every capital in Europe.</li>
+<li>Say you have a tattoo somewhere nobody can check right now.</li>
+<li>Mention a job you held for &quot;just one summer&quot;.</li>
+<li>Claim a mundane fear: moths, lifts, balloons.</li>
+<li>Say you have never tried a very common food.</li>
+<li>Give a very specific, slightly boring detail: the exact model of your first car or phone.</li>
+<li>Describe an ordinary pet with one unusual detail: a cat named after a vegetable.</li>
+</ol>
+<h2>Rules</h2>
+<ul>
+<li>Each player prepares three short statements about themselves: two true, one false. A theme makes this easier.</li>
+<li>Say all three in a neutral voice, in any order. Do not elaborate before the vote.</li>
+<li>The group may ask one clarifying question per statement, then everyone votes for the lie at the same time.</li>
+<li>Reveal the lie. Each player who guessed right scores a point; the speaker scores a point for every wrong guess.</li>
+<li>Play one round per person. In a group of eight, that is about half an hour.</li>
+<li>Tip: the most convincing lies are boring, and the best truths sound made up.</li>
+</ul>
+<div class="ad">advertisement</div><div class="related"><h2>Related pages</h2><ul><li><a href="/en/games/truth-or-dare-questions/">60 truth or dare questions (clean, funny, for adults)</a></li><li><a href="/en/games/would-you-rather-questions/">50 would you rather questions: funny, deep and impossible</a></li><li><a href="/en/games/never-have-i-ever-questions/">50 never have I ever prompts (clean and funny)</a></li><li><a href="/en/games/icebreaker-questions-for-groups/">60 icebreaker questions for groups: work, family and new friends</a></li><li><a href="/en/games/first-date-questions/">50 questions to ask on a first date: light, curious and meaningful</a></li></ul></div>
+</main>
+<footer class="site"><div class="wrap">
+  <span>Sapiopedia</span><span>·</span><span>Made in Montréal</span><span>·</span><a href="/en/about/">About</a><span>·</span><a href="/en/privacy/">Privacy</a><span>·</span><a href="/en/contact/">Contact</a>
+</div></footer>
+<script src="/assets/common.js"></script>
+</body>
+</html>

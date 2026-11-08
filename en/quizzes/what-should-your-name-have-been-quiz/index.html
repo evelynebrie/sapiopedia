@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>What should your name have been? · Sapiopedia</title>
+<meta name="description" content="Juliette, Léo, Nour or Sam? A 60-second quiz that finds the name that truly fits your personality.">
+<link rel="canonical" href="https://sapiopedia.com/en/quizzes/what-should-your-name-have-been-quiz/">
+<link rel="alternate" hreflang="en" href="https://sapiopedia.com/en/quizzes/what-should-your-name-have-been-quiz/">
+<link rel="alternate" hreflang="fr" href="https://sapiopedia.com/fr/quiz/quel-prenom-auriez-vous-du-avoir-quiz/">
+<link rel="alternate" hreflang="x-default" href="https://sapiopedia.com/en/quizzes/what-should-your-name-have-been-quiz/">
+<meta property="og:title" content="What should your name have been?">
+<meta property="og:description" content="Juliette, Léo, Nour or Sam? A 60-second quiz that finds the name that truly fits your personality.">
+<meta property="og:url" content="https://sapiopedia.com/en/quizzes/what-should-your-name-have-been-quiz/">
+<meta property="og:type" content="website">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/assets/style.css">
+
+
+</head>
+<body>
+<header class="site"><div class="wrap">
+  <a class="logo" href="/en/">Sapiopedia <svg aria-hidden="true" viewBox="0 0 360 460"><path d="M60 150 C52 66 128 26 196 40 C280 58 292 158 232 206 C198 232 170 246 168 300 L168 332" fill="none" stroke="#B9CFE0" stroke-width="46" stroke-linecap="round" stroke-linejoin="round" transform="translate(-12,8)" opacity="1"/><path d="M60 150 C52 66 128 26 196 40 C280 58 292 158 232 206 C198 232 170 246 168 300 L168 332" fill="none" stroke="#E9A9B8" stroke-width="46" stroke-linecap="round" stroke-linejoin="round" transform="translate(12,-6)" opacity="1"/><path d="M60 150 C52 66 128 26 196 40 C280 58 292 158 232 206 C198 232 170 246 168 300 L168 332" fill="none" stroke="#B8405E" stroke-width="28" stroke-linecap="round" stroke-linejoin="round" transform="translate(0,0)" opacity="1"/><circle cx="156" cy="410" r="30" fill="#B9CFE0" opacity="1"/><circle cx="180" cy="396" r="30" fill="#E9A9B8" opacity="1"/><circle cx="168" cy="402" r="24" fill="#B8405E" opacity="1"/></svg></a>
+  <nav class="main"><a href="/en/quizzes/">Quizzes</a><a href="/en/tools/">Tools</a><a href="/en/meanings/">Meanings</a><a href="/en/names/">Names</a><a href="/en/games/">Games</a><span class="lang"><b>EN</b> / <a href="/fr/quiz/quel-prenom-auriez-vous-du-avoir-quiz/">FR</a></span></nav>
+</div></header>
+<main class="page">
+<h1>What should your name have been?</h1><p class="lead">Juliette, Léo, Nour or Sam? A 60-second quiz that finds the name that truly fits your personality.</p>
+<div class="tool" id="quiz">
+  <div id="qbox"><button onclick="startQ()">Start</button></div>
+  <div id="res" style="display:none">
+    <div class="result" id="rtitle"></div>
+    <p id="rtext"></p>
+    <img id="rimg" alt="" style="width:100%;max-width:420px;border-radius:12px;display:block;margin:1rem auto">
+    <div class="row">
+      <button onclick="SP.share(document.title, document.getElementById('rtitle').textContent)">Share</button>
+      <button onclick="SP.download(document.getElementById('rimg').src,'sapiopedia-what-should-your-name-have-been-quiz.png')">Download image</button>
+    </div>
+    <p class="small"><a href="#" onclick="startQ();return false">Try again</a></p>
+  </div>
+</div>
+<script>
+var Q = [["Your handwriting is…", ["Loopy and expressive", "Fast and slightly messy", "Clean and even", "Small and practical"]], ["Your ideal city:", ["Paris at dusk", "Lisbon in the sun", "Marrakech at the market", "Any city with a good bike lane"]], ["How do you dress for a first date?", ["Something with a bit of drama", "Whatever makes you laugh in the mirror", "Something soft and well cut", "Exactly what you wore to work"]], ["Your love language:", ["Handwritten notes", "Surprise adventures", "Long, patient listening", "Fixing things before you're asked"]], ["Your favourite hour:", ["Golden hour", "Lunchtime", "Dawn", "Whenever the work is done"]], ["Your friends describe you as…", ["Romantic", "Sunny", "Serene", "Solid"]], ["Pick an instrument:", ["Cello", "Trumpet", "Oud", "Acoustic guitar"]]], R = [["Juliette", "#6E4A78", "Poetic, intense and a little old-fashioned in the best way. You feel everything deeply and make ordinary moments cinematic."], ["Léo", "#D9915F", "Bright, bold and endlessly likeable. You walk in with a grin and leave with three new friends."], ["Nour", "#6C8C66", "Nour means light, and that is exactly what you bring: calm, clarity and a quiet warmth people lean toward."], ["Sam", "#B8405E", "Easygoing, dependable and genuinely good company. No fuss, no drama, just someone everyone is glad to have around."]], K = "Your name should have been", i = 0, score = [0,0,0,0];
+function startQ(){ i = 0; score = [0,0,0,0]; document.getElementById('res').style.display='none'; document.getElementById('qbox').style.display='block'; show(); }
+function show(){
+  var q = Q[i], h = '<p class="small">Question ' + (i+1) + ' of ' + Q.length + '</p><h2 style="margin-top:.2rem">' + q[0] + '</h2>';
+  for (var k = 0; k < 4; k++) h += '<button style="margin-top:.5rem" onclick="pick(' + k + ')">' + q[1][k] + '</button>';
+  document.getElementById('qbox').innerHTML = h; window.scrollTo({top: document.getElementById('quiz').offsetTop - 20, behavior: 'smooth'});
+}
+function pick(k){ score[k]++; i++; if (i < Q.length) show(); else finish(); }
+function finish(){
+  var best = score.indexOf(Math.max.apply(null, score)), r = R[best];
+  document.getElementById('qbox').style.display='none'; document.getElementById('res').style.display='block';
+  document.getElementById('rtitle').innerHTML = K + ' <b>' + r[0] + '</b>';
+  document.getElementById('rtext').textContent = r[2];
+  document.getElementById('rimg').src = SP.resultCard({color: r[1], kicker: K, title: r[0], subtitle: r[2]});
+}
+</script><div class="ad">advertisement</div><div class="related"><h2>Related pages</h2><ul><li><a href="/en/quizzes/what-colour-is-your-personality/">What colour is your personality?</a></li><li><a href="/en/quizzes/what-is-your-mental-age-quiz/">What is your mental age?</a></li><li><a href="/en/quizzes/which-country-matches-your-personality-quiz/">Which country matches your personality?</a></li><li><a href="/en/quizzes/what-animal-are-you-quiz/">What animal are you?</a></li><li><a href="/en/quizzes/introvert-extrovert-or-ambivert-quiz/">Introvert, extrovert or ambivert?</a></li><li><a href="/en/quizzes/what-season-are-you-quiz/">What season are you?</a></li><li><a href="/en/quizzes/what-flower-are-you-quiz/">What flower are you?</a></li><li><a href="/en/quizzes/what-kind-of-traveller-are-you-quiz/">What kind of traveller are you?</a></li><li><a href="/en/quizzes/which-room-of-the-house-are-you-quiz/">Which room of the house are you?</a></li></ul></div>
+</main>
+<footer class="site"><div class="wrap">
+  <span>Sapiopedia</span><span>·</span><span>Made in Montréal</span><span>·</span><a href="/en/about/">About</a><span>·</span><a href="/en/privacy/">Privacy</a><span>·</span><a href="/en/contact/">Contact</a>
+</div></footer>
+<script src="/assets/common.js"></script>
+</body>
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Quel pays vous ressemble ? · Sapiopedia</title>
+<meta name="description" content="Japon, Italie, Canada ou Brésil ? Un quiz de personnalité de 60 secondes pour trouver le pays qui vous ressemble.">
+<link rel="canonical" href="https://sapiopedia.com/fr/quiz/quel-pays-vous-ressemble-quiz/">
+<link rel="alternate" hreflang="fr" href="https://sapiopedia.com/fr/quiz/quel-pays-vous-ressemble-quiz/">
+<link rel="alternate" hreflang="en" href="https://sapiopedia.com/en/quizzes/which-country-matches-your-personality-quiz/">
+<link rel="alternate" hreflang="x-default" href="https://sapiopedia.com/en/quizzes/which-country-matches-your-personality-quiz/">
+<meta property="og:title" content="Quel pays vous ressemble ?">
+<meta property="og:description" content="Japon, Italie, Canada ou Brésil ? Un quiz de personnalité de 60 secondes pour trouver le pays qui vous ressemble.">
+<meta property="og:url" content="https://sapiopedia.com/fr/quiz/quel-pays-vous-ressemble-quiz/">
+<meta property="og:type" content="website">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/assets/style.css">
+
+
+</head>
+<body>
+<header class="site"><div class="wrap">
+  <a class="logo" href="/fr/">Sapiopedia <svg aria-hidden="true" viewBox="0 0 360 460"><path d="M60 150 C52 66 128 26 196 40 C280 58 292 158 232 206 C198 232 170 246 168 300 L168 332" fill="none" stroke="#B9CFE0" stroke-width="46" stroke-linecap="round" stroke-linejoin="round" transform="translate(-12,8)" opacity="1"/><path d="M60 150 C52 66 128 26 196 40 C280 58 292 158 232 206 C198 232 170 246 168 300 L168 332" fill="none" stroke="#E9A9B8" stroke-width="46" stroke-linecap="round" stroke-linejoin="round" transform="translate(12,-6)" opacity="1"/><path d="M60 150 C52 66 128 26 196 40 C280 58 292 158 232 206 C198 232 170 246 168 300 L168 332" fill="none" stroke="#B8405E" stroke-width="28" stroke-linecap="round" stroke-linejoin="round" transform="translate(0,0)" opacity="1"/><circle cx="156" cy="410" r="30" fill="#B9CFE0" opacity="1"/><circle cx="180" cy="396" r="30" fill="#E9A9B8" opacity="1"/><circle cx="168" cy="402" r="24" fill="#B8405E" opacity="1"/></svg></a>
+  <nav class="main"><a href="/fr/quiz/">Quiz</a><a href="/fr/outils/">Outils</a><a href="/fr/significations/">Significations</a><a href="/fr/prenoms/">Prénoms</a><a href="/fr/jeux/">Jeux</a><span class="lang"><b>FR</b> / <a href="/en/quizzes/which-country-matches-your-personality-quiz/">EN</a></span></nav>
+</div></header>
+<main class="page">
+<h1>Quel pays vous ressemble ?</h1><p class="lead">Japon, Italie, Canada ou Brésil ? Un quiz de personnalité de 60 secondes pour trouver le pays qui vous ressemble.</p>
+<div class="tool" id="quiz">
+  <div id="qbox"><button onclick="startQ()">Commencer</button></div>
+  <div id="res" style="display:none">
+    <div class="result" id="rtitle"></div>
+    <p id="rtext"></p>
+    <img id="rimg" alt="" style="width:100%;max-width:420px;border-radius:12px;display:block;margin:1rem auto">
+    <div class="row">
+      <button onclick="SP.share(document.title, document.getElementById('rtitle').textContent)">Partager</button>
+      <button onclick="SP.download(document.getElementById('rimg').src,'sapiopedia-which-country-matches-your-personality-quiz.png')">Télécharger l'image</button>
+    </div>
+    <p class="small"><a href="#" onclick="startQ();return false">Recommencer</a></p>
+  </div>
+</div>
+<script>
+var Q = [["Votre matin parfait commence par…", ["Le calme, l'ordre et un thé préparé avec soin", "Un expresso au comptoir et une conversation", "L'air frais et une vue sur l'eau", "De la musique, du soleil et un réveil tardif"]], ["Comment gérez-vous un désaccord ?", ["Calmement, en respectant la position de chacun", "Fort, chaleureusement, et c'est réglé en dix minutes", "Vous vous excusez d'abord, puis vous en discutez", "Vous en riez et vous passez à autre chose ensemble"]], ["On pourrait décrire votre style comme…", ["Minimaliste et réfléchi", "Élégant sans effort", "Pratique, avec un bon manteau", "Coloré et décontracté"]], ["Le meilleur repas est…", ["Petit, beau et de saison", "Long, bruyant et fait maison", "Copieux, partagé autour d'un feu", "Grillé, généreux et mangé dehors"]], ["Ce qui compte le plus chez un ami ?", ["La loyauté et la discrétion", "La passion et la franchise", "La gentillesse et la fiabilité", "La joie et la spontanéité"]], ["Votre paysage idéal :", ["Un jardin de temple dans la brume", "Une colline d'oliviers", "Un lac entouré de forêt", "Une plage qui ne finit jamais"]], ["Comment célébrez-vous une bonne nouvelle ?", ["Un moment de gratitude en silence", "Un appel à toute la famille", "Un verre avec vos proches", "En dansant, évidemment"]]], R = [["Le Japon", "#6C8C66", "Réfléchi, précis et d'une profondeur discrète. Vous voyez la beauté dans des détails que la plupart des gens ignorent."], ["L'Italie", "#B8405E", "Vous vivez avec tout votre cœur : la table, la famille, les discussions animées. Autour de vous, la vie n'est jamais fade."], ["Le Canada", "#2E5F6E", "Gentil, posé et vraiment fiable. Les gens se sentent en sécurité avec vous, et vous êtes au mieux en plein air."], ["Le Brésil", "#6E4A78", "Chaleureux, rythmé et impossible à côtoyer sans sourire. Vous transformez les jours ordinaires en fêtes."]], K = "Votre pays est", i = 0, score = [0,0,0,0];
+function startQ(){ i = 0; score = [0,0,0,0]; document.getElementById('res').style.display='none'; document.getElementById('qbox').style.display='block'; show(); }
+function show(){
+  var q = Q[i], h = '<p class="small">Question ' + (i+1) + ' sur ' + Q.length + '</p><h2 style="margin-top:.2rem">' + q[0] + '</h2>';
+  for (var k = 0; k < 4; k++) h += '<button style="margin-top:.5rem" onclick="pick(' + k + ')">' + q[1][k] + '</button>';
+  document.getElementById('qbox').innerHTML = h; window.scrollTo({top: document.getElementById('quiz').offsetTop - 20, behavior: 'smooth'});
+}
+function pick(k){ score[k]++; i++; if (i < Q.length) show(); else finish(); }
+function finish(){
+  var best = score.indexOf(Math.max.apply(null, score)), r = R[best];
+  document.getElementById('qbox').style.display='none'; document.getElementById('res').style.display='block';
+  document.getElementById('rtitle').innerHTML = K + ' <b>' + r[0] + '</b>';
+  document.getElementById('rtext').textContent = r[2];
+  document.getElementById('rimg').src = SP.resultCard({color: r[1], kicker: K, title: r[0], subtitle: r[2]});
+}
+</script><div class="ad">publicité</div><div class="related"><h2>Pages liées</h2><ul><li><a href="/fr/quiz/quelle-couleur-est-votre-personnalite/">Quelle couleur est votre personnalité ?</a></li><li><a href="/fr/quiz/quel-est-votre-age-mental-quiz/">Quel est votre âge mental ?</a></li><li><a href="/fr/quiz/quel-animal-etes-vous-quiz/">Quel animal êtes-vous ?</a></li><li><a href="/fr/quiz/introverti-extraverti-ou-ambiverti-quiz/">Introverti, extraverti ou ambiverti ?</a></li><li><a href="/fr/quiz/quelle-saison-etes-vous-quiz/">Quelle saison êtes-vous ?</a></li><li><a href="/fr/quiz/quelle-fleur-etes-vous-quiz/">Quelle fleur êtes-vous ?</a></li><li><a href="/fr/quiz/quel-type-de-voyageur-etes-vous-quiz/">Quel type de voyageur êtes-vous ?</a></li><li><a href="/fr/quiz/quelle-piece-de-la-maison-etes-vous-quiz/">Quelle pièce de la maison êtes-vous ?</a></li><li><a href="/fr/quiz/quel-prenom-auriez-vous-du-avoir-quiz/">Quel prénom auriez-vous dû avoir ?</a></li></ul></div>
+</main>
+<footer class="site"><div class="wrap">
+  <span>Sapiopedia</span><span>·</span><span>Créé à Montréal</span><span>·</span><a href="/fr/a-propos/">À propos</a><span>·</span><a href="/fr/confidentialite/">Confidentialité</a><span>·</span><a href="/fr/contact/">Contact</a>
+</div></footer>
+<script src="/assets/common.js"></script>
+</body>
+</html>

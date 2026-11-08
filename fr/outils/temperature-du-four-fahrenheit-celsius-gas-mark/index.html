@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Température du four : convertir °F, °C et gas mark · Sapiopedia</title>
+<meta name="description" content="Convertissez les températures de four entre Fahrenheit, Celsius et gas mark britannique, avec une table de référence.">
+<link rel="canonical" href="https://sapiopedia.com/fr/outils/temperature-du-four-fahrenheit-celsius-gas-mark/">
+<link rel="alternate" hreflang="fr" href="https://sapiopedia.com/fr/outils/temperature-du-four-fahrenheit-celsius-gas-mark/">
+<link rel="alternate" hreflang="en" href="https://sapiopedia.com/en/tools/oven-temperature-converter-fahrenheit-celsius-gas-mark/">
+<link rel="alternate" hreflang="x-default" href="https://sapiopedia.com/en/tools/oven-temperature-converter-fahrenheit-celsius-gas-mark/">
+<meta property="og:title" content="Température du four : convertir °F, °C et gas mark">
+<meta property="og:description" content="Convertissez les températures de four entre Fahrenheit, Celsius et gas mark britannique, avec une table de référence.">
+<meta property="og:url" content="https://sapiopedia.com/fr/outils/temperature-du-four-fahrenheit-celsius-gas-mark/">
+<meta property="og:type" content="website">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/assets/style.css">
+
+
+</head>
+<body>
+<header class="site"><div class="wrap">
+  <a class="logo" href="/fr/">Sapiopedia <svg aria-hidden="true" viewBox="0 0 360 460"><path d="M60 150 C52 66 128 26 196 40 C280 58 292 158 232 206 C198 232 170 246 168 300 L168 332" fill="none" stroke="#B9CFE0" stroke-width="46" stroke-linecap="round" stroke-linejoin="round" transform="translate(-12,8)" opacity="1"/><path d="M60 150 C52 66 128 26 196 40 C280 58 292 158 232 206 C198 232 170 246 168 300 L168 332" fill="none" stroke="#E9A9B8" stroke-width="46" stroke-linecap="round" stroke-linejoin="round" transform="translate(12,-6)" opacity="1"/><path d="M60 150 C52 66 128 26 196 40 C280 58 292 158 232 206 C198 232 170 246 168 300 L168 332" fill="none" stroke="#B8405E" stroke-width="28" stroke-linecap="round" stroke-linejoin="round" transform="translate(0,0)" opacity="1"/><circle cx="156" cy="410" r="30" fill="#B9CFE0" opacity="1"/><circle cx="180" cy="396" r="30" fill="#E9A9B8" opacity="1"/><circle cx="168" cy="402" r="24" fill="#B8405E" opacity="1"/></svg></a>
+  <nav class="main"><a href="/fr/quiz/">Quiz</a><a href="/fr/outils/">Outils</a><a href="/fr/significations/">Significations</a><a href="/fr/prenoms/">Prénoms</a><a href="/fr/jeux/">Jeux</a><span class="lang"><b>FR</b> / <a href="/en/tools/oven-temperature-converter-fahrenheit-celsius-gas-mark/">EN</a></span></nav>
+</div></header>
+<main class="page">
+<h1>Température du four : convertir °F, °C et gas mark</h1><p class="lead">Convertissez les températures de four entre Fahrenheit, Celsius et gas mark britannique, avec une table de référence.</p>
+<div class="tool">
+  <div class="row">
+    <div><label for="f">Fahrenheit (°F)</label><input id="f" type="number" inputmode="decimal" placeholder="350"></div>
+    <div><label for="c">Celsius (°C)</label><input id="c" type="number" inputmode="decimal" placeholder="180"></div>
+  </div>
+  <label for="gas">Thermostat britannique (gas mark)</label><input id="gas" type="number" inputmode="decimal" min="0.25" max="9" step="0.25" placeholder="4">
+  <div class="result" id="r">Entrez une température en °F ou en °C, ou un repère gas mark.</div>
+</div>
+<p>La conversion applique la formule exacte °C = (°F − 32) × 5⁄9, arrondie au degré. Le « gas mark » est une échelle britannique sans formule : chaque repère correspond à une température conventionnelle, nous affichons donc le repère le plus proche. Les recettes arrondissent de toute façon : 350 °F se lit 180 °C, et non 177 °C. Pour un four à chaleur tournante, la plupart des fabricants conseillent de baisser d'environ 20 °C (25 °F). À noter : le thermostat français (1 à 10) est une autre échelle, où chaque cran vaut 30 °C.</p>
+<table style="width:100%;border-collapse:collapse;margin:1rem 0 1.5rem;font-size:.95rem"><thead><tr><th style="text-align:left">Gas mark</th><th style="text-align:left">°F</th><th style="text-align:left">°C</th><th style="text-align:left">Description</th></tr></thead><tbody><tr><td>¼</td><td>225</td><td>110</td><td>très doux</td></tr><tr><td>½</td><td>250</td><td>120</td><td>très doux</td></tr><tr><td>1</td><td>275</td><td>140</td><td>doux</td></tr><tr><td>2</td><td>300</td><td>150</td><td>doux</td></tr><tr><td>3</td><td>325</td><td>170</td><td>assez doux</td></tr><tr><td>4</td><td>350</td><td>180</td><td>moyen</td></tr><tr><td>5</td><td>375</td><td>190</td><td>assez chaud</td></tr><tr><td>6</td><td>400</td><td>200</td><td>chaud</td></tr><tr><td>7</td><td>425</td><td>220</td><td>chaud</td></tr><tr><td>8</td><td>450</td><td>230</td><td>très chaud</td></tr><tr><td>9</td><td>475</td><td>240</td><td>très chaud</td></tr></tbody></table>
+<p class="small">Table des gas marks d'après les ouvrages de cuisine britanniques de référence (repère 4 = 350 °F = 180 °C).</p>
+<script>
+(function(){var H="<b>{f}</b> °F = <b>{c}</b> °C · gas mark <b>{gas}</b>",G=[[0.25, 225, 110], [0.5, 250, 120], [1, 275, 140], [2, 300, 150], [3, 325, 170], [4, 350, 180], [5, 375, 190], [6, 400, 200], [7, 425, 220], [8, 450, 230], [9, 475, 240]];
+var f=document.getElementById('f'),c=document.getElementById('c'),gas=document.getElementById('gas'),r=document.getElementById('r');
+function gasLabel(m){return m===0.25?'¼':m===0.5?'½':String(m);}
+function nearestGas(cel){var best=G[0];G.forEach(function(x){if(Math.abs(x[2]-cel)<Math.abs(best[2]-cel))best=x;});return best;}
+function show(fv,cv){var gm=nearestGas(cv);var lbl=gasLabel(gm[0]);if(cv<100)lbl='— ('+(document.documentElement.lang==='fr'?'trop bas':'too low')+')';if(cv>250)lbl='9+';
+r.innerHTML=H.replace('{f}',SP.fmt(Math.round(fv),0)).replace('{c}',SP.fmt(Math.round(cv),0)).replace('{gas}',lbl);}
+f.addEventListener('input',function(){var v=parseFloat(f.value);if(isNaN(v))return;var cv=(v-32)*5/9;c.value=Math.round(cv);gas.value=nearestGas(cv)[0];show(v,cv);});
+c.addEventListener('input',function(){var v=parseFloat(c.value);if(isNaN(v))return;var fv=v*9/5+32;f.value=Math.round(fv);gas.value=nearestGas(v)[0];show(fv,v);});
+gas.addEventListener('input',function(){var v=parseFloat(gas.value);if(isNaN(v))return;var m=null;G.forEach(function(x){if(x[0]===v)m=x;});if(!m)return;f.value=m[1];c.value=m[2];show(m[1],m[2]);});})();
+</script><div class="ad">publicité</div><div class="related"><h2>Pages liées</h2><ul><li><a href="/fr/outils/farine-tasses-en-grammes/">Farine : convertir les tasses en grammes</a></li><li><a href="/fr/outils/convertisseur-de-naissance-jours-semaines-lunes/">Convertisseur de naissance : jours, semaines, mois et pleines lunes</a></li><li><a href="/fr/outils/beurre-tasses-cuilleres-grammes-batonnets/">Beurre : tasses, cuillères, grammes et bâtonnets</a></li><li><a href="/fr/outils/sucre-tasses-en-grammes/">Sucre : convertir les tasses en grammes (blanc, cassonade, glace)</a></li><li><a href="/fr/outils/age-de-bebe-semaines-mois-age-corrige/">Âge de bébé en semaines et en mois, avec âge corrigé</a></li><li><a href="/fr/outils/date-prevue-d-accouchement-calculateur/">Date prévue d&#x27;accouchement : calculateur à partir des dernières règles</a></li><li><a href="/fr/outils/calculateur-de-sommeil-heure-du-coucher/">Calculateur de sommeil : à quelle heure se coucher</a></li><li><a href="/fr/outils/calculateur-de-peinture-litres-necessaires/">Calculateur de peinture : combien de litres pour vos murs</a></li><li><a href="/fr/outils/calculateur-de-pourboire-partage-addition/">Calculateur de pourboire et partage de l&#x27;addition</a></li></ul></div>
+</main>
+<footer class="site"><div class="wrap">
+  <span>Sapiopedia</span><span>·</span><span>Créé à Montréal</span><span>·</span><a href="/fr/a-propos/">À propos</a><span>·</span><a href="/fr/confidentialite/">Confidentialité</a><span>·</span><a href="/fr/contact/">Contact</a>
+</div></footer>
+<script src="/assets/common.js"></script>
+</body>
+</html>

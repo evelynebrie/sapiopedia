@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Oven temperature converter: °F, °C and gas mark · Sapiopedia</title>
+<meta name="description" content="Convert oven temperatures between Fahrenheit, Celsius and British gas marks, with a full reference table.">
+<link rel="canonical" href="https://sapiopedia.com/en/tools/oven-temperature-converter-fahrenheit-celsius-gas-mark/">
+<link rel="alternate" hreflang="en" href="https://sapiopedia.com/en/tools/oven-temperature-converter-fahrenheit-celsius-gas-mark/">
+<link rel="alternate" hreflang="fr" href="https://sapiopedia.com/fr/outils/temperature-du-four-fahrenheit-celsius-gas-mark/">
+<link rel="alternate" hreflang="x-default" href="https://sapiopedia.com/en/tools/oven-temperature-converter-fahrenheit-celsius-gas-mark/">
+<meta property="og:title" content="Oven temperature converter: °F, °C and gas mark">
+<meta property="og:description" content="Convert oven temperatures between Fahrenheit, Celsius and British gas marks, with a full reference table.">
+<meta property="og:url" content="https://sapiopedia.com/en/tools/oven-temperature-converter-fahrenheit-celsius-gas-mark/">
+<meta property="og:type" content="website">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/assets/style.css">
+
+
+</head>
+<body>
+<header class="site"><div class="wrap">
+  <a class="logo" href="/en/">Sapiopedia <svg aria-hidden="true" viewBox="0 0 360 460"><path d="M60 150 C52 66 128 26 196 40 C280 58 292 158 232 206 C198 232 170 246 168 300 L168 332" fill="none" stroke="#B9CFE0" stroke-width="46" stroke-linecap="round" stroke-linejoin="round" transform="translate(-12,8)" opacity="1"/><path d="M60 150 C52 66 128 26 196 40 C280 58 292 158 232 206 C198 232 170 246 168 300 L168 332" fill="none" stroke="#E9A9B8" stroke-width="46" stroke-linecap="round" stroke-linejoin="round" transform="translate(12,-6)" opacity="1"/><path d="M60 150 C52 66 128 26 196 40 C280 58 292 158 232 206 C198 232 170 246 168 300 L168 332" fill="none" stroke="#B8405E" stroke-width="28" stroke-linecap="round" stroke-linejoin="round" transform="translate(0,0)" opacity="1"/><circle cx="156" cy="410" r="30" fill="#B9CFE0" opacity="1"/><circle cx="180" cy="396" r="30" fill="#E9A9B8" opacity="1"/><circle cx="168" cy="402" r="24" fill="#B8405E" opacity="1"/></svg></a>
+  <nav class="main"><a href="/en/quizzes/">Quizzes</a><a href="/en/tools/">Tools</a><a href="/en/meanings/">Meanings</a><a href="/en/names/">Names</a><a href="/en/games/">Games</a><span class="lang"><b>EN</b> / <a href="/fr/outils/temperature-du-four-fahrenheit-celsius-gas-mark/">FR</a></span></nav>
+</div></header>
+<main class="page">
+<h1>Oven temperature converter: °F, °C and gas mark</h1><p class="lead">Convert oven temperatures between Fahrenheit, Celsius and British gas marks, with a full reference table.</p>
+<div class="tool">
+  <div class="row">
+    <div><label for="f">Fahrenheit (°F)</label><input id="f" type="number" inputmode="decimal" placeholder="350"></div>
+    <div><label for="c">Celsius (°C)</label><input id="c" type="number" inputmode="decimal" placeholder="180"></div>
+  </div>
+  <label for="gas">Gas mark</label><input id="gas" type="number" inputmode="decimal" min="0.25" max="9" step="0.25" placeholder="4">
+  <div class="result" id="r">Type a temperature in °F or °C, or a gas mark.</div>
+</div>
+<p>The conversion is the exact formula °C = (°F − 32) × 5⁄9, rounded to the nearest degree. Gas marks are a British scale with no formula behind it: each mark corresponds to a conventional temperature, so we show the nearest mark. Recipes usually round oven temperatures anyway: 350 °F is quoted as 180 °C, not 177 °C. For a fan (convection) oven, most manufacturers suggest lowering the temperature by about 20 °C (25 °F).</p>
+<table style="width:100%;border-collapse:collapse;margin:1rem 0 1.5rem;font-size:.95rem"><thead><tr><th style="text-align:left">Gas mark</th><th style="text-align:left">°F</th><th style="text-align:left">°C</th><th style="text-align:left">Description</th></tr></thead><tbody><tr><td>¼</td><td>225</td><td>110</td><td>very slow</td></tr><tr><td>½</td><td>250</td><td>120</td><td>very slow</td></tr><tr><td>1</td><td>275</td><td>140</td><td>slow</td></tr><tr><td>2</td><td>300</td><td>150</td><td>slow</td></tr><tr><td>3</td><td>325</td><td>170</td><td>moderately slow</td></tr><tr><td>4</td><td>350</td><td>180</td><td>moderate</td></tr><tr><td>5</td><td>375</td><td>190</td><td>moderately hot</td></tr><tr><td>6</td><td>400</td><td>200</td><td>hot</td></tr><tr><td>7</td><td>425</td><td>220</td><td>hot</td></tr><tr><td>8</td><td>450</td><td>230</td><td>very hot</td></tr><tr><td>9</td><td>475</td><td>240</td><td>very hot</td></tr></tbody></table>
+<p class="small">Gas mark table as published in standard British cookery references (mark 4 = 350 °F = 180 °C).</p>
+<script>
+(function(){var H="<b>{f}</b> °F = <b>{c}</b> °C · gas mark <b>{gas}</b>",G=[[0.25, 225, 110], [0.5, 250, 120], [1, 275, 140], [2, 300, 150], [3, 325, 170], [4, 350, 180], [5, 375, 190], [6, 400, 200], [7, 425, 220], [8, 450, 230], [9, 475, 240]];
+var f=document.getElementById('f'),c=document.getElementById('c'),gas=document.getElementById('gas'),r=document.getElementById('r');
+function gasLabel(m){return m===0.25?'¼':m===0.5?'½':String(m);}
+function nearestGas(cel){var best=G[0];G.forEach(function(x){if(Math.abs(x[2]-cel)<Math.abs(best[2]-cel))best=x;});return best;}
+function show(fv,cv){var gm=nearestGas(cv);var lbl=gasLabel(gm[0]);if(cv<100)lbl='— ('+(document.documentElement.lang==='fr'?'trop bas':'too low')+')';if(cv>250)lbl='9+';
+r.innerHTML=H.replace('{f}',SP.fmt(Math.round(fv),0)).replace('{c}',SP.fmt(Math.round(cv),0)).replace('{gas}',lbl);}
+f.addEventListener('input',function(){var v=parseFloat(f.value);if(isNaN(v))return;var cv=(v-32)*5/9;c.value=Math.round(cv);gas.value=nearestGas(cv)[0];show(v,cv);});
+c.addEventListener('input',function(){var v=parseFloat(c.value);if(isNaN(v))return;var fv=v*9/5+32;f.value=Math.round(fv);gas.value=nearestGas(v)[0];show(fv,v);});
+gas.addEventListener('input',function(){var v=parseFloat(gas.value);if(isNaN(v))return;var m=null;G.forEach(function(x){if(x[0]===v)m=x;});if(!m)return;f.value=m[1];c.value=m[2];show(m[1],m[2]);});})();
+</script><div class="ad">advertisement</div><div class="related"><h2>Related pages</h2><ul><li><a href="/en/tools/flour-cups-to-grams/">Flour: cups to grams converter</a></li><li><a href="/en/tools/birthday-converter-days-weeks-moons/">Birthday converter: days, weeks, months and full moons</a></li><li><a href="/en/tools/butter-cups-tablespoons-grams-sticks-converter/">Butter: cups, tablespoons, grams, sticks converter</a></li><li><a href="/en/tools/sugar-cups-to-grams-converter/">Sugar: cups to grams converter (white, brown, icing)</a></li><li><a href="/en/tools/baby-age-calculator-weeks-months-corrected-age/">Baby age calculator: weeks, months and corrected age</a></li><li><a href="/en/tools/pregnancy-due-date-calculator/">Pregnancy due date calculator (from your last period)</a></li><li><a href="/en/tools/sleep-calculator-bedtime-90-minute-cycles/">Sleep calculator: when to go to bed to wake up refreshed</a></li><li><a href="/en/tools/paint-calculator-litres-needed-wall-area/">Paint calculator: how many litres for your walls</a></li><li><a href="/en/tools/tip-calculator-bill-split/">Tip and bill split calculator</a></li></ul></div>
+</main>
+<footer class="site"><div class="wrap">
+  <span>Sapiopedia</span><span>·</span><span>Made in Montréal</span><span>·</span><a href="/en/about/">About</a><span>·</span><a href="/en/privacy/">Privacy</a><span>·</span><a href="/en/contact/">Contact</a>
+</div></footer>
+<script src="/assets/common.js"></script>
+</body>
+</html>

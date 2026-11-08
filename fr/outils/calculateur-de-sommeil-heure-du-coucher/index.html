@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Calculateur de sommeil : à quelle heure se coucher · Sapiopedia</title>
+<meta name="description" content="Choisissez votre heure de réveil et obtenez les heures de coucher idéales selon des cycles de 90 minutes.">
+<link rel="canonical" href="https://sapiopedia.com/fr/outils/calculateur-de-sommeil-heure-du-coucher/">
+<link rel="alternate" hreflang="fr" href="https://sapiopedia.com/fr/outils/calculateur-de-sommeil-heure-du-coucher/">
+<link rel="alternate" hreflang="en" href="https://sapiopedia.com/en/tools/sleep-calculator-bedtime-90-minute-cycles/">
+<link rel="alternate" hreflang="x-default" href="https://sapiopedia.com/en/tools/sleep-calculator-bedtime-90-minute-cycles/">
+<meta property="og:title" content="Calculateur de sommeil : à quelle heure se coucher">
+<meta property="og:description" content="Choisissez votre heure de réveil et obtenez les heures de coucher idéales selon des cycles de 90 minutes.">
+<meta property="og:url" content="https://sapiopedia.com/fr/outils/calculateur-de-sommeil-heure-du-coucher/">
+<meta property="og:type" content="website">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/assets/style.css">
+
+
+</head>
+<body>
+<header class="site"><div class="wrap">
+  <a class="logo" href="/fr/">Sapiopedia <svg aria-hidden="true" viewBox="0 0 360 460"><path d="M60 150 C52 66 128 26 196 40 C280 58 292 158 232 206 C198 232 170 246 168 300 L168 332" fill="none" stroke="#B9CFE0" stroke-width="46" stroke-linecap="round" stroke-linejoin="round" transform="translate(-12,8)" opacity="1"/><path d="M60 150 C52 66 128 26 196 40 C280 58 292 158 232 206 C198 232 170 246 168 300 L168 332" fill="none" stroke="#E9A9B8" stroke-width="46" stroke-linecap="round" stroke-linejoin="round" transform="translate(12,-6)" opacity="1"/><path d="M60 150 C52 66 128 26 196 40 C280 58 292 158 232 206 C198 232 170 246 168 300 L168 332" fill="none" stroke="#B8405E" stroke-width="28" stroke-linecap="round" stroke-linejoin="round" transform="translate(0,0)" opacity="1"/><circle cx="156" cy="410" r="30" fill="#B9CFE0" opacity="1"/><circle cx="180" cy="396" r="30" fill="#E9A9B8" opacity="1"/><circle cx="168" cy="402" r="24" fill="#B8405E" opacity="1"/></svg></a>
+  <nav class="main"><a href="/fr/quiz/">Quiz</a><a href="/fr/outils/">Outils</a><a href="/fr/significations/">Significations</a><a href="/fr/prenoms/">Prénoms</a><a href="/fr/jeux/">Jeux</a><span class="lang"><b>FR</b> / <a href="/en/tools/sleep-calculator-bedtime-90-minute-cycles/">EN</a></span></nav>
+</div></header>
+<main class="page">
+<h1>Calculateur de sommeil : à quelle heure se coucher</h1><p class="lead">Choisissez votre heure de réveil et obtenez les heures de coucher idéales selon des cycles de 90 minutes.</p>
+<div class="tool">
+  <label for="wk">Heure à laquelle vous voulez vous lever</label><input id="wk" type="time" value="07:00">
+  <div class="result" id="r">Choisissez une heure de réveil.</div>
+</div>
+<p>Une nuit se déroule en cycles d'environ 90 minutes, du sommeil léger au sommeil profond puis au sommeil paradoxal. Se réveiller à la fin d'un cycle, plutôt qu'au milieu du sommeil profond, est généralement plus facile. Le calculateur remonte depuis votre réveil : 15 minutes pour s'endormir, puis 6, 5 ou 4 cycles complets (9 h, 7 h 30 ou 6 h de sommeil). La plupart des adultes ont besoin de 7 à 9 heures : visez donc les deux premières lignes.</p>
+<p class="small">Hypothèses : cycle moyen de 90 minutes et 15 minutes d'endormissement (moyennes de référence ; les cycles réels varient de 70 à 120 minutes). Durée de sommeil adulte selon la National Sleep Foundation.</p>
+<script>
+(function(){var T={"head": "Pour vous lever à <b>{wake}</b>, couchez-vous à :", "line": "<b>{t}</b> ({n} cycles, {h} h de sommeil)"},el=document.getElementById('wk'),r=document.getElementById('r'),L='fr';
+function hm(min){min=((min%1440)+1440)%1440;var d=new Date(2000,0,1,Math.floor(min/60),min%60);return d.toLocaleTimeString(L,{hour:'2-digit',minute:'2-digit'});}
+function calc(){var v=el.value;if(!v||v.indexOf(':')<0)return;var p=v.split(':'),w=parseInt(p[0],10)*60+parseInt(p[1],10);if(isNaN(w))return;
+var h=T.head.replace('{wake}',hm(w));[6,5,4].forEach(function(n){var hrs=n*1.5;h+='<br>'+T.line.replace('{t}',hm(w-15-n*90)).replace('{n}',n).replace('{h}',SP.fmt(hrs,1));});r.innerHTML=h;}
+el.addEventListener('input',calc);el.addEventListener('change',calc);window.addEventListener('load',calc);})();
+</script><div class="ad">publicité</div><div class="related"><h2>Pages liées</h2><ul><li><a href="/fr/outils/farine-tasses-en-grammes/">Farine : convertir les tasses en grammes</a></li><li><a href="/fr/outils/convertisseur-de-naissance-jours-semaines-lunes/">Convertisseur de naissance : jours, semaines, mois et pleines lunes</a></li><li><a href="/fr/outils/beurre-tasses-cuilleres-grammes-batonnets/">Beurre : tasses, cuillères, grammes et bâtonnets</a></li><li><a href="/fr/outils/sucre-tasses-en-grammes/">Sucre : convertir les tasses en grammes (blanc, cassonade, glace)</a></li><li><a href="/fr/outils/temperature-du-four-fahrenheit-celsius-gas-mark/">Température du four : convertir °F, °C et gas mark</a></li><li><a href="/fr/outils/age-de-bebe-semaines-mois-age-corrige/">Âge de bébé en semaines et en mois, avec âge corrigé</a></li><li><a href="/fr/outils/date-prevue-d-accouchement-calculateur/">Date prévue d&#x27;accouchement : calculateur à partir des dernières règles</a></li><li><a href="/fr/outils/calculateur-de-peinture-litres-necessaires/">Calculateur de peinture : combien de litres pour vos murs</a></li><li><a href="/fr/outils/calculateur-de-pourboire-partage-addition/">Calculateur de pourboire et partage de l&#x27;addition</a></li></ul></div>
+</main>
+<footer class="site"><div class="wrap">
+  <span>Sapiopedia</span><span>·</span><span>Créé à Montréal</span><span>·</span><a href="/fr/a-propos/">À propos</a><span>·</span><a href="/fr/confidentialite/">Confidentialité</a><span>·</span><a href="/fr/contact/">Contact</a>
+</div></footer>
+<script src="/assets/common.js"></script>
+</body>
+</html>

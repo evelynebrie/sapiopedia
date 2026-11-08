@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Calculateur de peinture : combien de litres pour vos murs · Sapiopedia</title>
+<meta name="description" content="Entrez la surface des murs (m² ou pi²), le nombre de couches et le rendement pour obtenir les litres de peinture nécessaires.">
+<link rel="canonical" href="https://sapiopedia.com/fr/outils/calculateur-de-peinture-litres-necessaires/">
+<link rel="alternate" hreflang="fr" href="https://sapiopedia.com/fr/outils/calculateur-de-peinture-litres-necessaires/">
+<link rel="alternate" hreflang="en" href="https://sapiopedia.com/en/tools/paint-calculator-litres-needed-wall-area/">
+<link rel="alternate" hreflang="x-default" href="https://sapiopedia.com/en/tools/paint-calculator-litres-needed-wall-area/">
+<meta property="og:title" content="Calculateur de peinture : combien de litres pour vos murs">
+<meta property="og:description" content="Entrez la surface des murs (m² ou pi²), le nombre de couches et le rendement pour obtenir les litres de peinture nécessaires.">
+<meta property="og:url" content="https://sapiopedia.com/fr/outils/calculateur-de-peinture-litres-necessaires/">
+<meta property="og:type" content="website">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/assets/style.css">
+
+
+</head>
+<body>
+<header class="site"><div class="wrap">
+  <a class="logo" href="/fr/">Sapiopedia <svg aria-hidden="true" viewBox="0 0 360 460"><path d="M60 150 C52 66 128 26 196 40 C280 58 292 158 232 206 C198 232 170 246 168 300 L168 332" fill="none" stroke="#B9CFE0" stroke-width="46" stroke-linecap="round" stroke-linejoin="round" transform="translate(-12,8)" opacity="1"/><path d="M60 150 C52 66 128 26 196 40 C280 58 292 158 232 206 C198 232 170 246 168 300 L168 332" fill="none" stroke="#E9A9B8" stroke-width="46" stroke-linecap="round" stroke-linejoin="round" transform="translate(12,-6)" opacity="1"/><path d="M60 150 C52 66 128 26 196 40 C280 58 292 158 232 206 C198 232 170 246 168 300 L168 332" fill="none" stroke="#B8405E" stroke-width="28" stroke-linecap="round" stroke-linejoin="round" transform="translate(0,0)" opacity="1"/><circle cx="156" cy="410" r="30" fill="#B9CFE0" opacity="1"/><circle cx="180" cy="396" r="30" fill="#E9A9B8" opacity="1"/><circle cx="168" cy="402" r="24" fill="#B8405E" opacity="1"/></svg></a>
+  <nav class="main"><a href="/fr/quiz/">Quiz</a><a href="/fr/outils/">Outils</a><a href="/fr/significations/">Significations</a><a href="/fr/prenoms/">Prénoms</a><a href="/fr/jeux/">Jeux</a><span class="lang"><b>FR</b> / <a href="/en/tools/paint-calculator-litres-needed-wall-area/">EN</a></span></nav>
+</div></header>
+<main class="page">
+<h1>Calculateur de peinture : combien de litres pour vos murs</h1><p class="lead">Entrez la surface des murs (m² ou pi²), le nombre de couches et le rendement pour obtenir les litres de peinture nécessaires.</p>
+<div class="tool">
+  <div class="row">
+    <div><label for="a">Surface des murs</label><input id="a" type="number" inputmode="decimal" placeholder="40"></div>
+    <div><label for="u">Unité</label><select id="u"><option value="m2">m²</option><option value="ft2">pi²</option></select></div>
+    <div><label for="o">Portes et fenêtres à retirer</label><input id="o" type="number" inputmode="decimal" placeholder="3.5" value="0"></div>
+    <div><label for="k">Couches</label><input id="k" type="number" inputmode="numeric" min="1" max="5" step="1" value="2"></div>
+  </div>
+  <label for="cv">Rendement (m² par litre)</label><input id="cv" type="number" inputmode="decimal" min="1" step="0.5" value="10">
+  <div class="result" id="r">Entrez la surface des murs à peindre.</div>
+</div>
+<p>Litres = (surface des murs − portes et fenêtres) × nombre de couches ÷ rendement. La surface des murs, c'est simplement le périmètre de la pièce multiplié par la hauteur sous plafond. Une porte standard fait environ 2 m² (20 pi²) et une fenêtre moyenne 1,5 m² (16 pi²). Le rendement dépend de la peinture et du support : 10 m²/L est courant pour une peinture acrylique sur un mur lisse et apprêté ; un plâtre neuf ou une surface rugueuse absorbe davantage, vérifiez donc la valeur indiquée sur le pot. Le chiffre « prévoyez » ajoute 10 % pour les retouches et les pertes du rouleau, arrondi au demi-litre supérieur.</p>
+<p class="small">Rendement par défaut de 10 m² par litre et par couche, valeur habituelle des pots de peinture d'intérieur (les fabricants indiquent 8 à 14 m²/L).</p>
+<script>
+(function(){var H="<b>{l}</b> litres de peinture pour <b>{a}</b> m² × {c} couches · prévoyez environ <b>{buy}</b> L pour les pertes",$=function(i){return document.getElementById(i);},r=$('r');
+function calc(){var a=parseFloat($('a').value),o=parseFloat($('o').value)||0,k=parseInt($('k').value,10)||1,cv=parseFloat($('cv').value)||10;if(isNaN(a))return;
+var f=$('u').value==='ft2'?0.09290304:1,net=Math.max(0,(a-o)*f),l=net*k/cv,buy=Math.ceil(l*1.1*2)/2;
+r.innerHTML=H.replace('{l}',SP.fmt(l,1)).replace('{a}',SP.fmt(net,1)).replace('{c}',k).replace('{buy}',SP.fmt(buy,1));}
+['a','o','k','cv'].forEach(function(i){$(i).addEventListener('input',calc);});$('u').addEventListener('change',calc);})();
+</script><div class="ad">publicité</div><div class="related"><h2>Pages liées</h2><ul><li><a href="/fr/outils/farine-tasses-en-grammes/">Farine : convertir les tasses en grammes</a></li><li><a href="/fr/outils/convertisseur-de-naissance-jours-semaines-lunes/">Convertisseur de naissance : jours, semaines, mois et pleines lunes</a></li><li><a href="/fr/outils/beurre-tasses-cuilleres-grammes-batonnets/">Beurre : tasses, cuillères, grammes et bâtonnets</a></li><li><a href="/fr/outils/sucre-tasses-en-grammes/">Sucre : convertir les tasses en grammes (blanc, cassonade, glace)</a></li><li><a href="/fr/outils/temperature-du-four-fahrenheit-celsius-gas-mark/">Température du four : convertir °F, °C et gas mark</a></li><li><a href="/fr/outils/age-de-bebe-semaines-mois-age-corrige/">Âge de bébé en semaines et en mois, avec âge corrigé</a></li><li><a href="/fr/outils/date-prevue-d-accouchement-calculateur/">Date prévue d&#x27;accouchement : calculateur à partir des dernières règles</a></li><li><a href="/fr/outils/calculateur-de-sommeil-heure-du-coucher/">Calculateur de sommeil : à quelle heure se coucher</a></li><li><a href="/fr/outils/calculateur-de-pourboire-partage-addition/">Calculateur de pourboire et partage de l&#x27;addition</a></li></ul></div>
+</main>
+<footer class="site"><div class="wrap">
+  <span>Sapiopedia</span><span>·</span><span>Créé à Montréal</span><span>·</span><a href="/fr/a-propos/">À propos</a><span>·</span><a href="/fr/confidentialite/">Confidentialité</a><span>·</span><a href="/fr/contact/">Contact</a>
+</div></footer>
+<script src="/assets/common.js"></script>
+</body>
+</html>

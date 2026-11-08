@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pregnancy due date calculator (from your last period) · Sapiopedia</title>
+<meta name="description" content="Enter the first day of your last period to get your due date (Naegele&#x27;s rule, 280 days) and your current week of pregnancy.">
+<link rel="canonical" href="https://sapiopedia.com/en/tools/pregnancy-due-date-calculator/">
+<link rel="alternate" hreflang="en" href="https://sapiopedia.com/en/tools/pregnancy-due-date-calculator/">
+<link rel="alternate" hreflang="fr" href="https://sapiopedia.com/fr/outils/date-prevue-d-accouchement-calculateur/">
+<link rel="alternate" hreflang="x-default" href="https://sapiopedia.com/en/tools/pregnancy-due-date-calculator/">
+<meta property="og:title" content="Pregnancy due date calculator (from your last period)">
+<meta property="og:description" content="Enter the first day of your last period to get your due date (Naegele&#x27;s rule, 280 days) and your current week of pregnancy.">
+<meta property="og:url" content="https://sapiopedia.com/en/tools/pregnancy-due-date-calculator/">
+<meta property="og:type" content="website">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/assets/style.css">
+
+
+</head>
+<body>
+<header class="site"><div class="wrap">
+  <a class="logo" href="/en/">Sapiopedia <svg aria-hidden="true" viewBox="0 0 360 460"><path d="M60 150 C52 66 128 26 196 40 C280 58 292 158 232 206 C198 232 170 246 168 300 L168 332" fill="none" stroke="#B9CFE0" stroke-width="46" stroke-linecap="round" stroke-linejoin="round" transform="translate(-12,8)" opacity="1"/><path d="M60 150 C52 66 128 26 196 40 C280 58 292 158 232 206 C198 232 170 246 168 300 L168 332" fill="none" stroke="#E9A9B8" stroke-width="46" stroke-linecap="round" stroke-linejoin="round" transform="translate(12,-6)" opacity="1"/><path d="M60 150 C52 66 128 26 196 40 C280 58 292 158 232 206 C198 232 170 246 168 300 L168 332" fill="none" stroke="#B8405E" stroke-width="28" stroke-linecap="round" stroke-linejoin="round" transform="translate(0,0)" opacity="1"/><circle cx="156" cy="410" r="30" fill="#B9CFE0" opacity="1"/><circle cx="180" cy="396" r="30" fill="#E9A9B8" opacity="1"/><circle cx="168" cy="402" r="24" fill="#B8405E" opacity="1"/></svg></a>
+  <nav class="main"><a href="/en/quizzes/">Quizzes</a><a href="/en/tools/">Tools</a><a href="/en/meanings/">Meanings</a><a href="/en/names/">Names</a><a href="/en/games/">Games</a><span class="lang"><b>EN</b> / <a href="/fr/outils/date-prevue-d-accouchement-calculateur/">FR</a></span></nav>
+</div></header>
+<main class="page">
+<h1>Pregnancy due date calculator (from your last period)</h1><p class="lead">Enter the first day of your last period to get your due date (Naegele&#x27;s rule, 280 days) and your current week of pregnancy.</p>
+<div class="tool">
+  <label for="lmp">First day of your last period</label><input id="lmp" type="date" max="2026-11-07">
+  <div class="result" id="r">Pick the first day of your last period.</div>
+</div>
+<p>This is Naegele's rule, the method used on most pregnancy wheels: the due date is 280 days (40 weeks) after the first day of the last menstrual period. It assumes a regular 28-day cycle with ovulation on day 14. Only about 4 % of babies arrive on the exact date; most are born within two weeks either side. An early ultrasound often gives a more precise date, and your doctor or midwife may adjust it.</p>
+<p class="small">Naegele's rule (LMP + 280 days). Not a diagnosis: ask your doctor or midwife to confirm your dates.</p>
+<script>
+(function(){var T={"fmt": "Due date: <b>{due}</b> · you are <b>{w}</b> weeks and <b>{d}</b> days pregnant · <b>{left}</b> days to go", "past": "Due date: <b>{due}</b> · that date was <b>{n}</b> days ago"},el=document.getElementById('lmp'),r=document.getElementById('r'),L='en';
+el.addEventListener('input',function(){if(!el.value)return;var d=new Date(el.value+'T12:00:00');if(isNaN(d))return;var t=new Date();t.setHours(12,0,0,0);
+var due=new Date(d);due.setDate(due.getDate()+280);var ds=due.toLocaleDateString(L,{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+var ga=Math.round((t-d)/864e5);if(ga<0)return;var left=Math.round((due-t)/864e5);
+if(left>=0)r.innerHTML=T.fmt.replace('{due}',ds).replace('{w}',Math.floor(ga/7)).replace('{d}',ga%7).replace('{left}',SP.fmt(left,0));
+else r.innerHTML=T.past.replace('{due}',ds).replace('{n}',SP.fmt(-left,0));});})();
+</script><div class="ad">advertisement</div><div class="related"><h2>Related pages</h2><ul><li><a href="/en/tools/flour-cups-to-grams/">Flour: cups to grams converter</a></li><li><a href="/en/tools/birthday-converter-days-weeks-moons/">Birthday converter: days, weeks, months and full moons</a></li><li><a href="/en/tools/butter-cups-tablespoons-grams-sticks-converter/">Butter: cups, tablespoons, grams, sticks converter</a></li><li><a href="/en/tools/sugar-cups-to-grams-converter/">Sugar: cups to grams converter (white, brown, icing)</a></li><li><a href="/en/tools/oven-temperature-converter-fahrenheit-celsius-gas-mark/">Oven temperature converter: °F, °C and gas mark</a></li><li><a href="/en/tools/baby-age-calculator-weeks-months-corrected-age/">Baby age calculator: weeks, months and corrected age</a></li><li><a href="/en/tools/sleep-calculator-bedtime-90-minute-cycles/">Sleep calculator: when to go to bed to wake up refreshed</a></li><li><a href="/en/tools/paint-calculator-litres-needed-wall-area/">Paint calculator: how many litres for your walls</a></li><li><a href="/en/tools/tip-calculator-bill-split/">Tip and bill split calculator</a></li></ul></div>
+</main>
+<footer class="site"><div class="wrap">
+  <span>Sapiopedia</span><span>·</span><span>Made in Montréal</span><span>·</span><a href="/en/about/">About</a><span>·</span><a href="/en/privacy/">Privacy</a><span>·</span><a href="/en/contact/">Contact</a>
+</div></footer>
+<script src="/assets/common.js"></script>
+</body>
+</html>

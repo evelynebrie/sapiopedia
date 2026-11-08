@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Âge de bébé en semaines et en mois, avec âge corrigé · Sapiopedia</title>
+<meta name="description" content="Entrez la date de naissance de bébé pour obtenir son âge en semaines, jours et mois, et l&#x27;âge corrigé s&#x27;il est né avant terme.">
+<link rel="canonical" href="https://sapiopedia.com/fr/outils/age-de-bebe-semaines-mois-age-corrige/">
+<link rel="alternate" hreflang="fr" href="https://sapiopedia.com/fr/outils/age-de-bebe-semaines-mois-age-corrige/">
+<link rel="alternate" hreflang="en" href="https://sapiopedia.com/en/tools/baby-age-calculator-weeks-months-corrected-age/">
+<link rel="alternate" hreflang="x-default" href="https://sapiopedia.com/en/tools/baby-age-calculator-weeks-months-corrected-age/">
+<meta property="og:title" content="Âge de bébé en semaines et en mois, avec âge corrigé">
+<meta property="og:description" content="Entrez la date de naissance de bébé pour obtenir son âge en semaines, jours et mois, et l&#x27;âge corrigé s&#x27;il est né avant terme.">
+<meta property="og:url" content="https://sapiopedia.com/fr/outils/age-de-bebe-semaines-mois-age-corrige/">
+<meta property="og:type" content="website">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/assets/style.css">
+
+
+</head>
+<body>
+<header class="site"><div class="wrap">
+  <a class="logo" href="/fr/">Sapiopedia <svg aria-hidden="true" viewBox="0 0 360 460"><path d="M60 150 C52 66 128 26 196 40 C280 58 292 158 232 206 C198 232 170 246 168 300 L168 332" fill="none" stroke="#B9CFE0" stroke-width="46" stroke-linecap="round" stroke-linejoin="round" transform="translate(-12,8)" opacity="1"/><path d="M60 150 C52 66 128 26 196 40 C280 58 292 158 232 206 C198 232 170 246 168 300 L168 332" fill="none" stroke="#E9A9B8" stroke-width="46" stroke-linecap="round" stroke-linejoin="round" transform="translate(12,-6)" opacity="1"/><path d="M60 150 C52 66 128 26 196 40 C280 58 292 158 232 206 C198 232 170 246 168 300 L168 332" fill="none" stroke="#B8405E" stroke-width="28" stroke-linecap="round" stroke-linejoin="round" transform="translate(0,0)" opacity="1"/><circle cx="156" cy="410" r="30" fill="#B9CFE0" opacity="1"/><circle cx="180" cy="396" r="30" fill="#E9A9B8" opacity="1"/><circle cx="168" cy="402" r="24" fill="#B8405E" opacity="1"/></svg></a>
+  <nav class="main"><a href="/fr/quiz/">Quiz</a><a href="/fr/outils/">Outils</a><a href="/fr/significations/">Significations</a><a href="/fr/prenoms/">Prénoms</a><a href="/fr/jeux/">Jeux</a><span class="lang"><b>FR</b> / <a href="/en/tools/baby-age-calculator-weeks-months-corrected-age/">EN</a></span></nav>
+</div></header>
+<main class="page">
+<h1>Âge de bébé en semaines et en mois, avec âge corrigé</h1><p class="lead">Entrez la date de naissance de bébé pour obtenir son âge en semaines, jours et mois, et l&#x27;âge corrigé s&#x27;il est né avant terme.</p>
+<div class="tool">
+  <label for="bd">Date de naissance de bébé</label><input id="bd" type="date" max="2026-11-07">
+  <label for="dd">Date prévue d'accouchement (facultatif, pour les bébés prématurés)</label><input id="dd" type="date">
+  <div class="result" id="r">Choisissez la date de naissance.</div>
+</div>
+<p>Les semaines et les jours sont comptés de la naissance à aujourd'hui ; les mois suivent le calendrier (un bébé né le 15 a un mois le 15 du mois suivant). Si vous indiquez une date prévue d'accouchement antérieure à aujourd'hui et postérieure à la naissance, nous affichons aussi l'âge corrigé, compté à partir de la date prévue plutôt que de la naissance : c'est l'âge que les pédiatres utilisent pour suivre le développement des bébés prématurés, en général jusqu'à 2 ans environ.</p>
+<p class="small">Âge corrigé = âge réel moins les semaines de naissance avant le terme, selon l'usage des services de suivi pédiatrique. Pour toute question sur la croissance ou le développement, parlez-en à votre médecin ou à votre sage-femme.</p>
+<script>
+(function(){var T={"fmt": "<b>{w}</b> semaines et <b>{d}</b> jours · <b>{m}</b> mois et <b>{md}</b> jours · <b>{days}</b> jours en tout", "corr": " · âge corrigé : <b>{cw}</b> semaines et <b>{cd}</b> jours (né·e <b>{early}</b> semaines avant terme)", "notyet": " · l'âge corrigé commencera à compter à la date prévue, dans <b>{n}</b> jours"},bd=document.getElementById('bd'),dd=document.getElementById('dd'),r=document.getElementById('r');
+function noon(iso){var d=new Date(iso+'T12:00:00');return isNaN(d)?null:d;}
+function calc(){if(!bd.value)return;var b=noon(bd.value),t=new Date();t.setHours(12,0,0,0);if(!b||b>t)return;
+var days=Math.round((t-b)/864e5),m=(t.getFullYear()-b.getFullYear())*12+(t.getMonth()-b.getMonth())-(t.getDate()<b.getDate()?1:0);
+var anchor=new Date(b);anchor.setMonth(anchor.getMonth()+m);var md=Math.round((t-anchor)/864e5);if(md<0){md=0;}
+var h=T.fmt.replace('{w}',SP.fmt(Math.floor(days/7),0)).replace('{d}',days%7).replace('{m}',SP.fmt(m,0)).replace('{md}',md).replace('{days}',SP.fmt(days,0));
+if(dd.value){var d=noon(dd.value);if(d&&d>b){var early=Math.round((d-b)/864e5);if(d<=t){var cd=Math.round((t-d)/864e5);h+=T.corr.replace('{cw}',SP.fmt(Math.floor(cd/7),0)).replace('{cd}',cd%7).replace('{early}',SP.fmt(early/7,1));}
+else{h+=T.notyet.replace('{n}',SP.fmt(Math.round((d-t)/864e5),0));}}}
+r.innerHTML=h;}
+bd.addEventListener('input',calc);dd.addEventListener('input',calc);})();
+</script><div class="ad">publicité</div><div class="related"><h2>Pages liées</h2><ul><li><a href="/fr/outils/farine-tasses-en-grammes/">Farine : convertir les tasses en grammes</a></li><li><a href="/fr/outils/convertisseur-de-naissance-jours-semaines-lunes/">Convertisseur de naissance : jours, semaines, mois et pleines lunes</a></li><li><a href="/fr/outils/beurre-tasses-cuilleres-grammes-batonnets/">Beurre : tasses, cuillères, grammes et bâtonnets</a></li><li><a href="/fr/outils/sucre-tasses-en-grammes/">Sucre : convertir les tasses en grammes (blanc, cassonade, glace)</a></li><li><a href="/fr/outils/temperature-du-four-fahrenheit-celsius-gas-mark/">Température du four : convertir °F, °C et gas mark</a></li><li><a href="/fr/outils/date-prevue-d-accouchement-calculateur/">Date prévue d&#x27;accouchement : calculateur à partir des dernières règles</a></li><li><a href="/fr/outils/calculateur-de-sommeil-heure-du-coucher/">Calculateur de sommeil : à quelle heure se coucher</a></li><li><a href="/fr/outils/calculateur-de-peinture-litres-necessaires/">Calculateur de peinture : combien de litres pour vos murs</a></li><li><a href="/fr/outils/calculateur-de-pourboire-partage-addition/">Calculateur de pourboire et partage de l&#x27;addition</a></li></ul></div>
+</main>
+<footer class="site"><div class="wrap">
+  <span>Sapiopedia</span><span>·</span><span>Créé à Montréal</span><span>·</span><a href="/fr/a-propos/">À propos</a><span>·</span><a href="/fr/confidentialite/">Confidentialité</a><span>·</span><a href="/fr/contact/">Contact</a>
+</div></footer>
+<script src="/assets/common.js"></script>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Baby age calculator: weeks, months and corrected age · Sapiopedia</title>
+<meta name="description" content="Enter your baby&#x27;s birth date to get the age in weeks, days and months, plus the corrected age for premature babies.">
+<link rel="canonical" href="https://sapiopedia.com/en/tools/baby-age-calculator-weeks-months-corrected-age/">
+<link rel="alternate" hreflang="en" href="https://sapiopedia.com/en/tools/baby-age-calculator-weeks-months-corrected-age/">
+<link rel="alternate" hreflang="fr" href="https://sapiopedia.com/fr/outils/age-de-bebe-semaines-mois-age-corrige/">
+<link rel="alternate" hreflang="x-default" href="https://sapiopedia.com/en/tools/baby-age-calculator-weeks-months-corrected-age/">
+<meta property="og:title" content="Baby age calculator: weeks, months and corrected age">
+<meta property="og:description" content="Enter your baby&#x27;s birth date to get the age in weeks, days and months, plus the corrected age for premature babies.">
+<meta property="og:url" content="https://sapiopedia.com/en/tools/baby-age-calculator-weeks-months-corrected-age/">
+<meta property="og:type" content="website">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/assets/style.css">
+
+
+</head>
+<body>
+<header class="site"><div class="wrap">
+  <a class="logo" href="/en/">Sapiopedia <svg aria-hidden="true" viewBox="0 0 360 460"><path d="M60 150 C52 66 128 26 196 40 C280 58 292 158 232 206 C198 232 170 246 168 300 L168 332" fill="none" stroke="#B9CFE0" stroke-width="46" stroke-linecap="round" stroke-linejoin="round" transform="translate(-12,8)" opacity="1"/><path d="M60 150 C52 66 128 26 196 40 C280 58 292 158 232 206 C198 232 170 246 168 300 L168 332" fill="none" stroke="#E9A9B8" stroke-width="46" stroke-linecap="round" stroke-linejoin="round" transform="translate(12,-6)" opacity="1"/><path d="M60 150 C52 66 128 26 196 40 C280 58 292 158 232 206 C198 232 170 246 168 300 L168 332" fill="none" stroke="#B8405E" stroke-width="28" stroke-linecap="round" stroke-linejoin="round" transform="translate(0,0)" opacity="1"/><circle cx="156" cy="410" r="30" fill="#B9CFE0" opacity="1"/><circle cx="180" cy="396" r="30" fill="#E9A9B8" opacity="1"/><circle cx="168" cy="402" r="24" fill="#B8405E" opacity="1"/></svg></a>
+  <nav class="main"><a href="/en/quizzes/">Quizzes</a><a href="/en/tools/">Tools</a><a href="/en/meanings/">Meanings</a><a href="/en/names/">Names</a><a href="/en/games/">Games</a><span class="lang"><b>EN</b> / <a href="/fr/outils/age-de-bebe-semaines-mois-age-corrige/">FR</a></span></nav>
+</div></header>
+<main class="page">
+<h1>Baby age calculator: weeks, months and corrected age</h1><p class="lead">Enter your baby&#x27;s birth date to get the age in weeks, days and months, plus the corrected age for premature babies.</p>
+<div class="tool">
+  <label for="bd">Baby's date of birth</label><input id="bd" type="date" max="2026-11-07">
+  <label for="dd">Due date (optional, for premature babies)</label><input id="dd" type="date">
+  <div class="result" id="r">Pick the date of birth.</div>
+</div>
+<p>Weeks and days are counted from the birth date to today; months follow the calendar (a baby born on the 15th turns one month old on the 15th of the next month). If you enter a due date earlier than today and later than the birth, we also show the corrected age, counted from the due date instead of the birth date: this is the age paediatricians use to follow the development of premature babies, usually until about 2 years.</p>
+<p class="small">Corrected (adjusted) age = chronological age minus the weeks born before the due date, as used by paediatric follow-up services. For any concern about growth or development, ask your doctor or midwife.</p>
+<script>
+(function(){var T={"fmt": "<b>{w}</b> weeks and <b>{d}</b> days old · <b>{m}</b> months and <b>{md}</b> days · <b>{days}</b> days in total", "corr": " · corrected age: <b>{cw}</b> weeks and <b>{cd}</b> days (born <b>{early}</b> weeks early)", "notyet": " · corrected age starts counting from the due date, in <b>{n}</b> days"},bd=document.getElementById('bd'),dd=document.getElementById('dd'),r=document.getElementById('r');
+function noon(iso){var d=new Date(iso+'T12:00:00');return isNaN(d)?null:d;}
+function calc(){if(!bd.value)return;var b=noon(bd.value),t=new Date();t.setHours(12,0,0,0);if(!b||b>t)return;
+var days=Math.round((t-b)/864e5),m=(t.getFullYear()-b.getFullYear())*12+(t.getMonth()-b.getMonth())-(t.getDate()<b.getDate()?1:0);
+var anchor=new Date(b);anchor.setMonth(anchor.getMonth()+m);var md=Math.round((t-anchor)/864e5);if(md<0){md=0;}
+var h=T.fmt.replace('{w}',SP.fmt(Math.floor(days/7),0)).replace('{d}',days%7).replace('{m}',SP.fmt(m,0)).replace('{md}',md).replace('{days}',SP.fmt(days,0));
+if(dd.value){var d=noon(dd.value);if(d&&d>b){var early=Math.round((d-b)/864e5);if(d<=t){var cd=Math.round((t-d)/864e5);h+=T.corr.replace('{cw}',SP.fmt(Math.floor(cd/7),0)).replace('{cd}',cd%7).replace('{early}',SP.fmt(early/7,1));}
+else{h+=T.notyet.replace('{n}',SP.fmt(Math.round((d-t)/864e5),0));}}}
+r.innerHTML=h;}
+bd.addEventListener('input',calc);dd.addEventListener('input',calc);})();
+</script><div class="ad">advertisement</div><div class="related"><h2>Related pages</h2><ul><li><a href="/en/tools/flour-cups-to-grams/">Flour: cups to grams converter</a></li><li><a href="/en/tools/birthday-converter-days-weeks-moons/">Birthday converter: days, weeks, months and full moons</a></li><li><a href="/en/tools/butter-cups-tablespoons-grams-sticks-converter/">Butter: cups, tablespoons, grams, sticks converter</a></li><li><a href="/en/tools/sugar-cups-to-grams-converter/">Sugar: cups to grams converter (white, brown, icing)</a></li><li><a href="/en/tools/oven-temperature-converter-fahrenheit-celsius-gas-mark/">Oven temperature converter: °F, °C and gas mark</a></li><li><a href="/en/tools/pregnancy-due-date-calculator/">Pregnancy due date calculator (from your last period)</a></li><li><a href="/en/tools/sleep-calculator-bedtime-90-minute-cycles/">Sleep calculator: when to go to bed to wake up refreshed</a></li><li><a href="/en/tools/paint-calculator-litres-needed-wall-area/">Paint calculator: how many litres for your walls</a></li><li><a href="/en/tools/tip-calculator-bill-split/">Tip and bill split calculator</a></li></ul></div>
+</main>
+<footer class="site"><div class="wrap">
+  <span>Sapiopedia</span><span>·</span><span>Made in Montréal</span><span>·</span><a href="/en/about/">About</a><span>·</span><a href="/en/privacy/">Privacy</a><span>·</span><a href="/en/contact/">Contact</a>
+</div></footer>
+<script src="/assets/common.js"></script>
+</body>
+</html>

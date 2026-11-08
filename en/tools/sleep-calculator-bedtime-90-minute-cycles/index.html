@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sleep calculator: when to go to bed to wake up refreshed · Sapiopedia</title>
+<meta name="description" content="Choose your wake-up time and get bedtimes based on 90-minute sleep cycles, plus 15 minutes to fall asleep.">
+<link rel="canonical" href="https://sapiopedia.com/en/tools/sleep-calculator-bedtime-90-minute-cycles/">
+<link rel="alternate" hreflang="en" href="https://sapiopedia.com/en/tools/sleep-calculator-bedtime-90-minute-cycles/">
+<link rel="alternate" hreflang="fr" href="https://sapiopedia.com/fr/outils/calculateur-de-sommeil-heure-du-coucher/">
+<link rel="alternate" hreflang="x-default" href="https://sapiopedia.com/en/tools/sleep-calculator-bedtime-90-minute-cycles/">
+<meta property="og:title" content="Sleep calculator: when to go to bed to wake up refreshed">
+<meta property="og:description" content="Choose your wake-up time and get bedtimes based on 90-minute sleep cycles, plus 15 minutes to fall asleep.">
+<meta property="og:url" content="https://sapiopedia.com/en/tools/sleep-calculator-bedtime-90-minute-cycles/">
+<meta property="og:type" content="website">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/assets/style.css">
+
+
+</head>
+<body>
+<header class="site"><div class="wrap">
+  <a class="logo" href="/en/">Sapiopedia <svg aria-hidden="true" viewBox="0 0 360 460"><path d="M60 150 C52 66 128 26 196 40 C280 58 292 158 232 206 C198 232 170 246 168 300 L168 332" fill="none" stroke="#B9CFE0" stroke-width="46" stroke-linecap="round" stroke-linejoin="round" transform="translate(-12,8)" opacity="1"/><path d="M60 150 C52 66 128 26 196 40 C280 58 292 158 232 206 C198 232 170 246 168 300 L168 332" fill="none" stroke="#E9A9B8" stroke-width="46" stroke-linecap="round" stroke-linejoin="round" transform="translate(12,-6)" opacity="1"/><path d="M60 150 C52 66 128 26 196 40 C280 58 292 158 232 206 C198 232 170 246 168 300 L168 332" fill="none" stroke="#B8405E" stroke-width="28" stroke-linecap="round" stroke-linejoin="round" transform="translate(0,0)" opacity="1"/><circle cx="156" cy="410" r="30" fill="#B9CFE0" opacity="1"/><circle cx="180" cy="396" r="30" fill="#E9A9B8" opacity="1"/><circle cx="168" cy="402" r="24" fill="#B8405E" opacity="1"/></svg></a>
+  <nav class="main"><a href="/en/quizzes/">Quizzes</a><a href="/en/tools/">Tools</a><a href="/en/meanings/">Meanings</a><a href="/en/names/">Names</a><a href="/en/games/">Games</a><span class="lang"><b>EN</b> / <a href="/fr/outils/calculateur-de-sommeil-heure-du-coucher/">FR</a></span></nav>
+</div></header>
+<main class="page">
+<h1>Sleep calculator: when to go to bed to wake up refreshed</h1><p class="lead">Choose your wake-up time and get bedtimes based on 90-minute sleep cycles, plus 15 minutes to fall asleep.</p>
+<div class="tool">
+  <label for="wk">Time you want to wake up</label><input id="wk" type="time" value="07:00">
+  <div class="result" id="r">Pick a wake-up time.</div>
+</div>
+<p>A night's sleep runs in cycles of roughly 90 minutes, from light sleep through deep sleep to REM. Waking at the end of a cycle, rather than in the middle of deep sleep, usually feels easier. The calculator counts back from your alarm: 15 minutes to fall asleep, then 6, 5 or 4 full cycles (9, 7½ or 6 hours of sleep). Most adults need 7 to 9 hours, so the first two lines are the ones to aim for.</p>
+<p class="small">Assumptions: 90-minute average sleep cycle and 15 minutes to fall asleep (textbook averages; real cycles vary between 70 and 120 minutes). Adult sleep-duration range from the National Sleep Foundation.</p>
+<script>
+(function(){var T={"head": "To wake at <b>{wake}</b>, go to bed at:", "line": "<b>{t}</b> ({n} cycles, {h} h of sleep)"},el=document.getElementById('wk'),r=document.getElementById('r'),L='en';
+function hm(min){min=((min%1440)+1440)%1440;var d=new Date(2000,0,1,Math.floor(min/60),min%60);return d.toLocaleTimeString(L,{hour:'2-digit',minute:'2-digit'});}
+function calc(){var v=el.value;if(!v||v.indexOf(':')<0)return;var p=v.split(':'),w=parseInt(p[0],10)*60+parseInt(p[1],10);if(isNaN(w))return;
+var h=T.head.replace('{wake}',hm(w));[6,5,4].forEach(function(n){var hrs=n*1.5;h+='<br>'+T.line.replace('{t}',hm(w-15-n*90)).replace('{n}',n).replace('{h}',SP.fmt(hrs,1));});r.innerHTML=h;}
+el.addEventListener('input',calc);el.addEventListener('change',calc);window.addEventListener('load',calc);})();
+</script><div class="ad">advertisement</div><div class="related"><h2>Related pages</h2><ul><li><a href="/en/tools/flour-cups-to-grams/">Flour: cups to grams converter</a></li><li><a href="/en/tools/birthday-converter-days-weeks-moons/">Birthday converter: days, weeks, months and full moons</a></li><li><a href="/en/tools/butter-cups-tablespoons-grams-sticks-converter/">Butter: cups, tablespoons, grams, sticks converter</a></li><li><a href="/en/tools/sugar-cups-to-grams-converter/">Sugar: cups to grams converter (white, brown, icing)</a></li><li><a href="/en/tools/oven-temperature-converter-fahrenheit-celsius-gas-mark/">Oven temperature converter: °F, °C and gas mark</a></li><li><a href="/en/tools/baby-age-calculator-weeks-months-corrected-age/">Baby age calculator: weeks, months and corrected age</a></li><li><a href="/en/tools/pregnancy-due-date-calculator/">Pregnancy due date calculator (from your last period)</a></li><li><a href="/en/tools/paint-calculator-litres-needed-wall-area/">Paint calculator: how many litres for your walls</a></li><li><a href="/en/tools/tip-calculator-bill-split/">Tip and bill split calculator</a></li></ul></div>
+</main>
+<footer class="site"><div class="wrap">
+  <span>Sapiopedia</span><span>·</span><span>Made in Montréal</span><span>·</span><a href="/en/about/">About</a><span>·</span><a href="/en/privacy/">Privacy</a><span>·</span><a href="/en/contact/">Contact</a>
+</div></footer>
+<script src="/assets/common.js"></script>
+</body>
+</html>

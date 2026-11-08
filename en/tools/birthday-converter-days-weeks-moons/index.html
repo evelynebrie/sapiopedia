@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Birthday converter: days, weeks, months and full moons · Sapiopedia</title>
+<meta name="description" content="Enter your date of birth and see how many days, weeks, months, full moons and heartbeats you have lived.">
+<link rel="canonical" href="https://sapiopedia.com/en/tools/birthday-converter-days-weeks-moons/">
+<link rel="alternate" hreflang="en" href="https://sapiopedia.com/en/tools/birthday-converter-days-weeks-moons/">
+<link rel="alternate" hreflang="fr" href="https://sapiopedia.com/fr/outils/convertisseur-de-naissance-jours-semaines-lunes/">
+<link rel="alternate" hreflang="x-default" href="https://sapiopedia.com/en/tools/birthday-converter-days-weeks-moons/">
+<meta property="og:title" content="Birthday converter: days, weeks, months and full moons">
+<meta property="og:description" content="Enter your date of birth and see how many days, weeks, months, full moons and heartbeats you have lived.">
+<meta property="og:url" content="https://sapiopedia.com/en/tools/birthday-converter-days-weeks-moons/">
+<meta property="og:type" content="website">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/assets/style.css">
+
+
+</head>
+<body>
+<header class="site"><div class="wrap">
+  <a class="logo" href="/en/">Sapiopedia <svg aria-hidden="true" viewBox="0 0 360 460"><path d="M60 150 C52 66 128 26 196 40 C280 58 292 158 232 206 C198 232 170 246 168 300 L168 332" fill="none" stroke="#B9CFE0" stroke-width="46" stroke-linecap="round" stroke-linejoin="round" transform="translate(-12,8)" opacity="1"/><path d="M60 150 C52 66 128 26 196 40 C280 58 292 158 232 206 C198 232 170 246 168 300 L168 332" fill="none" stroke="#E9A9B8" stroke-width="46" stroke-linecap="round" stroke-linejoin="round" transform="translate(12,-6)" opacity="1"/><path d="M60 150 C52 66 128 26 196 40 C280 58 292 158 232 206 C198 232 170 246 168 300 L168 332" fill="none" stroke="#B8405E" stroke-width="28" stroke-linecap="round" stroke-linejoin="round" transform="translate(0,0)" opacity="1"/><circle cx="156" cy="410" r="30" fill="#B9CFE0" opacity="1"/><circle cx="180" cy="396" r="30" fill="#E9A9B8" opacity="1"/><circle cx="168" cy="402" r="24" fill="#B8405E" opacity="1"/></svg></a>
+  <nav class="main"><a href="/en/quizzes/">Quizzes</a><a href="/en/tools/">Tools</a><a href="/en/meanings/">Meanings</a><a href="/en/names/">Names</a><a href="/en/games/">Games</a><span class="lang"><b>EN</b> / <a href="/fr/outils/convertisseur-de-naissance-jours-semaines-lunes/">FR</a></span></nav>
+</div></header>
+<main class="page">
+<h1>Birthday converter: days, weeks, months and full moons</h1><p class="lead">Enter your date of birth and see how many days, weeks, months, full moons and heartbeats you have lived.</p>
+<div class="tool">
+  <label for="bd">Date of birth</label><input id="bd" type="date" max="2026-11-07">
+  <div class="result" id="r">Pick your date of birth.</div>
+  <div class="row" id="acts" style="display:none;margin-top:1rem">
+    <button onclick="SP.share(document.title, document.getElementById('r').textContent)">Share</button>
+    <button onclick="SP.download(SP.resultCard({kicker: 'Born on ' + document.getElementById('bd').value, title: document.getElementById('r').textContent.split(' · ')[1], subtitle: document.getElementById('r').textContent}),'sapiopedia-birthday.png')">Download image</button>
+  </div>
+</div>
+<p>Days, weeks and months are counted from your birthday to today. Full moons use the mean synodic month (29.53 days); heartbeats assume an average 72 beats per minute; the distance uses Earth's mean orbital speed of 29.8 km/s. Everything is computed in your browser and nothing is sent anywhere.</p>
+<script>
+(function(){var el=document.getElementById('bd'),o=document.getElementById('r'),H="a <b>{dow}</b> · <b>{days}</b> days lived · <b>{weeks}</b> weeks · <b>{months}</b> months · <b>{moons}</b> full moons · about <b>{beats}</b> million heartbeats · <b>{km}</b> million km travelled around the Sun";
+el.addEventListener('input',function(){var r=SP.birth(el.value,'en');if(!r)return;document.getElementById('acts').style.display='grid';
+o.innerHTML=H.replace('{dow}',r.dow).replace('{days}',SP.fmt(r.days,0)).replace('{weeks}',SP.fmt(r.weeks,0)).replace('{months}',SP.fmt(r.months,0)).replace('{moons}',SP.fmt(r.moons,0)).replace('{beats}',SP.fmt(r.beats,0)).replace('{km}',SP.fmt(r.km,0));});})();
+</script><div class="ad">advertisement</div><div class="related"><h2>Related pages</h2><ul><li><a href="/en/tools/flour-cups-to-grams/">Flour: cups to grams converter</a></li><li><a href="/en/tools/butter-cups-tablespoons-grams-sticks-converter/">Butter: cups, tablespoons, grams, sticks converter</a></li><li><a href="/en/tools/sugar-cups-to-grams-converter/">Sugar: cups to grams converter (white, brown, icing)</a></li><li><a href="/en/tools/oven-temperature-converter-fahrenheit-celsius-gas-mark/">Oven temperature converter: °F, °C and gas mark</a></li><li><a href="/en/tools/baby-age-calculator-weeks-months-corrected-age/">Baby age calculator: weeks, months and corrected age</a></li><li><a href="/en/tools/pregnancy-due-date-calculator/">Pregnancy due date calculator (from your last period)</a></li><li><a href="/en/tools/sleep-calculator-bedtime-90-minute-cycles/">Sleep calculator: when to go to bed to wake up refreshed</a></li><li><a href="/en/tools/paint-calculator-litres-needed-wall-area/">Paint calculator: how many litres for your walls</a></li><li><a href="/en/tools/tip-calculator-bill-split/">Tip and bill split calculator</a></li></ul></div>
+</main>
+<footer class="site"><div class="wrap">
+  <span>Sapiopedia</span><span>·</span><span>Made in Montréal</span><span>·</span><a href="/en/about/">About</a><span>·</span><a href="/en/privacy/">Privacy</a><span>·</span><a href="/en/contact/">Contact</a>
+</div></footer>
+<script src="/assets/common.js"></script>
+</body>
+</html>

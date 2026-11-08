@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>50 questions to ask on a first date: light, curious and meaningful · Sapiopedia</title>
+<meta name="description" content="50 original first-date questions that go beyond small talk, sorted from light to meaningful. Draw one when the conversation stalls.">
+<link rel="canonical" href="https://sapiopedia.com/en/games/first-date-questions/">
+<link rel="alternate" hreflang="en" href="https://sapiopedia.com/en/games/first-date-questions/">
+<link rel="alternate" hreflang="fr" href="https://sapiopedia.com/fr/jeux/questions-premier-rendez-vous/">
+<link rel="alternate" hreflang="x-default" href="https://sapiopedia.com/en/games/first-date-questions/">
+<meta property="og:title" content="50 questions to ask on a first date: light, curious and meaningful">
+<meta property="og:description" content="50 original first-date questions that go beyond small talk, sorted from light to meaningful. Draw one when the conversation stalls.">
+<meta property="og:url" content="https://sapiopedia.com/en/games/first-date-questions/">
+<meta property="og:type" content="website">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/assets/style.css">
+
+
+</head>
+<body>
+<header class="site"><div class="wrap">
+  <a class="logo" href="/en/">Sapiopedia <svg aria-hidden="true" viewBox="0 0 360 460"><path d="M60 150 C52 66 128 26 196 40 C280 58 292 158 232 206 C198 232 170 246 168 300 L168 332" fill="none" stroke="#B9CFE0" stroke-width="46" stroke-linecap="round" stroke-linejoin="round" transform="translate(-12,8)" opacity="1"/><path d="M60 150 C52 66 128 26 196 40 C280 58 292 158 232 206 C198 232 170 246 168 300 L168 332" fill="none" stroke="#E9A9B8" stroke-width="46" stroke-linecap="round" stroke-linejoin="round" transform="translate(12,-6)" opacity="1"/><path d="M60 150 C52 66 128 26 196 40 C280 58 292 158 232 206 C198 232 170 246 168 300 L168 332" fill="none" stroke="#B8405E" stroke-width="28" stroke-linecap="round" stroke-linejoin="round" transform="translate(0,0)" opacity="1"/><circle cx="156" cy="410" r="30" fill="#B9CFE0" opacity="1"/><circle cx="180" cy="396" r="30" fill="#E9A9B8" opacity="1"/><circle cx="168" cy="402" r="24" fill="#B8405E" opacity="1"/></svg></a>
+  <nav class="main"><a href="/en/quizzes/">Quizzes</a><a href="/en/tools/">Tools</a><a href="/en/meanings/">Meanings</a><a href="/en/names/">Names</a><a href="/en/games/">Games</a><span class="lang"><b>EN</b> / <a href="/fr/jeux/questions-premier-rendez-vous/">FR</a></span></nav>
+</div></header>
+<main class="page">
+<h1>50 questions to ask on a first date: light, curious and meaningful</h1><p class="lead">50 original first-date questions that go beyond small talk, sorted from light to meaningful. Draw one when the conversation stalls.</p>
+<p>The best first-date questions are not interview questions. They are invitations: easy to pick up, open enough to wander, and interesting enough that you want to answer them yourself. These 50 are sorted from light to meaningful so you can start with coffee orders and, if the evening goes well, end somewhere that matters.</p>
+<div class="tool" id="game">
+  <div class="row"><button onclick="draw([0])">Light</button><button onclick="draw([1])">Curious</button><button onclick="draw([2])">Meaningful</button><button onclick="draw([0, 1, 2])">Any</button></div>
+  <div class="result" id="r">Press the button to draw a question.</div>
+  <div class="row" id="acts" style="display:none;margin-top:1rem">
+    <button onclick="again()">Next</button>
+    <button onclick="SP.share(document.title, cur)">Share</button>
+  </div>
+</div>
+<script>
+var G = [["Light", ["What is your idea of a perfect lazy Sunday?", "What is the last thing you laughed about on your own?", "Are you a planner, or a \"let's see what happens\" person?", "What is a food you could eat every day without getting bored?", "What is the most recent thing you have gotten into: a show, a hobby, a snack?", "Beach, mountains, or city break?", "What was your favourite cartoon or show growing up?", "Which song do you turn up every time it comes on?", "What is the best meal you have had this year?", "Do you have a hidden talent, or a very visible one?", "What is the most spontaneous thing you have done recently?", "What is your coffee order, and what does it say about you?", "Which app do you open first in the morning?", "If you had a free day tomorrow, no obligations, what would you do?", "What is a small thing that always puts you in a good mood?", "Dogs, cats, both, or plants only?", "What is something you are irrationally competitive about?"]], ["Curious", ["What did you want to be when you were ten, and what happened?", "What is a skill you would like to learn in the next year?", "What is a place you went to that was nothing like you expected?", "What is the best piece of advice you have ever received?", "What is a book or film that stayed with you long after it ended?", "What is a story your friends always ask you to retell?", "What is a habit of yours that you are secretly proud of?", "If you could live in another decade for a year, which one?", "What is a job you would try for a month, just to see?", "What do you do when you need to clear your head?", "What is something you changed your mind about in the last few years?", "Who is someone you admire that most people have not heard of?", "What is the best gift you have ever given?", "What is your favourite way to spend time with friends?", "What is a question you wish people asked you more often?", "What is a tradition you have made up just for yourself?", "What is a topic you could talk about for an hour without notes?"]], ["Meaningful", ["What does a good day look like for you?", "What are you most looking forward to right now?", "What is something you worked hard for that paid off?", "What is a lesson you learned the hard way?", "How do you like to be cheered up when things go wrong?", "What is something you want to get better at?", "What makes you feel at home in a place?", "Who has had the biggest influence on how you see the world?", "What is a value you would never compromise on?", "What do your friends come to you for?", "What is one thing you let go of, and were glad you did?", "How do you like to spend time when you are on your own?", "What are you curious about right now?", "What is a moment this year that made you feel really proud?", "What would you like to be doing in five years, roughly?", "What is something you have never told a first date before?"]]], pool = [], last = -1, cur = '';
+function draw(ix){
+  pool = [];
+  for (var a = 0; a < ix.length; a++) for (var b = 0; b < G[ix[a]][1].length; b++) pool.push([ix[a], b]);
+  again();
+}
+function again(){
+  if (!pool.length) return;
+  var k = Math.floor(Math.random() * pool.length);
+  if (pool.length > 1 && k === last) k = (k + 1) % pool.length;
+  last = k;
+  var g = G[pool[k][0]], item = g[1][pool[k][1]];
+  cur = g[0] + ' — ' + item;
+  document.getElementById('r').innerHTML = '<span class="small">' + g[0] + '</span><br>' + item;
+  document.getElementById('acts').style.display = 'grid';
+}
+</script>
+<h2>Light</h2>
+<ol start="1">
+<li>What is your idea of a perfect lazy Sunday?</li>
+<li>What is the last thing you laughed about on your own?</li>
+<li>Are you a planner, or a &quot;let&#x27;s see what happens&quot; person?</li>
+<li>What is a food you could eat every day without getting bored?</li>
+<li>What is the most recent thing you have gotten into: a show, a hobby, a snack?</li>
+<li>Beach, mountains, or city break?</li>
+<li>What was your favourite cartoon or show growing up?</li>
+<li>Which song do you turn up every time it comes on?</li>
+<li>What is the best meal you have had this year?</li>
+<li>Do you have a hidden talent, or a very visible one?</li>
+<li>What is the most spontaneous thing you have done recently?</li>
+<li>What is your coffee order, and what does it say about you?</li>
+<li>Which app do you open first in the morning?</li>
+<li>If you had a free day tomorrow, no obligations, what would you do?</li>
+<li>What is a small thing that always puts you in a good mood?</li>
+<li>Dogs, cats, both, or plants only?</li>
+<li>What is something you are irrationally competitive about?</li>
+</ol>
+<h2>Curious</h2>
+<ol start="18">
+<li>What did you want to be when you were ten, and what happened?</li>
+<li>What is a skill you would like to learn in the next year?</li>
+<li>What is a place you went to that was nothing like you expected?</li>
+<li>What is the best piece of advice you have ever received?</li>
+<li>What is a book or film that stayed with you long after it ended?</li>
+<li>What is a story your friends always ask you to retell?</li>
+<li>What is a habit of yours that you are secretly proud of?</li>
+<li>If you could live in another decade for a year, which one?</li>
+<li>What is a job you would try for a month, just to see?</li>
+<li>What do you do when you need to clear your head?</li>
+<li>What is something you changed your mind about in the last few years?</li>
+<li>Who is someone you admire that most people have not heard of?</li>
+<li>What is the best gift you have ever given?</li>
+<li>What is your favourite way to spend time with friends?</li>
+<li>What is a question you wish people asked you more often?</li>
+<li>What is a tradition you have made up just for yourself?</li>
+<li>What is a topic you could talk about for an hour without notes?</li>
+</ol>
+<h2>Meaningful</h2>
+<ol start="35">
+<li>What does a good day look like for you?</li>
+<li>What are you most looking forward to right now?</li>
+<li>What is something you worked hard for that paid off?</li>
+<li>What is a lesson you learned the hard way?</li>
+<li>How do you like to be cheered up when things go wrong?</li>
+<li>What is something you want to get better at?</li>
+<li>What makes you feel at home in a place?</li>
+<li>Who has had the biggest influence on how you see the world?</li>
+<li>What is a value you would never compromise on?</li>
+<li>What do your friends come to you for?</li>
+<li>What is one thing you let go of, and were glad you did?</li>
+<li>How do you like to spend time when you are on your own?</li>
+<li>What are you curious about right now?</li>
+<li>What is a moment this year that made you feel really proud?</li>
+<li>What would you like to be doing in five years, roughly?</li>
+<li>What is something you have never told a first date before?</li>
+</ol>
+<h2>Rules</h2>
+<ul>
+<li>Start light. Do not open with the meaningful ones, however tempting.</li>
+<li>Answer every question you ask. A date is a conversation, not a quiz.</li>
+<li>Follow the answer, not the list. If a question leads somewhere, stay there.</li>
+<li>Draw a new one only when the conversation genuinely stalls, and say so with a smile.</li>
+<li>Skip anything that does not feel right for the moment. No question is mandatory.</li>
+<li>If you are both reading this page under the table, that is already a good sign.</li>
+</ul>
+<div class="ad">advertisement</div><div class="related"><h2>Related pages</h2><ul><li><a href="/en/games/truth-or-dare-questions/">60 truth or dare questions (clean, funny, for adults)</a></li><li><a href="/en/games/would-you-rather-questions/">50 would you rather questions: funny, deep and impossible</a></li><li><a href="/en/games/never-have-i-ever-questions/">50 never have I ever prompts (clean and funny)</a></li><li><a href="/en/games/icebreaker-questions-for-groups/">60 icebreaker questions for groups: work, family and new friends</a></li><li><a href="/en/games/two-truths-and-a-lie-ideas/">40 two truths and a lie ideas, plus how to play</a></li></ul></div>
+</main>
+<footer class="site"><div class="wrap">
+  <span>Sapiopedia</span><span>·</span><span>Made in Montréal</span><span>·</span><a href="/en/about/">About</a><span>·</span><a href="/en/privacy/">Privacy</a><span>·</span><a href="/en/contact/">Contact</a>
+</div></footer>
+<script src="/assets/common.js"></script>
+</body>
+</html>

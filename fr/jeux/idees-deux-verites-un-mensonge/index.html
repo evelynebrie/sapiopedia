@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>40 idées pour « deux vérités, un mensonge », et comment jouer · Sapiopedia</title>
+<meta name="description" content="En panne de mensonge ? 14 thèmes, 13 vérités qui sonnent faux, 13 mensonges qui sonnent vrai, un générateur de thème et les règles.">
+<link rel="canonical" href="https://sapiopedia.com/fr/jeux/idees-deux-verites-un-mensonge/">
+<link rel="alternate" hreflang="fr" href="https://sapiopedia.com/fr/jeux/idees-deux-verites-un-mensonge/">
+<link rel="alternate" hreflang="en" href="https://sapiopedia.com/en/games/two-truths-and-a-lie-ideas/">
+<link rel="alternate" hreflang="x-default" href="https://sapiopedia.com/en/games/two-truths-and-a-lie-ideas/">
+<meta property="og:title" content="40 idées pour « deux vérités, un mensonge », et comment jouer">
+<meta property="og:description" content="En panne de mensonge ? 14 thèmes, 13 vérités qui sonnent faux, 13 mensonges qui sonnent vrai, un générateur de thème et les règles.">
+<meta property="og:url" content="https://sapiopedia.com/fr/jeux/idees-deux-verites-un-mensonge/">
+<meta property="og:type" content="website">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/assets/style.css">
+
+
+</head>
+<body>
+<header class="site"><div class="wrap">
+  <a class="logo" href="/fr/">Sapiopedia <svg aria-hidden="true" viewBox="0 0 360 460"><path d="M60 150 C52 66 128 26 196 40 C280 58 292 158 232 206 C198 232 170 246 168 300 L168 332" fill="none" stroke="#B9CFE0" stroke-width="46" stroke-linecap="round" stroke-linejoin="round" transform="translate(-12,8)" opacity="1"/><path d="M60 150 C52 66 128 26 196 40 C280 58 292 158 232 206 C198 232 170 246 168 300 L168 332" fill="none" stroke="#E9A9B8" stroke-width="46" stroke-linecap="round" stroke-linejoin="round" transform="translate(12,-6)" opacity="1"/><path d="M60 150 C52 66 128 26 196 40 C280 58 292 158 232 206 C198 232 170 246 168 300 L168 332" fill="none" stroke="#B8405E" stroke-width="28" stroke-linecap="round" stroke-linejoin="round" transform="translate(0,0)" opacity="1"/><circle cx="156" cy="410" r="30" fill="#B9CFE0" opacity="1"/><circle cx="180" cy="396" r="30" fill="#E9A9B8" opacity="1"/><circle cx="168" cy="402" r="24" fill="#B8405E" opacity="1"/></svg></a>
+  <nav class="main"><a href="/fr/quiz/">Quiz</a><a href="/fr/outils/">Outils</a><a href="/fr/significations/">Significations</a><a href="/fr/prenoms/">Prénoms</a><a href="/fr/jeux/">Jeux</a><span class="lang"><b>FR</b> / <a href="/en/games/two-truths-and-a-lie-ideas/">EN</a></span></nav>
+</div></header>
+<main class="page">
+<h1>40 idées pour « deux vérités, un mensonge », et comment jouer</h1><p class="lead">En panne de mensonge ? 14 thèmes, 13 vérités qui sonnent faux, 13 mensonges qui sonnent vrai, un générateur de thème et les règles.</p>
+<p>« Deux vérités, un mensonge » est le jeu idéal pour un groupe qui se connaît peu : chaque joueur énonce trois choses sur lui-même, dont une fausse, et les autres doivent la repérer. Le difficile n'est pas de mentir, c'est de trouver des vérités assez étranges pour qu'on en doute. Le générateur ci-dessous propose un thème pour que personne ne sèche quand vient son tour.</p>
+<div class="tool" id="game">
+  <div class="row"><button onclick="draw([0])">Proposer un thème</button><button onclick="draw([1, 2])">Idée au hasard</button></div>
+  <div class="result" id="r">Appuyez sur le bouton pour tirer une question.</div>
+  <div class="row" id="acts" style="display:none;margin-top:1rem">
+    <button onclick="again()">Suivant</button>
+    <button onclick="SP.share(document.title, cur)">Partager</button>
+  </div>
+</div>
+<script>
+var G = [["Thèmes à piocher", ["L'enfance : animaux, surnoms, bêtises à l'école.", "Les voyages : destinations, vols, objets perdus à l'étranger.", "La nourriture : le plat le plus étrange goûté, ce que tu sais cuisiner, les allergies.", "Les célébrités : qui as-tu rencontré, croisé, ou côtoyé dans une file d'attente ?", "Blessures et cicatrices : comment tu les as vraiment eues.", "Les petits boulots : ta première paie, la tâche la plus bizarre pour laquelle on t'a payé.", "Les talents : instruments, langues, tours de passe-passe.", "Les peurs : la hauteur, les oiseaux, les escaliers mécaniques.", "Les collections : ce que tu possèdes en bien trop grande quantité.", "L'école : prix, heures de colle, clubs oubliés.", "La technologie : ton premier téléphone, ta plus longue série, le jeu où tu étais imbattable.", "La famille : parents étonnants, ancêtres surprenants, légendes familiales.", "Le sport : équipes, médailles, chutes spectaculaires.", "Les premières fois : premier concert, premier vol, premier séjour à l'étranger."]], ["Des vérités qui sonnent faux", ["Une célébrité à qui tu as vraiment parlé, même dix secondes.", "Un savoir-faire appris grâce à une vidéo et que tu utilises encore.", "Un passage à la télé, à la radio ou dans un journal, même fugace.", "Un aliment que tu n'as jamais goûté alors que tout le monde pense le contraire.", "Un lieu où tu es allé et où aucun de tes amis n'a mis les pieds.", "Un chiffre qui paraît impossible : nombre de frères et sœurs, de cousins, de déménagements ou d'animaux.", "Un record que tu détiens dans ta famille ou ta bande d'amis.", "Une chose que tu n'as jamais faite alors que la plupart des adultes l'ont faite (conduire, voir un film culte).", "Un sport ou une activité pratiqués en compétition quand tu étais enfant.", "Une coïncidence qui t'est vraiment arrivée et que personne ne croit.", "Un objet que tu gardes depuis plus de vingt ans.", "Une langue dans laquelle tu sais dire plus de dix phrases.", "La véritable origine d'un de tes surnoms."]], ["Des mensonges qui sonnent vrai", ["Donne-toi une allergie ou une intolérance très banale.", "Invente-toi un loisir qui colle un peu trop bien à ta personnalité.", "Invente un deuxième prénom que personne ne t'a jamais entendu utiliser.", "Cite une ville où tu « as vécu six mois », pendant une année plausible.", "Dis que tu as croisé une personne vaguement connue dans un endroit banal.", "Ajoute une petite blessure crédible : un orteil cassé, un poignet foulé.", "Revendique un talent modeste : jongler avec trois balles, connaître toutes les capitales d'Europe.", "Dis que tu as un tatouage à un endroit que personne ne peut vérifier maintenant.", "Mentionne un boulot que tu as fait « juste un été ».", "Prétends avoir une peur ordinaire : les mites, les ascenseurs, les ballons de baudruche.", "Affirme n'avoir jamais goûté un aliment très courant.", "Donne un détail très précis et un peu ennuyeux : le modèle exact de ta première voiture ou de ton premier téléphone.", "Décris un animal de compagnie ordinaire avec un détail inhabituel : un chat qui porte un nom de légume."]]], pool = [], last = -1, cur = '';
+function draw(ix){
+  pool = [];
+  for (var a = 0; a < ix.length; a++) for (var b = 0; b < G[ix[a]][1].length; b++) pool.push([ix[a], b]);
+  again();
+}
+function again(){
+  if (!pool.length) return;
+  var k = Math.floor(Math.random() * pool.length);
+  if (pool.length > 1 && k === last) k = (k + 1) % pool.length;
+  last = k;
+  var g = G[pool[k][0]], item = g[1][pool[k][1]];
+  cur = g[0] + ' — ' + item;
+  document.getElementById('r').innerHTML = '<span class="small">' + g[0] + '</span><br>' + item;
+  document.getElementById('acts').style.display = 'grid';
+}
+</script>
+<h2>Thèmes à piocher</h2>
+<ol start="1">
+<li>L&#x27;enfance : animaux, surnoms, bêtises à l&#x27;école.</li>
+<li>Les voyages : destinations, vols, objets perdus à l&#x27;étranger.</li>
+<li>La nourriture : le plat le plus étrange goûté, ce que tu sais cuisiner, les allergies.</li>
+<li>Les célébrités : qui as-tu rencontré, croisé, ou côtoyé dans une file d&#x27;attente ?</li>
+<li>Blessures et cicatrices : comment tu les as vraiment eues.</li>
+<li>Les petits boulots : ta première paie, la tâche la plus bizarre pour laquelle on t&#x27;a payé.</li>
+<li>Les talents : instruments, langues, tours de passe-passe.</li>
+<li>Les peurs : la hauteur, les oiseaux, les escaliers mécaniques.</li>
+<li>Les collections : ce que tu possèdes en bien trop grande quantité.</li>
+<li>L&#x27;école : prix, heures de colle, clubs oubliés.</li>
+<li>La technologie : ton premier téléphone, ta plus longue série, le jeu où tu étais imbattable.</li>
+<li>La famille : parents étonnants, ancêtres surprenants, légendes familiales.</li>
+<li>Le sport : équipes, médailles, chutes spectaculaires.</li>
+<li>Les premières fois : premier concert, premier vol, premier séjour à l&#x27;étranger.</li>
+</ol>
+<h2>Des vérités qui sonnent faux</h2>
+<ol start="15">
+<li>Une célébrité à qui tu as vraiment parlé, même dix secondes.</li>
+<li>Un savoir-faire appris grâce à une vidéo et que tu utilises encore.</li>
+<li>Un passage à la télé, à la radio ou dans un journal, même fugace.</li>
+<li>Un aliment que tu n&#x27;as jamais goûté alors que tout le monde pense le contraire.</li>
+<li>Un lieu où tu es allé et où aucun de tes amis n&#x27;a mis les pieds.</li>
+<li>Un chiffre qui paraît impossible : nombre de frères et sœurs, de cousins, de déménagements ou d&#x27;animaux.</li>
+<li>Un record que tu détiens dans ta famille ou ta bande d&#x27;amis.</li>
+<li>Une chose que tu n&#x27;as jamais faite alors que la plupart des adultes l&#x27;ont faite (conduire, voir un film culte).</li>
+<li>Un sport ou une activité pratiqués en compétition quand tu étais enfant.</li>
+<li>Une coïncidence qui t&#x27;est vraiment arrivée et que personne ne croit.</li>
+<li>Un objet que tu gardes depuis plus de vingt ans.</li>
+<li>Une langue dans laquelle tu sais dire plus de dix phrases.</li>
+<li>La véritable origine d&#x27;un de tes surnoms.</li>
+</ol>
+<h2>Des mensonges qui sonnent vrai</h2>
+<ol start="28">
+<li>Donne-toi une allergie ou une intolérance très banale.</li>
+<li>Invente-toi un loisir qui colle un peu trop bien à ta personnalité.</li>
+<li>Invente un deuxième prénom que personne ne t&#x27;a jamais entendu utiliser.</li>
+<li>Cite une ville où tu « as vécu six mois », pendant une année plausible.</li>
+<li>Dis que tu as croisé une personne vaguement connue dans un endroit banal.</li>
+<li>Ajoute une petite blessure crédible : un orteil cassé, un poignet foulé.</li>
+<li>Revendique un talent modeste : jongler avec trois balles, connaître toutes les capitales d&#x27;Europe.</li>
+<li>Dis que tu as un tatouage à un endroit que personne ne peut vérifier maintenant.</li>
+<li>Mentionne un boulot que tu as fait « juste un été ».</li>
+<li>Prétends avoir une peur ordinaire : les mites, les ascenseurs, les ballons de baudruche.</li>
+<li>Affirme n&#x27;avoir jamais goûté un aliment très courant.</li>
+<li>Donne un détail très précis et un peu ennuyeux : le modèle exact de ta première voiture ou de ton premier téléphone.</li>
+<li>Décris un animal de compagnie ordinaire avec un détail inhabituel : un chat qui porte un nom de légume.</li>
+</ol>
+<h2>Règles</h2>
+<ul>
+<li>Chaque joueur prépare trois affirmations courtes sur lui-même : deux vraies, une fausse. Un thème aide à démarrer.</li>
+<li>Énoncez les trois d'une voix neutre, dans n'importe quel ordre. Pas de détails avant le vote.</li>
+<li>Le groupe peut poser une question de précision par affirmation, puis tout le monde vote pour le mensonge en même temps.</li>
+<li>Révélez le mensonge. Chaque bonne réponse vaut un point ; celui qui parlait marque un point par mauvaise réponse.</li>
+<li>Un tour par personne. À huit, comptez environ une demi-heure.</li>
+<li>Astuce : les mensonges les plus convaincants sont ennuyeux, et les meilleures vérités semblent inventées.</li>
+</ul>
+<div class="ad">publicité</div><div class="related"><h2>Pages liées</h2><ul><li><a href="/fr/jeux/questions-action-ou-verite/">60 questions pour action ou vérité (drôles et sans gêne)</a></li><li><a href="/fr/jeux/questions-tu-preferes/">50 questions « tu préfères » : drôles, profondes et impossibles</a></li><li><a href="/fr/jeux/phrases-je-n-ai-jamais/">50 phrases pour « je n&#x27;ai jamais » (drôles et sans alcool)</a></li><li><a href="/fr/jeux/questions-brise-glace-pour-groupes/">60 questions brise-glace : travail, famille et nouveaux amis</a></li><li><a href="/fr/jeux/questions-premier-rendez-vous/">50 questions pour un premier rendez-vous : légères, curieuses, profondes</a></li></ul></div>
+</main>
+<footer class="site"><div class="wrap">
+  <span>Sapiopedia</span><span>·</span><span>Créé à Montréal</span><span>·</span><a href="/fr/a-propos/">À propos</a><span>·</span><a href="/fr/confidentialite/">Confidentialité</a><span>·</span><a href="/fr/contact/">Contact</a>
+</div></footer>
+<script src="/assets/common.js"></script>
+</body>
+</html>

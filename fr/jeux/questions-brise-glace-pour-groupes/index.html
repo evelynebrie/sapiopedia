@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>60 questions brise-glace : travail, famille et nouveaux amis · Sapiopedia</title>
+<meta name="description" content="60 questions brise-glace originales pour les réunions d&#x27;équipe, les repas de famille et les soirées entre nouveaux amis.">
+<link rel="canonical" href="https://sapiopedia.com/fr/jeux/questions-brise-glace-pour-groupes/">
+<link rel="alternate" hreflang="fr" href="https://sapiopedia.com/fr/jeux/questions-brise-glace-pour-groupes/">
+<link rel="alternate" hreflang="en" href="https://sapiopedia.com/en/games/icebreaker-questions-for-groups/">
+<link rel="alternate" hreflang="x-default" href="https://sapiopedia.com/en/games/icebreaker-questions-for-groups/">
+<meta property="og:title" content="60 questions brise-glace : travail, famille et nouveaux amis">
+<meta property="og:description" content="60 questions brise-glace originales pour les réunions d&#x27;équipe, les repas de famille et les soirées entre nouveaux amis.">
+<meta property="og:url" content="https://sapiopedia.com/fr/jeux/questions-brise-glace-pour-groupes/">
+<meta property="og:type" content="website">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/assets/style.css">
+
+
+</head>
+<body>
+<header class="site"><div class="wrap">
+  <a class="logo" href="/fr/">Sapiopedia <svg aria-hidden="true" viewBox="0 0 360 460"><path d="M60 150 C52 66 128 26 196 40 C280 58 292 158 232 206 C198 232 170 246 168 300 L168 332" fill="none" stroke="#B9CFE0" stroke-width="46" stroke-linecap="round" stroke-linejoin="round" transform="translate(-12,8)" opacity="1"/><path d="M60 150 C52 66 128 26 196 40 C280 58 292 158 232 206 C198 232 170 246 168 300 L168 332" fill="none" stroke="#E9A9B8" stroke-width="46" stroke-linecap="round" stroke-linejoin="round" transform="translate(12,-6)" opacity="1"/><path d="M60 150 C52 66 128 26 196 40 C280 58 292 158 232 206 C198 232 170 246 168 300 L168 332" fill="none" stroke="#B8405E" stroke-width="28" stroke-linecap="round" stroke-linejoin="round" transform="translate(0,0)" opacity="1"/><circle cx="156" cy="410" r="30" fill="#B9CFE0" opacity="1"/><circle cx="180" cy="396" r="30" fill="#E9A9B8" opacity="1"/><circle cx="168" cy="402" r="24" fill="#B8405E" opacity="1"/></svg></a>
+  <nav class="main"><a href="/fr/quiz/">Quiz</a><a href="/fr/outils/">Outils</a><a href="/fr/significations/">Significations</a><a href="/fr/prenoms/">Prénoms</a><a href="/fr/jeux/">Jeux</a><span class="lang"><b>FR</b> / <a href="/en/games/icebreaker-questions-for-groups/">EN</a></span></nav>
+</div></header>
+<main class="page">
+<h1>60 questions brise-glace : travail, famille et nouveaux amis</h1><p class="lead">60 questions brise-glace originales pour les réunions d&#x27;équipe, les repas de famille et les soirées entre nouveaux amis.</p>
+<p>Une bonne question brise-glace est facile à répondre, impossible à rater, et laisse une petite porte ouverte à une anecdote. Ces 60 questions ont été écrites pour trois situations où le silence pèse le plus : le début d'une réunion, un long repas de famille, et la première soirée avec des gens qu'on connaît à peine. Choisissez le contexte et tirez.</p>
+<div class="tool" id="game">
+  <div class="row"><button onclick="draw([0])">Travail</button><button onclick="draw([1])">Repas de famille</button><button onclick="draw([2])">Nouveaux amis</button></div>
+  <div class="result" id="r">Appuyez sur le bouton pour tirer une question.</div>
+  <div class="row" id="acts" style="display:none;margin-top:1rem">
+    <button onclick="again()">Suivant</button>
+    <button onclick="SP.share(document.title, cur)">Partager</button>
+  </div>
+</div>
+<script>
+var G = [["Au travail", ["Quel est le meilleur conseil qu'on t'a donné lors de ton premier emploi ?", "Si ton travail avait une chanson thème, ce serait laquelle ?", "Quel petit détail rend ta journée de travail meilleure ?", "Quelle compétence aimerais-tu apprendre si tu avais un après-midi libre chaque semaine ?", "Quel a été ton tout premier boulot, et qu'est-ce qu'il t'a appris ?", "Quel outil ou quelle appli te serait impossible à abandonner au travail ?", "Café, thé ou autre chose pour démarrer la journée ?", "Quelle est la chose la plus intéressante que tu as apprise ce mois-ci ?", "Si tu pouvais échanger ton poste avec quelqu'un ici pendant une journée, ce serait avec qui ?", "Quelle est ta façon préférée de faire une pause ?", "Quelle habitude de travail est ta petite fierté ?", "Quelle réunion remplacerais-tu par un courriel, si tu ne pouvais en choisir qu'une ?", "Quelle chose t'angoissait et s'est finalement très bien passée ?", "Quel livre, podcast ou série a changé ta façon de voir le travail ?", "Que fais-tu dans les dix premières minutes de ta journée ?", "Quelle est la chose la plus gentille qu'un collègue a faite pour toi ?", "Si tu pouvais ajouter une pièce au bureau, ce serait quoi ?", "Quel est ton déjeuner de secours quand tu n'as que cinq minutes ?", "Qu'est-ce que les gens comprennent souvent mal à propos de ton métier ?", "Que dirais-tu à la personne que tu étais lors de ton premier jour ici ?"]], ["Repas de famille", ["Quelle tradition familiale voudrais-tu garder pour toujours ?", "Quel est le meilleur plat jamais cuisiné par quelqu'un à cette table ?", "Quelle histoire sur un grand-parent tout le monde devrait-il connaître ?", "De quelles vacances en famille gardes-tu le souvenir le plus vif, et pourquoi ?", "Quel métier voulais-tu faire quand tu étais enfant ?", "Qu'as-tu appris de quelqu'un assis à cette table ?", "Quel est l'objet le plus utile que tu possèdes et qui n'a presque rien coûté ?", "Si notre famille avait une devise, ce serait laquelle ?", "Quel était ton jouet ou ton jeu préféré quand tu étais enfant ?", "Quelle odeur te ramène instantanément en enfance ?", "Qui raconte les meilleures blagues dans la famille, et qui raconte les plus longues ?", "Qu'aimerais-tu apprendre d'un membre plus âgé de la famille ?", "Quel plat ne manges-tu que lors des réunions de famille ?", "Quel est le quiproquo le plus drôle de l'histoire de cette famille ?", "Quelle photo de l'album de famille préfères-tu ?", "Quel est le meilleur conseil qu'un parent ou un grand-parent t'a donné ?", "Si on partait tous ensemble en voyage, où choisirais-tu d'aller ?", "Quelle habitude as-tu héritée de tes parents sans t'en rendre compte ?", "Quel est le premier plat que tu te souviens avoir cuisiné ?", "Qu'est-ce qui te fait envie pour l'année qui vient ?"]], ["Nouveaux amis", ["Quel loisir as-tu commencé à l'âge adulte ?", "Quelle est la meilleure chose que tu as mangée ce mois-ci ?", "Quel endroit du monde est, selon toi, sous-estimé ?", "Quelle chanson ne passes-tu jamais ?", "Quel talent inattendu caches-tu ?", "Quelle est la dernière chose qui t'a fait rire à voix haute ?", "Plutôt du matin ou du soir, et ça a toujours été le cas ?", "Quelle série ou quel livre recommanderais-tu à n'importe qui ?", "Quel petit rituel fait que ton week-end ressemble vraiment à un week-end ?", "Si tu pouvais dîner avec n'importe quelle personne vivante, ce serait qui ?", "Quel est le compliment le plus inattendu qu'on t'a fait ?", "Qu'as-tu appris récemment qui t'a surpris ?", "À quoi ressemble ton dimanche après-midi idéal ?", "Quel est le rêve de ta liste qui est vraiment réalisable ?", "Quel plat de ton enfance adores-tu encore sans aucune honte ?", "Quel est ton mot préféré, dans n'importe quelle langue ?", "Si tu pouvais maîtriser instantanément un instrument, lequel choisirais-tu ?", "Quel endroit de cette ville mériterait d'être plus connu ?", "Quel est le fait le plus étrange que tu connais par cœur ?", "Quelle est ta plus belle réussite, celle que peu de gens connaissent ?"]]], pool = [], last = -1, cur = '';
+function draw(ix){
+  pool = [];
+  for (var a = 0; a < ix.length; a++) for (var b = 0; b < G[ix[a]][1].length; b++) pool.push([ix[a], b]);
+  again();
+}
+function again(){
+  if (!pool.length) return;
+  var k = Math.floor(Math.random() * pool.length);
+  if (pool.length > 1 && k === last) k = (k + 1) % pool.length;
+  last = k;
+  var g = G[pool[k][0]], item = g[1][pool[k][1]];
+  cur = g[0] + ' — ' + item;
+  document.getElementById('r').innerHTML = '<span class="small">' + g[0] + '</span><br>' + item;
+  document.getElementById('acts').style.display = 'grid';
+}
+</script>
+<h2>Au travail</h2>
+<ol start="1">
+<li>Quel est le meilleur conseil qu&#x27;on t&#x27;a donné lors de ton premier emploi ?</li>
+<li>Si ton travail avait une chanson thème, ce serait laquelle ?</li>
+<li>Quel petit détail rend ta journée de travail meilleure ?</li>
+<li>Quelle compétence aimerais-tu apprendre si tu avais un après-midi libre chaque semaine ?</li>
+<li>Quel a été ton tout premier boulot, et qu&#x27;est-ce qu&#x27;il t&#x27;a appris ?</li>
+<li>Quel outil ou quelle appli te serait impossible à abandonner au travail ?</li>
+<li>Café, thé ou autre chose pour démarrer la journée ?</li>
+<li>Quelle est la chose la plus intéressante que tu as apprise ce mois-ci ?</li>
+<li>Si tu pouvais échanger ton poste avec quelqu&#x27;un ici pendant une journée, ce serait avec qui ?</li>
+<li>Quelle est ta façon préférée de faire une pause ?</li>
+<li>Quelle habitude de travail est ta petite fierté ?</li>
+<li>Quelle réunion remplacerais-tu par un courriel, si tu ne pouvais en choisir qu&#x27;une ?</li>
+<li>Quelle chose t&#x27;angoissait et s&#x27;est finalement très bien passée ?</li>
+<li>Quel livre, podcast ou série a changé ta façon de voir le travail ?</li>
+<li>Que fais-tu dans les dix premières minutes de ta journée ?</li>
+<li>Quelle est la chose la plus gentille qu&#x27;un collègue a faite pour toi ?</li>
+<li>Si tu pouvais ajouter une pièce au bureau, ce serait quoi ?</li>
+<li>Quel est ton déjeuner de secours quand tu n&#x27;as que cinq minutes ?</li>
+<li>Qu&#x27;est-ce que les gens comprennent souvent mal à propos de ton métier ?</li>
+<li>Que dirais-tu à la personne que tu étais lors de ton premier jour ici ?</li>
+</ol>
+<h2>Repas de famille</h2>
+<ol start="21">
+<li>Quelle tradition familiale voudrais-tu garder pour toujours ?</li>
+<li>Quel est le meilleur plat jamais cuisiné par quelqu&#x27;un à cette table ?</li>
+<li>Quelle histoire sur un grand-parent tout le monde devrait-il connaître ?</li>
+<li>De quelles vacances en famille gardes-tu le souvenir le plus vif, et pourquoi ?</li>
+<li>Quel métier voulais-tu faire quand tu étais enfant ?</li>
+<li>Qu&#x27;as-tu appris de quelqu&#x27;un assis à cette table ?</li>
+<li>Quel est l&#x27;objet le plus utile que tu possèdes et qui n&#x27;a presque rien coûté ?</li>
+<li>Si notre famille avait une devise, ce serait laquelle ?</li>
+<li>Quel était ton jouet ou ton jeu préféré quand tu étais enfant ?</li>
+<li>Quelle odeur te ramène instantanément en enfance ?</li>
+<li>Qui raconte les meilleures blagues dans la famille, et qui raconte les plus longues ?</li>
+<li>Qu&#x27;aimerais-tu apprendre d&#x27;un membre plus âgé de la famille ?</li>
+<li>Quel plat ne manges-tu que lors des réunions de famille ?</li>
+<li>Quel est le quiproquo le plus drôle de l&#x27;histoire de cette famille ?</li>
+<li>Quelle photo de l&#x27;album de famille préfères-tu ?</li>
+<li>Quel est le meilleur conseil qu&#x27;un parent ou un grand-parent t&#x27;a donné ?</li>
+<li>Si on partait tous ensemble en voyage, où choisirais-tu d&#x27;aller ?</li>
+<li>Quelle habitude as-tu héritée de tes parents sans t&#x27;en rendre compte ?</li>
+<li>Quel est le premier plat que tu te souviens avoir cuisiné ?</li>
+<li>Qu&#x27;est-ce qui te fait envie pour l&#x27;année qui vient ?</li>
+</ol>
+<h2>Nouveaux amis</h2>
+<ol start="41">
+<li>Quel loisir as-tu commencé à l&#x27;âge adulte ?</li>
+<li>Quelle est la meilleure chose que tu as mangée ce mois-ci ?</li>
+<li>Quel endroit du monde est, selon toi, sous-estimé ?</li>
+<li>Quelle chanson ne passes-tu jamais ?</li>
+<li>Quel talent inattendu caches-tu ?</li>
+<li>Quelle est la dernière chose qui t&#x27;a fait rire à voix haute ?</li>
+<li>Plutôt du matin ou du soir, et ça a toujours été le cas ?</li>
+<li>Quelle série ou quel livre recommanderais-tu à n&#x27;importe qui ?</li>
+<li>Quel petit rituel fait que ton week-end ressemble vraiment à un week-end ?</li>
+<li>Si tu pouvais dîner avec n&#x27;importe quelle personne vivante, ce serait qui ?</li>
+<li>Quel est le compliment le plus inattendu qu&#x27;on t&#x27;a fait ?</li>
+<li>Qu&#x27;as-tu appris récemment qui t&#x27;a surpris ?</li>
+<li>À quoi ressemble ton dimanche après-midi idéal ?</li>
+<li>Quel est le rêve de ta liste qui est vraiment réalisable ?</li>
+<li>Quel plat de ton enfance adores-tu encore sans aucune honte ?</li>
+<li>Quel est ton mot préféré, dans n&#x27;importe quelle langue ?</li>
+<li>Si tu pouvais maîtriser instantanément un instrument, lequel choisirais-tu ?</li>
+<li>Quel endroit de cette ville mériterait d&#x27;être plus connu ?</li>
+<li>Quel est le fait le plus étrange que tu connais par cœur ?</li>
+<li>Quelle est ta plus belle réussite, celle que peu de gens connaissent ?</li>
+</ol>
+<h2>Règles</h2>
+<ul>
+<li>Choisissez le contexte qui correspond au groupe et tirez une question.</li>
+<li>Faites le tour de la table : tout le monde répond à la même question, 30 secondes chacun.</li>
+<li>Les questions de relance sont bienvenues, mais seulement après que chacun a répondu une fois.</li>
+<li>Personne n'est obligé de répondre. « Je passe » suffit ; tirez-en une autre.</li>
+<li>Pour les grands groupes, formez des tables de quatre à six pour que chacun puisse parler.</li>
+<li>Trois questions suffisent en général : arrêtez-vous tant que l'énergie est encore là.</li>
+</ul>
+<div class="ad">publicité</div><div class="related"><h2>Pages liées</h2><ul><li><a href="/fr/jeux/questions-action-ou-verite/">60 questions pour action ou vérité (drôles et sans gêne)</a></li><li><a href="/fr/jeux/questions-tu-preferes/">50 questions « tu préfères » : drôles, profondes et impossibles</a></li><li><a href="/fr/jeux/phrases-je-n-ai-jamais/">50 phrases pour « je n&#x27;ai jamais » (drôles et sans alcool)</a></li><li><a href="/fr/jeux/idees-deux-verites-un-mensonge/">40 idées pour « deux vérités, un mensonge », et comment jouer</a></li><li><a href="/fr/jeux/questions-premier-rendez-vous/">50 questions pour un premier rendez-vous : légères, curieuses, profondes</a></li></ul></div>
+</main>
+<footer class="site"><div class="wrap">
+  <span>Sapiopedia</span><span>·</span><span>Créé à Montréal</span><span>·</span><a href="/fr/a-propos/">À propos</a><span>·</span><a href="/fr/confidentialite/">Confidentialité</a><span>·</span><a href="/fr/contact/">Contact</a>
+</div></footer>
+<script src="/assets/common.js"></script>
+</body>
+</html>

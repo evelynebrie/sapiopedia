@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>50 questions pour un premier rendez-vous : légères, curieuses, profondes · Sapiopedia</title>
+<meta name="description" content="50 questions originales pour un premier rendez-vous, du léger au profond, pour aller plus loin que la météo. Tirez-en une si ça cale.">
+<link rel="canonical" href="https://sapiopedia.com/fr/jeux/questions-premier-rendez-vous/">
+<link rel="alternate" hreflang="fr" href="https://sapiopedia.com/fr/jeux/questions-premier-rendez-vous/">
+<link rel="alternate" hreflang="en" href="https://sapiopedia.com/en/games/first-date-questions/">
+<link rel="alternate" hreflang="x-default" href="https://sapiopedia.com/en/games/first-date-questions/">
+<meta property="og:title" content="50 questions pour un premier rendez-vous : légères, curieuses, profondes">
+<meta property="og:description" content="50 questions originales pour un premier rendez-vous, du léger au profond, pour aller plus loin que la météo. Tirez-en une si ça cale.">
+<meta property="og:url" content="https://sapiopedia.com/fr/jeux/questions-premier-rendez-vous/">
+<meta property="og:type" content="website">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/assets/style.css">
+
+
+</head>
+<body>
+<header class="site"><div class="wrap">
+  <a class="logo" href="/fr/">Sapiopedia <svg aria-hidden="true" viewBox="0 0 360 460"><path d="M60 150 C52 66 128 26 196 40 C280 58 292 158 232 206 C198 232 170 246 168 300 L168 332" fill="none" stroke="#B9CFE0" stroke-width="46" stroke-linecap="round" stroke-linejoin="round" transform="translate(-12,8)" opacity="1"/><path d="M60 150 C52 66 128 26 196 40 C280 58 292 158 232 206 C198 232 170 246 168 300 L168 332" fill="none" stroke="#E9A9B8" stroke-width="46" stroke-linecap="round" stroke-linejoin="round" transform="translate(12,-6)" opacity="1"/><path d="M60 150 C52 66 128 26 196 40 C280 58 292 158 232 206 C198 232 170 246 168 300 L168 332" fill="none" stroke="#B8405E" stroke-width="28" stroke-linecap="round" stroke-linejoin="round" transform="translate(0,0)" opacity="1"/><circle cx="156" cy="410" r="30" fill="#B9CFE0" opacity="1"/><circle cx="180" cy="396" r="30" fill="#E9A9B8" opacity="1"/><circle cx="168" cy="402" r="24" fill="#B8405E" opacity="1"/></svg></a>
+  <nav class="main"><a href="/fr/quiz/">Quiz</a><a href="/fr/outils/">Outils</a><a href="/fr/significations/">Significations</a><a href="/fr/prenoms/">Prénoms</a><a href="/fr/jeux/">Jeux</a><span class="lang"><b>FR</b> / <a href="/en/games/first-date-questions/">EN</a></span></nav>
+</div></header>
+<main class="page">
+<h1>50 questions pour un premier rendez-vous : légères, curieuses, profondes</h1><p class="lead">50 questions originales pour un premier rendez-vous, du léger au profond, pour aller plus loin que la météo. Tirez-en une si ça cale.</p>
+<p>Les bonnes questions de premier rendez-vous ne sont pas des questions d'entretien. Ce sont des invitations : faciles à saisir, assez ouvertes pour vagabonder, et assez intéressantes pour qu'on ait envie d'y répondre soi-même. Ces 50 questions vont du léger au profond : commencez par la commande au café et, si la soirée se passe bien, finissez par ce qui compte.</p>
+<div class="tool" id="game">
+  <div class="row"><button onclick="draw([0])">Légère</button><button onclick="draw([1])">Curieuse</button><button onclick="draw([2])">Profonde</button><button onclick="draw([0, 1, 2])">Au hasard</button></div>
+  <div class="result" id="r">Appuyez sur le bouton pour tirer une question.</div>
+  <div class="row" id="acts" style="display:none;margin-top:1rem">
+    <button onclick="again()">Suivant</button>
+    <button onclick="SP.share(document.title, cur)">Partager</button>
+  </div>
+</div>
+<script>
+var G = [["Légères", ["C'est quoi, pour toi, le dimanche paresseux idéal ?", "Quelle est la dernière chose qui t'a fait rire dans ton coin ?", "Plutôt du genre à tout planifier, ou à voir ce qui se passe ?", "Quel plat pourrais-tu manger tous les jours sans te lasser ?", "Quelle est ta dernière découverte : une série, un loisir, un en-cas ?", "Plage, montagne ou week-end en ville ?", "Quel dessin animé ou quelle émission adorais-tu enfant ?", "Quelle chanson montes-tu toujours à fond quand elle passe ?", "Quel est le meilleur repas que tu as fait cette année ?", "As-tu un talent caché, ou un talent très visible ?", "Quelle est la chose la plus spontanée que tu as faite récemment ?", "Quelle est ta commande au café, et qu'est-ce qu'elle dit de toi ?", "Quelle appli ouvres-tu en premier le matin ?", "Si tu avais une journée libre demain, sans aucune obligation, tu ferais quoi ?", "Quel petit truc te met toujours de bonne humeur ?", "Chiens, chats, les deux, ou seulement des plantes ?", "Qu'est-ce qui réveille en toi un esprit de compétition complètement irrationnel ?"]], ["Curieuses", ["Que voulais-tu faire à dix ans, et qu'est-ce qui s'est passé ensuite ?", "Quelle compétence aimerais-tu apprendre dans l'année qui vient ?", "Quel endroit visité ne ressemblait en rien à ce que tu imaginais ?", "Quel est le meilleur conseil qu'on t'a jamais donné ?", "Quel livre ou quel film t'a habité longtemps après la fin ?", "Quelle histoire tes amis te demandent-ils toujours de raconter ?", "Quelle habitude est ta petite fierté secrète ?", "Si tu pouvais vivre un an dans une autre décennie, laquelle ?", "Quel métier essaierais-tu pendant un mois, juste pour voir ?", "Que fais-tu quand tu as besoin de te vider la tête ?", "Sur quoi as-tu changé d'avis ces dernières années ?", "Qui admires-tu que la plupart des gens ne connaissent pas ?", "Quel est le plus beau cadeau que tu as offert ?", "Quelle est ta façon préférée de passer du temps avec tes amis ?", "Quelle question aimerais-tu qu'on te pose plus souvent ?", "Quelle tradition t'es-tu inventée rien que pour toi ?", "De quel sujet pourrais-tu parler une heure sans notes ?"]], ["Profondes", ["À quoi ressemble une bonne journée, pour toi ?", "Qu'est-ce qui te réjouit le plus en ce moment ?", "Pour quoi as-tu travaillé dur, et ça a fini par payer ?", "Quelle leçon as-tu apprise à la dure ?", "Comment aimes-tu qu'on te remonte le moral quand ça va mal ?", "En quoi voudrais-tu progresser ?", "Qu'est-ce qui fait que tu te sens chez toi quelque part ?", "Qui a le plus influencé ta façon de voir le monde ?", "Quelle valeur ne négocierais-tu jamais ?", "Pour quoi tes amis viennent-ils te voir ?", "Qu'as-tu lâché un jour, sans jamais le regretter ?", "Comment aimes-tu passer le temps quand tu es en solo ?", "Qu'est-ce qui t'intrigue en ce moment ?", "Quel moment de cette année t'a fait ressentir une vraie fierté ?", "Où te vois-tu dans cinq ans, en gros ?", "Qu'est-ce que tu n'as jamais raconté lors d'un premier rendez-vous ?"]]], pool = [], last = -1, cur = '';
+function draw(ix){
+  pool = [];
+  for (var a = 0; a < ix.length; a++) for (var b = 0; b < G[ix[a]][1].length; b++) pool.push([ix[a], b]);
+  again();
+}
+function again(){
+  if (!pool.length) return;
+  var k = Math.floor(Math.random() * pool.length);
+  if (pool.length > 1 && k === last) k = (k + 1) % pool.length;
+  last = k;
+  var g = G[pool[k][0]], item = g[1][pool[k][1]];
+  cur = g[0] + ' — ' + item;
+  document.getElementById('r').innerHTML = '<span class="small">' + g[0] + '</span><br>' + item;
+  document.getElementById('acts').style.display = 'grid';
+}
+</script>
+<h2>Légères</h2>
+<ol start="1">
+<li>C&#x27;est quoi, pour toi, le dimanche paresseux idéal ?</li>
+<li>Quelle est la dernière chose qui t&#x27;a fait rire dans ton coin ?</li>
+<li>Plutôt du genre à tout planifier, ou à voir ce qui se passe ?</li>
+<li>Quel plat pourrais-tu manger tous les jours sans te lasser ?</li>
+<li>Quelle est ta dernière découverte : une série, un loisir, un en-cas ?</li>
+<li>Plage, montagne ou week-end en ville ?</li>
+<li>Quel dessin animé ou quelle émission adorais-tu enfant ?</li>
+<li>Quelle chanson montes-tu toujours à fond quand elle passe ?</li>
+<li>Quel est le meilleur repas que tu as fait cette année ?</li>
+<li>As-tu un talent caché, ou un talent très visible ?</li>
+<li>Quelle est la chose la plus spontanée que tu as faite récemment ?</li>
+<li>Quelle est ta commande au café, et qu&#x27;est-ce qu&#x27;elle dit de toi ?</li>
+<li>Quelle appli ouvres-tu en premier le matin ?</li>
+<li>Si tu avais une journée libre demain, sans aucune obligation, tu ferais quoi ?</li>
+<li>Quel petit truc te met toujours de bonne humeur ?</li>
+<li>Chiens, chats, les deux, ou seulement des plantes ?</li>
+<li>Qu&#x27;est-ce qui réveille en toi un esprit de compétition complètement irrationnel ?</li>
+</ol>
+<h2>Curieuses</h2>
+<ol start="18">
+<li>Que voulais-tu faire à dix ans, et qu&#x27;est-ce qui s&#x27;est passé ensuite ?</li>
+<li>Quelle compétence aimerais-tu apprendre dans l&#x27;année qui vient ?</li>
+<li>Quel endroit visité ne ressemblait en rien à ce que tu imaginais ?</li>
+<li>Quel est le meilleur conseil qu&#x27;on t&#x27;a jamais donné ?</li>
+<li>Quel livre ou quel film t&#x27;a habité longtemps après la fin ?</li>
+<li>Quelle histoire tes amis te demandent-ils toujours de raconter ?</li>
+<li>Quelle habitude est ta petite fierté secrète ?</li>
+<li>Si tu pouvais vivre un an dans une autre décennie, laquelle ?</li>
+<li>Quel métier essaierais-tu pendant un mois, juste pour voir ?</li>
+<li>Que fais-tu quand tu as besoin de te vider la tête ?</li>
+<li>Sur quoi as-tu changé d&#x27;avis ces dernières années ?</li>
+<li>Qui admires-tu que la plupart des gens ne connaissent pas ?</li>
+<li>Quel est le plus beau cadeau que tu as offert ?</li>
+<li>Quelle est ta façon préférée de passer du temps avec tes amis ?</li>
+<li>Quelle question aimerais-tu qu&#x27;on te pose plus souvent ?</li>
+<li>Quelle tradition t&#x27;es-tu inventée rien que pour toi ?</li>
+<li>De quel sujet pourrais-tu parler une heure sans notes ?</li>
+</ol>
+<h2>Profondes</h2>
+<ol start="35">
+<li>À quoi ressemble une bonne journée, pour toi ?</li>
+<li>Qu&#x27;est-ce qui te réjouit le plus en ce moment ?</li>
+<li>Pour quoi as-tu travaillé dur, et ça a fini par payer ?</li>
+<li>Quelle leçon as-tu apprise à la dure ?</li>
+<li>Comment aimes-tu qu&#x27;on te remonte le moral quand ça va mal ?</li>
+<li>En quoi voudrais-tu progresser ?</li>
+<li>Qu&#x27;est-ce qui fait que tu te sens chez toi quelque part ?</li>
+<li>Qui a le plus influencé ta façon de voir le monde ?</li>
+<li>Quelle valeur ne négocierais-tu jamais ?</li>
+<li>Pour quoi tes amis viennent-ils te voir ?</li>
+<li>Qu&#x27;as-tu lâché un jour, sans jamais le regretter ?</li>
+<li>Comment aimes-tu passer le temps quand tu es en solo ?</li>
+<li>Qu&#x27;est-ce qui t&#x27;intrigue en ce moment ?</li>
+<li>Quel moment de cette année t&#x27;a fait ressentir une vraie fierté ?</li>
+<li>Où te vois-tu dans cinq ans, en gros ?</li>
+<li>Qu&#x27;est-ce que tu n&#x27;as jamais raconté lors d&#x27;un premier rendez-vous ?</li>
+</ol>
+<h2>Règles</h2>
+<ul>
+<li>Commencez léger. N'ouvrez pas avec les questions profondes, aussi tentant que ce soit.</li>
+<li>Répondez à chaque question que vous posez. Un rendez-vous est une conversation, pas un interrogatoire.</li>
+<li>Suivez la réponse, pas la liste. Si une question mène quelque part, restez-y.</li>
+<li>Tirez une nouvelle question seulement quand la conversation cale vraiment, et dites-le avec un sourire.</li>
+<li>Sautez tout ce qui ne vous paraît pas juste sur le moment. Aucune question n'est obligatoire.</li>
+<li>Si vous lisez tous les deux cette page sous la table, c'est déjà bon signe.</li>
+</ul>
+<div class="ad">publicité</div><div class="related"><h2>Pages liées</h2><ul><li><a href="/fr/jeux/questions-action-ou-verite/">60 questions pour action ou vérité (drôles et sans gêne)</a></li><li><a href="/fr/jeux/questions-tu-preferes/">50 questions « tu préfères » : drôles, profondes et impossibles</a></li><li><a href="/fr/jeux/phrases-je-n-ai-jamais/">50 phrases pour « je n&#x27;ai jamais » (drôles et sans alcool)</a></li><li><a href="/fr/jeux/questions-brise-glace-pour-groupes/">60 questions brise-glace : travail, famille et nouveaux amis</a></li><li><a href="/fr/jeux/idees-deux-verites-un-mensonge/">40 idées pour « deux vérités, un mensonge », et comment jouer</a></li></ul></div>
+</main>
+<footer class="site"><div class="wrap">
+  <span>Sapiopedia</span><span>·</span><span>Créé à Montréal</span><span>·</span><a href="/fr/a-propos/">À propos</a><span>·</span><a href="/fr/confidentialite/">Confidentialité</a><span>·</span><a href="/fr/contact/">Contact</a>
+</div></footer>
+<script src="/assets/common.js"></script>
+</body>
+</html>

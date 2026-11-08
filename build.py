@@ -169,7 +169,7 @@ el.addEventListener('input',function(){{var r=SP.birth(el.value,L);if(!r)return;
             rel = "".join(f'<li><a href="/{lang}/{slug}/{q[lang][0]}/">{esc(q[lang][1])}</a></li>' for q in items if q is not p)
             body = f"<h1>{esc(ptitle)}</h1><p class=\"lead\">{esc(pdesc)}</p>{pbody}{ad(lang)}<div class=\"related\"><h2>{u['related']}</h2><ul>{rel or '<li>—</li>'}</ul></div>"
             path = f"/{lang}/{slug}/{pslug}/"; alt = f"/{other}/{d[other][0]}/{p[other][0]}/"
-            write(path + "index.html", layout(lang, ptitle, pdesc, body, path, alt))
+            write(path + "index.html", layout(lang, ptitle, pdesc, body, path, alt, main_class="page wide" if p.get("wide") else "page"))
             add_url(path)
     # legal pages
     legal_text = {
@@ -195,6 +195,13 @@ write("/index.html", f"""<!DOCTYPE html>
 <link rel="alternate" hreflang="en" href="{SITE}/en/"><link rel="alternate" hreflang="fr" href="{SITE}/fr/"><link rel="alternate" hreflang="x-default" href="{SITE}/en/">
 <script>var l=(navigator.language||'en').slice(0,2);location.replace(l==='fr'?'/fr/':'/en/');</script>
 </head><body><main><h1>Sapiopedia</h1><p><a href="/en/">English</a> · <a href="/fr/">Français</a></p></main></body></html>
+""")
+# short link /tools/fengshui/ -> language version
+write("/tools/fengshui/index.html", f"""<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Feng Shui Room Planner · Sapiopedia</title><link rel="canonical" href="{SITE}/en/tools/fengshui/">
+<script>var l=(navigator.language||'en').slice(0,2);location.replace(l==='fr'?'/fr/outils/fengshui/':'/en/tools/fengshui/');</script>
+</head><body><p><a href="/en/tools/fengshui/">Feng Shui Room Planner</a> · <a href="/fr/outils/fengshui/">Planificateur feng shui</a></p></body></html>
 """)
 write("/404.html", """<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Not found · Sapiopedia</title><link rel="stylesheet" href="/assets/style.css"></head>
 <body><main><h1>Page not found</h1><p><a href="/en/">English home</a> · <a href="/fr/">Accueil français</a></p></main></body></html>""")

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Feng Shui Room Planner · Sapiopedia</title>
+<meta name="description" content="Draw your room, add your door, windows and furniture, and see where each piece works best according to feng shui.">
+<link rel="canonical" href="https://sapiopedia.com/en/tools/fengshui/">
+<link rel="alternate" hreflang="en" href="https://sapiopedia.com/en/tools/fengshui/">
+<link rel="alternate" hreflang="fr" href="https://sapiopedia.com/fr/outils/fengshui/">
+<link rel="alternate" hreflang="x-default" href="https://sapiopedia.com/en/tools/fengshui/">
+<meta property="og:title" content="Feng Shui Room Planner">
+<meta property="og:description" content="Draw your room, add your door, windows and furniture, and see where each piece works best according to feng shui.">
+<meta property="og:url" content="https://sapiopedia.com/en/tools/fengshui/">
+<meta property="og:type" content="website">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/assets/style.css">
+
+
+</head>
+<body>
+<header class="site"><div class="wrap">
+  <a class="logo" href="/en/"><svg aria-hidden="true" viewBox="22 4 160 202"><g style="mix-blend-mode:multiply"><path d="M62 70 C58 36 96 20 124 28 C160 38 164 86 132 104 C114 114 104 122 104 144" fill="none" stroke="#B9CFE0" stroke-width="24" stroke-linecap="round" stroke-linejoin="round" transform="translate(-6,5)"/><path d="M62 70 C58 36 96 20 124 28 C160 38 164 86 132 104 C114 114 104 122 104 144" fill="none" stroke="#E9A9B8" stroke-width="24" stroke-linecap="round" stroke-linejoin="round" transform="translate(6,-4)"/><path d="M62 70 C58 36 96 20 124 28 C160 38 164 86 132 104 C114 114 104 122 104 144" fill="none" stroke="#B8405E" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" /></g><path d="M77.6 176 A26.400000000000002 7.199999999999999 0 0 1 130.4 176" fill="none" stroke="#B9CFE0" stroke-width="4" transform="rotate(-18 104 176)"/><circle cx="104" cy="176" r="12" fill="#B8405E"/><path d="M77.6 176 A26.400000000000002 7.199999999999999 0 0 0 130.4 176" fill="none" stroke="#B9CFE0" stroke-width="4" transform="rotate(-18 104 176)"/><path d="M108 53 Q108 62 117 62 Q108 62 108 71 Q108 62 99 62 Q108 62 108 53Z" fill="#B8405E"/><path d="M128 44.5 Q128 48 131.5 48 Q128 48 128 51.5 Q128 48 124.5 48 Q128 48 128 44.5Z" fill="#B8405E"/><path d="M90 77 Q90 80 93 80 Q90 80 90 83 Q90 80 87 80 Q90 80 90 77Z" fill="#B8405E"/></svg>Sapiopedia</a>
+  <nav class="main"><a href="/en/quizzes/">Quizzes</a><a href="/en/tools/">Tools</a><a href="/en/meanings/">Meanings</a><a href="/en/names/">Names</a><a href="/en/games/">Games</a><span class="lang"><b>EN</b> / <a href="/fr/outils/fengshui/">FR</a></span></nav>
+</div></header>
+<main class="page wide">
+<h1>Feng Shui Room Planner</h1><p class="lead">Draw your room, add your door, windows and furniture, and see where each piece works best according to feng shui.</p><link rel="stylesheet" href="/assets/fengshui.css">
+<div class="fs">
+<div class="grid">
+  <div class="sheet work">
+    <div class="toolbar">
+      <div class="tgroup" id="shapes" role="group" aria-label="Room shape"><span class="tlabel">Room</span></div>
+      <div class="tgroup" id="openings" role="group" aria-label="Doors, windows and mirrors"></div>
+      <div class="compass">
+        <span class="deg"><b>North</b><br>drag the arrow</span>
+        <svg id="dial" viewBox="-30 -30 60 60" tabindex="0" role="slider" aria-label="North arrow: drag to turn, or use the arrow keys" aria-valuemin="0" aria-valuemax="355"></svg>
+      </div>
+    </div>
+    <div class="stage">
+      <svg id="plan" viewBox="0 0 640 640" aria-label="Room plan"></svg>
+      <div class="trash" id="trash" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13M10 11v6M14 11v6"/></svg><span>Drag here to remove</span></div>
+    </div>
+    <div class="status"><span id="mode"></span>
+      <span class="key"><span><i style="background:var(--good-bg);box-shadow:inset 0 0 0 1px var(--good)"></i>Good</span><span><i style="background:var(--warn-bg);box-shadow:inset 0 0 0 1px var(--warn)"></i>Caution</span><span><i style="background:var(--bad-bg);box-shadow:inset 0 0 0 1px var(--bad)"></i>Avoid</span></span>
+      <span class="exp"><button type="button" class="chip solid" id="export" hidden>Export PNG</button><span id="exp-msg" class="muted" style="font-size:13px"></span></span>
+    </div>
+    <div class="furn">
+      <h2>Add furniture <span>It lands on its best spot and turns to face the room. Drag to try other places.</span></h2>
+      <div class="pieces" id="pieces" role="group" aria-label="Furniture"></div>
+    </div>
+  </div>
+  <div class="side">
+    <div class="sheet detail" id="detail" aria-live="polite"></div>
+    <div class="sheet block">
+      <h2>Room check</h2>
+      <ul class="notes" id="notes"></ul>
+    </div>
+    <div class="sheet block">
+      <div class="frow" style="justify-content:space-between;margin-bottom:6px"><h2 style="margin:0">In your room</h2><button type="button" class="linkbtn" id="clear">Clear room</button></div>
+      <div class="tally" id="tally"></div>
+      <ul class="flist" id="list"></ul>
+    </div>
+  </div>
+</div>
+</div>
+<section class="fs-intro"><h2>How the planner reads your room</h2><p>The planner applies the classic rules of <strong>form-school</strong> feng shui to a simple floor plan: the <em>command position</em> (seeing the door without being in line with it), a solid wall behind the bed, sofa and desk, no furniture in the straight line between a door and a window, and clear paths from the bed to every opening. It adds a few <strong>compass-school</strong> preferences once you point the arrow north, such as sleeping in the north or east half of the room.</p>
+<p>Each piece gets a verdict: <strong>good</strong>, <strong>caution</strong> or <strong>avoid</strong>. While a piece is selected, the floor is coloured to show how it would score anywhere in the room. Your layout is saved in your browser only; nothing is sent anywhere.</p>
+<p class="small">Feng shui is a cultural tradition, not a science. Treat the advice as a design checklist for a calmer room, not as a prediction.</p></section>
+<script src="/assets/fengshui.js"></script><div class="ad">advertisement</div><div class="related"><h2>Related pages</h2><ul><li><a href="/en/tools/flour-cups-to-grams/">Flour: cups to grams converter</a></li><li><a href="/en/tools/birthday-converter-days-weeks-moons/">Birthday converter: days, weeks, months and full moons</a></li><li><a href="/en/tools/butter-cups-tablespoons-grams-sticks-converter/">Butter: cups, tablespoons, grams, sticks converter</a></li><li><a href="/en/tools/sugar-cups-to-grams-converter/">Sugar: cups to grams converter (white, brown, icing)</a></li><li><a href="/en/tools/oven-temperature-converter-fahrenheit-celsius-gas-mark/">Oven temperature converter: °F, °C and gas mark</a></li><li><a href="/en/tools/baby-age-calculator-weeks-months-corrected-age/">Baby age calculator: weeks, months and corrected age</a></li><li><a href="/en/tools/pregnancy-due-date-calculator/">Pregnancy due date calculator (from your last period)</a></li><li><a href="/en/tools/sleep-calculator-bedtime-90-minute-cycles/">Sleep calculator: when to go to bed to wake up refreshed</a></li><li><a href="/en/tools/paint-calculator-litres-needed-wall-area/">Paint calculator: how many litres for your walls</a></li><li><a href="/en/tools/tip-calculator-bill-split/">Tip and bill split calculator</a></li></ul></div>
+</main>
+<footer class="site"><div class="wrap">
+  <span>Sapiopedia</span><span>·</span><span>Made in Montréal</span><span>·</span><a href="/en/about/">About</a><span>·</span><a href="/en/privacy/">Privacy</a><span>·</span><a href="/en/contact/">Contact</a>
+</div></footer>
+<script src="/assets/common.js"></script>
+</body>
+</html>

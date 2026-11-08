@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Planificateur de pièce feng shui · Sapiopedia</title>
+<meta name="description" content="Tracez votre pièce, ajoutez porte, fenêtres et meubles, et voyez où chaque meuble est le mieux placé selon le feng shui.">
+<link rel="canonical" href="https://sapiopedia.com/fr/outils/fengshui/">
+<link rel="alternate" hreflang="fr" href="https://sapiopedia.com/fr/outils/fengshui/">
+<link rel="alternate" hreflang="en" href="https://sapiopedia.com/en/tools/fengshui/">
+<link rel="alternate" hreflang="x-default" href="https://sapiopedia.com/en/tools/fengshui/">
+<meta property="og:title" content="Planificateur de pièce feng shui">
+<meta property="og:description" content="Tracez votre pièce, ajoutez porte, fenêtres et meubles, et voyez où chaque meuble est le mieux placé selon le feng shui.">
+<meta property="og:url" content="https://sapiopedia.com/fr/outils/fengshui/">
+<meta property="og:type" content="website">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/assets/style.css">
+
+
+</head>
+<body>
+<header class="site"><div class="wrap">
+  <a class="logo" href="/fr/"><svg aria-hidden="true" viewBox="22 4 160 202"><g style="mix-blend-mode:multiply"><path d="M62 70 C58 36 96 20 124 28 C160 38 164 86 132 104 C114 114 104 122 104 144" fill="none" stroke="#B9CFE0" stroke-width="24" stroke-linecap="round" stroke-linejoin="round" transform="translate(-6,5)"/><path d="M62 70 C58 36 96 20 124 28 C160 38 164 86 132 104 C114 114 104 122 104 144" fill="none" stroke="#E9A9B8" stroke-width="24" stroke-linecap="round" stroke-linejoin="round" transform="translate(6,-4)"/><path d="M62 70 C58 36 96 20 124 28 C160 38 164 86 132 104 C114 114 104 122 104 144" fill="none" stroke="#B8405E" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" /></g><path d="M77.6 176 A26.400000000000002 7.199999999999999 0 0 1 130.4 176" fill="none" stroke="#B9CFE0" stroke-width="4" transform="rotate(-18 104 176)"/><circle cx="104" cy="176" r="12" fill="#B8405E"/><path d="M77.6 176 A26.400000000000002 7.199999999999999 0 0 0 130.4 176" fill="none" stroke="#B9CFE0" stroke-width="4" transform="rotate(-18 104 176)"/><path d="M108 53 Q108 62 117 62 Q108 62 108 71 Q108 62 99 62 Q108 62 108 53Z" fill="#B8405E"/><path d="M128 44.5 Q128 48 131.5 48 Q128 48 128 51.5 Q128 48 124.5 48 Q128 48 128 44.5Z" fill="#B8405E"/><path d="M90 77 Q90 80 93 80 Q90 80 90 83 Q90 80 87 80 Q90 80 90 77Z" fill="#B8405E"/></svg>Sapiopedia</a>
+  <nav class="main"><a href="/fr/quiz/">Quiz</a><a href="/fr/outils/">Outils</a><a href="/fr/significations/">Significations</a><a href="/fr/prenoms/">Prénoms</a><a href="/fr/jeux/">Jeux</a><span class="lang"><b>FR</b> / <a href="/en/tools/fengshui/">EN</a></span></nav>
+</div></header>
+<main class="page wide">
+<h1>Planificateur de pièce feng shui</h1><p class="lead">Tracez votre pièce, ajoutez porte, fenêtres et meubles, et voyez où chaque meuble est le mieux placé selon le feng shui.</p><link rel="stylesheet" href="/assets/fengshui.css">
+<div class="fs">
+<div class="grid">
+  <div class="sheet work">
+    <div class="toolbar">
+      <div class="tgroup" id="shapes" role="group" aria-label="Forme de la pièce"><span class="tlabel">Pièce</span></div>
+      <div class="tgroup" id="openings" role="group" aria-label="Portes, fenêtres et miroirs"></div>
+      <div class="compass">
+        <span class="deg"><b>Nord</b><br>glissez la flèche</span>
+        <svg id="dial" viewBox="-30 -30 60 60" tabindex="0" role="slider" aria-label="Flèche du nord : glissez pour la faire pivoter, ou utilisez les flèches du clavier" aria-valuemin="0" aria-valuemax="355"></svg>
+      </div>
+    </div>
+    <div class="stage">
+      <svg id="plan" viewBox="0 0 640 640" aria-label="Plan de la pièce"></svg>
+      <div class="trash" id="trash" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13M10 11v6M14 11v6"/></svg><span>Glissez ici pour retirer</span></div>
+    </div>
+    <div class="status"><span id="mode"></span>
+      <span class="key"><span><i style="background:var(--good-bg);box-shadow:inset 0 0 0 1px var(--good)"></i>Favorable</span><span><i style="background:var(--warn-bg);box-shadow:inset 0 0 0 1px var(--warn)"></i>Prudence</span><span><i style="background:var(--bad-bg);box-shadow:inset 0 0 0 1px var(--bad)"></i>À éviter</span></span>
+      <span class="exp"><button type="button" class="chip solid" id="export" hidden>Exporter en PNG</button><span id="exp-msg" class="muted" style="font-size:13px"></span></span>
+    </div>
+    <div class="furn">
+      <h2>Ajouter un meuble <span>Il se place au meilleur endroit, tourné vers la pièce. Glissez-le pour essayer d'autres places.</span></h2>
+      <div class="pieces" id="pieces" role="group" aria-label="Meubles"></div>
+    </div>
+  </div>
+  <div class="side">
+    <div class="sheet detail" id="detail" aria-live="polite"></div>
+    <div class="sheet block">
+      <h2>Bilan de la pièce</h2>
+      <ul class="notes" id="notes"></ul>
+    </div>
+    <div class="sheet block">
+      <div class="frow" style="justify-content:space-between;margin-bottom:6px"><h2 style="margin:0">Dans votre pièce</h2><button type="button" class="linkbtn" id="clear">Vider la pièce</button></div>
+      <div class="tally" id="tally"></div>
+      <ul class="flist" id="list"></ul>
+    </div>
+  </div>
+</div>
+</div>
+<section class="fs-intro"><h2>Comment le planificateur lit votre pièce</h2><p>Le planificateur applique à un plan simple les règles classiques du feng shui de l'<strong>école des formes</strong> : la <em>position de commandement</em> (voir la porte sans être dans son axe), un mur plein derrière le lit, le canapé et le bureau, aucun meuble sur la ligne droite entre une porte et une fenêtre, et des passages dégagés du lit vers chaque ouverture. Une fois la flèche orientée vers le nord, il ajoute quelques préférences de l'<strong>école de la boussole</strong>, comme dormir dans la moitié nord ou est de la pièce.</p>
+<p>Chaque meuble reçoit un verdict : <strong>favorable</strong>, <strong>prudence</strong> ou <strong>à éviter</strong>. Quand un meuble est sélectionné, le sol se colore pour montrer sa note partout dans la pièce. Votre plan est enregistré uniquement dans votre navigateur ; rien n'est envoyé.</p>
+<p class="small">Le feng shui est une tradition culturelle, pas une science. Voyez ces conseils comme une liste de vérification pour une pièce plus apaisante, pas comme une prédiction.</p></section>
+<script src="/assets/fengshui-fr.js"></script><script src="/assets/fengshui.js"></script><div class="ad">publicité</div><div class="related"><h2>Pages liées</h2><ul><li><a href="/fr/outils/farine-tasses-en-grammes/">Farine : convertir les tasses en grammes</a></li><li><a href="/fr/outils/convertisseur-de-naissance-jours-semaines-lunes/">Convertisseur de naissance : jours, semaines, mois et pleines lunes</a></li><li><a href="/fr/outils/beurre-tasses-cuilleres-grammes-batonnets/">Beurre : tasses, cuillères, grammes et bâtonnets</a></li><li><a href="/fr/outils/sucre-tasses-en-grammes/">Sucre : convertir les tasses en grammes (blanc, cassonade, glace)</a></li><li><a href="/fr/outils/temperature-du-four-fahrenheit-celsius-gas-mark/">Température du four : convertir °F, °C et gas mark</a></li><li><a href="/fr/outils/age-de-bebe-semaines-mois-age-corrige/">Âge de bébé en semaines et en mois, avec âge corrigé</a></li><li><a href="/fr/outils/date-prevue-d-accouchement-calculateur/">Date prévue d&#x27;accouchement : calculateur à partir des dernières règles</a></li><li><a href="/fr/outils/calculateur-de-sommeil-heure-du-coucher/">Calculateur de sommeil : à quelle heure se coucher</a></li><li><a href="/fr/outils/calculateur-de-peinture-litres-necessaires/">Calculateur de peinture : combien de litres pour vos murs</a></li><li><a href="/fr/outils/calculateur-de-pourboire-partage-addition/">Calculateur de pourboire et partage de l&#x27;addition</a></li></ul></div>
+</main>
+<footer class="site"><div class="wrap">
+  <span>Sapiopedia</span><span>·</span><span>Créé à Montréal</span><span>·</span><a href="/fr/a-propos/">À propos</a><span>·</span><a href="/fr/confidentialite/">Confidentialité</a><span>·</span><a href="/fr/contact/">Contact</a>
+</div></footer>
+<script src="/assets/common.js"></script>
+</body>
+</html>

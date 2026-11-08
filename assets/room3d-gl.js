@@ -162,12 +162,14 @@ export function create(A, look) {
     outer.forEach(p => [-SLAB, WALL_H].forEach(y => { const v = new THREE.Vector3(p.x, y, p.y).applyMatrix4(inv); x0 = Math.min(x0, v.x); x1 = Math.max(x1, v.x); y0 = Math.min(y0, v.y); y1 = Math.max(y1, v.y); }));
     const m = (x1 - x0) * .04; cam.left = x0 - m; cam.right = x1 + m; cam.top = y1 + m; cam.bottom = y0 - m; cam.updateProjectionMatrix();
     const height = Math.round(width * (cam.top - cam.bottom) / (cam.right - cam.left));
-    return { scene, cam, height };
+    const marks = S.items.map(it => { const f = A.FI(it), q = A.oi(it), v = new THREE.Vector3(q.x, cm(HEIGHT[it.k] || 60) + cm(18), q.y).project(cam);
+      return { id: it.id, x: (v.x + 1) / 2, y: (1 - v.y) / 2 }; });
+    return { scene, cam, height, marks };
   }
 
   async function render(width, dpr) {
     await loadAll;
-    const { scene, cam, height } = build(width);
+    const { scene, cam, height, marks } = build(width); api.marks = marks;
     renderer.setPixelRatio(dpr || 1); renderer.setSize(width, height, false);
     el.style.width = "100%"; el.style.height = "auto"; el.style.aspectRatio = `${width} / ${height}`;
     renderer.render(scene, cam);
@@ -175,5 +177,6 @@ export function create(A, look) {
     scene.traverse(o => { if (o.isMesh && !keep.has(o.geometry)) o.geometry.dispose(); });
     return height;
   }
-  return { el, render, ready: loadAll };
+  const api = { el, render, ready: loadAll, marks: [] };
+  return api;
 }

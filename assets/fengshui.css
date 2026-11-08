@@ -120,6 +120,13 @@ main.page.wide{max-width:var(--max)}
 .fs .seg button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .fs .viewbar{padding:0 0 12px;margin-bottom:12px;border-bottom:1px solid var(--line)}
 .fs .look{padding:10px 0 4px}
+/* 3D canvas + feng shui verdict badges */
+.fs .v3dwrap{position:relative;margin-top:6px}
+.fs .v3dwrap[hidden]{display:none}
+.fs .v3dwrap canvas{display:block;width:100%;border-radius:12px;background:linear-gradient(#FBF8F8,#F3EEEF)}
+.fs .marks3d{position:absolute;inset:0;pointer-events:none}
+.fs .fsmark{position:absolute;transform:translate(-50%,-50%);width:20px;height:20px;border-radius:50%;display:grid;place-items:center;color:#fff;font:800 12px var(--sans);box-shadow:0 0 0 2px #fff,0 1px 4px rgba(0,0,0,.25)}
+.fs .fsmark.good{background:var(--good)}.fs .fsmark.bad{background:var(--bad)}.fs .fsmark.caution{background:var(--warn)}
 /* light switch on the plan */
 .fs .stage{position:relative}
 .fs .lswitch{all:unset;cursor:pointer;position:absolute;top:10px;left:10px;z-index:2;display:flex;align-items:center;gap:7px;padding:6px 10px 6px 6px;border-radius:12px;background:var(--sheet);box-shadow:0 1px 4px rgba(42,31,38,.18);font:600 13px var(--sans);color:var(--ink)}

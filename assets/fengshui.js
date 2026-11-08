@@ -448,6 +448,9 @@ function draw(){
     el("polygon",{points:poly,fill:"#1E1830",opacity:.5,mask:"url(#lm)","pointer-events":"none"});
     const wg=el("radialGradient",{id:"wg"},defs);el("stop",{offset:"0","stop-color":"#FFD27A","stop-opacity":".55"},wg);el("stop",{offset:"1","stop-color":"#FFD27A","stop-opacity":"0"},wg);
     const gg=el("g",{"clip-path":"url(#room)","pointer-events":"none"});L.forEach(it=>{const q=oi(it);el("circle",{cx:q.x,cy:q.y,r:LR,fill:"url(#wg)"},gg);});}
+  if(!DESIGN&&!S.drawing){const bg=el("g",{"pointer-events":"none"});S.items.forEach(it=>{const f=FI(it),q=oi(it),bb=aabb(f,q),v=overall(evaluate(it.k,q,it.id));if(v==="neutral")return;
+    const x=bb[2]-3,y=bb[1]+3,c=v==="good"?css("--good"):v==="bad"?css("--bad"):css("--warn");el("circle",{cx:x,cy:y,r:9,fill:c,stroke:"#fff","stroke-width":2},bg);
+    el("text",{x,y:y+4,"text-anchor":"middle","font-size":11,"font-weight":800,fill:"#fff","font-family":"'Source Sans 3', Helvetica, Arial, sans-serif"},bg,v==="good"?"✓":v==="bad"?"✕":"!");});}
   if(DESIGN&&S.sel&&S.sel.t==="item"){const it=S.items.find(i=>i.id===S.sel.id);const fc=it&&frontClear(FI(it),oi(it),it.id);
     if(fc&&fc.d>3){const col=fc.d<PXM*.3?css("--bad"):fc.d<PXM*.6?css("--warn"):css("--good");
       el("line",{x1:fc.x1,y1:fc.y1,x2:fc.x2,y2:fc.y2,stroke:col,"stroke-width":2,"stroke-linecap":"round"});
@@ -681,7 +684,7 @@ const LSW=(()=>{const st=document.querySelector(".fs .stage");if(!st)return null
   b.innerHTML=`<svg viewBox="0 0 32 44" aria-hidden="true"><rect class="pl" x="1" y="1" width="30" height="42" rx="7"/><rect class="sl" x="9" y="7" width="14" height="30" rx="4"/><rect class="rk" x="10.5" y="8.5" width="11" height="13" rx="3"/></svg><span>${T("Lights")}</span>`;
   b.addEventListener("click",()=>{S.lights=!S.lights;persist();render();});st.appendChild(b);return b;})();
 function syncSwitch(){if(!LSW)return;const has=S.items.some(i=>i.k==="lamp");if(!has&&S.lights)S.lights=false;LSW.hidden=!has;LSW.setAttribute("aria-pressed",!!S.lights);LSW.title=T(S.lights?"Turn the lights off":"Turn the lights on");LSW.setAttribute("aria-label",LSW.title);}
-window.FSAPI={planShot:()=>buildPNG(true),get S(){return S;},FBY,FI,OPEN,PXM,T,FR,pts,oi,openPos,centroid,save,render:()=>render()};
+window.FSAPI={DESIGN,verdict:it=>overall(evaluate(it.k,oi(it),it.id)),planShot:()=>buildPNG(true),get S(){return S;},FBY,FI,OPEN,PXM,T,FR,pts,oi,openPos,centroid,save,render:()=>render()};
 computeHeat();render();
 
 /* ---------- Export PNG with Sapiopedia branding ---------- */

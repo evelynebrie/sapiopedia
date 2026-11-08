@@ -2,6 +2,7 @@
 (function () {
 "use strict";
 const A = window.FSAPI; if (!A) return;
+const VKEY = A.DESIGN ? "sapiopedia-roomplanner-view" : "sapiopedia-fengshui-view";
 const T = A.T, PX = A.PXM, cm = c => c * PX / 100;
 const WALL_H = cm(250), WT = cm(12), SLAB = cm(14), LR = 2.5 * PX;
 const C30 = Math.cos(Math.PI / 6);
@@ -285,28 +286,32 @@ const lookEl = lookEl0, colorIn = lookEl0.querySelector("input[type=color]");
 let on = false;
 function sync() {
   bar.querySelectorAll("[data-v]").forEach(b => b.setAttribute("aria-pressed", (b.dataset.v === "3d") === on));
-  lookEl.hidden = !on; plan.style.display = on ? "none" : ""; if (trash) trash.style.display = on ? "none" : ""; cv.hidden = !on || !!GL; if (GL) GL.el.hidden = !on;
+  lookEl.hidden = !on; plan.style.display = on ? "none" : ""; if (trash) trash.style.display = on ? "none" : ""; cv.hidden = !on || !!GL; if (GL) WRAP.hidden = !on;
   const L = look(); lookEl.querySelectorAll("[data-f]").forEach(b => b.setAttribute("aria-pressed", b.dataset.f === L.floor));
   lookEl.querySelectorAll("[data-w]").forEach(b => b.setAttribute("aria-pressed", b.dataset.w.toLowerCase() === String(L.wall).toLowerCase()));
   colorIn.value = /^#[0-9a-f]{6}$/i.test(L.wall) ? L.wall : "#f4f2ee";
 }
 /* WebGL view (three.js + Kenney models), loaded on first use; the drawn view above is the fallback */
 let GL = null, glp = null, busy = false, again = false;
+const WRAP = document.createElement("div"); WRAP.className = "v3dwrap"; const MARKS = document.createElement("div"); MARKS.className = "marks3d"; MARKS.setAttribute("aria-hidden", "true");
+const SYM = { good: "✓", caution: "!", bad: "✕" };
+function placeMarks(gl) { if (A.DESIGN || !gl) { MARKS.innerHTML = ""; return; }
+  MARKS.innerHTML = gl.marks.map(m => { const it = A.S.items.find(i => i.id === m.id), v = it && A.verdict(it); return v && SYM[v] ? `<span class="fsmark ${v}" style="left:${(m.x * 100).toFixed(2)}%;top:${(m.y * 100).toFixed(2)}%">${SYM[v]}</span>` : ""; }).join(""); }
 function ensureGL() {
   if (!glp) glp = import("/assets/room3d-gl.js").then(m => { GL = m.create(A, () => Object.assign({}, look(), { floors: FLOORS }));
-    GL.el.setAttribute("aria-label", T("3D view of the room")); GL.el.hidden = !on; stage.appendChild(GL.el); cv.hidden = true; return GL; })
+    GL.el.setAttribute("aria-label", T("3D view of the room")); WRAP.appendChild(GL.el); WRAP.appendChild(MARKS); WRAP.hidden = !on; stage.appendChild(WRAP); cv.hidden = true; return GL; })
     .catch(err => { console.warn("3D view fallback:", err); GL = null; return null; });
   return glp;
 }
 function update() {
   if (!on) return; const W = Math.max(280, stage.clientWidth), dpr = Math.min(2, window.devicePixelRatio || 1);
   if (busy) { again = true; return; } busy = true;
-  ensureGL().then(gl => gl ? gl.render(W, dpr) : draw(cv, W, dpr)).catch(() => draw(cv, W, dpr))
+  ensureGL().then(gl => gl ? gl.render(W, dpr).then(() => placeMarks(gl)) : draw(cv, W, dpr)).catch(() => draw(cv, W, dpr))
     .finally(() => { busy = false; if (again) { again = false; update(); } });
 }
 const onClick = e => {
   const b = e.target.closest("button"); if (!b) return; const L = look();
-  if (b.dataset.v) { on = b.dataset.v === "3d"; try { localStorage.setItem("sapiopedia-roomplanner-view", on ? "3d" : "2d"); } catch (_) {} }
+  if (b.dataset.v) { on = b.dataset.v === "3d"; try { localStorage.setItem(VKEY, on ? "3d" : "2d"); } catch (_) {} }
   else if (b.dataset.f) L.floor = b.dataset.f;
   else if (b.dataset.w) L.wall = b.dataset.w;
   else if (b.hasAttribute("data-rot")) L.rot = ((L.rot || 0) + 1) % 4;
@@ -315,7 +320,7 @@ const onClick = e => {
 };
 bar.addEventListener("click", onClick); lookEl.addEventListener("click", onClick);
 colorIn.addEventListener("input", () => { look().wall = colorIn.value; A.save(); sync(); update(); });
-try { on = localStorage.getItem("sapiopedia-roomplanner-view") === "3d"; } catch (_) {}
+try { on = localStorage.getItem(VKEY) === "3d"; } catch (_) {}
 if (window.ResizeObserver) new ResizeObserver(() => update()).observe(stage);
 
 /* PNG export: 2D plan on the left, 3D view on the right, Sapiopedia band below */
@@ -334,6 +339,10 @@ async function png() {
   const top = PAD + HEAD, mid = top + (bodyH - 60) / 2;
   x.drawImage(plan.img, PAD, mid - ph / 2, pw, ph);
   x.drawImage(c3, PAD + COL + GAP, mid - h3 / 2);
+  if (gl && !A.DESIGN) gl.marks.forEach(m => { const it = A.S.items.find(i => i.id === m.id), v = it && A.verdict(it); if (!v || !SYM[v]) return;
+    const cx = PAD + COL + GAP + m.x * COL, cy = mid - h3 / 2 + m.y * h3; x.beginPath(); x.arc(cx, cy, 15, 0, Math.PI * 2);
+    x.fillStyle = v === "good" ? "#3F8A68" : v === "bad" ? "#C2503B" : "#B58A2E"; x.fill(); x.lineWidth = 3; x.strokeStyle = "#fff"; x.stroke();
+    x.fillStyle = "#fff"; x.font = "800 18px 'Source Sans 3', Arial, sans-serif"; x.textAlign = "center"; x.textBaseline = "middle"; x.fillText(SYM[v], cx, cy + 1); x.textAlign = "left"; x.textBaseline = "alphabetic"; });
   x.fillStyle = "#EADDE1"; x.fillRect(PAD + COL + GAP / 2 - 1, top, 2, bodyH - 60);
   /* legend under the plan */
   const LEG = [[plan.VL.good, "rgba(63,138,104,.18)", "#3f8a68"], [plan.VL.caution, "rgba(181,138,46,.17)", "#b58a2e"], [plan.VL.bad, "rgba(194,80,59,.16)", "#c2503b"]];
@@ -343,9 +352,9 @@ async function png() {
   const by = H - BAND; x.fillStyle = "#F7E9EC"; x.fillRect(0, by, W, BAND); x.fillStyle = "#DCC9CE"; x.fillRect(0, by, W, 2);
   const lh = 120; x.drawImage(plan.logo, PAD - 10, by + (BAND - lh) / 2, plan.logo.width * lh / plan.logo.height, lh);
   x.textAlign = "right"; x.fillStyle = "#2A1F26"; x.font = "600 36px 'Source Sans 3', Arial, sans-serif";
-  x.fillText(A.FR ? "sapiopedia.com/fr/outils/planificateur-de-piece" : "sapiopedia.com/en/tools/room-planner", W - PAD, by + 82);
+  x.fillText(A.DESIGN ? (A.FR ? "sapiopedia.com/fr/outils/planificateur-de-piece" : "sapiopedia.com/en/tools/room-planner") : (A.FR ? "sapiopedia.com/fr/outils/fengshui" : "sapiopedia.com/en/tools/fengshui"), W - PAD, by + 82);
   x.fillStyle = "#6E5A62"; x.font = "400 24px 'Source Sans 3', Arial, sans-serif";
-  x.fillText(T("Room Planner") + " · " + plan.dims, W - PAD, by + 124);
+  x.fillText((A.DESIGN ? T("Room Planner") : T("Feng Shui Room Planner")) + " · " + plan.dims, W - PAD, by + 124);
   x.fillText(`${plan.counts.good} ${plan.VW.good} · ${plan.counts.caution} ${plan.VW.caution} · ${plan.counts.bad} ${plan.VW.bad}`, W - PAD, by + 158);
   const blob = await new Promise(res => out.toBlob(res, "image/png")); update(); return blob;
 }

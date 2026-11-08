@@ -47,7 +47,7 @@ UI = {
            "cta": "What colour are you?", "cta_sub": "· 60 s",
            "mini": "New tool", "mini_t": "Feng Shui Room Planner",
            "note_k": "Method note", "note": "Every answer is built on real, open-source data, with sources when they matter.", "note_a": "How Sapiopedia is made",
-           "counts": {"quizzes": "quizzes", "tools": "tools", "meanings": "entries", "names": "names", "games": "games", "dreams": "dreams"}},
+           "counts": {"quizzes": "quizzes", "tools": "tools", "meanings": "entries", "names": "first names", "games": "games", "dreams": "dreams"}},
     "fr": {"home": "Accueil", "tagline": "L'espèce qui n'arrête pas de poser des questions.",
            "intro": "Sapiopedia est une collection grandissante de quiz, de calculateurs, de significations, de prénoms et de jeux. Une question par page, une réponse claire, un résultat à partager.", "desc": {"quizzes": "Ce que vos choix révèlent. Couleur, âge mental, quel pays vous ressemble…", "tools": "Les calculs du quotidien, vérifiés. Cuisine, bébé, maison, jardin.", "meanings": "Symboles, fleurs, pierres, superstitions, et les histoires derrière.", "names": "Origines, courbes de popularité réelles, et les discrets favoris.", "games": "De bonnes questions pour les tablées animées. Action ou vérité, et plus.", "dreams": "Ce que vos rêves voulaient dire pour nos ancêtres, symbole par symbole, d\'abandon à zodiaque."},
            "explore": "Catégories", "related": "Pages liées", "about": "À propos", "privacy": "Confidentialité", "contact": "Contact",
@@ -130,7 +130,7 @@ for lang in ("en", "fr"):
             "dreams": '<path d="M20 4.5A11 11 0 1 0 27.5 22 9 9 0 0 1 20 4.5zM24 6.5l.8 1.7 1.7.8-1.7.8-.8 1.7-.8-1.7-1.7-.8 1.7-.8z" stroke="#8E2F48"/>'}
     rows = ""
     for i, s_ in enumerate(SECTIONS, 1):
-        n = dreams.count(lang) if s_ == "dreams" else len([p for p in PAGES if p["section"] == s_])
+        n = dreams.count(lang) if s_ == "dreams" else len(json.load(open(os.path.join(os.path.dirname(__file__), "data", "names_fr_list.json"), encoding="utf-8"))) if s_ == "names" else len([p for p in PAGES if p["section"] == s_])
         rows += (f'<a class="row" href="/{lang}/{SECTIONS[s_][lang][0]}/"><div class="g"><span class="n">{i:02d}</span>'
                  f'<span class="t">{SECTIONS[s_][lang][1]}</span><span class="d">{u["desc"][s_]}</span><span class="c">{n} {u["counts"][s_]}</span>'
                  f'<svg aria-hidden="true" width="32" height="32" viewBox="0 0 32 32" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">{ICON[s_]}</svg></div><span class="rule"></span></a>')

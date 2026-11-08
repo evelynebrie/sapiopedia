@@ -1,0 +1,55 @@
+/* Sapiopedia: French first names index. Builds on dreams.css (old-book tokens, search box, A–Z). */
+.nf,.nf-ov{--ink6:#2B2320;--sepia:#5B4A40;--rule6:#BFAE9F;--paper:#FCF7F2;--edge:#E6D9CC;--wine:#8E2F48;--blue:#5E7488;font-family:'EB Garamond',Georgia,serif;color:var(--ink6)}
+.nf .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+/* dataset label: which country/language this list covers */
+.nf-ds{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 14px;margin:6px 0 4px;padding:8px 0;border-top:3px double var(--rule6);border-bottom:3px double var(--rule6)}
+.nf-ds b{font-family:'IM Fell English SC',Georgia,serif;font-weight:400;font-size:26px;letter-spacing:.05em;color:var(--wine)}
+.nf-ds span{font-style:italic;color:var(--sepia);font-size:16px}
+/* the four lists, chosen first */
+.nf-seg{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;padding:6px;background:var(--paper);border:1px solid var(--edge);box-shadow:inset 0 0 0 4px var(--paper),inset 0 0 0 5px var(--edge);margin:8px 0 14px}
+.nf-seg button{all:unset;cursor:pointer;display:grid;justify-items:center;gap:2px;padding:14px 8px;text-align:center;border:1px solid transparent}
+.nf-seg button b{font-family:'IM Fell English SC',Georgia,serif;font-weight:400;font-size:21px;color:var(--ink6)}
+.nf-seg button span{font-style:italic;font-size:15px;color:var(--sepia);font-variant-numeric:tabular-nums}
+.nf-seg button:hover{background:#F3E9E0}
+.nf-seg button[aria-pressed="true"]{background:var(--wine);border-color:var(--wine)}
+.nf-seg button[aria-pressed="true"] b,.nf-seg button[aria-pressed="true"] span{color:var(--paper)}
+.nf-seg button:focus-visible{outline:2px solid var(--wine);outline-offset:2px}
+.nf-bar{position:sticky;top:0;z-index:5;background:var(--bg);padding:8px 0 6px;border-bottom:3px double var(--rule6);display:grid;gap:6px}
+.nf-status{margin:0;font-style:italic;color:var(--sepia);font-size:15px !important}
+/* filtering */
+.nf-list[data-f="f"] li:not([data-g="f"]),.nf-list[data-f="m"] li:not([data-g="m"]),.nf-list[data-f="n"] li:not([data-g="n"]),.nf li.x{display:none}
+.nf-l[hidden]{display:none}
+.nf-l{content-visibility:auto;contain-intrinsic-size:auto 900px}
+.nf-l h2{font-family:'IM Fell English',Georgia,serif !important;font-weight:400 !important;font-size:56px !important;color:var(--wine);margin:26px 0 6px !important;line-height:1;border-bottom:3px double var(--rule6);padding-bottom:4px}
+.nf-l ul{list-style:none;margin:0;padding:0;columns:4 150px;column-gap:24px}
+.nf-l li{margin:0 !important;padding:2px 0;font-size:18px !important;break-inside:avoid;display:flex;align-items:baseline;gap:5px}
+.nf-l a{color:var(--ink6);text-decoration:none}
+.nf-l a:hover{color:var(--wine);text-decoration:underline}
+.nf-l .s{font-size:14px;color:var(--sepia)}
+.nf-l li[data-g="f"] .s{color:var(--wine)}.nf-l li[data-g="m"] .s{color:var(--blue)}
+.nf-l .a{font-size:12px;color:var(--rule6)}
+/* name card */
+.nf-box{background:var(--paper);border:1px solid var(--edge);box-shadow:inset 0 0 0 6px var(--paper),inset 0 0 0 7px var(--edge);padding:26px 30px 22px;max-width:min(560px,100%);max-height:100%;overflow:auto;display:grid;gap:12px;font-family:'EB Garamond',Georgia,serif;color:#2B2320}
+.nf-box .hd{display:grid;grid-template-columns:auto minmax(0,1fr);gap:0 14px;align-items:start}
+.nf-box .ini{font-family:'IM Fell English',Georgia,serif;font-size:84px;line-height:.8;color:#8E2F48;margin-top:4px}
+.nf-box h2{font-family:'IM Fell English',Georgia,serif;font-weight:400;font-size:44px;margin:0;line-height:1}
+.nf-box .gl{margin:6px 0 0;font-style:italic;color:#5B4A40;font-size:17px;display:flex;flex-wrap:wrap;gap:4px 12px;align-items:center}
+.nf-box .gl b{font-style:normal;font-weight:400;font-size:20px}
+.nf-box .gl b.f{color:#8E2F48}.nf-box .gl b.m{color:#5E7488}.nf-box .gl b.n{color:#6B4F7A}
+.nf-box .hear{all:unset;cursor:pointer;font-family:'IM Fell English SC',Georgia,serif;font-size:15px;color:#FCF7F2;background:#8E2F48;padding:3px 12px 4px;border-radius:2px}
+.nf-box .hear[aria-pressed="true"]{background:#2B2320}
+.nf-box .hear:focus-visible{outline:2px solid #8E2F48;outline-offset:2px}
+.nf-box table{width:100%;border-collapse:collapse;font-size:17px}
+.nf-box th{font-family:'IM Fell English SC',Georgia,serif;font-weight:400;text-align:left;color:#5B4A40;padding:6px 12px 6px 0;vertical-align:top;width:38%}
+.nf-box td{padding:6px 0;border-bottom:1px dotted #BFAE9F;color:#3A302B}
+.nf-box tr:first-child th,.nf-box tr:first-child td{border-top:1px solid #BFAE9F}
+.nf-box .cr{font-style:italic;font-size:13.5px;color:#5B4A40;border-top:3px double #BFAE9F;padding-top:8px;margin:0;text-align:center}
+.nf-box .acts{display:flex;justify-content:flex-end}
+.nf-box .acts button{all:unset;cursor:pointer;font:600 15px var(--sans);padding:8px 18px;border-radius:999px;background:var(--accent);color:#fff}
+.nf-box .acts button:focus-visible{outline:2px solid #2B2320;outline-offset:2px}
+@media (max-width:640px){
+  .nf-seg{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .nf-seg button{padding:10px 6px}.nf-seg button b{font-size:18px}
+  .nf-l ul{columns:2 120px}
+  .nf-box{padding:18px 16px}.nf-box h2{font-size:34px}.nf-box .ini{font-size:64px}
+}

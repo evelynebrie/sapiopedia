@@ -90,7 +90,7 @@ export function create(A, look) {
       list.forEach(o => {
         boxOnEdge(e, s, o.s0, 0, H, -WT, 0, wallMat, true);
         if (e.back) {
-          const lo = o.p.op.k === "window" ? cm(88) : 0, hi = o.p.op.k === "window" ? cm(212) : cm(208);
+          const oh = cm(o.p.op.h || A.OPEN_H[o.p.op.k]), lo = o.p.op.k === "window" ? Math.max(cm(10), Math.min(cm(88), WALL_H - oh - cm(10))) : 0, hi = Math.min(WALL_H - cm(4), lo + oh + (o.p.op.k === "window" ? 0 : cm(3)));
           if (lo > 0) boxOnEdge(e, o.s0, o.s1, 0, lo, -WT, 0, wallMat, true);
           boxOnEdge(e, o.s0, o.s1, hi, H, -WT, 0, wallMat, true);
           if (o.p.op.k === "window") {
@@ -112,8 +112,9 @@ export function create(A, look) {
       if (e.back) boxOnEdge(e, 0, e.len, 0, cm(7), 0, cm(1.2), M(new THREE.Color(L.wall || "#F4F2EE").multiplyScalar(.93)));
       /* mirrors */
       opens.filter(p => p.edge === e.i && p.op.k === "mirror" && e.back).forEach(p => { const c = (p.x - e.a[0]) * e.dx + (p.y - e.a[1]) * e.dy;
-        boxOnEdge(e, c - p.len / 2, c + p.len / 2, cm(95), cm(180), 0, cm(2), M(0xC9AE8A, { roughness: .6 }));
-        boxOnEdge(e, c - p.len / 2 + cm(3), c + p.len / 2 - cm(3), cm(98), cm(177), cm(2), cm(2.4), M(0xD3DFE6, { metalness: .15, roughness: .12 })); });
+        const mh = cm(p.op.h || A.OPEN_H.mirror), m0 = Math.max(cm(5), Math.min(cm(95), WALL_H - mh - cm(20))), m1 = m0 + mh;
+        boxOnEdge(e, c - p.len / 2, c + p.len / 2, m0, m1, 0, cm(2), M(0xC9AE8A, { roughness: .6 }));
+        boxOnEdge(e, c - p.len / 2 + cm(3), c + p.len / 2 - cm(3), m0 + cm(3), m1 - cm(3), cm(2), cm(2.4), M(0xD3DFE6, { metalness: .15, roughness: .12 })); });
     });
 
     /* furniture */

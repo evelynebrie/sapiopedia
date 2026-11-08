@@ -273,10 +273,27 @@ function inside(x, y, p) { let c = false; for (let i = 0, j = p.length - 1; i < 
 /* ---------- UI ---------- */
 const stage = document.querySelector(".fs .stage"), plan = document.getElementById("plan"), trash = document.getElementById("trash");
 if (!stage) return;
+/* small texture preview for each floor swatch */
+function swatch(F) {
+  const c = document.createElement("canvas"); c.width = c.height = 72; const g = c.getContext("2d"), r = rnd(5);
+  g.fillStyle = F.base; g.fillRect(0, 0, 72, 72);
+  if (F.type === "plank") {
+    for (let y = 0; y < 72; y += 12) { let x = -r() * 40;
+      while (x < 72) { const len = 30 + r() * 30; g.fillStyle = shade(F.base, .88 + r() * .2); g.fillRect(x, y, len, 12);
+        g.strokeStyle = shade(F.base, .8); g.globalAlpha = .35; g.lineWidth = .7; for (let k = 0; k < 2; k++) { const yy = y + 3 + r() * 6; g.beginPath(); g.moveTo(x, yy); g.quadraticCurveTo(x + len / 2, yy + (r() - .5) * 3, x + len, yy); g.stroke(); }
+        g.globalAlpha = 1; g.fillStyle = F.line; g.fillRect(x, y, 1, 12); x += len; }
+      g.fillStyle = F.line; g.fillRect(0, y, 72, 1); }
+  } else if (F.type === "tile") {
+    g.fillStyle = F.line; for (let i = 0; i <= 72; i += 24) { g.fillRect(i - 1, 0, 2, 72); g.fillRect(0, i - 1, 72, 2); }
+  } else {
+    for (let i = 0; i < 900; i++) { g.fillStyle = r() > .5 ? shade(F.base, .9) : shade(F.base, 1.08); g.fillRect(r() * 72, r() * 72, 1.5, 1.5); }
+  }
+  return c.toDataURL();
+}
 const bar = document.createElement("div"); bar.className = "viewbar";
 bar.innerHTML = `<div class="seg" role="group" aria-label="${T("View")}"><button type="button" data-v="2d"><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="2.5" y="2.5" width="15" height="15" rx="1.5"/><path d="M2.5 9h7v8.5M9.5 9V2.5"/></svg>${T("2D plan")}</button><button type="button" data-v="3d"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 2 17.5 6v8L10 18 2.5 14V6z"/><path d="M2.5 6 10 10l7.5-4M10 10v8"/></svg>${T("3D view")}</button></div>
 <div class="look" hidden>
-  <div class="tgroup" role="group" aria-label="${T("Floor")}"><span class="tlabel">${T("Floor")}</span>${Object.entries(FLOORS).map(([k, f]) => `<button type="button" class="sw" data-f="${k}" title="${T(f.n)}" aria-label="${T(f.n)}" style="background:${f.base}"></button>`).join("")}</div>
+  <div class="tgroup" role="group" aria-label="${T("Floor")}"><span class="tlabel">${T("Floor")}</span>${Object.entries(FLOORS).map(([k, f]) => `<button type="button" class="sw" data-f="${k}" title="${T(f.n)}" aria-label="${T(f.n)}" style="background:${f.base} url(${swatch(f)}) center/cover"></button>`).join("")}</div>
   <div class="tgroup" role="group" aria-label="${T("Walls")}"><span class="tlabel">${T("Walls")}</span>${WALLS.map(c => `<button type="button" class="sw" data-w="${c}" aria-label="${c}" style="background:${c}"></button>`).join("")}<label class="sw custom" title="${T("Custom colour")}"><input type="color" aria-label="${T("Custom colour")}"></label></div>
   <button type="button" class="chip" data-rot>⟳ ${T("Rotate")}</button>
 </div>`;

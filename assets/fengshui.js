@@ -35,6 +35,7 @@ const REQ={bed:60,desk:90,sofa:60,armchair:60,chair:60,table:60,coffee:45,tv:60,
 const FBY=Object.fromEntries(FURN.map(f=>[f.k,f]));
 function FI(it){const b=FBY[it.k];return it!==b&&it.w>0&&it.h>0?Object.assign({},b,{w:it.w,h:it.h}):b;}
 const TUCK=(a,b)=>(a==="chair"&&(b==="table"||b==="desk"))||(b==="chair"&&(a==="table"||a==="desk"));
+const OPEN_H={door:205,window:124,mirror:85}; /* default heights in cm */
 const OPEN={door:{name:T("Door"),len:72},window:{name:T("Window"),len:96},mirror:{name:T("Mirror"),len:52}};
 const VL=DESIGN?{good:T("Fits"),caution:T("Tight"),bad:T("Blocked"),neutral:T("Note")}:{good:T("Good"),caution:T("Caution"),bad:T("Avoid"),neutral:T("No rule")};
 const VW=DESIGN?{good:T("fit"),caution:T("tight"),bad:T("blocked")}:{good:T("good"),caution:T("caution"),bad:T("avoid")};
@@ -92,7 +93,7 @@ function corners(f,o){const hw=f.w/2,hh=f.h/2;return[[-1,-1],[1,-1],[1,1],[-1,1]
 function fits(f,o){const P=pts();return inside(o.x,o.y,P)&&corners(f,o).every(([x,y])=>inside(x+(o.x-x)*.04,y+(o.y-y)*.04,P));}
 function aabb(f,o){const c=corners(f,o),xs=c.map(p=>p[0]),ys=c.map(p=>p[1]);return[Math.min(...xs),Math.min(...ys),Math.max(...xs),Math.max(...ys)];}
 function overlaps(f,o,skip){const A=aabb(f,o);return S.items.some(it=>{if(it.id===skip)return false;const g=FI(it),B=aabb(g,oi(it));return A[0]<B[2]-4&&A[2]>B[0]+4&&A[1]<B[3]-4&&A[3]>B[1]+4;});}
-function openPos(o){const e=EDGES[o.edge];if(!e)return null;const t=Math.max(.06,Math.min(.94,o.t));return{x:e.a[0]+t*e.dx,y:e.a[1]+t*e.dy,nx:e.nx,ny:e.ny,tx:e.tx,ty:e.ty,edge:o.edge,len:OPEN[o.k].len};}
+function openPos(o){const e=EDGES[o.edge];if(!e)return null;const t=Math.max(.06,Math.min(.94,o.t));return{x:e.a[0]+t*e.dx,y:e.a[1]+t*e.dy,nx:e.nx,ny:e.ny,tx:e.tx,ty:e.ty,edge:o.edge,len:o.len>0?o.len:OPEN[o.k].len};}
 
 /* ---------- State ---------- */
 let S={shape:"wide",room:SHAPES.wide.pts.map(p=>p.slice()),north:0,armed:null,drawing:null,sel:null,items:[],opens:[],next:1,v:7};
@@ -597,9 +598,14 @@ function drawDetail(){
     const[cx,cy]=centroid(pts());
     html=`<h3>${OPEN[op.k].name}</h3><p class="muted" style="margin:4px 0 0"><span class="pill ${v}">${VL[v]}</span> &nbsp;${DESIGN?T("{w} cm wide",{w:cm(p.len)}):T("on the {d} wall",{d:dirT(dir8(bearingOf(p.x-cx,p.y-cy)))})}</p>${checkList(C)}
       <p class="muted" style="font-size:13.5px;margin:10px 0 0">${T("Drag it along the walls to move it, or onto the bin to remove it.")}</p>
-      <div class="actions"><button type="button" class="chip" id="rm">${T("Remove")}</button></div>`;
+      <div class="actions"><button type="button" class="chip" id="rm">${T("Remove")}</button></div>
+      <form class="sizeedit" id="szf"><span class="tlabel">${T("Size")}</span><label><span class="sr">${T("Width in cm")}</span><input id="szw" inputmode="numeric" aria-label="${T("Width in cm")}" value="${cm(p.len)}"></label><span class="by">×</span><label><span class="sr">${T("Height in cm")}</span><input id="szh" inputmode="numeric" aria-label="${T("Height in cm")}" value="${op.h||OPEN_H[op.k]}"></label><span class="by">cm</span><button type="submit" class="chip">${T("Apply")}</button>${op.len||op.h?`<button type="button" class="linkbtn" id="szr">${T("Reset")}</button>`:""}<span class="szmsg" id="szm" aria-live="polite"></span></form>`;
     box.style.setProperty("--stripe",stripe);box.innerHTML=html;
     document.getElementById("rm").addEventListener("click",()=>{S.opens=S.opens.filter(i=>i.id!==op.id);S.sel=null;save();render();});
+    document.getElementById("szf").addEventListener("submit",e=>{e.preventDefault();const rd=id=>parseFloat(String(document.getElementById(id).value).replace(",","."));const w=rd("szw"),hh=rd("szh"),maxH=op.k==="window"?160:op.k==="mirror"?200:240;
+      if(!(w>=30&&w<=400&&hh>=30&&hh<=maxH)){document.getElementById("szm").textContent=T("Enter a width of 30 to 400 cm and a height of 30 to {m} cm.",{m:maxH});return;}
+      op.len=w*PXM/100;op.h=hh;computeHeat();save();render();});
+    const szr=document.getElementById("szr");if(szr)szr.addEventListener("click",()=>{delete op.len;delete op.h;computeHeat();save();render();});
     return;
   }
   if(S.drawing)html=`<h3>${T("Draw your room")}</h3><p class="muted">${T("Click each corner of the room in turn. Points snap to a grid. Close the shape by clicking the first corner.")}</p>`;
@@ -684,7 +690,7 @@ const LSW=(()=>{const st=document.querySelector(".fs .stage");if(!st)return null
   b.innerHTML=`<svg viewBox="0 0 32 44" aria-hidden="true"><rect class="pl" x="1" y="1" width="30" height="42" rx="7"/><rect class="sl" x="9" y="7" width="14" height="30" rx="4"/><rect class="rk" x="10.5" y="8.5" width="11" height="13" rx="3"/></svg><span>${T("Lights")}</span>`;
   b.addEventListener("click",()=>{S.lights=!S.lights;persist();render();});st.appendChild(b);return b;})();
 function syncSwitch(){if(!LSW)return;const has=S.items.some(i=>i.k==="lamp");if(!has&&S.lights)S.lights=false;LSW.hidden=!has;LSW.setAttribute("aria-pressed",!!S.lights);LSW.title=T(S.lights?"Turn the lights off":"Turn the lights on");LSW.setAttribute("aria-label",LSW.title);}
-window.FSAPI={DESIGN,verdict:it=>overall(evaluate(it.k,oi(it),it.id)),planShot:()=>buildPNG(true),get S(){return S;},FBY,FI,OPEN,PXM,T,FR,pts,oi,openPos,centroid,save,render:()=>render()};
+window.FSAPI={OPEN_H,DESIGN,verdict:it=>overall(evaluate(it.k,oi(it),it.id)),planShot:()=>buildPNG(true),get S(){return S;},FBY,FI,OPEN,PXM,T,FR,pts,oi,openPos,centroid,save,render:()=>render()};
 computeHeat();render();
 
 /* ---------- Export PNG with Sapiopedia branding ---------- */

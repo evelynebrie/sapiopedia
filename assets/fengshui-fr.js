@@ -64,6 +64,7 @@ window.FS_FR = {
 "In the door-to-window line: energy rushes past it.":"Sur la ligne porte-fenêtre : l'énergie file à côté.",
 "Only {d} cm to the coffee table: 40 to 50 cm leaves room for your legs.":"Seulement {d} cm jusqu'à la table basse : 40 à 50 cm laissent de la place pour les jambes.",
 "{d} cm to the coffee table: within easy reach.":"{d} cm jusqu'à la table basse : à portée de main.",
+"Height in cm":"Hauteur en cm","Enter a width of 30 to 400 cm and a height of 30 to {m} cm.":"Entrez une largeur de 30 à 400 cm et une hauteur de 30 à {m} cm.",
 "Door":"Porte","Window":"Fenêtre","Mirror":"Miroir",
 "Good":"Favorable","Caution":"Prudence","Avoid":"À éviter","No rule":"Aucune règle",
 "Square":"Carrée","Wide":"Large","Tall":"Longue","L-shape":"En L",

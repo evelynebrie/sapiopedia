@@ -39,7 +39,7 @@
     China: "Chine", Japan: "Japon", Korea: "Corée", Vietnam: "Viêt Nam", "Arabia/Persia": "Monde arabe et Iran", "India/Sri Lanka": "Inde et Sri Lanka" };
   var FR = C.lang === "fr";
   var L = FR ? { glance: "En bref", gender: "Genre", origin: "Origine", first: "Première mention", pron: "Prononciation", comp: "Prénoms composés",
-      meaning: "Origine et sens", bears: "Qui le porte", where: "Où on le donne", world: "Dans d'autres langues", lit: "En littérature", src: "Sources",
+      meaning: "Origine et sens", bears: "Qui le porte", where: "Où on le donne surtout", world: "Dans d'autres langues", lit: "En littérature", src: "Sources",
       women: "femmes", men: "hommes", bearsTxt: "{f} % des personnes qui portent ce prénom en France sont des femmes, {m} % des hommes.",
       gshort: { f: "Féminin", m: "Masculin", n: "Féminin et masculin (mixte)", u: "Non indiqué" }, book: "Prénoms français", around: "vers" }
     : { glance: "At a glance", gender: "Gender", origin: "Origin", first: "First recorded", pron: "Pronunciation", comp: "Compound names",

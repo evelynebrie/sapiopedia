@@ -3,13 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>60 questions pour action ou vérité (drôles et sans gêne) · Sapiopedia</title>
+<title>Action ou vérité · Sapiopedia</title>
 <meta name="description" content="30 vérités et 30 actions réalisables dans un salon. Tirez-en une au hasard, ou parcourez la liste complète.">
 <link rel="canonical" href="https://sapiopedia.com/fr/jeux/questions-action-ou-verite/">
 <link rel="alternate" hreflang="fr" href="https://sapiopedia.com/fr/jeux/questions-action-ou-verite/">
 <link rel="alternate" hreflang="en" href="https://sapiopedia.com/en/games/truth-or-dare-questions/">
 <link rel="alternate" hreflang="x-default" href="https://sapiopedia.com/en/games/truth-or-dare-questions/">
-<meta property="og:title" content="60 questions pour action ou vérité (drôles et sans gêne)">
+<meta property="og:title" content="Action ou vérité">
 <meta property="og:description" content="30 vérités et 30 actions réalisables dans un salon. Tirez-en une au hasard, ou parcourez la liste complète.">
 <meta property="og:url" content="https://sapiopedia.com/fr/jeux/questions-action-ou-verite/">
 <meta property="og:type" content="website">
@@ -21,12 +21,13 @@
 <body>
 <header class="site"><div class="wrap">
   <a class="logo" href="/fr/"><svg aria-hidden="true" viewBox="22 4 160 202"><g style="mix-blend-mode:multiply"><path d="M62 70 C58 36 96 20 124 28 C160 38 164 86 132 104 C114 114 104 122 104 144" fill="none" stroke="#B9CFE0" stroke-width="24" stroke-linecap="round" stroke-linejoin="round" transform="translate(-6,5)"/><path d="M62 70 C58 36 96 20 124 28 C160 38 164 86 132 104 C114 114 104 122 104 144" fill="none" stroke="#E9A9B8" stroke-width="24" stroke-linecap="round" stroke-linejoin="round" transform="translate(6,-4)"/><path d="M62 70 C58 36 96 20 124 28 C160 38 164 86 132 104 C114 114 104 122 104 144" fill="none" stroke="#B8405E" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" /></g><path d="M77.6 176 A26.400000000000002 7.199999999999999 0 0 1 130.4 176" fill="none" stroke="#B9CFE0" stroke-width="4" transform="rotate(-18 104 176)"/><circle cx="104" cy="176" r="12" fill="#B8405E"/><path d="M77.6 176 A26.400000000000002 7.199999999999999 0 0 0 130.4 176" fill="none" stroke="#B9CFE0" stroke-width="4" transform="rotate(-18 104 176)"/><path d="M108 53 Q108 62 117 62 Q108 62 108 71 Q108 62 99 62 Q108 62 108 53Z" fill="#B8405E"/><path d="M128 44.5 Q128 48 131.5 48 Q128 48 128 51.5 Q128 48 124.5 48 Q128 48 128 44.5Z" fill="#B8405E"/><path d="M90 77 Q90 80 93 80 Q90 80 90 83 Q90 80 87 80 Q90 80 90 77Z" fill="#B8405E"/></svg>Sapiopedia</a>
-  <nav class="main"><a href="/fr/quiz/">Quiz</a><a href="/fr/outils/">Outils</a><a href="/fr/significations/">Significations</a><a href="/fr/prenoms/">Prénoms</a><a href="/fr/jeux/">Jeux</a><a href="/fr/reves/">Rêves</a><span class="lang"><b>FR</b> / <a href="/en/games/truth-or-dare-questions/">EN</a></span></nav>
+  <nav class="main"><a href="/fr/quiz/">Quiz</a><a href="/fr/outils/">Outils</a><a href="/fr/prenoms/">Prénoms</a><a href="/fr/jeux/">Jeux</a><a href="/fr/reves/">Rêves</a><span class="lang"><b>FR</b> / <a href="/en/games/truth-or-dare-questions/">EN</a></span></nav>
 </div></header>
 <main class="page">
-<h1>60 questions pour action ou vérité (drôles et sans gêne)</h1><p class="lead">30 vérités et 30 actions réalisables dans un salon. Tirez-en une au hasard, ou parcourez la liste complète.</p>
+<h1>Action ou vérité</h1><p class="lead">30 vérités et 30 actions réalisables dans un salon. Tirez-en une au hasard, ou parcourez la liste complète.</p>
 <p>Action ou vérité fonctionne le mieux quand les vérités révèlent sans blesser et que les actions font rire sans faire mal. Ces 60 propositions ont été écrites pour des groupes d'adultes mélangés : rien ici n'oblige à boire, à sortir de l'appartement ou à humilier qui que ce soit. Appuyez sur <b>Vérité</b> ou <b>Action</b> et laissez le sort décider.</p>
 <div class="tool" id="game">
+  <div class="mode" role="radiogroup"><button type="button" role="radio" aria-checked="true" onclick="setMode(0,this)">Tout public</button><button type="button" role="radio" aria-checked="false" onclick="setMode(1,this)">Un peu épicé</button></div>
   <div class="row"><button onclick="draw([0, 1])">Vérité</button><button onclick="draw([2, 3])">Action</button></div>
   <div class="result" id="r">Appuyez sur le bouton pour tirer une question.</div>
   <div class="row" id="acts" style="display:none;margin-top:1rem">
@@ -35,8 +36,12 @@
   </div>
 </div>
 <script>
-var G = [["Vérités : en douceur", ["Quel talent totalement inutile fait secrètement ta fierté ?", "Quelle chanson connais-tu par cœur sans jamais oser dire que tu l'aimes ?", "Quel métier voulais-tu faire à sept ans ?", "Quelle est la dernière chose que tu as cherchée sur Internet ?", "Quelle appli aurais-tu le plus de mal à lâcher pendant un mois ?", "Quel est le plat le plus bizarre que tu as mangé en faisant semblant d'aimer ?", "Quelle est ta technique quand tu as oublié le prénom de quelqu'un ?", "Quelle corvée repousses-tu jusqu'à ce que ça devienne une catastrophe ?", "Quelle est la raison la plus mesquine pour laquelle tu as détesté quelqu'un ?", "Quel objet de cette pièce emporterais-tu si personne ne regardait ?", "Quelle a été ta période vestimentaire la plus gênante ?", "Combien de temps as-tu déjà tenu sans te laver les cheveux ?", "Quel personnage de fiction serait ton meilleur pote ?", "Quel aliment adoré de tous ne supportes-tu pas, en secret ?", "Quelle est la chose la plus enfantine que tu fais encore quand personne ne regarde ?"]], ["Vérités : piquantes mais correctes", ["Qui, dans cette pièce, appellerais-tu en premier en sortant du poste de police, et pourquoi ?", "Quel est le plus gros mensonge que tes parents croient encore ?", "As-tu déjà fait semblant d'être malade pour échapper à quelque chose ? À quoi ?", "Quelle est la plus grosse somme que tu as dépensée pour un truc complètement ridicule ?", "Quelle manie d'un de tes amis t'agace le plus, sans dire de qui il s'agit ?", "Quel compliment reçu te trotte encore dans la tête ?", "As-tu déjà fouillé le téléphone ou l'armoire à pharmacie de quelqu'un ?", "Quel est le pire cadeau que tu as offert, et la personne s'en est-elle rendu compte ?", "Qu'est-ce que tu détesterais qu'on te filme en train de faire ?", "As-tu déjà offert un cadeau recyclé… à la personne qui te l'avait offert ?", "Quelle est la rancune que tu as gardée le plus longtemps, et pour quoi ?", "Quelle opinion gardes-tu pour toi afin d'éviter les disputes ?", "Quelle a été ta première impression la plus ratée sur quelqu'un présent ce soir ?", "Quel texto, avec le recul, vaut-il mieux que tu n'aies jamais envoyé ?", "Quelle est la pire chose que tu as réussi à faire passer inaperçue à l'école ou au travail ?"]], ["Actions : en douceur", ["Parle en chuchotant jusqu'à ton prochain tour.", "Imite quelqu'un dans la pièce et laisse les autres deviner qui.", "Laisse le groupe choisir ta sonnerie de téléphone pour le reste de la soirée.", "Décris un objet de la pièce comme la voix off d'un documentaire animalier.", "Chante le refrain de la dernière chanson que tu as écoutée.", "Traverse la pièce avec un livre en équilibre sur la tête.", "Parle en rimes pendant les deux prochaines minutes.", "Montre au groupe la dernière photo de ta galerie (un joker possible).", "Invente une poignée de main secrète avec ton voisin de gauche.", "Récite l'alphabet à l'envers sans t'arrêter.", "Fais un compliment à chaque personne de la pièce en moins de 30 secondes.", "Fais dix squats en citant dix animaux.", "Dessine le portrait de quelqu'un en 20 secondes, de la mauvaise main.", "Lis le dernier texto reçu d'une voix de tragédien.", "Rejoue au ralenti ton entrée dans la pièce ce soir."]], ["Actions : piquantes mais correctes", ["Appelle un ami et annonce-lui, très sérieusement, que tu deviens mime professionnel.", "Laisse quelqu'un publier une story depuis ton téléphone, sans droit de regard.", "Avale une cuillerée d'un condiment choisi par le groupe.", "Échange un vêtement (veste, chaussettes, chapeau) avec quelqu'un jusqu'à la fin de la partie.", "Interprète ta routine du matin en danse contemporaine, 30 secondes.", "Tape « En secret, je » dans ton téléphone et lis les suggestions du clavier à voix haute.", "Tiens la planche pendant que le groupe te pose trois questions éclair.", "Ne parle qu'avec des questions jusqu'à ton prochain tour.", "Improvise une conférence de deux minutes sur un sujet imposé à l'instant par le groupe.", "Laisse quelqu'un te faire une nouvelle coiffure avec ce qu'il y a dans la pièce.", "Envoie « J'ai un aveu à te faire » à ton dernier contact, et attends 60 secondes avant d'expliquer.", "Mime une scène de film en silence jusqu'à ce que quelqu'un trouve le titre.", "Porte des gants de cuisine pendant trois tours, téléphone compris.", "Laisse le groupe choisir ta photo de profil pour les prochaines 24 heures.", "Enregistre un rap de 15 secondes sur ton voisin de droite et fais-le écouter à tout le monde."]]], pool = [], last = -1, cur = '';
+var G = [["Vérités : tout public", ["Quel talent totalement inutile fait secrètement ta fierté ?", "Quelle chanson connais-tu par cœur sans jamais oser dire que tu l'aimes ?", "Quel métier voulais-tu faire à sept ans ?", "Quelle est la dernière chose que tu as cherchée sur Internet ?", "Quelle appli aurais-tu le plus de mal à lâcher pendant un mois ?", "Quel est le plat le plus bizarre que tu as mangé en faisant semblant d'aimer ?", "Quelle est ta technique quand tu as oublié le prénom de quelqu'un ?", "Quelle corvée repousses-tu jusqu'à ce que ça devienne une catastrophe ?", "Quelle est la raison la plus mesquine pour laquelle tu as détesté quelqu'un ?", "Quel objet de cette pièce emporterais-tu si personne ne regardait ?", "Quelle a été ta période vestimentaire la plus gênante ?", "Combien de temps as-tu déjà tenu sans te laver les cheveux ?", "Quel personnage de fiction serait ton meilleur pote ?", "Quel aliment adoré de tous ne supportes-tu pas, en secret ?", "Quelle est la chose la plus enfantine que tu fais encore quand personne ne regarde ?"]], ["Vérités : un peu épicées", ["Qui, dans cette pièce, appellerais-tu en premier en sortant du poste de police, et pourquoi ?", "Quel est le plus gros mensonge que tes parents croient encore ?", "As-tu déjà fait semblant d'être malade pour échapper à quelque chose ? À quoi ?", "Quelle est la plus grosse somme que tu as dépensée pour un truc complètement ridicule ?", "Quelle manie d'un de tes amis t'agace le plus, sans dire de qui il s'agit ?", "Quel compliment reçu te trotte encore dans la tête ?", "As-tu déjà fouillé le téléphone ou l'armoire à pharmacie de quelqu'un ?", "Quel est le pire cadeau que tu as offert, et la personne s'en est-elle rendu compte ?", "Qu'est-ce que tu détesterais qu'on te filme en train de faire ?", "As-tu déjà offert un cadeau recyclé… à la personne qui te l'avait offert ?", "Quelle est la rancune que tu as gardée le plus longtemps, et pour quoi ?", "Quelle opinion gardes-tu pour toi afin d'éviter les disputes ?", "Quelle a été ta première impression la plus ratée sur quelqu'un présent ce soir ?", "Quel texto, avec le recul, vaut-il mieux que tu n'aies jamais envoyé ?", "Quelle est la pire chose que tu as réussi à faire passer inaperçue à l'école ou au travail ?"]], ["Actions : tout public", ["Parle en chuchotant jusqu'à ton prochain tour.", "Imite quelqu'un dans la pièce et laisse les autres deviner qui.", "Laisse le groupe choisir ta sonnerie de téléphone pour le reste de la soirée.", "Décris un objet de la pièce comme la voix off d'un documentaire animalier.", "Chante le refrain de la dernière chanson que tu as écoutée.", "Traverse la pièce avec un livre en équilibre sur la tête.", "Parle en rimes pendant les deux prochaines minutes.", "Montre au groupe la dernière photo de ta galerie (un joker possible).", "Invente une poignée de main secrète avec ton voisin de gauche.", "Récite l'alphabet à l'envers sans t'arrêter.", "Fais un compliment à chaque personne de la pièce en moins de 30 secondes.", "Fais dix squats en citant dix animaux.", "Dessine le portrait de quelqu'un en 20 secondes, de la mauvaise main.", "Lis le dernier texto reçu d'une voix de tragédien.", "Rejoue au ralenti ton entrée dans la pièce ce soir."]], ["Actions : un peu épicées", ["Appelle un ami et annonce-lui, très sérieusement, que tu deviens mime professionnel.", "Laisse quelqu'un publier une story depuis ton téléphone, sans droit de regard.", "Avale une cuillerée d'un condiment choisi par le groupe.", "Échange un vêtement (veste, chaussettes, chapeau) avec quelqu'un jusqu'à la fin de la partie.", "Interprète ta routine du matin en danse contemporaine, 30 secondes.", "Tape « En secret, je » dans ton téléphone et lis les suggestions du clavier à voix haute.", "Tiens la planche pendant que le groupe te pose trois questions éclair.", "Ne parle qu'avec des questions jusqu'à ton prochain tour.", "Improvise une conférence de deux minutes sur un sujet imposé à l'instant par le groupe.", "Laisse quelqu'un te faire une nouvelle coiffure avec ce qu'il y a dans la pièce.", "Envoie « J'ai un aveu à te faire » à ton dernier contact, et attends 60 secondes avant d'expliquer.", "Mime une scène de film en silence jusqu'à ce que quelqu'un trouve le titre.", "Porte des gants de cuisine pendant trois tours, téléphone compris.", "Laisse le groupe choisir ta photo de profil pour les prochaines 24 heures.", "Enregistre un rap de 15 secondes sur ton voisin de droite et fais-le écouter à tout le monde."]]], pool = [], last = -1, cur = '', lastIx = null;
+var MODES = [[0, 2], [1, 3]], mode = 0;
+function setMode(i, b){ mode = i; b.parentNode.querySelectorAll('button').forEach(function(x){ x.setAttribute('aria-checked', x === b); }); if (lastIx) draw(lastIx); }
 function draw(ix){
+  lastIx = ix;
+  if (MODES) ix = ix.filter(function(g){ return MODES[mode].indexOf(g) >= 0; });
   pool = [];
   for (var a = 0; a < ix.length; a++) for (var b = 0; b < G[ix[a]][1].length; b++) pool.push([ix[a], b]);
   again();
@@ -52,7 +57,7 @@ function again(){
   document.getElementById('acts').style.display = 'grid';
 }
 </script>
-<h2>Vérités : en douceur</h2>
+<h2>Vérités : tout public</h2>
 <ol start="1">
 <li>Quel talent totalement inutile fait secrètement ta fierté ?</li>
 <li>Quelle chanson connais-tu par cœur sans jamais oser dire que tu l&#x27;aimes ?</li>
@@ -70,7 +75,7 @@ function again(){
 <li>Quel aliment adoré de tous ne supportes-tu pas, en secret ?</li>
 <li>Quelle est la chose la plus enfantine que tu fais encore quand personne ne regarde ?</li>
 </ol>
-<h2>Vérités : piquantes mais correctes</h2>
+<h2>Vérités : un peu épicées</h2>
 <ol start="16">
 <li>Qui, dans cette pièce, appellerais-tu en premier en sortant du poste de police, et pourquoi ?</li>
 <li>Quel est le plus gros mensonge que tes parents croient encore ?</li>
@@ -88,7 +93,7 @@ function again(){
 <li>Quel texto, avec le recul, vaut-il mieux que tu n&#x27;aies jamais envoyé ?</li>
 <li>Quelle est la pire chose que tu as réussi à faire passer inaperçue à l&#x27;école ou au travail ?</li>
 </ol>
-<h2>Actions : en douceur</h2>
+<h2>Actions : tout public</h2>
 <ol start="31">
 <li>Parle en chuchotant jusqu&#x27;à ton prochain tour.</li>
 <li>Imite quelqu&#x27;un dans la pièce et laisse les autres deviner qui.</li>
@@ -106,7 +111,7 @@ function again(){
 <li>Lis le dernier texto reçu d&#x27;une voix de tragédien.</li>
 <li>Rejoue au ralenti ton entrée dans la pièce ce soir.</li>
 </ol>
-<h2>Actions : piquantes mais correctes</h2>
+<h2>Actions : un peu épicées</h2>
 <ol start="46">
 <li>Appelle un ami et annonce-lui, très sérieusement, que tu deviens mime professionnel.</li>
 <li>Laisse quelqu&#x27;un publier une story depuis ton téléphone, sans droit de regard.</li>
@@ -133,7 +138,7 @@ function again(){
 <li>Interdit de choisir la même option trois fois de suite.</li>
 <li>La partie se termine quand tout le monde a joué au moins trois tours, ou quand il n'y a plus de chips.</li>
 </ul>
-<div class="ad">publicité</div><div class="related"><h2>Pages liées</h2><ul><li><a href="/fr/jeux/questions-tu-preferes/">50 questions « tu préfères » : drôles, profondes et impossibles</a></li><li><a href="/fr/jeux/phrases-je-n-ai-jamais/">50 phrases pour « je n&#x27;ai jamais » (drôles et sans alcool)</a></li><li><a href="/fr/jeux/questions-brise-glace-pour-groupes/">60 questions brise-glace : travail, famille et nouveaux amis</a></li><li><a href="/fr/jeux/idees-deux-verites-un-mensonge/">40 idées pour « deux vérités, un mensonge », et comment jouer</a></li><li><a href="/fr/jeux/questions-premier-rendez-vous/">50 questions pour un premier rendez-vous : légères, curieuses, profondes</a></li></ul></div>
+<div class="ad">publicité</div><div class="related"><h2>Pages liées</h2><ul><li><a href="/fr/jeux/questions-tu-preferes/">Tu préfères</a></li><li><a href="/fr/jeux/phrases-je-n-ai-jamais/">Je n&#x27;ai jamais</a></li><li><a href="/fr/jeux/questions-brise-glace-pour-groupes/">Brise-glace</a></li><li><a href="/fr/jeux/idees-deux-verites-un-mensonge/">Deux vérités, un mensonge</a></li><li><a href="/fr/jeux/questions-premier-rendez-vous/">Questions de premier rendez-vous</a></li></ul></div>
 </main>
 <footer class="site"><div class="wrap">
   <span>Sapiopedia</span><span>·</span><span>Créé à Montréal</span><span>·</span><a href="/fr/a-propos/">À propos</a><span>·</span><a href="/fr/confidentialite/">Confidentialité</a><span>·</span><a href="/fr/contact/">Contact</a>

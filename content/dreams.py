@@ -9,14 +9,18 @@ T = {
                index="Index of every word", index_sum="{n} dreams and {a} other words that lead to them", see="see", sit="What happens in the dream",
                feel="How you felt", q="Ask yourself", legend=("good sign", "mixed", "bad sign"), also="See also", src="Source",
                searched="Also searched as", share="Share this dream", top="Back to top", none="No dream matches “{q}”.",
-               note="The tone runs from ●○○○○ (very negative omen) to ●●●●● (very positive). The omens come from old dream books: read them as cultural history, not prediction.",
-               sign=("Good sign", "Mixed sign", "Bad sign"), letters="Letters", preview="Your shareable image", download="Download PNG", close="Close", preparing="Preparing image…"),
+               note="The tone runs from ●○○○○ (very negative omen) to ●●●●● (very positive).",
+               sign=("Good sign", "Mixed sign", "Bad sign"),
+               intro="Traditional dream meanings, rewritten in plain contemporary English from four public-domain dream books, with a modern reading of the feelings involved and questions for reflection.",
+               books="The four books: G. H. Miller, <i>Ten Thousand Dreams Interpreted, or What's in a Dream</i> (1901); F. Fontaine, <i>The Golden Wheel Dream-Book and Fortune-Teller</i> (1862); A. H. Noe, <i>The Witches' Dream Book</i> (1885); and the anonymous <i>Interpretation of Dreams and Moles</i> (1805).", letters="Letters", preview="Your shareable image", download="Download PNG", close="Close", preparing="Preparing image…"),
     "fr": dict(title="Dictionnaire des rêves", book="Dictionnaire des rêves", search="Chercher un rêve : serpent, dents, chute…", search_label="Chercher dans le dictionnaire",
                index="Index de tous les mots", index_sum="{n} rêves et {a} autres mots qui y mènent", see="voir", sit="Ce qui se passe dans le rêve",
                feel="Ce que vous ressentiez", q="Questions à se poser", legend=("bon signe", "mitigé", "mauvais signe"), also="Voir aussi", src="Source",
                searched="Aussi cherché comme", share="Partager ce rêve", top="Haut de page", none="Aucun rêve ne correspond à « {q} ».",
-               note="La tonalité va de ●○○○○ (présage très négatif) à ●●●●● (très positif). Les présages viennent des anciens livres de rêves : à lire comme de l'histoire culturelle, pas comme une prédiction.",
-               sign=("Bon signe", "Signe mitigé", "Mauvais signe"), letters="Lettres", preview="Votre image à partager", download="Télécharger le PNG", close="Fermer", preparing="Préparation de l'image…"),
+               note="La tonalité va de ●○○○○ (présage très négatif) à ●●●●● (très positif).",
+               sign=("Bon signe", "Signe mitigé", "Mauvais signe"),
+               intro="Significations traditionnelles des rêves, réécrites en français contemporain à partir de quatre recueils du domaine public, avec une lecture moderne des émotions et des questions pour réfléchir.",
+               books="Les quatre livres : G. H. Miller, <i>Ten Thousand Dreams Interpreted, or What's in a Dream</i> (1901) ; F. Fontaine, <i>The Golden Wheel Dream-Book and Fortune-Teller</i> (1862) ; A. H. Noe, <i>The Witches' Dream Book</i> (1885) ; et l'anonyme <i>Interpretation of Dreams and Moles</i> (1805).", letters="Lettres", preview="Votre image à partager", download="Télécharger le PNG", close="Fermer", preparing="Préparation de l'image…"),
 }
 THUMB = '<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><path id="dd-th" d="M1 21h4V9H1v12zm22-11c0-1.1-.9-2-2-2h-6.31l.95-4.57.03-.32c0-.41-.17-.79-.44-1.06L14.17 1 7.59 7.59C7.22 7.95 7 8.45 7 9v10c0 1.1.9 2 2 2h9c.83 0 1.54-.5 1.84-1.22l3.02-7.05c.09-.23.14-.47.14-.73v-2z"/></defs></svg>'
 
@@ -76,12 +80,13 @@ def build(lang, layout, write, add_url, slug, alt_path):
         groups[-1][1].append(a)
     book = "".join(f'<section class="dd-letter" id="l-{L}" aria-label="{L}"><h2 class="bigl">{L}</h2>{"".join(a)}</section>' for L, a in groups)
     az = "".join(f'<a href="#l-{L}">{L}</a>' for L in letters)
-    intro = e(d["intro"][0]) if d["intro"] else ""
+    intro = e(t["intro"])
     leg = t["legend"]
     body = f'''<link rel="stylesheet" href="/assets/dreams.css">{THUMB}
 <div class="dd" id="dd-top">
 <p class="lead dd-intro">{intro}</p>
 <p class="small dd-note">{t["note"]}</p>
+<p class="small dd-note dd-books">{t["books"]}</p>
 <div class="dd-bar">
   <div class="dd-search"><label class="sr" for="dd-q">{t["search_label"]}</label><input id="dd-q" type="search" autocomplete="off" placeholder="{e(t["search"])}"><ul id="dd-res" class="dd-res" role="listbox" hidden></ul><p id="dd-none" class="dd-none" hidden data-t="{e(t["none"])}"></p></div>
   <nav class="dd-az" aria-label="{t["letters"]}">{az}</nav>

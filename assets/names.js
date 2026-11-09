@@ -75,7 +75,7 @@
         (r.mp3 ? '<button type="button" class="hear" aria-pressed="false">▶ ' + C.hear + "</button>" : "") + "</p></div></div>" +
         (leadLine(name, r) ? '<p class="lead">' + esc(leadLine(name, r)) + "</p>" : "") +
         "<section>" + h3(L.glance) + '<table class="facts">' + rows + "</table></section>" +
-        (r.et ? "<section>" + h3(L.meaning) + (FR ? "" : '<p class="small-note">' + L.inFrench + "</p>") + '<p class="body"' + (FR ? "" : ' lang="fr"') + ">" + esc(r.et) + "</p></section>" : "") +
+        ((FR ? r.et : r.ete) ? "<section>" + h3(L.meaning) + '<p class="body">' + esc(FR ? r.et : r.ete) + "</p></section>" : "") +
         (r.pf != null ? '<section class="bearers">' + h3(L.bears) + '<div class="split" role="img" aria-label="' + esc(L.bearsTxt.replace("{f}", r.pf).replace("{m}", 100 - r.pf)) + '"><span class="f" style="width:' + r.pf + '%">♀ ' + r.pf + (FR ? " %" : "%") + "</span><span class=\"m\" style=\"width:" + (100 - r.pf) + '%">♂ ' + (100 - r.pf) + (FR ? " %" : "%") + "</span></div><p>" + esc(L.bearsTxt.replace("{f}", r.pf).replace("{m}", 100 - r.pf)) + "</p></section>" : "") +
         (r.c ? "<section>" + h3(L.where) + '<ul class="places">' + r.c.map(function (c) { return "<li>" + esc(FR ? (FRC[c] || c) : c) + "</li>"; }).join("") + "</ul></section>" : "") +
         (r.tr ? "<section>" + h3(L.world) + '<ul class="world">' + Object.keys(r.tr).map(function (l) { return '<li><span class="lg">' + esc(FR ? (FRL[l] || l) : l) + '</span><span class="dl"></span><span class="fm">' + esc(r.tr[l].join(", ")) + "</span></li>"; }).join("") + "</ul></section>" : "") +

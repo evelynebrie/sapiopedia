@@ -149,3 +149,9 @@ footer.site a:hover { color: var(--accent); }
   main.page h1 { font-size: 38px; }
   .tool .row { grid-template-columns: 1fr; }
 }
+
+/* game level switch (e.g. Truth or Dare: Clean / A bit spicy) */
+.tool .mode { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; padding: 4px; background: var(--panel); border-radius: 999px; margin-bottom: .4rem; }
+.tool .mode button { margin: 0; padding: .65rem 1rem; background: transparent; color: var(--muted); font-size: 15px; }
+.tool .mode button:hover { background: rgba(184,64,94,.08); }
+.tool .mode button[aria-checked="true"] { background: #fff; color: var(--accent); box-shadow: 0 1px 3px rgba(42,31,38,.15); }

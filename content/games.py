@@ -8,7 +8,7 @@ LBL = {"en": ("Next", "Share", "Rules", "Press the button to draw a question."),
        "fr": ("Suivant", "Partager", "Règles", "Appuyez sur le bouton pour tirer une question.")}
 
 
-def game_page(slug, title, desc, intro, groups, rules, buttons=None):
+def game_page(slug, title, desc, intro, groups, rules, buttons=None, modes=None):
     """intro[lang]: HTML paragraph(s). groups[lang] = [(heading, [items]), ...].
     rules[lang] = [line, ...]. buttons[lang] = [(label, [group indices]), ...] (default: one button, all groups)."""
     def body(lang):
@@ -16,6 +16,8 @@ def game_page(slug, title, desc, intro, groups, rules, buttons=None):
         G = groups[lang]
         btns = (buttons or {}).get(lang) or [("Draw a question" if lang == "en" else "Tirer une question", list(range(len(G))))]
         btn_html = "".join(f'<button onclick="draw({json.dumps(ix)})">{html.escape(lbl)}</button>' for lbl, ix in btns)
+        M = (modes or {}).get(lang)
+        mode_html = ('<div class="mode" role="radiogroup">' + "".join(f'<button type="button" role="radio" aria-checked="{"true" if i == 0 else "false"}" onclick="setMode({i},this)">{html.escape(lbl)}</button>' for i, (lbl, _) in enumerate(M)) + "</div>") if M else ""
         # full lists, numbering continues across groups
         n = 1; lists = ""
         for heading, items in G:
@@ -25,6 +27,7 @@ def game_page(slug, title, desc, intro, groups, rules, buttons=None):
         return f"""
 {intro[lang]}
 <div class="tool" id="game">
+  {mode_html}
   <div class="row">{btn_html}</div>
   <div class="result" id="r">{placeholder}</div>
   <div class="row" id="acts" style="display:none;margin-top:1rem">
@@ -33,8 +36,12 @@ def game_page(slug, title, desc, intro, groups, rules, buttons=None):
   </div>
 </div>
 <script>
-var G = {json.dumps(G, ensure_ascii=False)}, pool = [], last = -1, cur = '';
+var G = {json.dumps(G, ensure_ascii=False)}, pool = [], last = -1, cur = '', lastIx = null;
+var MODES = {json.dumps([m[1] for m in M] if M else None)}, mode = 0;
+function setMode(i, b){{ mode = i; b.parentNode.querySelectorAll('button').forEach(function(x){{ x.setAttribute('aria-checked', x === b); }}); if (lastIx) draw(lastIx); }}
 function draw(ix){{
+  lastIx = ix;
+  if (MODES) ix = ix.filter(function(g){{ return MODES[mode].indexOf(g) >= 0; }});
   pool = [];
   for (var a = 0; a < ix.length; a++) for (var b = 0; b < G[ix[a]][1].length; b++) pool.push([ix[a], b]);
   again();
@@ -57,7 +64,7 @@ function again(){{
 # ---------------------------------------------------------------- 1. Truth or dare
 def game_truth_or_dare():
     en = [
-        ("Truths: soft", [
+        ("Truths: clean", [
             "What is the most useless skill you are secretly proud of?",
             "Which song do you know every word to but would never admit to liking?",
             "What did you want to be when you were seven?",
@@ -74,7 +81,7 @@ def game_truth_or_dare():
             "What is a food everyone loves that you quietly can't stand?",
             "What is the most childish thing you still do when nobody is watching?",
         ]),
-        ("Truths: spicy but clean", [
+        ("Truths: a bit spicy", [
             "Who in this room would you call first if you got arrested, and why them?",
             "What is the biggest lie you told your parents that they still believe?",
             "Have you ever pretended to be sick to skip something? What was it?",
@@ -91,7 +98,7 @@ def game_truth_or_dare():
             "Which text message are you most relieved you never sent?",
             "What is the worst thing you ever got away with at school or work?",
         ]),
-        ("Dares: soft", [
+        ("Dares: clean", [
             "Speak in a whisper until your next turn.",
             "Do your best impression of someone in the room, and let them guess who.",
             "Let the group pick a new ringtone for your phone for the rest of the evening.",
@@ -108,7 +115,7 @@ def game_truth_or_dare():
             "Read the last text you received in a dramatic theatre voice.",
             "Do a slow-motion replay of how you entered the room tonight.",
         ]),
-        ("Dares: spicy but clean", [
+        ("Dares: a bit spicy", [
             "Call a friend and tell them, with total seriousness, that you have decided to become a professional mime.",
             "Let someone else post a story from your phone. They write it, you approve nothing.",
             "Eat a spoonful of a condiment chosen by the group.",
@@ -127,7 +134,7 @@ def game_truth_or_dare():
         ]),
     ]
     fr = [
-        ("Vérités : en douceur", [
+        ("Vérités : tout public", [
             "Quel talent totalement inutile fait secrètement ta fierté ?",
             "Quelle chanson connais-tu par cœur sans jamais oser dire que tu l'aimes ?",
             "Quel métier voulais-tu faire à sept ans ?",
@@ -144,7 +151,7 @@ def game_truth_or_dare():
             "Quel aliment adoré de tous ne supportes-tu pas, en secret ?",
             "Quelle est la chose la plus enfantine que tu fais encore quand personne ne regarde ?",
         ]),
-        ("Vérités : piquantes mais correctes", [
+        ("Vérités : un peu épicées", [
             "Qui, dans cette pièce, appellerais-tu en premier en sortant du poste de police, et pourquoi ?",
             "Quel est le plus gros mensonge que tes parents croient encore ?",
             "As-tu déjà fait semblant d'être malade pour échapper à quelque chose ? À quoi ?",
@@ -161,7 +168,7 @@ def game_truth_or_dare():
             "Quel texto, avec le recul, vaut-il mieux que tu n'aies jamais envoyé ?",
             "Quelle est la pire chose que tu as réussi à faire passer inaperçue à l'école ou au travail ?",
         ]),
-        ("Actions : en douceur", [
+        ("Actions : tout public", [
             "Parle en chuchotant jusqu'à ton prochain tour.",
             "Imite quelqu'un dans la pièce et laisse les autres deviner qui.",
             "Laisse le groupe choisir ta sonnerie de téléphone pour le reste de la soirée.",
@@ -178,7 +185,7 @@ def game_truth_or_dare():
             "Lis le dernier texto reçu d'une voix de tragédien.",
             "Rejoue au ralenti ton entrée dans la pièce ce soir.",
         ]),
-        ("Actions : piquantes mais correctes", [
+        ("Actions : un peu épicées", [
             "Appelle un ami et annonce-lui, très sérieusement, que tu deviens mime professionnel.",
             "Laisse quelqu'un publier une story depuis ton téléphone, sans droit de regard.",
             "Avale une cuillerée d'un condiment choisi par le groupe.",
@@ -198,7 +205,7 @@ def game_truth_or_dare():
     ]
     game_page(
         {"en": "truth-or-dare-questions", "fr": "questions-action-ou-verite"},
-        {"en": "60 truth or dare questions (clean, funny, for adults)", "fr": "60 questions pour action ou vérité (drôles et sans gêne)"},
+        {"en": "Truth or Dare", "fr": "Action ou vérité"},
         {"en": "30 truths and 30 dares you can actually do in a living room. Draw one at random, or scroll the full list.",
          "fr": "30 vérités et 30 actions réalisables dans un salon. Tirez-en une au hasard, ou parcourez la liste complète."},
         {"en": "<p>Truth or dare works best when the truths are revealing without being cruel and the dares are silly without being dangerous. These 60 prompts were written for mixed groups of adults: nothing here requires drinking, leaving the flat, or embarrassing anyone for real. Press <b>Truth</b> or <b>Dare</b> and let fate decide.</p>",
@@ -217,6 +224,7 @@ def game_truth_or_dare():
                 "Interdit de choisir la même option trois fois de suite.",
                 "La partie se termine quand tout le monde a joué au moins trois tours, ou quand il n'y a plus de chips."]},
         {"en": [("Truth", [0, 1]), ("Dare", [2, 3])], "fr": [("Vérité", [0, 1]), ("Action", [2, 3])]},
+        {"en": [("Clean", [0, 2]), ("A bit spicy", [1, 3])], "fr": [("Tout public", [0, 2]), ("Un peu épicé", [1, 3])]},
     )
 
 
@@ -340,7 +348,7 @@ def game_would_you_rather():
     ]
     game_page(
         {"en": "would-you-rather-questions", "fr": "questions-tu-preferes"},
-        {"en": "50 would you rather questions: funny, deep and impossible", "fr": "50 questions « tu préfères » : drôles, profondes et impossibles"},
+        {"en": "Would You Rather", "fr": "Tu préfères"},
         {"en": "50 original would-you-rather dilemmas for adults, from silly to philosophical. Draw one at random or read the whole list.",
          "fr": "50 dilemmes « tu préfères » originaux pour adultes, du plus bête au plus philosophique. Tirage au hasard ou liste complète."},
         {"en": "<p>\"Would you rather\" is the simplest party game there is: two options, one impossible choice, and a room full of people suddenly arguing about goats. These 50 dilemmas range from the absurd to the genuinely revealing, so you can match the mood of the table. Press the button and defend your answer.</p>",
@@ -485,7 +493,7 @@ def game_never_have_i_ever():
     ]
     game_page(
         {"en": "never-have-i-ever-questions", "fr": "phrases-je-n-ai-jamais"},
-        {"en": "50 never have I ever prompts (clean and funny)", "fr": "50 phrases pour « je n'ai jamais » (drôles et sans alcool)"},
+        {"en": "Never Have I Ever", "fr": "Je n'ai jamais"},
         {"en": "50 clean never-have-I-ever prompts about travel, food, everyday life and small confessions. Random draw plus the full list.",
          "fr": "50 phrases « je n'ai jamais » sur les voyages, la nourriture, le quotidien et les petits aveux. Tirage au hasard et liste complète."},
         {"en": "<p>\"Never have I ever\" is a confession game disguised as a counting game: someone reads a statement, and everyone who <em>has</em> done it puts a finger down. The best prompts are the ones half the room admits to with a groan. These 50 are clean, playable at a family table, and need nothing but ten fingers.</p>",
@@ -646,7 +654,7 @@ def game_icebreakers():
     ]
     game_page(
         {"en": "icebreaker-questions-for-groups", "fr": "questions-brise-glace-pour-groupes"},
-        {"en": "60 icebreaker questions for groups: work, family and new friends", "fr": "60 questions brise-glace : travail, famille et nouveaux amis"},
+        {"en": "Icebreakers", "fr": "Brise-glace"},
         {"en": "60 original icebreaker questions for team meetings, family dinners and first evenings with new friends. Random draw and full list.",
          "fr": "60 questions brise-glace originales pour les réunions d'équipe, les repas de famille et les soirées entre nouveaux amis."},
         {"en": "<p>A good icebreaker is easy to answer, impossible to answer badly, and leaves a small door open for a story. These 60 questions were written for three settings where silence feels loudest: the start of a meeting, a long family dinner, and that first evening with people you barely know. Pick a setting and draw.</p>",
@@ -769,7 +777,7 @@ def game_two_truths_one_lie():
     ]
     game_page(
         {"en": "two-truths-and-a-lie-ideas", "fr": "idees-deux-verites-un-mensonge"},
-        {"en": "40 two truths and a lie ideas, plus how to play", "fr": "40 idées pour « deux vérités, un mensonge », et comment jouer"},
+        {"en": "Two Truths and a Lie", "fr": "Deux vérités, un mensonge"},
         {"en": "Stuck for a good lie? 14 themes, 13 truths that sound fake and 13 lies that sound true, with a theme generator and the rules.",
          "fr": "En panne de mensonge ? 14 thèmes, 13 vérités qui sonnent faux, 13 mensonges qui sonnent vrai, un générateur de thème et les règles."},
         {"en": "<p>Two truths and a lie is the ideal first game for a group that does not know each other well: each player says three things about themselves, one of which is false, and the others have to spot it. The hard part is not lying, it is choosing truths strange enough to be doubted. The generator below suggests a theme so nobody freezes when it is their turn.</p>",
@@ -912,7 +920,7 @@ def game_first_date():
     ]
     game_page(
         {"en": "first-date-questions", "fr": "questions-premier-rendez-vous"},
-        {"en": "50 questions to ask on a first date: light, curious and meaningful", "fr": "50 questions pour un premier rendez-vous : légères, curieuses, profondes"},
+        {"en": "First Date Questions", "fr": "Questions de premier rendez-vous"},
         {"en": "50 original first-date questions that go beyond small talk, sorted from light to meaningful. Draw one when the conversation stalls.",
          "fr": "50 questions originales pour un premier rendez-vous, du léger au profond, pour aller plus loin que la météo. Tirez-en une si ça cale."},
         {"en": "<p>The best first-date questions are not interview questions. They are invitations: easy to pick up, open enough to wander, and interesting enough that you want to answer them yourself. These 50 are sorted from light to meaningful so you can start with coffee orders and, if the evening goes well, end somewhere that matters.</p>",

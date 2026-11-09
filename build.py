@@ -23,14 +23,12 @@ FAVICON = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><rect w
 SECTIONS = {
     "quizzes":  {"en": ("quizzes", "Quizzes", "Personality tests and quizzes you can share"),
                  "fr": ("quiz", "Quiz", "Tests de personnalité et quiz à partager")},
-    "tools":    {"en": ("tools", "Tools", "Calculators and converters that answer one question each"),
-                 "fr": ("outils", "Outils", "Calculateurs et convertisseurs, une question par page")},
-    "meanings": {"en": ("meanings", "Meanings", "Symbols, superstitions, flowers and stones explained"),
-                 "fr": ("significations", "Significations", "Symboles, superstitions, fleurs et pierres expliqués")},
-    "names":    {"en": ("names", "Names", "Baby names with real popularity data"),
-                 "fr": ("prenoms", "Prénoms", "Prénoms avec de vraies données de popularité")},
-    "games":    {"en": ("games", "Games", "Party games, rules and generators"),
-                 "fr": ("jeux", "Jeux", "Jeux de groupe, règles et générateurs")},
+    "tools":    {"en": ("tools", "Tools", "Room planners in 2D and 3D, feng shui advice, and scratch-off gift cards"),
+                 "fr": ("outils", "Outils", "Planificateurs de pièce en 2D et 3D, conseils feng shui et cartes cadeaux à gratter")},
+    "names":    {"en": ("names", "Names", "French first names for girls, boys or both, with origins and pronunciation"),
+                 "fr": ("prenoms", "Prénoms", "Prénoms français pour filles, garçons ou mixtes, avec origines et prononciation")},
+    "games":    {"en": ("games", "Games", "Truth or dare and other party games, with questions to draw at random"),
+                 "fr": ("jeux", "Jeux", "Action ou vérité et autres jeux de groupe, avec des questions à tirer au hasard")},
     "dreams":   {"en": ("dreams", "Dreams", "A dream dictionary from four old dream books, in plain English"),
                  "fr": ("reves", "Rêves", "Un dictionnaire des rêves tiré de quatre anciens recueils")},
 }
@@ -40,7 +38,7 @@ LEGAL = {
 }
 UI = {
     "en": {"home": "Home", "tagline": "The species that can't stop asking questions.",
-           "intro": "Sapiopedia is a growing collection of quizzes, calculators, meanings, names and games. One question per page, a clear answer, and a result you can share.", "desc": {"quizzes": "What your choices reveal. Colour, mental age, which country suits you…", "tools": "Everyday calculations, checked. Kitchen, baby, home, garden.", "meanings": "Symbols, flowers, stones, superstitions, and the stories behind them.", "names": "Origins, real popularity curves, and the quiet favourites.", "games": "Good questions for lively tables. Truth or dare, and more.", "dreams": "What your dreams meant to our ancestors, symbol by symbol, from abandonment to zodiac."},
+           "intro": "Sapiopedia is a growing collection of quizzes, room planners, a dream dictionary, French first names and party games. One question per page, a clear answer, and a result you can share.", "desc": {"quizzes": "Personality quizzes: your colour, your mental age, your season, the country that suits you…", "tools": "Plan a room in 2D and 3D, check its feng shui, or send a scratch-off gift card.", "names": "9,128 French first names for girls, boys or both, with origins, pronunciation and recordings.", "games": "Truth or dare, would you rather, never have I ever: questions for lively tables.", "dreams": "2,598 dreams from four old dream books, in plain words, with what your feelings may say."},
            "explore": "Categories", "related": "Related pages", "about": "About", "privacy": "Privacy", "contact": "Contact",
            "ad": "advertisement", "lang_other": "EN", "footer": "Made in Montréal",
            "kicker": "Tools and Answers Backed by Real Data",
@@ -50,7 +48,7 @@ UI = {
            "note_k": "Method note", "note": "Every answer is built on real, open-source data, with sources when they matter.", "note_a": "How Sapiopedia is made",
            "counts": {"quizzes": "quizzes", "tools": "tools", "meanings": "entries", "names": "first names", "games": "games", "dreams": "dreams"}},
     "fr": {"home": "Accueil", "tagline": "L'espèce qui n'arrête pas de poser des questions.",
-           "intro": "Sapiopedia est une collection grandissante de quiz, de calculateurs, de significations, de prénoms et de jeux. Une question par page, une réponse claire, un résultat à partager.", "desc": {"quizzes": "Ce que vos choix révèlent. Couleur, âge mental, quel pays vous ressemble…", "tools": "Les calculs du quotidien, vérifiés. Cuisine, bébé, maison, jardin.", "meanings": "Symboles, fleurs, pierres, superstitions, et les histoires derrière.", "names": "Origines, courbes de popularité réelles, et les discrets favoris.", "games": "De bonnes questions pour les tablées animées. Action ou vérité, et plus.", "dreams": "Ce que vos rêves voulaient dire pour nos ancêtres, symbole par symbole, d\'abandon à zodiaque."},
+           "intro": "Sapiopedia est une collection grandissante de quiz, de planificateurs de pièce, d'un dictionnaire des rêves, de prénoms français et de jeux de groupe. Une question par page, une réponse claire, un résultat à partager.", "desc": {"quizzes": "Tests de personnalité : votre couleur, votre âge mental, votre saison, le pays qui vous ressemble…", "tools": "Aménagez une pièce en 2D et en 3D, vérifiez son feng shui ou envoyez une carte cadeau à gratter.", "names": "9 128 prénoms français, filles, garçons ou mixtes, avec origines, prononciation et enregistrements.", "games": "Action ou vérité, tu préfères, je n'ai jamais : des questions pour les tablées animées.", "dreams": "2 598 rêves tirés de quatre anciens livres de rêves, en mots simples, avec ce que vos émotions peuvent dire."},
            "explore": "Catégories", "related": "Pages liées", "about": "À propos", "privacy": "Confidentialité", "contact": "Contact",
            "ad": "publicité", "lang_other": "FR", "footer": "Créé à Montréal",
            "kicker": "Outils et réponses appuyés sur de vraies données",
@@ -176,10 +174,10 @@ for lang in ("en", "fr"):
             add_url(path)
     # legal pages
     legal_text = {
-        "en": {"about": ("About Sapiopedia", "<p>Sapiopedia is an independent site that builds small, useful pages: quizzes, calculators, meanings, names and games. Every tool states its method and its sources. The site is written and maintained by a university professor and data scientist based in Montréal.</p><p>Nothing here is medical, legal or financial advice.</p>"),
+        "en": {"about": ("About Sapiopedia", "<p>Sapiopedia is an independent site that builds small, useful pages: quizzes, room planners, a dream dictionary, French first names and party games. Every tool states its method and its sources. The site is written and maintained by a university professor and data scientist based in Montréal.</p><p>Nothing here is medical, legal or financial advice.</p>"),
                "privacy": ("Privacy policy", "<p>Sapiopedia does not require an account and does not collect personal information. Quiz and calculator inputs are processed in your browser and are not sent to our servers.</p><p>We use privacy-friendly analytics to count visits. We may display advertising served by third parties (such as Google AdSense); these providers may use cookies to show relevant ads. You can opt out of personalised advertising in your Google Ads settings. Visitors in the EU/EEA and UK will be asked for consent before any advertising cookies are set.</p><p>Contact: see the contact page.</p>"),
                "contact": ("Contact", "<p>Questions, corrections or partnership ideas: <a href=\"mailto:hello@sapiopedia.com\">hello@sapiopedia.com</a>.</p>")},
-        "fr": {"about": ("À propos de Sapiopedia", "<p>Sapiopedia est un site indépendant qui construit de petites pages utiles : quiz, calculateurs, significations, prénoms et jeux. Chaque outil indique sa méthode et ses sources. Le site est écrit et tenu par une professeure d'université et scientifique des données basée à Montréal.</p><p>Rien ici ne constitue un avis médical, juridique ou financier.</p>"),
+        "fr": {"about": ("À propos de Sapiopedia", "<p>Sapiopedia est un site indépendant qui construit de petites pages utiles : quiz, planificateurs de pièce, dictionnaire des rêves, prénoms français et jeux de groupe. Chaque outil indique sa méthode et ses sources. Le site est écrit et tenu par une professeure d'université et scientifique des données basée à Montréal.</p><p>Rien ici ne constitue un avis médical, juridique ou financier.</p>"),
                "privacy": ("Politique de confidentialité", "<p>Sapiopedia ne demande aucun compte et ne collecte aucune information personnelle. Les réponses aux quiz et les valeurs des calculateurs sont traitées dans votre navigateur et ne sont pas envoyées à nos serveurs.</p><p>Nous utilisons des statistiques de visite respectueuses de la vie privée. Nous pouvons afficher des publicités servies par des tiers (par exemple Google AdSense) ; ces fournisseurs peuvent utiliser des témoins pour afficher des annonces pertinentes. Vous pouvez désactiver la publicité personnalisée dans vos paramètres Google. Les visiteurs de l'UE/EEE et du Royaume-Uni verront une demande de consentement avant tout témoin publicitaire.</p><p>Contact : voir la page contact.</p>"),
                "contact": ("Contact", "<p>Questions, corrections ou idées de partenariat : <a href=\"mailto:hello@sapiopedia.com\">hello@sapiopedia.com</a>.</p>")},
     }

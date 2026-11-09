@@ -28,7 +28,7 @@ def body(lang, design=False, nursery=False):
     fr = '<script src="/assets/fengshui-fr.js"></script>' if lang == "fr" else ""
     return f"""<link rel="stylesheet" href="/assets/fengshui.css">
 <script>/* compact versions for the home page: ?embed=1 (plan) or ?embed=3d (the 3D view alone, turning, lamps on and off) */
-if(/[?&]embed=(1|3d)/.test(location.search)){{var E3=/[?&]embed=3d/.test(location.search);document.documentElement.classList.add("embed");if(E3)document.documentElement.classList.add("embed3d");
+if(/[?&]embed=(1|3d)/.test(location.search)){{var E3=/[?&]embed=3d/.test(location.search);document.documentElement.classList.add("embed");if(E3)document.documentElement.classList.add("embed3d");if(/[?&]capture=1/.test(location.search))document.documentElement.classList.add("capture");
  addEventListener("load",function(){{var s=function(){{parent.postMessage({{fsEmbedH:document.querySelector(".fs").offsetHeight}},"*");}};s();new ResizeObserver(s).observe(document.body);}});}}</script>
 <div class="fs">
 <div class="grid">

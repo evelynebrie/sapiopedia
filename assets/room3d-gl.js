@@ -184,7 +184,9 @@ export function create(A, look) {
     /* furniture */
     S.items.forEach(it => {
       const f = A.FI(it), o = A.oi(it), grp = new THREE.Group();
-      grp.position.set(o.x, 0.2, o.y); grp.rotation.y = Math.atan2(-o.bx, -o.by);
+      /* a TV standing on a TV stand sits on top of it, not inside it */
+      const stand = it.k === "tv" && S.items.find(j => j.k === "tvstand" && Math.hypot(A.oi(j).x - o.x, A.oi(j).y - o.y) < A.FI(j).w / 2);
+      grp.position.set(o.x, 0.2 + (stand ? cm(HEIGHT.tvstand) : 0), o.y); grp.rotation.y = Math.atan2(-o.bx, -o.by);
       const add = (name, w, d, h, x, matTweak) => { const src = cache[name]; if (!src) return false; const m = src.clone(true);
         const bb = new THREE.Box3().setFromObject(m), sz = bb.getSize(new THREE.Vector3()), ctr = bb.getCenter(new THREE.Vector3());
         const inner = new THREE.Group(); m.position.sub(new THREE.Vector3(ctr.x, bb.min.y, ctr.z)); inner.add(m);

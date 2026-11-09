@@ -341,6 +341,11 @@ colorIn.addEventListener("input", () => { look().wall = colorIn.value; A.save();
 try { on = localStorage.getItem(VKEY) === "3d"; } catch (_) {}
 if (window.ResizeObserver) new ResizeObserver(() => update()).observe(stage);
 if (TURN) { on = true; sync();
+  if (document.documentElement.classList.contains("capture")) {   /* video pins (?capture=1, read before the preset clears the address): frames rendered one by one, at a given angle and lamp state */
+    window.__frame = async (az, lights) => { const gl = await ensureGL(); const w = Math.max(280, stage.clientWidth);
+      if (window.__lights !== lights || !window.__built) { A.S.lights = lights; window.__lights = lights; window.__built = true; await gl.turn(w, 1.25, az); } else gl.spin(az);
+      return gl.el.toDataURL("image/png"); };
+  } else
   ensureGL().then(gl => { if (!gl || !gl.turn) return;
     const W = () => Math.max(280, stage.clientWidth), dpr = Math.min(2, window.devicePixelRatio || 1), lamps = A.S.items.some(i => i.k === "lamp");
     let az = Math.PI / 4, last = performance.now(), t = 0, w = W(), ready = gl.turn(w, dpr, az);

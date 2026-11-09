@@ -112,10 +112,13 @@
     if (!fxCanvas) { fxCanvas = document.createElement('canvas'); fxCanvas.className = 'sg-fx'; fxCanvas.setAttribute('aria-hidden', 'true'); document.body.appendChild(fxCanvas); }
     const run = ++fxRun, g = fxCanvas.getContext('2d'), dpr = Math.min(window.devicePixelRatio || 1, 2);
     const W = innerWidth, H = innerHeight; fxCanvas.width = W * dpr; fxCanvas.height = H * dpr; g.setTransform(dpr, 0, 0, dpr, 0, 0); fxCanvas.style.opacity = '1';
-    const dur = reduced ? 1500 : preview ? 3000 : 6500, n = Math.round((reduced ? 0.25 : preview ? 0.6 : 1) * (kind === 'snow' ? 320 : kind === 'hearts' ? 60 : 170));
+    const dur = reduced ? 1500 : preview ? 3000 : 6500, n = Math.round((reduced ? 0.25 : preview ? 0.6 : 1) * (kind === 'snow' ? 320 : kind === 'hearts' ? 60 : 240));
     const COL = ['#973C55', '#E9A9B8', '#D4AE52', '#B9CFE0', '#6E8F63', '#F3D9DF'], R = Math.random, P = [];
     for (let i = 0; i < n; i++) {
-      if (kind === 'confetti') P.push({ x: W / 2 + (R() - .5) * W * .4, y: H * .35 + (R() - .5) * 60, vx: (R() - .5) * 16, vy: -R() * 15 - 4, w: 6 + R() * 6, h: 9 + R() * 8, r: R() * 6, vr: (R() - .5) * .35, c: COL[i % COL.length] });
+      if (kind === 'confetti') {
+        if (i % 2) P.push({ x: W / 2 + (R() - .5) * W * .5, y: H * .38 + (R() - .5) * 80, vx: (R() - .5) * 22, vy: -R() * 16 - 4, w: 6 + R() * 6, h: 9 + R() * 8, r: R() * 6, vr: (R() - .5) * .35, c: COL[i % COL.length] });   /* burst from the card */
+        else P.push({ x: R() * W, y: R() * H * 1.05 - H * .25, vx: (R() - .5) * 2, vy: 1.5 + R() * 2.5, w: 6 + R() * 6, h: 9 + R() * 8, r: R() * 6, vr: (R() - .5) * .3, c: COL[i % COL.length], rain: true });   /* rain across the screen */
+      }
       else if (kind === 'hearts') P.push({ x: R() * W, y: H * .45 + R() * H * .75, vy: -(2 + R() * 2.6), s: 10 + R() * 16, ph: R() * 6, c: COL[i % 2 ? 0 : 1], a: .7 + R() * .3 });
       else P.push({ x: R() * W, y: R() * H * .5 - H * .15, vy: 1.4 + R() * 2, s: 1.5 + R() * 3.5, ph: R() * 6, a: .6 + R() * .4 });
     }
@@ -126,7 +129,7 @@
       const t = now - t0, fade = Math.min(1, Math.max(0, (dur - t) / 1100));
       g.clearRect(0, 0, W, H); g.globalAlpha = fade;
       P.forEach(p => {
-        if (kind === 'confetti') { p.vy += .32; p.vx *= .99; p.x += p.vx; p.y += p.vy; p.r += p.vr;
+        if (kind === 'confetti') { p.vy += p.rain ? .05 : .32; p.vx *= .99; if (p.rain) p.x += Math.sin(t / 400 + p.r) * .6; p.x += p.vx; p.y += p.vy; p.r += p.vr;
           g.save(); g.translate(p.x, p.y); g.rotate(p.r); g.fillStyle = p.c; g.fillRect(-p.w / 2, -p.h / 2 * Math.abs(Math.cos(p.r * 2)), p.w, p.h * Math.abs(Math.cos(p.r * 2)) + 1); g.restore(); }
         else if (kind === 'hearts') { p.y += p.vy; p.x += Math.sin(t / 600 + p.ph) * .8; g.globalAlpha = fade * p.a; g.fillStyle = p.c; heart(p.x, p.y, p.s); }
         else { p.y += p.vy; p.x += Math.sin(t / 900 + p.ph) * .6; g.globalAlpha = fade * p.a; g.beginPath(); g.arc(p.x, p.y, p.s, 0, Math.PI * 2); g.fillStyle = '#FFFFFF'; g.fill(); g.lineWidth = 1; g.strokeStyle = 'rgba(110,130,160,.35)'; g.stroke(); }

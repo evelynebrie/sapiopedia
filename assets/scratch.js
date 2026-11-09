@@ -6,7 +6,7 @@
   const $ = s => root.querySelector(s);
   const els = { recipient: $('#recipient'), gift: $('#gift'), message: $('#message'), sender: $('#sender'), canvas: $('#scratch'), caption: $('#scratchCaption'), panel: $('#sharePanel') };
   const ctx = els.canvas.getContext('2d', { willReadFrequently: true });
-  let data = {}, drawn = false, painting = false, last = null, strokes = 0, sharedUrl = '';
+  let data = {}, celebrated = false, drawn = false, painting = false, last = null, strokes = 0, sharedUrl = '';
   const defaults = S.defaults;
   const forLine = name => name ? S.forPrefix + name.toLocaleUpperCase(S.lang) : S.forAnyone;
 
@@ -37,11 +37,11 @@
     ctx.globalCompositeOperation = 'source-over'; ctx.fillStyle = grad; ctx.fillRect(0, 0, w, h);
     let seed = 41288;
     for (let i = 0; i < Math.round(w * h / 43); i++) { seed = (1664525 * seed + 1013904223) >>> 0; const x = seed / 4294967296 * w; seed = (1664525 * seed + 1013904223) >>> 0; const y = seed / 4294967296 * h; ctx.fillStyle = i % 2 ? 'rgba(255,255,255,.13)' : 'rgba(69,64,64,.065)'; ctx.fillRect(x, y, 1, 1); }
-    drawn = false; strokes = 0; els.canvas.classList.remove('gone'); els.canvas.style.pointerEvents = 'auto'; els.caption.classList.remove('hidden');
+    drawn = false; celebrated = false; strokes = 0; els.canvas.classList.remove('gone'); els.canvas.style.pointerEvents = 'auto'; els.caption.classList.remove('hidden');
     $('#coveredMode').setAttribute('aria-pressed', 'true'); $('#revealedMode').setAttribute('aria-pressed', 'false');
   }
   function showReveal(silent) {
-    if (drawn) return; drawn = true; if (silent !== true) celebrate(data.fx); els.canvas.classList.add('gone'); els.canvas.style.pointerEvents = 'none'; els.caption.classList.add('hidden');
+    if (drawn) return; drawn = true; if (silent !== true && !celebrated) { celebrated = true; celebrate(data.fx); } els.canvas.classList.add('gone'); els.canvas.style.pointerEvents = 'none'; els.caption.classList.add('hidden');
     $('#coveredMode').setAttribute('aria-pressed', 'false'); $('#revealedMode').setAttribute('aria-pressed', 'true');
   }
   function pos(e) { const r = els.canvas.getBoundingClientRect(); return { x: e.clientX - r.left, y: e.clientY - r.top }; }
@@ -51,11 +51,12 @@
     ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke(); ctx.globalCompositeOperation = 'source-over'; els.caption.classList.add('hidden');
   }
   function checkProgress() {
-    strokes++; if (strokes % 7 !== 0) return;
+    strokes++; if (strokes % 4 !== 0) return;
     const w = els.canvas.width, h = els.canvas.height; if (!w || !h) return;
     const px = ctx.getImageData(0, 0, w, h).data, step = Math.max(1, Math.floor(Math.sqrt(w * h / 1600)));
     let removed = 0, total = 0;
     for (let y = 0; y < h; y += step) for (let x = 0; x < w; x += step) { total++; if (px[(y * w + x) * 4 + 3] < 60) removed++; }
+    if (removed / total > .22 && !celebrated) { celebrated = true; celebrate(data.fx); }   /* the effect starts while still scratching */
     if (removed / total > .36) showReveal();
   }
   els.canvas.addEventListener('pointerdown', e => { e.preventDefault(); painting = true; els.canvas.setPointerCapture(e.pointerId); last = pos(e); rub(last, last); });
@@ -111,7 +112,7 @@
     if (!fxCanvas) { fxCanvas = document.createElement('canvas'); fxCanvas.className = 'sg-fx'; fxCanvas.setAttribute('aria-hidden', 'true'); document.body.appendChild(fxCanvas); }
     const run = ++fxRun, g = fxCanvas.getContext('2d'), dpr = Math.min(window.devicePixelRatio || 1, 2);
     const W = innerWidth, H = innerHeight; fxCanvas.width = W * dpr; fxCanvas.height = H * dpr; g.setTransform(dpr, 0, 0, dpr, 0, 0); fxCanvas.style.opacity = '1';
-    const dur = reduced ? 1200 : preview ? 2200 : 4500, n = Math.round((reduced ? 0.25 : preview ? 0.6 : 1) * (kind === 'snow' ? 140 : kind === 'hearts' ? 60 : 170));
+    const dur = reduced ? 1500 : preview ? 3000 : 6500, n = Math.round((reduced ? 0.25 : preview ? 0.6 : 1) * (kind === 'snow' ? 140 : kind === 'hearts' ? 60 : 170));
     const COL = ['#973C55', '#E9A9B8', '#D4AE52', '#B9CFE0', '#6E8F63', '#F3D9DF'], R = Math.random, P = [];
     for (let i = 0; i < n; i++) {
       if (kind === 'confetti') P.push({ x: W / 2 + (R() - .5) * W * .4, y: H * .35 + (R() - .5) * 60, vx: (R() - .5) * 16, vy: -R() * 15 - 4, w: 6 + R() * 6, h: 9 + R() * 8, r: R() * 6, vr: (R() - .5) * .35, c: COL[i % COL.length] });
@@ -122,7 +123,7 @@
     const t0 = performance.now();
     (function frame(now) {
       if (run !== fxRun) return;
-      const t = now - t0, fade = Math.min(1, Math.max(0, (dur - t) / 600));
+      const t = now - t0, fade = Math.min(1, Math.max(0, (dur - t) / 1100));
       g.clearRect(0, 0, W, H); g.globalAlpha = fade;
       P.forEach(p => {
         if (kind === 'confetti') { p.vy += .32; p.vx *= .99; p.x += p.vx; p.y += p.vy; p.r += p.vr;

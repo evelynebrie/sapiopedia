@@ -1,0 +1,31 @@
+/* Sapiopedia: 2027 phone wallpaper maker. Scoped under .wp. Logic in /assets/wallpaper.js */
+.wp{--ink:#2A1F26;--muted:#6E5A62;--line:#DCC9CE;--accent:#B8405E;--accent-dark:#8E2F48;--bg:#F7E9EC;--panel:#F1DCE1}
+.wp .app{display:grid;grid-template-columns:320px 1fr;gap:36px;align-items:start}
+.wp .preview{position:sticky;top:20px}
+.wp .phone{position:relative;width:300px;aspect-ratio:var(--ratio,1179/2556);border-radius:38px;overflow:hidden;border:6px solid var(--ink);background:#000}
+.wp .phone canvas{width:100%;height:100%;display:block}
+.wp .ghost{position:absolute;left:0;right:0;top:8.5%;text-align:center;pointer-events:none;font-family:-apple-system,'SF Pro Display',system-ui,sans-serif}
+.wp .ghost .d{font-size:15px;font-weight:600}
+.wp .ghost .t{font-size:72px;font-weight:600;line-height:1;letter-spacing:-.02em}
+.wp .small{font-size:13px;color:var(--muted)}
+.wp .panel{background:rgba(255,255,255,.35);border:1.5px solid var(--accent);border-radius:18px;padding:20px 22px}
+.wp .k{font-size:11px;letter-spacing:.2em;text-transform:uppercase;font-weight:600;color:var(--muted);margin:18px 0 8px;display:flex;align-items:center;gap:8px}
+.wp .k:first-child{margin-top:0}
+.wp input[type=text],.wp textarea,.wp select{width:100%;font:600 16px 'Source Sans 3',sans-serif;color:var(--ink);background:transparent;border:0;border-bottom:1.5px solid var(--accent);padding:6px 0;border-radius:0}
+.wp textarea{font-weight:400;line-height:1.5;resize:vertical}
+.wp input:focus,.wp textarea:focus,.wp select:focus{outline:none;border-bottom-color:var(--ink)}
+.wp .chips{display:flex;flex-wrap:wrap;gap:8px}
+.wp .chip{font:600 14px 'Source Sans 3',sans-serif;padding:8px 14px;border-radius:999px;border:1.5px solid var(--line);background:transparent;color:var(--ink);cursor:pointer}
+.wp .chip.on{border-color:var(--accent);color:var(--accent);background:rgba(184,64,94,.08)}
+.wp #years{display:grid;grid-template-columns:repeat(auto-fill,minmax(118px,1fr));gap:10px}
+.wp .ychip{display:flex;flex-direction:column;gap:6px;align-items:stretch;padding:6px;border-radius:12px;border:1.5px solid var(--line);background:transparent;cursor:pointer;font:600 12px 'Source Sans 3',sans-serif;color:var(--ink)}
+.wp .ychip canvas{width:100%;height:auto;border-radius:8px;display:block}
+.wp .ychip.on{border-color:var(--accent);color:var(--accent);background:rgba(184,64,94,.08)}
+.wp .btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
+.wp .btn{font:600 16px 'Source Sans 3',sans-serif;padding:14px 22px;border-radius:999px;border:0;background:var(--accent);color:#fff;cursor:pointer}
+.wp .btn:hover{background:var(--accent-dark)}
+.wp .btn.ghostbtn{background:transparent;color:var(--accent);border:1.5px solid var(--accent)}
+.wp .err{color:#A32D2D;font-size:13px;min-height:18px;margin-top:6px}
+.wp label.tog{text-transform:none;letter-spacing:0;font-size:14px;font-weight:600;color:var(--ink);display:flex;gap:8px;align-items:center;cursor:pointer}
+@media(max-width:760px){.wp .app{grid-template-columns:1fr}.wp .preview{position:static;display:flex;flex-direction:column;align-items:center}}
+.wp .wp-more{max-width:44rem;margin:3rem 0 0}.wp .wp-more h2{margin:2rem 0 .6rem}

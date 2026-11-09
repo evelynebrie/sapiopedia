@@ -23,8 +23,8 @@ FAVICON = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><rect w
 SECTIONS = {
     "quizzes":  {"en": ("quizzes", "Quizzes", "Personality tests and quizzes you can share"),
                  "fr": ("quiz", "Quiz", "Tests de personnalité et quiz à partager")},
-    "tools":    {"en": ("tools", "Tools", "Room and nursery planners in 2D and 3D, feng shui advice, and scratch-off cards for gifts, pregnancy announcements and gender reveals"),
-                 "fr": ("outils", "Outils", "Planificateurs de pièce et de chambre de bébé en 2D et 3D, conseils feng shui et cartes à gratter pour un cadeau, une annonce de grossesse ou le sexe du bébé")},
+    "tools":    {"en": ("tools", "Tools", "Room and nursery planners in 2D and 3D, feng shui advice, scratch-off cards for gifts and baby news, and a 2027 phone wallpaper"),
+                 "fr": ("outils", "Outils", "Planificateurs de pièce et de chambre de bébé en 2D et 3D, conseils feng shui, cartes à gratter pour un cadeau ou une nouvelle, et fond d'écran 2027")},
     "names":    {"en": ("names", "Names", "French first names for girls, boys or both, with origins and pronunciation"),
                  "fr": ("prenoms", "Prénoms", "Prénoms français pour filles, garçons ou mixtes, avec origines et prononciation")},
     "games":    {"en": ("games", "Games", "Truth or dare and other party games, with questions to draw at random"),

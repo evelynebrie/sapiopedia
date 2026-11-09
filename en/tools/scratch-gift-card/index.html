@@ -31,6 +31,7 @@
  <section class="workspace">
   <section class="form-panel" id="creator" aria-label="Create your card">
    <p class="section-label">Create your card</p><h2>Make it personal.</h2><p class="hint">Write your surprise here. See the card come to life beside it.</p>
+   
    <div class="field"><label for="recipient">Recipient&#x27;s name</label><input id="recipient" maxlength="70" placeholder="e.g. Camille" value="Camille"></div>
    <div class="field"><label for="gift">Gift or surprise</label><input id="gift" maxlength="120" placeholder="e.g. A weekend in Paris" value="A weekend in Paris"></div>
    <div class="field"><label for="message">Personal message (optional)</label><textarea id="message" maxlength="320" placeholder="A few words to make it yours…">Just because you deserve something wonderful.</textarea></div>
@@ -59,8 +60,12 @@
  <footer class="footer">A LITTLE SOMETHING, JUST FOR YOU<br><a href="#" id="makeOwn" class="make-own">Make your own scratch card →</a></footer>
 </div>
 </div>
-<script>window.SG={"copy": "Copy", "copied": "Copied", "belowCreator": "Scratch here with your mouse or finger.", "belowRecipient": "Scratch the grey card to discover your gift.", "forPrefix": "FOR ", "forAnyone": "A GIFT FOR YOU", "giftFallback": "A lovely surprise", "shareTitle": "A gift awaits", "shareText": "I have a little surprise for you.", "defaults": {"recipient": "Camille", "gift": "A weekend in Paris", "message": "Just because you deserve something wonderful.", "sender": "With love"}, "lang": "en"};</script>
-<script src="/assets/scratch.js"></script><div class="ad">advertisement</div><div class="related"><h2>Related pages</h2><ul><li><a href="/en/tools/room-planner/">Room Planner</a></li><li><a href="/en/tools/fengshui/">Feng Shui Room Planner</a></li></ul></div>
+
+<script>window.SG={"copy": "Copy", "copied": "Copied", "belowCreator": "Scratch here with your mouse or finger.", "belowRecipient": "Scratch the grey card to discover your gift.", "forPrefix": "FOR ", "forAnyone": "A GIFT FOR YOU", "giftFallback": "A lovely surprise", "shareTitle": "A gift awaits", "shareText": "I have a little surprise for you.", "defaults": {"recipient": "Camille", "gift": "A weekend in Paris", "message": "Just because you deserve something wonderful.", "sender": "With love"}, "lang": "en", "fx": "confetti"};</script>
+<script src="/assets/scratch.js"></script>
+<script>/* one-tap ideas: fill the main line (and pick the matching effect) */
+document.querySelectorAll('.sg [data-pick]').forEach(function(b){b.addEventListener('click',function(){var g=document.getElementById('gift');g.value=b.dataset.pick;g.dispatchEvent(new Event('input'));
+var f=b.dataset.pickfx&&document.querySelector('.sg [data-fx="'+b.dataset.pickfx+'"]');if(f)f.click();});});</script><div class="ad">advertisement</div><div class="related"><h2>Related pages</h2><ul><li><a href="/en/tools/room-planner/">Room Planner</a></li><li><a href="/en/tools/fengshui/">Feng Shui Room Planner</a></li><li><a href="/en/tools/nursery-planner/">Nursery Planner</a></li><li><a href="/en/tools/pregnancy-announcement-scratch-card/">Scratch-off pregnancy announcement</a></li><li><a href="/en/tools/gender-reveal-scratch-card/">Gender reveal scratch card</a></li></ul></div>
 </main>
 <footer class="site"><div class="wrap">
   <span>Sapiopedia</span><span>·</span><span>Made in Montréal</span><span>·</span><a href="/en/about/">About</a><span>·</span><a href="/en/privacy/">Privacy</a><span>·</span><a href="/en/contact/">Contact</a>

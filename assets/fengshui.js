@@ -2,10 +2,12 @@
 (function(){
 "use strict";
 /* i18n: English strings are the keys; window.FS_FR (fengshui-fr.js) supplies French. */
-const DESIGN=window.FS_MODE==="design";
+const NURSERY=window.FS_MODE==="nursery";   /* nursery planner: the room planner with nursery furniture and safety checks */
+const DESIGN=window.FS_MODE==="design"||NURSERY;
+const STORE=NURSERY?"sapiopedia-nurseryplanner":DESIGN?"sapiopedia-roomplanner":"sapiopedia-fengshui";
 const FR=document.documentElement.lang==="fr"&&window.FS_FR?window.FS_FR:null;
 function T(s,v){let r=FR&&FR[s]!=null?FR[s]:s;if(v)for(const k in v)r=r.split("{"+k+"}").join(v[k]);return r;}
-const THE={bed:"the bed",desk:"the desk",sofa:"the sofa",lamp:"the lamp",bedSingle:"the single bed",bunk:"the bunk bed",nightstand:"the nightstand",sofaCorner:"the corner sofa",tvstand:"the TV stand",tableRound:"the round table",fridge:"the fridge",stove:"the stove",bathtub:"the bathtub",toilet:"the toilet",washbasin:"the washbasin",rug:"the rug",office:"the office chair",coatrack:"the coat rack",barstool:"the bar stool",coffee:"the coffee table",armchair:"the armchair",chair:"the chair",table:"the table",countertop:"the countertop",appliance:"the appliance",tv:"the TV",wardrobe:"the wardrobe",shelf:"the bookshelf",screen:"the folding screen",plant:"the plant",door:"the door",window:"the window",mirror:"the mirror"};
+const THE={bed:"the bed",desk:"the desk",sofa:"the sofa",lamp:"the lamp",bedSingle:"the single bed",bunk:"the bunk bed",crib:"the crib",bassinet:"the bassinet",changing:"the changing table",glider:"the glider",toychest:"the toy chest",playmat:"the play mat",nightstand:"the nightstand",sofaCorner:"the corner sofa",tvstand:"the TV stand",tableRound:"the round table",fridge:"the fridge",stove:"the stove",bathtub:"the bathtub",toilet:"the toilet",washbasin:"the washbasin",rug:"the rug",office:"the office chair",coatrack:"the coat rack",barstool:"the bar stool",coffee:"the coffee table",armchair:"the armchair",chair:"the chair",table:"the table",countertop:"the countertop",appliance:"the appliance",tv:"the TV",wardrobe:"the wardrobe",shelf:"the bookshelf",screen:"the folding screen",plant:"the plant",door:"the door",window:"the window",mirror:"the mirror"};
 const A1={door:"a door",window:"a window",mirror:"a mirror"};
 const the=k=>T(THE[k]),a1=k=>T(A1[k]),dirT=d=>T(d);
 const num=(n,d)=>Number(n).toLocaleString(document.documentElement.lang||"en",{minimumFractionDigits:d,maximumFractionDigits:d});
@@ -41,17 +43,24 @@ const FURN=[
  {k:"rug",name:T("Rug"),w:160,h:112,wall:false},
  {k:"office",name:T("Office chair"),w:48,h:48,wall:false},
  {k:"coatrack",name:T("Coat rack"),w:36,h:36,wall:false,round:true},
- {k:"barstool",name:T("Bar stool"),w:32,h:32,wall:false,round:true}
+ {k:"barstool",name:T("Bar stool"),w:32,h:32,wall:false,round:true},
+ {k:"crib",name:T("Crib"),w:106,h:58,wall:true},
+ {k:"bassinet",name:T("Bassinet"),w:72,h:42,wall:false},
+ {k:"changing",name:T("Changing table"),w:72,h:44,wall:true},
+ {k:"glider",name:T("Glider"),w:60,h:68,wall:false},
+ {k:"toychest",name:T("Toy chest"),w:64,h:32,wall:true},
+ {k:"playmat",name:T("Play mat"),w:96,h:96,wall:false}
 ];
 const PXM=80; /* pixels per metre */
 const LR=2.5*PXM; /* lamp light radius */
 /* recommended free space in front of each piece, in cm */
-const REQ={bedSingle:60,bunk:60,nightstand:0,sofaCorner:60,tvstand:60,tableRound:0,fridge:100,stove:100,bathtub:70,toilet:60,washbasin:70,rug:0,office:0,coatrack:0,barstool:0,bed:60,desk:90,sofa:60,armchair:60,chair:60,table:60,coffee:45,tv:60,wardrobe:90,countertop:100,appliance:90,shelf:60,screen:0,plant:0,lamp:0};
-const CATS=[["bedroom",T("Bedroom"),["bed","bedSingle","bunk","nightstand","wardrobe"]],["living",T("Living room"),["sofa","sofaCorner","armchair","coffee","tv","tvstand","rug"]],
+const REQ={crib:60,bassinet:40,changing:70,glider:60,toychest:50,playmat:0,bedSingle:60,bunk:60,nightstand:0,sofaCorner:60,tvstand:60,tableRound:0,fridge:100,stove:100,bathtub:70,toilet:60,washbasin:70,rug:0,office:0,coatrack:0,barstool:0,bed:60,desk:90,sofa:60,armchair:60,chair:60,table:60,coffee:45,tv:60,wardrobe:90,countertop:100,appliance:90,shelf:60,screen:0,plant:0,lamp:0};
+const CATS0=[["bedroom",T("Bedroom"),["bed","bedSingle","bunk","nightstand","wardrobe"]],["living",T("Living room"),["sofa","sofaCorner","armchair","coffee","tv","tvstand","rug"]],
   ["dining",T("Dining & work"),["table","tableRound","chair","desk","office","barstool"]],["kitchen",T("Kitchen"),["countertop","fridge","stove","appliance"]],
   ["bath",T("Bathroom"),["bathtub","toilet","washbasin"]],["decor",T("Decor & storage"),["shelf","screen","plant","lamp","coatrack"]]];
+const CATS=NURSERY?[["nursery",T("Nursery"),["crib","bassinet","changing","glider","toychest","playmat","rug"]]].concat(CATS0.filter(c=>c[0]==="bedroom"||c[0]==="decor")):CATS0;
 let CAT=CATS[0][0];
-const FLAT=k=>k==="rug";   /* rugs sit under furniture: never an obstacle */
+const FLAT=k=>k==="rug"||k==="playmat";   /* rugs and play mats sit on the floor: never an obstacle */
 const ALIAS={bedSingle:"bed",bunk:"bed",sofaCorner:"sofa",tvstand:"tv",tableRound:"table",office:"chair",stove:"countertop",fridge:"appliance"};
 const FBY=Object.fromEntries(FURN.map(f=>[f.k,f]));
 function FI(it){const b=FBY[it.k];return it!==b&&it.w>0&&it.h>0?Object.assign({},b,{w:it.w,h:it.h}):b;}
@@ -136,7 +145,7 @@ function valid(){
   return true;
 }
 let loaded=false;
-try{const s=JSON.parse(localStorage.getItem((DESIGN?"sapiopedia-roomplanner-1":"sapiopedia-fengshui-1"))||"null");if(s){Object.assign(S,s,{armed:null,drawing:null});loaded=true;}}catch(e){}
+try{const s=JSON.parse(localStorage.getItem(STORE+"-1")||"null");if(s){Object.assign(S,s,{armed:null,drawing:null});loaded=true;}}catch(e){}
 const hot=window.claude&&window.claude.hot;
 if(hot&&hot.data&&hot.data.v===7){Object.assign(S,hot.data,{armed:null,drawing:null});loaded=true;}
 if(!loaded||!valid())example();
@@ -150,21 +159,23 @@ const PRESETS={
  "home-office":{room:R4(3.6,3.2),items:[["desk",320,212],["office",320,268,180],["shelf",190,300],["armchair",430,400,90],["lamp",440,220],["plant",196,212],["rug",320,320]],opens:[["door",2,0.8],["window",1,0.4]],look:{floor:"grey",wall:"#C9D6E0"}},
  "kitchen-diner":{room:R4(5,4),items:[["countertop",330,185],["stove",434,185],["fridge",492,250],["tableRound",290,350],["chair",290,290,0],["chair",290,410,180],["chair",230,350,270],["chair",350,350,90],["plant",140,445],["shelf",125,330],["lamp",145,190]],opens:[["door",2,0.2],["window",1,0.7]],look:{floor:"tile",wall:"#F4F2EE"}},
  "bathroom":{room:R4(3,2.6),items:[["bathtub",370,225],["toilet",212,350],["washbasin",212,262],["rug",300,330],["plant",420,300]],opens:[["door",2,0.4],["mirror",3,0.5],["window",0,0.85]],look:{floor:"tile",wall:"#C9D6E0"}},
+ "nursery":{room:R4(3.4,3.2),items:[["crib",213,300],["changing",260,214],["glider",300,395],["wardrobe",432,360],["toychest",400,432],["playmat",340,290],["shelf",230,434],["lamp",350,425]],opens:[["door",1,0.16],["window",0,0.75]],look:{floor:"light",wall:"#E6D3D8"}},
+ "shared-nursery":{room:R4(4,3.6),items:[["bed",300,256],["nightstand",226,192],["nightstand",374,192],["bassinet",420,290],["wardrobe",184,400],["rug",300,370],["glider",430,385],["lamp",200,250]],opens:[["door",2,0.6],["window",0,0.85]],look:{floor:"oak",wall:"#D5DCCB"}},
  "kids-room":{room:R4(3.8,3.4),items:[["bunk",204,264],["desk",410,200],["chair",410,254,180],["shelf",458,338],["rug",320,330],["armchair",210,410,270],["plant",330,438],["lamp",190,360]],opens:[["door",2,0.15],["window",0,0.55]],look:{floor:"light",wall:"#C9D6E0"}}
 };
 {const PQ=new URLSearchParams(location.search),pk=PQ.get("preset"),P=PRESETS[pk];
  if(P){let id=1;Object.assign(S,{shape:"sized",room:P.room.map(p=>p.slice()),north:0,items:[],opens:[],sel:null,armed:null,drawing:null,lights:!!P.lights,look:Object.assign({rot:0},P.look),v:7});
   buildEdges();P.opens.forEach(([k,e,t])=>S.opens.push({id:id++,k,edge:e,t}));
   P.items.forEach(([k,x,y,rot])=>{const it={id:id++,k,x,y};if(rot!=null)it.rot=rot;const o=oi(it);it.x=o.x;it.y=o.y;S.items.push(it);});S.next=id;
-  if(PQ.get("view")==="3d")try{localStorage.setItem(DESIGN?"sapiopedia-roomplanner-view":"sapiopedia-fengshui-view","3d");}catch(e){}
+  if(PQ.get("view")==="3d")try{localStorage.setItem(STORE+"-view","3d");}catch(e){}
   history.replaceState(null,"",location.pathname);}}
 buildEdges();
 if(hot&&hot.snapshot)hot.snapshot(()=>S);
 let HIST=[],LAST=null;
 const snap=()=>JSON.stringify({shape:S.shape,room:S.room,north:S.north,items:S.items,opens:S.opens,next:S.next,lights:S.lights,grid:S.grid,look:S.look});
 function undo(){if(!HIST.length)return;const prev=JSON.parse(HIST.pop());Object.assign(S,prev,{sel:null,armed:null,drawing:null});LAST=snap();buildEdges();HEAT=null;persist();render();}
-function persist(){try{localStorage.setItem((DESIGN?"sapiopedia-roomplanner-1":"sapiopedia-fengshui-1"),JSON.stringify(S));}catch(e){}}
-function save(){const cur=snap();if(LAST!=null&&cur!==LAST){HIST.push(LAST);if(HIST.length>80)HIST.shift();}LAST=cur;try{localStorage.setItem((DESIGN?"sapiopedia-roomplanner-1":"sapiopedia-fengshui-1"),JSON.stringify(S));}catch(e){}}
+function persist(){try{localStorage.setItem(STORE+"-1",JSON.stringify(S));}catch(e){}}
+function save(){const cur=snap();if(LAST!=null&&cur!==LAST){HIST.push(LAST);if(HIST.length>80)HIST.shift();}LAST=cur;try{localStorage.setItem(STORE+"-1",JSON.stringify(S));}catch(e){}}
 
 /* ---------- Rules ---------- */
 function lines(){ /* door↔window and window↔window on opposite walls */
@@ -197,6 +208,22 @@ function inSwing(f,o,op){ /* does the piece sit in the quarter-circle a door swe
   return false;
 }
 function blocksWindow(f,o,k){if(k!=="wardrobe"&&k!=="shelf")return null;return S.opens.find(op=>{if(op.k!=="window")return false;const p=openPos(op);return p&&p.edge===o.edge&&o.gap<30&&Math.abs(dot(p.x-o.x,p.y-o.y,o.tx,o.ty))<f.w/2+p.len/2-6;});}
+/* nursery safety: cribs away from windows and blind cords, tall furniture anchored, the glider near the crib */
+function nearWindow(f,o,d){return S.opens.some(op=>{if(op.k!=="window")return false;const p=openPos(op);if(!p)return false;
+  for(let s=-p.len/2;s<=p.len/2;s+=6)for(let r=0;r<=d;r+=6)if(containsAt(f,o,p.x+p.tx*s+p.nx*r,p.y+p.ty*s+p.ny*r))return true;return false;});}
+function gapTo(f,o,it){const A=aabb(f,o),B=aabb(FI(it),oi(it));return Math.max(B[0]-A[2],A[0]-B[2],B[1]-A[3],A[1]-B[3]);}
+function nurseryChecks(k,f,o,selfId,add){
+  const others=S.items.filter(i=>i.id!==selfId),SLEEP=x=>x==="crib"||x==="bassinet",TALL=x=>x==="wardrobe"||x==="shelf";
+  if(SLEEP(k)){
+    if(nearWindow(f,o,PXM*.6))add("bad","Too close to a window: keep {x} at least 60 cm from windows, blinds and their cords.",{x:the(k)});
+    else if(S.opens.some(op=>op.k==="window"))add("good","Away from windows and blind cords.");
+    const tall=others.find(i=>TALL(i.k)&&gapTo(f,o,i)<PXM*.3);if(tall)add("caution","Anchor {x} to the wall: it stands right beside the sleeping area.",{x:the(tall.k)});
+    if(others.some(i=>i.k==="lamp"&&gapTo(f,o,i)<PXM*.3))add("caution","A floor lamp beside {x}: keep the cord out of reach.",{x:the(k)});}
+  if(TALL(k)){const c=others.find(i=>SLEEP(i.k)&&gapTo(f,o,i)<PXM*.3);if(c)add("caution","Right beside {x}: anchor it to the wall so it can't tip.",{x:the(c.k)});}
+  if(k==="glider"){const c=others.find(i=>SLEEP(i.k)&&gapTo(f,o,i)<PXM*1.5);if(c)add("good","Within reach of {x} for night feeds.",{x:the(c.k)});else add("neutral","Place it near the crib for night feeds.");}
+  if(k==="changing"){if(nearWindow(f,o,PXM*.3))add("caution","Under a window: draughts while changing, and blind cords within the baby's reach.");
+    else add("neutral","Keep nappies and wipes within arm's reach: never step away from the table.");}
+}
 function evalDesign(k,o,selfId){
   const me=S.items.find(i=>i.id===selfId),f=me?FI(me):FBY[k],C=[],add=(v,t,x)=>C.push({v,t:T(t,x)});
   const A=aabb(f,o),hit=S.items.find(it=>{if(it.id===selfId||FLAT(k)||FLAT(it.k)||ONTOP(k,it.k))return false;const B=aabb(FI(it),oi(it));return A[0]<B[2]-4&&A[2]>B[0]+4&&A[1]<B[3]-4&&A[3]>B[1]+4;});
@@ -213,6 +240,7 @@ function evalDesign(k,o,selfId){
     if(need>0)add(d<Math.min(30,r/2)?"bad":"caution","{x} needs {n} cm more clearance in front ({d} cm free, {r} cm recommended).",{x:f.name,n:need,d,r});
     else add("good","{d} cm free in front ({r} cm recommended).",{d,r});}
   if(k==="lamp")add("neutral","Lights about {r} m around it.",{r:num(LR/PXM,1)});
+  if(NURSERY)nurseryChecks(k,f,o,selfId,add);
   if(!FLAT(k)&&S.opens.some(op=>op.k==="door"&&inSwing(f,o,op)))add("bad","The door swing intersects {x}: the door can't open fully.",{x:the(k)});
   if(blocksWindow(f,o,k))add("caution","Tall piece in front of a window: it blocks daylight.");
   return C;
@@ -484,6 +512,12 @@ function draw(){
       if(it.k==="washbasin")el("ellipse",{cx:0,cy:2,rx:f.w/3,ry:f.h/4,fill:"none",stroke:col,"stroke-width":1.2},rg);
       if(it.k==="office"||it.k==="barstool"||it.k==="coatrack"||it.k==="tableRound")el("circle",{cx:0,cy:0,r:Math.max(4,f.w/2-8),fill:"none",stroke:col,"stroke-width":1},rg);
       if(it.k==="appliance")el("circle",{cx:0,cy:2,r:13,fill:"none",stroke:col,"stroke-width":1.4},rg);
+      if(it.k==="crib"){el("rect",{x:-f.w/2+6,y:-f.h/2+6,width:f.w-12,height:f.h-12,rx:3,fill:"none",stroke:col,"stroke-width":1},rg);for(let sx=-f.w/2+12;sx<f.w/2-6;sx+=9)el("line",{x1:sx,y1:-f.h/2,x2:sx,y2:-f.h/2+6,stroke:col,"stroke-width":1},rg),el("line",{x1:sx,y1:f.h/2-6,x2:sx,y2:f.h/2,stroke:col,"stroke-width":1},rg);}
+      if(it.k==="bassinet")el("ellipse",{cx:0,cy:0,rx:f.w/2-7,ry:f.h/2-6,fill:"none",stroke:col,"stroke-width":1.2},rg);
+      if(it.k==="changing")el("rect",{x:-f.w/2+7,y:-f.h/2+6,width:f.w-14,height:f.h*.55,rx:8,fill:"none",stroke:col,"stroke-width":1.2},rg);
+      if(it.k==="glider"){el("rect",{x:-f.w/2,y:-f.h/2,width:f.w,height:12,rx:3,fill:col,opacity:.35},rg);[-1,1].forEach(s=>el("rect",{x:s<0?-f.w/2:f.w/2-9,y:-f.h/2,width:9,height:f.h,rx:4,fill:col,opacity:.25},rg));}
+      if(it.k==="toychest")el("line",{x1:-f.w/2+5,y1:-f.h/2+9,x2:f.w/2-5,y2:-f.h/2+9,stroke:col,"stroke-width":1},rg);
+      if(it.k==="playmat"){el("rect",{x:-f.w/2+7,y:-f.h/2+7,width:f.w-14,height:f.h-14,rx:10,fill:"none",stroke:col,"stroke-width":1,"stroke-dasharray":"2 4"},rg);el("circle",{cx:0,cy:0,r:f.w/5,fill:"none",stroke:col,"stroke-width":1,"stroke-dasharray":"2 4"},rg);}
       if(it.k==="tv")el("line",{x1:-f.w/2+6,y1:f.h/2,x2:f.w/2-6,y2:f.h/2,stroke:col,"stroke-width":3},rg);
       if(it.k==="wardrobe")el("line",{x1:0,y1:-f.h/2,x2:0,y2:f.h/2,stroke:col,"stroke-width":1.2},rg);
       if(it.k==="shelf")[-1,0,1].forEach(s=>el("line",{x1:s*f.w/4,y1:-f.h/2,x2:s*f.w/4,y2:f.h/2,stroke:col,"stroke-width":1},rg));
@@ -754,7 +788,7 @@ const LSW=(()=>{const st=document.querySelector(".fs .stage");if(!st)return null
   b.innerHTML=`<svg viewBox="0 0 32 44" aria-hidden="true"><rect class="pl" x="1" y="1" width="30" height="42" rx="7"/><rect class="sl" x="9" y="7" width="14" height="30" rx="4"/><rect class="rk" x="10.5" y="8.5" width="11" height="13" rx="3"/></svg><span>${T("Lights")}</span>`;
   b.addEventListener("click",()=>{S.lights=!S.lights;persist();render();});st.appendChild(b);return b;})();
 function syncSwitch(){if(!LSW)return;const has=S.items.some(i=>i.k==="lamp");if(!has&&S.lights)S.lights=false;LSW.hidden=!has;LSW.setAttribute("aria-pressed",!!S.lights);LSW.title=T(S.lights?"Turn the lights off":"Turn the lights on");LSW.setAttribute("aria-label",LSW.title);}
-window.FSAPI={OPEN_H,DESIGN,verdict:it=>overall(evaluate(it.k,oi(it),it.id)),explain:it=>evaluate(it.k,oi(it),it.id),planShot:()=>buildPNG(true),get S(){return S;},FBY,FI,OPEN,PXM,T,FR,pts,oi,openPos,centroid,save,render:()=>render()};
+window.FSAPI={OPEN_H,DESIGN,NURSERY,STORE,verdict:it=>overall(evaluate(it.k,oi(it),it.id)),explain:it=>evaluate(it.k,oi(it),it.id),planShot:()=>buildPNG(true),get S(){return S;},FBY,FI,OPEN,PXM,T,FR,pts,oi,openPos,centroid,save,render:()=>render()};
 computeHeat();render();
 
 /* ---------- Export PNG with Sapiopedia branding ---------- */
@@ -796,15 +830,15 @@ async function buildPNG(planOnly){
   x.textBaseline="alphabetic";
   x.fillStyle="#F7E9EC";x.fillRect(0,by,W,BAND);x.fillStyle="#DCC9CE";x.fillRect(0,by,W,2);
   const lh=120,lw=logo.width*lh/logo.height;x.drawImage(logo,PAD-10,by+(BAND-lh)/2,lw,lh);
-  x.textAlign="right";x.fillStyle="#2A1F26";x.font="600 36px 'Source Sans 3', Arial, sans-serif";x.fillText((DESIGN?(FR?"sapiopedia.com/fr/outils/planificateur-de-piece":"sapiopedia.com/en/tools/room-planner"):(FR?"sapiopedia.com/fr/outils/fengshui":"sapiopedia.com/en/tools/fengshui")),W-PAD,by+82);
+  x.textAlign="right";x.fillStyle="#2A1F26";x.font="600 36px 'Source Sans 3', Arial, sans-serif";x.fillText((NURSERY?(FR?"sapiopedia.com/fr/outils/planificateur-chambre-de-bebe":"sapiopedia.com/en/tools/nursery-planner"):DESIGN?(FR?"sapiopedia.com/fr/outils/planificateur-de-piece":"sapiopedia.com/en/tools/room-planner"):(FR?"sapiopedia.com/fr/outils/fengshui":"sapiopedia.com/en/tools/fengshui")),W-PAD,by+82);
   x.fillStyle="#6E5A62";x.font="400 24px 'Source Sans 3', Arial, sans-serif";
   const dims=T("Room ≈ {w} × {h} m",{w:num((Math.max(...xs)-Math.min(...xs))/PXM,1),h:num((Math.max(...ys)-Math.min(...ys))/PXM,1)});
-  x.fillText((DESIGN?T("Room Planner"):T("Feng Shui Room Planner"))+" · "+dims,W-PAD,by+124);
+  x.fillText((NURSERY?T("Nursery Planner"):DESIGN?T("Room Planner"):T("Feng Shui Room Planner"))+" · "+dims,W-PAD,by+124);
   x.fillText(`${counts.good} ${VW.good} · ${counts.caution} ${VW.caution} · ${counts.bad} ${VW.bad}`,W-PAD,by+158);
   return await new Promise(res=>c.toBlob(res,"image/png"));
 }
 /* Preview the PNG in an overlay; download only when asked */
-const FN=DESIGN?"sapiopedia-room-plan.png":"sapiopedia-feng-shui-room.png";
+const FN=NURSERY?"sapiopedia-nursery-plan.png":DESIGN?"sapiopedia-room-plan.png":"sapiopedia-feng-shui-room.png";
 function preview(blob){
   const url=URL.createObjectURL(blob),ov=document.createElement("div"),touch=matchMedia("(pointer:coarse)").matches;
   ov.className="fs-ov";ov.setAttribute("role","dialog");ov.setAttribute("aria-modal","true");ov.setAttribute("aria-label",T("Your room plan"));

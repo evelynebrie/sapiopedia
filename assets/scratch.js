@@ -16,9 +16,9 @@
     const o = JSON.parse(new TextDecoder().decode(bytes));
     return { recipient: String(o.recipient || '').slice(0, 70), gift: String(o.gift || '').slice(0, 120), message: String(o.message || '').slice(0, 320), sender: String(o.sender || '').slice(0, 70), fx: FX.includes(o.fx) ? o.fx : 'none' };
   }
-  const FX = ['none', 'confetti', 'hearts', 'snow'];
+  const FX = ['none', 'confetti', 'hearts', 'snow', 'pink', 'blue'];   /* pink and blue: one-colour confetti for gender reveals */
   const fxButtons = Array.from(root.querySelectorAll('[data-fx]'));
-  let fxChoice = 'confetti';
+  let fxChoice = S.fx || 'confetti';
   function readForm() { return { recipient: els.recipient.value.trim(), gift: els.gift.value.trim(), message: els.message.value.trim(), sender: els.sender.value.trim(), fx: fxChoice }; }
   function show(d) {
     $('#displayTo').textContent = forLine(d.recipient);
@@ -113,7 +113,8 @@
     const run = ++fxRun, g = fxCanvas.getContext('2d'), dpr = Math.min(window.devicePixelRatio || 1, 2);
     const W = innerWidth, H = innerHeight; fxCanvas.width = W * dpr; fxCanvas.height = H * dpr; g.setTransform(dpr, 0, 0, dpr, 0, 0); fxCanvas.style.opacity = '1';
     const dur = reduced ? 1500 : preview ? 3000 : 6500, n = Math.round((reduced ? 0.25 : preview ? 0.6 : 1) * (kind === 'snow' ? 320 : kind === 'hearts' ? 60 : 240));
-    const COL = ['#973C55', '#E9A9B8', '#D4AE52', '#B9CFE0', '#6E8F63', '#F3D9DF'], R = Math.random, P = [];
+    const COL = kind === 'pink' ? ['#E58AA6', '#F4B6C8', '#D8648A', '#FAD3DF', '#C94C76', '#F7C4D3'] : kind === 'blue' ? ['#7FB1DE', '#B9D6EF', '#4F8FCB', '#D6E8F7', '#3C78B4', '#A3C9EA'] : ['#973C55', '#E9A9B8', '#D4AE52', '#B9CFE0', '#6E8F63', '#F3D9DF'], R = Math.random, P = [];
+    if (kind === 'pink' || kind === 'blue') kind = 'confetti';
     for (let i = 0; i < n; i++) {
       if (kind === 'confetti') {
         if (i % 2) P.push({ x: W / 2 + (R() - .5) * W * .5, y: H * .38 + (R() - .5) * 80, vx: (R() - .5) * 22, vy: -R() * 16 - 4, w: 6 + R() * 6, h: 9 + R() * 8, r: R() * 6, vr: (R() - .5) * .35, c: COL[i % COL.length] });   /* burst from the card */

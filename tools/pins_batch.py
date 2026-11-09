@@ -35,7 +35,7 @@ PINS = []   # dicts: id, group (seasonal/evergreen), link, title, desc, board, t
 def add(**k):
     d = k.get("desc", ""); fr = "/fr/" in k.get("link", "")
     if not re.search(r"no sign-up|sans inscription", d, re.I): d = d.rstrip() + (" Gratuit, sans inscription." if fr else " Free, no sign-up.")
-    k["desc"] = d[:500]; PINS.append(k)
+    k["desc"] = d[:500]; k["title"] = html.unescape(k.get("title", "")); PINS.append(k)
 
 # ---------------------------------------------------------------- existing 12 pins (already on the site under /pins/)
 old = list(csv.DictReader(open(os.path.join(DESK, "pins.csv"), encoding="utf-8")))
@@ -258,7 +258,7 @@ for lang, key, fs in EXPORTS:
     base = rp_base(lang, fs); pid = f"x-{'fs' if fs else 'rp'}-{lang}-{key}"
     nm = re.sub("<.*?>", "", ROOMS[key][0 if lang == "en" else 1])
     if fs:
-        title = "Feng shui check: the plan and the 3D view in one image" if lang == "en" else "Vérification feng shui : le plan et la 3D en une image"
+        title = (f"{nm}: feng shui check, plan and 3D in one image" if lang == "en" else f"{nm} : vérification feng shui, plan et 3D en une image")
         desc = ("This is the image the free feng shui room planner saves: every piece coloured by its verdict on the plan, next to the 3D view. Draw your own room and get yours."
                 if lang == "en" else "Voici l'image qu'enregistre le planificateur feng shui gratuit : chaque meuble coloré selon son verdict sur le plan, à côté de la vue 3D. Dessinez votre pièce pour obtenir la vôtre.")
         board, tags = "Feng shui bedroom", ("Feng shui bedroom, Feng shui, Bedroom layout, Bed placement, Floor plan, Interior design" if lang == "en" else "Feng shui, Feng shui chambre, Plan de pièce, Aménagement, Déco intérieur")
@@ -407,6 +407,8 @@ if only or os.environ.get("DRY"): raise SystemExit
 def media(p): return f"{SITE}/pins/{p['file']}" if p.get("old") else f"{SITE}/pins/b1/{p['id']}.png"
 cut1 = (start + datetime.timedelta(28)).isoformat()
 cols = ["Title", "Media URL", "Pinterest board", "Thumbnail", "Description", "Link", "Publish date", "Keywords"]
+dup = [t for t in {p["title"][:100] for w, p in sched} if sum(p["title"][:100] == t for w, p in sched) > 1]
+if dup: raise SystemExit(f"Pinterest rejects pins that share a title: {dup}")
 BOARD = "Gift ideas"   # the only board on the account; set to None to use each pin's own board once those exist
 for name, rows in (("pinterest-bulk-upload.csv", [x for x in sched if x[0][:10] <= cut1]), ("pinterest-bulk-upload-part2.csv", [x for x in sched if x[0][:10] > cut1])):
     with open(os.path.join(DESK, name), "w", encoding="utf-8", newline="") as fh:

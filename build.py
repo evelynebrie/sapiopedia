@@ -23,8 +23,8 @@ FAVICON = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><rect w
 SECTIONS = {
     "quizzes":  {"en": ("quizzes", "Quizzes", "Personality tests and quizzes you can share"),
                  "fr": ("quiz", "Quiz", "Tests de personnalité et quiz à partager")},
-    "tools":    {"en": ("tools", "Tools", "Room planners in 2D and 3D, feng shui advice, and scratch-off gift cards"),
-                 "fr": ("outils", "Outils", "Planificateurs de pièce en 2D et 3D, conseils feng shui et cartes cadeaux à gratter")},
+    "tools":    {"en": ("tools", "Tools", "Room and nursery planners in 2D and 3D, feng shui advice, and scratch-off cards for gifts, pregnancy announcements and gender reveals"),
+                 "fr": ("outils", "Outils", "Planificateurs de pièce et de chambre de bébé en 2D et 3D, conseils feng shui et cartes à gratter pour un cadeau, une annonce de grossesse ou le sexe du bébé")},
     "names":    {"en": ("names", "Names", "French first names for girls, boys or both, with origins and pronunciation"),
                  "fr": ("prenoms", "Prénoms", "Prénoms français pour filles, garçons ou mixtes, avec origines et prononciation")},
     "games":    {"en": ("games", "Games", "Truth or dare and other party games, with questions to draw at random"),
@@ -38,7 +38,7 @@ LEGAL = {
 }
 UI = {
     "en": {"home": "Home", "tagline": "The species that can't stop asking questions.",
-           "intro": "Sapiopedia is a growing collection of quizzes, room planners, a dream dictionary, French first names and party games. One question per page, a clear answer, and a result you can share.", "desc": {"quizzes": "Personality quizzes: your colour, your mental age, your season, the country that suits you…", "tools": "Plan a room in 2D and 3D, check its feng shui, or send a scratch-off gift card.", "names": "9,128 French first names for girls, boys or both, with origins, pronunciation and recordings.", "games": "Truth or dare, would you rather, never have I ever: questions for lively tables.", "dreams": "2,598 dreams from four old dream books, in plain words, with what your feelings may say."},
+           "intro": "Sapiopedia is a growing collection of quizzes, room planners, a dream dictionary, French first names and party games. One question per page, a clear answer, and a result you can share.", "desc": {"quizzes": "Personality quizzes: your colour, your mental age, your season, the country that suits you…", "tools": "Plan a room or a nursery in 2D and 3D, check its feng shui, or send a scratch-off card: a gift, a pregnancy announcement, a gender reveal.", "names": "9,128 French first names for girls, boys or both, with origins, pronunciation and recordings.", "games": "Truth or dare, would you rather, never have I ever: questions for lively tables.", "dreams": "2,598 dreams from four old dream books, in plain words, with what your feelings may say."},
            "explore": "Categories", "related": "Related pages", "about": "About", "privacy": "Privacy", "contact": "Contact",
            "ad": "advertisement", "lang_other": "EN", "footer": "Made in Montréal",
            "kicker": "Tools and Answers Backed by Real Data",
@@ -48,7 +48,7 @@ UI = {
            "note_k": "Method note", "note": "Every answer is built on real, open-source data, with sources when they matter.", "note_a": "How Sapiopedia is made",
            "counts": {"quizzes": "quizzes", "tools": "tools", "meanings": "entries", "names": "first names", "games": "games", "dreams": "dreams"}},
     "fr": {"home": "Accueil", "tagline": "L'espèce qui n'arrête pas de poser des questions.",
-           "intro": "Sapiopedia est une collection grandissante de quiz, de planificateurs de pièce, d'un dictionnaire des rêves, de prénoms français et de jeux de groupe. Une question par page, une réponse claire, un résultat à partager.", "desc": {"quizzes": "Tests de personnalité : votre couleur, votre âge mental, votre saison, le pays qui vous ressemble…", "tools": "Aménagez une pièce en 2D et en 3D, vérifiez son feng shui ou envoyez une carte cadeau à gratter.", "names": "9 128 prénoms français, filles, garçons ou mixtes, avec origines, prononciation et enregistrements.", "games": "Action ou vérité, tu préfères, je n'ai jamais : des questions pour les tablées animées.", "dreams": "2 598 rêves tirés de quatre anciens livres de rêves, en mots simples, avec ce que vos émotions peuvent dire."},
+           "intro": "Sapiopedia est une collection grandissante de quiz, de planificateurs de pièce, d'un dictionnaire des rêves, de prénoms français et de jeux de groupe. Une question par page, une réponse claire, un résultat à partager.", "desc": {"quizzes": "Tests de personnalité : votre couleur, votre âge mental, votre saison, le pays qui vous ressemble…", "tools": "Aménagez une pièce ou la chambre de bébé en 2D et en 3D, vérifiez son feng shui ou envoyez une carte à gratter : un cadeau, une annonce de grossesse, le sexe du bébé.", "names": "9 128 prénoms français, filles, garçons ou mixtes, avec origines, prononciation et enregistrements.", "games": "Action ou vérité, tu préfères, je n'ai jamais : des questions pour les tablées animées.", "dreams": "2 598 rêves tirés de quatre anciens livres de rêves, en mots simples, avec ce que vos émotions peuvent dire."},
            "explore": "Catégories", "related": "Pages liées", "about": "À propos", "privacy": "Confidentialité", "contact": "Contact",
            "ad": "publicité", "lang_other": "FR", "footer": "Créé à Montréal",
            "kicker": "Outils et réponses appuyés sur de vraies données",

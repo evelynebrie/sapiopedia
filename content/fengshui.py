@@ -22,8 +22,9 @@ TXT = {
 <p class="small">Le feng shui est une tradition culturelle, pas une science. Voyez ces conseils comme une liste de vérification pour une pièce plus apaisante, pas comme une prédiction.</p>"""),
 }
 
-def body(lang, design=False):
-    t = dict(TXT[lang], **(DTXT[lang] if design else {}))
+def body(lang, design=False, nursery=False):
+    t = {**TXT[lang], **(DTXT[lang] if design or nursery else {}), **(NTXT[lang] if nursery else {})}
+    mode = "nursery" if nursery else "design" if design else ""
     fr = '<script src="/assets/fengshui-fr.js"></script>' if lang == "fr" else ""
     return f"""<link rel="stylesheet" href="/assets/fengshui.css">
 <div class="fs">
@@ -32,8 +33,8 @@ def body(lang, design=False):
     <div class="toolbar">
       <div class="tgroup" id="shapes" role="group" aria-label="{t['room_aria']}"><span class="tlabel">{t['room']}</span></div>
       <div class="tgroup" id="openings" role="group" aria-label="{t['open_aria']}"></div>
-      {size_form(t) if design else ""}
-      <div class="compass"{' hidden' if design else ''}>
+      {size_form(t) if mode else ""}
+      <div class="compass"{' hidden' if mode else ''}>
         <span class="deg"><b>{t['north']}</b><br>{t['drag_arrow']}</span>
         <svg id="dial" viewBox="-30 -30 60 60" tabindex="0" role="slider" aria-label="{t['dial_aria']}" aria-valuemin="0" aria-valuemax="355"></svg>
       </div>
@@ -66,7 +67,7 @@ def body(lang, design=False):
 </div>
 </div>
 <section class="fs-intro"><h2>{t['about_h']}</h2>{t['about']}</section>
-{'<script>window.FS_MODE="design"</script>' if design else ''}{fr}<script src="/assets/fengshui.js"></script><script type="importmap">{{"imports":{{"three":"/assets/vendor/three/build/three.module.min.js"}}}}</script><script src="/assets/room3d.js"></script>"""
+{f'<script>window.FS_MODE="{mode}"</script>' if mode else ''}{fr}<script src="/assets/fengshui.js"></script><script type="importmap">{{"imports":{{"three":"/assets/vendor/three/build/three.module.min.js"}}}}</script><script src="/assets/room3d.js"></script>"""
 
 def size_form(t):
     return f"""<form class="tgroup sizeform" id="sizeform"><span class="tlabel">{t['size']}</span>
@@ -91,6 +92,19 @@ DTXT = {
 <p class="small">Modèles 3D des meubles : <a href="https://kenney.nl/assets/furniture-kit" rel="noopener">Furniture Kit de Kenney</a> (domaine public, CC0). Rendu 3D : three.js (licence MIT).</p>"""),
 }
 
+NTXT = {
+ "en": dict(about_h="How the nursery planner works",
+    about="""<p>Type the size of the nursery, add the door and windows, then the crib, changing table, glider and storage. Each piece is drawn to a typical size: a full-size crib is about 132 × 72 cm, a changing table about 90 × 55 cm. Drag any piece to resize or move it.</p>
+<p>Besides the usual clearance check (<strong>fits</strong>, <strong>tight</strong>, <strong>blocked</strong>), the planner checks a few safety points: the crib and bassinet at least 60 cm from windows and blind cords, tall furniture beside the crib flagged so you remember to anchor it, nothing in the swing of the door, and the glider within reach of the crib for night feeds. Leave about 70 cm in front of the changing table so you can stand there comfortably.</p>
+<p>Many safe-sleep guidelines recommend that the baby sleeps in the parents' room for the first months. To plan that, add your bed and a bassinet beside it, or open the <a href="/en/tools/nursery-planner/?preset=shared-nursery">shared bedroom example</a>. Your layout is saved in your browser only.</p>
+<p class="small">This planner helps with the layout; it does not replace safe-sleep advice. Follow the guidance where you live: a firm, flat mattress, nothing else in the crib, and the baby on their back. 3D furniture models: <a href="https://kenney.nl/assets/furniture-kit" rel="noopener">Furniture Kit by Kenney</a> (CC0). 3D rendering: three.js (MIT licence).</p>"""),
+ "fr": dict(about_h="Comment fonctionne le planificateur de chambre de bébé",
+    about="""<p>Entrez la taille de la chambre, ajoutez la porte et les fenêtres, puis le lit de bébé, la table à langer, le fauteuil berçant et les rangements. Chaque meuble a une taille courante : un lit de bébé mesure environ 132 × 72 cm (126 × 66 cm pour un lit européen en 60 × 120), une table à langer environ 90 × 55 cm. Glissez un meuble pour le déplacer ou le redimensionner.</p>
+<p>En plus des dégagements habituels (<strong>ça passe</strong>, <strong>serré</strong>, <strong>bloqué</strong>), le planificateur vérifie quelques points de sécurité : le lit et le berceau à au moins 60 cm des fenêtres et des cordons de stores, les meubles hauts à côté du lit signalés pour penser à les fixer au mur, rien dans l'ouverture de la porte, et le fauteuil berçant à portée du lit pour les tétées de nuit. Prévoyez environ 70 cm devant la table à langer pour vous y tenir à l'aise.</p>
+<p>Beaucoup de recommandations de sommeil sécuritaire conseillent que bébé dorme dans la chambre des parents les premiers mois. Pour le prévoir, ajoutez votre lit et un berceau à côté, ou ouvrez l'<a href="/fr/outils/planificateur-chambre-de-bebe/?preset=shared-nursery">exemple de chambre partagée</a>. Votre plan est enregistré uniquement dans votre navigateur.</p>
+<p class="small">Ce planificateur aide à l'aménagement ; il ne remplace pas les conseils de sommeil sécuritaire. Suivez les recommandations de votre pays : un matelas ferme et plat, rien d'autre dans le lit, et bébé couché sur le dos. Modèles 3D des meubles : <a href="https://kenney.nl/assets/furniture-kit" rel="noopener">Furniture Kit de Kenney</a> (CC0). Rendu 3D : three.js (licence MIT).</p>"""),
+}
+
 PAGES.append({"section": "tools", "wide": True,
     "en": ("room-planner", "Room Planner",
            "Plan a room to the centimetre: set its exact size, add doors, windows and furniture, and check the clearance around every piece.", body("en", True)),
@@ -102,3 +116,9 @@ PAGES.append({"section": "tools", "wide": True,
            "Draw your room, add your door, windows and furniture, and see where each piece works best according to feng shui.", body("en")),
     "fr": ("fengshui", "Planificateur de pièce feng shui",
            "Tracez votre pièce, ajoutez porte, fenêtres et meubles, et voyez où chaque meuble est le mieux placé selon le feng shui.", body("fr"))})
+
+PAGES.append({"section": "tools", "wide": True,
+    "en": ("nursery-planner", "Nursery Planner",
+           "Plan a nursery to the centimetre: crib, changing table, glider and storage, with clearance and safety checks (crib away from windows and blind cords). In 2D and 3D. Free, no sign-up.", body("en", nursery=True)),
+    "fr": ("planificateur-chambre-de-bebe", "Planificateur de chambre de bébé",
+           "Aménagez la chambre de bébé au centimètre près : lit, table à langer, fauteuil berçant et rangements, avec dégagements et points de sécurité (lit loin des fenêtres et des cordons). En 2D et en 3D. Gratuit, sans inscription.", body("fr", nursery=True))})

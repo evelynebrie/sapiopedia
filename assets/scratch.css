@@ -183,3 +183,14 @@ body.sg-recipient main.page>h1,body.sg-recipient main.page>p.lead,body.sg-recipi
 .sg .fx-choice button:hover{border-color:var(--wine)}
 @media(max-width:480px){.sg .fx-choice{grid-template-columns:repeat(2,minmax(0,1fr))}}
 .sg-fx{position:fixed;inset:0;width:100vw;height:100vh;pointer-events:none;z-index:60;transition:opacity .3s}
+/* one-tap ideas (pregnancy announcement, gender reveal) */
+.sg .quick-choice{display:flex;flex-wrap:wrap;gap:6px}
+.sg .quick-choice button{border:1px solid #d9c7c9;background:#faf4f3;color:var(--ink);padding:8px 11px;font:italic 400 15px/1.2 var(--serif);text-align:left}
+.sg .quick-choice button:hover,.sg .quick-choice button:focus-visible{border-color:var(--wine)}
+/* short guide below the card */
+.sg-more{max-width:44rem;margin:3rem auto 0}
+.sg-more h2{margin:2rem 0 .8rem}
+.sg-more ol{padding-left:1.3rem;display:grid;gap:.5rem}
+.sg-more dl{display:grid;gap:.9rem;margin:0}
+.sg-more dt{font-weight:600}
+.sg-more dd{margin:.15rem 0 0}

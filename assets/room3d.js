@@ -2,7 +2,7 @@
 (function () {
 "use strict";
 const A = window.FSAPI; if (!A) return;
-const VKEY = A.DESIGN ? "sapiopedia-roomplanner-view" : "sapiopedia-fengshui-view";
+const VKEY = (A.STORE || (A.DESIGN ? "sapiopedia-roomplanner" : "sapiopedia-fengshui")) + "-view";
 const T = A.T, PX = A.PXM, cm = c => c * PX / 100;
 const WALL_H = cm(250), WT = cm(12), SLAB = cm(14), LR = 2.5 * PX;
 const C30 = Math.cos(Math.PI / 6);

@@ -8,13 +8,15 @@ const MODEL = {
   appliance: "washer", plant: "pottedPlant", lamp: "lampRoundFloor", countertop: "kitchenCabinet",
   bedSingle: "bedSingle", bunk: "bedBunk", nightstand: "sideTableDrawers", sofaCorner: "loungeSofaCorner", tvstand: "cabinetTelevision",
   tableRound: "tableRound", fridge: "kitchenFridgeLarge", stove: "kitchenStove", bathtub: "bathtub", toilet: "toilet", washbasin: "bathroomSink",
-  rug: "rugRectangle", office: "chairDesk", coatrack: "coatRackStanding", barstool: "stoolBar"
+  rug: "rugRectangle", office: "chairDesk", coatrack: "coatRackStanding", barstool: "stoolBar",
+  /* nursery pieces (crib, bassinet, changing table, glider, toy chest, play mat) have no Kenney model: they are built below */
 };
 const EXTRA = ["kitchenSink"];
 /* real-world heights in cm (the footprint comes from the plan) */
 const HEIGHT = { bed: 95, desk: 75, chair: 90, table: 75, coffee: 42, sofa: 82, armchair: 80, tv: 70, wardrobe: 205, shelf: 185, appliance: 85, plant: 110, lamp: 160, countertop: 90,
   bedSingle: 90, bunk: 165, nightstand: 55, sofaCorner: 82, tvstand: 50, tableRound: 75, fridge: 180, stove: 90, bathtub: 60, toilet: 78, washbasin: 88,
-  rug: 1.5, office: 100, coatrack: 180, barstool: 75 };
+  rug: 1.5, office: 100, coatrack: 180, barstool: 75,
+  crib: 95, bassinet: 80, changing: 95, glider: 95, toychest: 45, playmat: 1.5 };
 
 export function create(A, look) {
   const PX = A.PXM, cm = c => c * PX / 100, WALL_H = cm(250), WT = cm(12), SLAB = cm(14), LR = 2.5 * PX;
@@ -55,6 +57,57 @@ export function create(A, look) {
   }
   function tint(hex, f) { const n = parseInt(hex.slice(1), 16), c = v => Math.max(0, Math.min(255, Math.round(v * f))); return `rgb(${c(n >> 16)},${c((n >> 8) & 255)},${c(n & 255)})`; }
   const M = (color, o) => new THREE.MeshStandardMaterial(Object.assign({ color, roughness: .85, metalness: 0 }, o || {}));
+  /* Nursery furniture, built from simple shapes in the same flat style as the Kenney kit. Each builder gets the footprint f (w along
+     the wall, h deep), the height h, and box(w, h, d, x, y, z, material). Local +z is the front of the piece, -z its back. */
+  const WOOD = M(0xE9DFD2), WOOD2 = M(0xD9C4A5), LINEN = M(0xF4F1EC), FABRIC = M(0xBFB8AE), PINK = M(0xEBCFD6);
+  const NURSERY = {
+    crib(f, h, box) {   /* mattress, four posts and slatted sides */
+      const post = cm(5), slat = cm(2.2), rail = cm(4), mh = cm(30), yz = (h + mh) / 2 - cm(4);
+      box(f.w - post, cm(12), f.h - post, 0, mh, 0, LINEN);
+      [[-1, -1], [1, -1], [-1, 1], [1, 1]].forEach(([a, b]) => box(post, h, post, a * (f.w - post) / 2, h / 2, b * (f.h - post) / 2, WOOD));
+      [-1, 1].forEach(b => { box(f.w, rail, rail, 0, h - rail / 2, b * (f.h - post) / 2, WOOD); box(f.w, rail, rail, 0, mh - cm(8), b * (f.h - post) / 2, WOOD);
+        for (let x = -f.w / 2 + cm(10); x < f.w / 2 - cm(6); x += cm(8)) box(slat, h - mh, slat, x, yz, b * (f.h - post) / 2, WOOD); });
+      [-1, 1].forEach(a => box(rail, h - mh, f.h - post, a * (f.w - post) / 2, yz, 0, WOOD));
+    },
+    bassinet(f, h, box, grp) {   /* oval basket on a four-legged stand, canopy over the head end */
+      const legH = h * .55, bh = h - legH, rx = f.w / 2 - cm(2), rz = f.h / 2 - cm(2);
+      [[-1, -1], [1, -1], [-1, 1], [1, 1]].forEach(([a, b]) => box(cm(3), legH, cm(3), a * rx * .7, legH / 2, b * rz * .7, WOOD));
+      [-1, 1].forEach(b => box(rx * 1.4, cm(3), cm(3), 0, cm(12), b * rz * .7, WOOD));
+      const wall = new THREE.Mesh(new THREE.CylinderGeometry(1, .9, bh, 28, 1, true), M(0xF1E9DE, { side: THREE.DoubleSide }));
+      wall.scale.set(rx, 1, rz); wall.position.y = legH + bh / 2; wall.castShadow = wall.receiveShadow = true; grp.add(wall);
+      const bed = new THREE.Mesh(new THREE.CylinderGeometry(.9, .9, cm(6), 28), LINEN); bed.scale.set(rx, 1, rz); bed.position.y = legH + cm(4); grp.add(bed);
+      const hood = new THREE.Mesh(new THREE.SphereGeometry(1, 24, 12, Math.PI / 2, Math.PI, 0, Math.PI / 2), M(0xEBCFD6, { side: THREE.DoubleSide }));
+      hood.scale.set(rz * .95, bh * 1.4, rz * .95); hood.rotation.y = Math.PI; hood.position.set(-rx + rz * .9, legH + bh * .55, 0); hood.castShadow = true; grp.add(hood);
+    },
+    changing(f, h, box) {   /* three-drawer dresser with a padded top and a guard rail at the back and sides */
+      const top = h - cm(12), d = f.h;
+      box(f.w, top, d, 0, top / 2, 0, WOOD);
+      for (let i = 0; i < 3; i++) { const dh = (top - cm(10)) / 3, y = cm(6) + dh * (i + .5);
+        box(f.w - cm(8), dh - cm(3), cm(1.5), 0, y, d / 2 + cm(.5), WOOD2); box(cm(10), cm(2), cm(2.5), 0, y, d / 2 + cm(2), M(0xB8A182)); }
+      box(f.w - cm(10), cm(7), d - cm(10), 0, top + cm(3.5), cm(2), PINK);
+      box(f.w, cm(9), cm(2), 0, top + cm(4.5), -d / 2 + cm(1), WOOD);
+      [-1, 1].forEach(a => box(cm(2), cm(9), d, a * (f.w / 2 - cm(1)), top + cm(4.5), 0, WOOD));
+    },
+    glider(f, h, box, grp) {   /* glider: seat on a base, tall cushioned back, padded arms */
+      const seatY = cm(42), back = new THREE.Group();
+      box(f.w - cm(6), cm(6), f.h - cm(10), 0, cm(4), 0, WOOD2);
+      [-1, 1].forEach(a => box(cm(5), cm(30), cm(5), a * (f.w / 2 - cm(10)), cm(20), 0, WOOD2));
+      box(f.w - cm(16), cm(14), f.h - cm(14), 0, seatY, cm(3), FABRIC);
+      [-1, 1].forEach(a => box(cm(10), cm(22), f.h - cm(8), a * (f.w / 2 - cm(5)), seatY + cm(6), 0, FABRIC));
+      const b = new THREE.Mesh(new THREE.BoxGeometry(f.w - cm(16), h - seatY, cm(14)), FABRIC); b.castShadow = b.receiveShadow = true;
+      b.position.y = (h - seatY) / 2; back.add(b); back.position.set(0, seatY, -f.h / 2 + cm(10)); back.rotation.x = -.16; grp.add(back);
+    },
+    toychest(f, h, box) {   /* box with an overhanging lid and two handles */
+      box(f.w - cm(2), h - cm(5), f.h - cm(2), 0, (h - cm(5)) / 2, 0, M(0xF1E3C6));
+      box(f.w, cm(5), f.h, 0, h - cm(2.5), 0, WOOD2);
+      [-1, 1].forEach(a => box(cm(3), cm(4), cm(9), a * (f.w / 2), h * .6, 0, M(0xB8A182)));
+      box(f.w - cm(10), cm(1), cm(1), 0, h * .55, f.h / 2, M(0xE7C2CB));
+    },
+    playmat(f, h, box) {   /* 3 × 3 foam tiles in soft colours */
+      const C = [0xB9CFE0, 0xF4D9A9, 0xEBCFD6, 0xC9DCC4], tw = f.w / 3, td = f.h / 3;
+      for (let i = 0; i < 3; i++) for (let j = 0; j < 3; j++) box(tw - cm(.6), cm(1.5), td - cm(.6), -f.w / 2 + tw * (i + .5), cm(.75), -f.h / 2 + td * (j + .5), M(C[(i + j * 2) % 4]));
+    },
+  };
 
   /* ---------- scene build ---------- */
   function build(width) {
@@ -138,6 +191,8 @@ export function create(A, look) {
       if (it.k === "countertop") {
         const k = Math.max(1, Math.round(f.w / cm(60))), cw = f.w / k;
         for (let i = 0; i < k; i++) add(k >= 2 && i === Math.floor(k / 2) ? "kitchenSink" : "kitchenCabinet", cw, f.h, h, -f.w / 2 + cw * (i + .5));
+      } else if (NURSERY[it.k]) {
+        NURSERY[it.k](f, h, (w, hh, d, x, y, z, mat) => { const m = new THREE.Mesh(new THREE.BoxGeometry(w, hh, d), mat); m.position.set(x, y, z); m.castShadow = m.receiveShadow = true; grp.add(m); return m; }, grp);
       } else if (it.k === "screen") {
         const pw = f.w / 3; [0, 1, 2].forEach(i => { const m = new THREE.Mesh(new THREE.BoxGeometry(pw - 1, cm(170), cm(2.5)), M(0xE6D8C2));
           m.position.set(-f.w / 2 + pw * (i + .5), cm(87), (i % 2 ? -1 : 1) * cm(3)); m.castShadow = m.receiveShadow = true; grp.add(m); });

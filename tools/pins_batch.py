@@ -221,9 +221,39 @@ for key, (h_en, h_fr, tag_en, tag_fr) in ROOMS.items():
             board="Room layout ideas", tags=(f"{tag_en}, Room planner, Room layout, Furniture arrangement, Interior design, Home decor, Floor plan, 3D room design" if lang == "en"
                                              else f"{tag_fr}, Plan de pièce, Disposition des meubles, Déco intérieur, Aménagement, Plan 3D"))
 
+FS3D = {
+ "cosy-bedroom": ("A feng shui bedroom, <em>in 3D</em>", "Une chambre feng shui, <em>en 3D</em>"),
+ "small-studio": ("Feng shui for a <em>small studio</em>", "Le feng shui <em>dans un petit studio</em>"),
+ "living-room": ("A feng shui <em>living room</em> layout", "Un salon <em>feng shui</em>"),
+ "evening-living": ("Warm light, <em>good energy</em>", "Lumière douce, <em>bonne énergie</em>"),
+ "home-office": ("Feng shui your <em>home office</em>", "Un bureau <em>feng shui</em>"),
+ "kitchen-diner": ("Feng shui for <em>kitchen and dining</em>", "Cuisine et salle à manger <em>feng shui</em>"),
+ "bathroom": ("A calm <em>feng shui bathroom</em>", "Une salle de bain <em>feng shui</em>"),
+ "kids-room": ("Feng shui for a <em>kids' room</em>", "Une chambre d'enfant <em>feng shui</em>"),
+}
+for key, (h_en, h_fr) in FS3D.items():
+    for lang in ("en", "fr"):
+        base = rp_base(lang, True); h1 = h_en if lang == "en" else h_fr; pid = f"f3d-{lang}-{key}"
+        chips = ["Verdict for every piece", "Door and window lines", "Plan ↔ 3D"] if lang == "en" else ["Un verdict par meuble", "Lignes porte-fenêtre", "Plan ↔ 3D"]
+        page(pid, "Feng shui room planner" if lang == "en" else "Planificateur feng shui", h1,
+             "Open this room and see the feng shui verdict for each piece." if lang == "en" else "Ouvrez cette pièce et voyez le verdict feng shui de chaque meuble.",
+             '<div class="shot" id="shot" style="background:#fff;padding:10px"></div><div class="chips">' + "".join(f"<span>{c}</span>" for c in chips) + "</div>",
+             "sapiopedia.com" + base, "Free feng shui room planner" if lang == "en" else "Planificateur feng shui gratuit", extra=CAP3D.replace("{SRC}", f"{base}?preset={key}&view=3d"))
+        bed = key in ("cosy-bedroom", "kids-room", "small-studio")
+        add(id=pid, group="room", slow=True, link=f"{SITE}{base}?preset={key}&view=3d", title=re.sub("<.*?>", "", h1),
+            desc=("This room opens as-is in Sapiopedia's free feng shui planner: every piece gets a verdict (command position, door and window lines, clutter), with a 3D view in your own colours. Move things until everything is green."
+                  if lang == "en" else "Cette pièce s'ouvre telle quelle dans le planificateur feng shui gratuit : chaque meuble reçoit un verdict (position de commandement, lignes porte-fenêtre), avec une vue 3D dans vos couleurs."),
+            board="Feng shui bedroom" if bed else "Feng shui home",
+            tags=("Feng shui, Feng shui tips, Feng shui home, Feng shui bedroom, Good energy home, Room layout, Interior design, Home decor" if lang == "en"
+                  else "Feng shui, Feng shui maison, Feng shui chambre, Aménagement, Déco intérieur, Énergie positive"))
+
 # ---------------------------------------------------------------- the exact PNG the room planner saves (2D plan + 3D view), used as the pin image as-is
 EXPORTS = [("en", "living-room", False), ("en", "cosy-bedroom", False), ("en", "small-studio", False), ("en", "kitchen-diner", False), ("en", "home-office", False),
-           ("fr", "evening-living", False), ("fr", "bathroom", False), ("fr", "kids-room", False), ("en", "cosy-bedroom", True), ("fr", "living-room", True)]
+           ("fr", "evening-living", False), ("fr", "bathroom", False), ("fr", "kids-room", False), ("en", "cosy-bedroom", True), ("fr", "living-room", True),
+           ("en", "evening-living", False), ("en", "bathroom", False), ("en", "kids-room", False), ("fr", "living-room", False), ("fr", "cosy-bedroom", False),
+           ("fr", "small-studio", False), ("fr", "kitchen-diner", False), ("fr", "home-office", False),
+           ("en", "small-studio", True), ("en", "living-room", True), ("en", "home-office", True), ("en", "kids-room", True),
+           ("fr", "cosy-bedroom", True), ("fr", "bathroom", True), ("fr", "evening-living", True), ("fr", "small-studio", True)]
 for lang, key, fs in EXPORTS:
     base = rp_base(lang, fs); pid = f"x-{'fs' if fs else 'rp'}-{lang}-{key}"
     nm = re.sub("<.*?>", "", ROOMS[key][0 if lang == "en" else 1])
@@ -294,29 +324,35 @@ for pid, gift, h1, sub, target in [
     open(os.path.join(TMP, pid + ".html"), "w", encoding="utf-8").write(h)
 for p in PINS:
     if p.get("old") and p["id"][:2] in ("07", "08", "09"): p["slow"] = True
+for p in PINS:
+    if "/fengshui/" in p["link"] or "room-planner" in p["link"] or "planificateur" in p["link"]: p["group"] = "room"
 for p in PINS:   # 01-06 and 10 come from tools/make_pins.py (_pins/), with the free badge added
     if p.get("old") and not os.path.exists(os.path.join(TMP, p["id"] + ".html")):
         h = open(os.path.join(ROOT, "_pins", p["id"] + ".html"), encoding="utf-8").read()
         open(os.path.join(TMP, p["id"] + ".html"), "w", encoding="utf-8").write(h.replace("<body>", "<body>" + free("en"), 1))
 
-# ---------------------------------------------------------------- schedule from Tue 10 Nov 2026: weeks 1-2 three a day, then five a day; 3D rooms get the first slot every day
+# ---------------------------------------------------------------- schedule from Tue 10 Nov 2026: weeks 1-2 three a day (2 room/feng shui), then five a day (3 room/feng shui).
+# Room planner and feng shui pins are at least half of every day; party games and the Christmas scratch card come first among the rest before Christmas.
+# Pins that don't fit stay in reserve (unscheduled).
 start = datetime.date(2026, 11, 10)
 def key(link): return re.sub(r"[&?]view=3d", "", link.split("#")[0])
 queue = {g: [p for p in PINS if p["group"] == g] for g in ("room", "seasonal", "evergreen")}
-for q in queue.values(): q.sort(key=lambda p: (0 if p.get("old") else 1, random.random()))
+for q in queue.values(): q.sort(key=lambda p: (0 if p.get("old") or p["id"].startswith(("sr-", "ix-", "s-en")) else 1, random.random()))
 last, sched, day = {}, [], start
-while any(queue.values()) and (day - start).days < 70:
+while queue["room"] and (day - start).days < 60:
     d = (day - start).days
-    slots = (["room", "seasonal", "evergreen"], ["09:00:00", "13:00:00", "19:00:00"]) if d < 14 else \
-            (["room", "seasonal", "room", "evergreen", "seasonal"], ["08:00:00", "11:00:00", "14:00:00", "17:00:00", "20:00:00"])
-    if day >= datetime.date(2026, 12, 26): slots = ([g if g != "seasonal" else "evergreen" for g in slots[0]], slots[1])
-    today = set()
+    slots = (["room", "other", "room"], ["09:00:00", "13:00:00", "19:00:00"]) if d < 14 else \
+            (["room", "other", "room", "other", "room"], ["08:00:00", "11:00:00", "14:00:00", "17:00:00", "20:00:00"])
+    today = set(); nroom = nother = 0
     for grp, tm in zip(*slots):
         ok = lambda p: key(p["link"]) not in today and (key(p["link"]) not in last or (day - last[key(p["link"])]).days >= 7)
-        order = [grp] + [g for g in ("room", "evergreen", "seasonal") if g != grp and not (g == "seasonal" and day >= datetime.date(2026, 12, 26))]
+        if grp == "room": order = ["room"]
+        else:
+            if nother >= nroom: continue       # never more other pins than room pins on a day
+            order = (["seasonal", "evergreen"] if day < datetime.date(2026, 12, 25) else ["evergreen"]) if d % 2 == 0 or day >= datetime.date(2026, 12, 25) else ["evergreen", "seasonal"]
         pick = next((p for g in order for p in queue[g] if ok(p)), None)
         if not pick: continue
-        queue[pick["group"]].remove(pick); today.add(key(pick["link"])); last[key(pick["link"])] = day
+        queue[pick["group"]].remove(pick); today.add(key(pick["link"])); last[key(pick["link"])] = day; nroom += grp == "room"; nother += grp != "room"
         sched.append((f"{day.isoformat()}T{tm}", pick))
     day += datetime.timedelta(1)
 by = {}
@@ -325,8 +361,10 @@ bad = [l for l, ds in by.items() if any((b - a).days < 7 for a, b in zip(sorted(
 perday = {}
 for w, p in sched: perday[w[:10]] = perday.get(w[:10], 0) + 1
 late_seasonal = [p["id"] for w, p in sched if p["group"] == "seasonal" and w[:10] > "2026-12-24"]
+nr = sum(1 for w, p in sched if p["group"] == "room")
+print(f"room/feng shui {nr} of {len(sched)} ({nr * 100 // len(sched)}%); days below half: {[k for k in perday if sum(1 for w, p in sched if w[:10] == k and p['group'] == 'room') * 2 < perday[k]]}")
 print(f"{len(PINS)} pins, {len(sched)} scheduled, {sched[0][0][:10]} to {sched[-1][0][:10]}; per day {sorted(set(perday.values()))}; spacing violations {len(bad)}; "
-      f"seasonal after Christmas {late_seasonal}; unscheduled {[p['id'] for q in queue.values() for p in q]}")
+      f"seasonal after Christmas {late_seasonal}; reserve {len([p for q in queue.values() for p in q])}: {[p['id'] for q in queue.values() for p in q]}")
 
 # ---------------------------------------------------------------- render
 import concurrent.futures, shutil, sys as _s
@@ -344,15 +382,15 @@ def render(p):
                    capture_output=True, timeout=240)
     return p["id"]
 only = os.environ.get("ONLY")
-todo = [p for p in PINS if not only or re.search(only, p["id"])]
+todo = [p for p in PINS if (not only or re.search(only, p["id"])) and (only or os.environ.get("RENDER") == "all" or not os.path.exists(outfile(p)))]
 with concurrent.futures.ThreadPoolExecutor(4) as ex:
     for r in ex.map(render, todo): pass
 print("rendered", len(todo))
-if only: raise SystemExit
+if only or os.environ.get("DRY"): raise SystemExit
 
 # ---------------------------------------------------------------- bulk-upload CSVs (Pinterest schedules up to ~30 days ahead: part 2 is uploaded later), overview, site copies
 def media(p): return f"{SITE}/pins/{p['file']}" if p.get("old") else f"{SITE}/pins/b1/{p['id']}.png"
-cut1 = (start + datetime.timedelta(27)).isoformat()
+cut1 = (start + datetime.timedelta(28)).isoformat()
 cols = ["Title", "Media URL", "Pinterest board", "Thumbnail", "Description", "Link", "Publish date", "Keywords"]
 for name, rows in (("pinterest-bulk-upload.csv", [x for x in sched if x[0][:10] <= cut1]), ("pinterest-bulk-upload-part2.csv", [x for x in sched if x[0][:10] > cut1])):
     with open(os.path.join(DESK, name), "w", encoding="utf-8", newline="") as fh:

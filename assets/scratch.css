@@ -1,0 +1,176 @@
+/* Sapiopedia: Scratch-off gift card (tool). Original design kept, scoped under .sg so it never touches the rest of the site. */
+@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=DM+Sans:wght@400;500;600;700&display=swap");
+main.page.wide.scratch{max-width:1160px}
+.sg .make-own{display:none;margin-top:14px;color:var(--wine);letter-spacing:.06em;font-size:12px;text-decoration:none;border-bottom:1px solid currentColor}
+.sg.recipient-mode .make-own{display:inline-block}
+/* creator view: the page title above is enough, the tool's own masthead shows only to the person receiving the gift */
+.sg:not(.recipient-mode) .masthead{display:none}
+/* recipient view: only the card */
+body.sg-recipient main.page>h1,body.sg-recipient main.page>p.lead,body.sg-recipient main.page>.ad,body.sg-recipient main.page>.related{display:none}
+.sg [hidden]{display:none!important}
+.sg{--bg:#f7e9ec;--ink:#292326;--muted:#71676a;--line:#d8c9c8;--wine:#973c55;--paper:#f6f2eb;--silver:#bcb9b7;--sans:'DM Sans',Arial,sans-serif;--serif:'Cormorant Garamond',Georgia,'Times New Roman',serif}
+.sg *{box-sizing:border-box}
+.sg{margin:0;min-height:100vh;background:var(--bg);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased}
+.sg button,.sg input,.sg textarea{font:inherit}
+.sg button{cursor:pointer}
+.sg button:focus-visible,.sg input:focus-visible,.sg textarea:focus-visible{outline:2px solid var(--wine);outline-offset:3px}
+.sg .shell{width:min(1120px,calc(100% - 40px));margin:0 auto;padding:52px 0 74px}
+.sg .masthead{text-align:center}
+.sg .eyebrow{color:#67595e;font:600 10px/1.5 var(--sans);letter-spacing:.31em;text-transform:uppercase}
+.sg .top-rule{display:flex;align-items:center;justify-content:center;gap:24px;margin-bottom:22px}
+.sg .top-rule:before,.sg .top-rule:after{content:"";height:1px;width:90px;background:#ac999b}
+.sg h1{font:500 clamp(64px,10vw,114px)/.9 var(--serif);letter-spacing:-.065em;margin:0}
+.sg h1 em{display:block;color:var(--wine);font-size:.66em;font-weight:400;letter-spacing:-.035em;line-height:1.08;margin-top:7px}
+.sg .intro{font-size:12px;color:var(--muted);line-height:1.7;margin:20px auto 0;max-width:400px}
+.sg .workspace{display:grid;grid-template-columns:minmax(280px,370px) minmax(0,1fr);gap:65px;align-items:start;margin-top:65px}
+.sg .form-panel{background:rgba(255,255,255,.25);border:1px solid var(--line);padding:28px}
+.sg .section-label{font-size:10px;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:var(--wine);margin:0 0 11px}
+.sg .form-panel h2,.sg .preview-title{font:500 38px/1 var(--serif);letter-spacing:-.025em;margin:0}
+.sg .form-panel .hint{font-size:12px;line-height:1.65;color:var(--muted);margin:12px 0 24px}
+.sg .field{margin:0 0 19px}
+.sg .field label{display:block;font-size:11px;letter-spacing:.055em;font-weight:600;margin-bottom:8px}
+.sg .field input,.sg .field textarea{display:block;width:100%;border:1px solid #cfc2c2;background:#fbf7f6;border-radius:0;color:var(--ink);padding:12px 13px;font-size:13px;line-height:1.5;transition:border-color .2s}
+.sg .field textarea{height:102px;resize:vertical;min-height:90px}
+.sg .field input::placeholder,.sg .field textarea::placeholder{color:#a29899}
+.sg .btn{min-height:43px;padding:11px 17px;border:1px solid var(--wine);background:var(--wine);color:#fff;font-size:12px;font-weight:600;letter-spacing:.02em;transition:opacity .15s}
+.sg .btn:hover{opacity:.9}
+.sg .btn.outline{background:transparent;color:var(--wine)}
+.sg .btn.ghost{background:transparent;border-color:#bdb0ae;color:var(--ink)}
+.sg .full{width:100%}
+.sg .share-panel{border-top:1px solid var(--line);margin-top:22px;padding-top:21px}
+.sg .share-panel p{font-size:11px;line-height:1.6;color:var(--muted);margin:9px 0 13px}
+.sg .link-field{border:1px solid #cfc2c2;background:#fbf7f6;display:flex;align-items:stretch;min-width:0}
+.sg .link-field input{min-width:0;flex:1;border:0;background:transparent;padding:11px;color:var(--ink);font-size:11px;outline:none}
+.sg .link-field button{border:0;border-left:1px solid #cfc2c2;background:transparent;padding:0 13px;color:var(--wine);font-size:11px;font-weight:700}
+.sg .small-actions{display:flex;gap:9px;margin-top:10px}
+.sg .small-actions .btn{flex:1}
+.sg .fine-print{font-size:10px!important;color:#887c7e!important;line-height:1.65!important}
+.sg .preview-area{text-align:center;min-width:0}
+.sg .preview-head{margin-bottom:24px}
+.sg .preview-title{font-size:31px}
+.sg .preview-sub{font-size:11px;color:var(--muted);margin-top:7px;line-height:1.5}
+.sg .view-switch{margin-top:17px;display:flex;gap:6px;justify-content:center}
+.sg .view-switch button{border:1px solid transparent;background:transparent;color:#786e70;padding:8px 13px;font-size:11px}
+.sg .view-switch button[aria-pressed="true"]{border-color:#bfaeae;color:var(--ink);background:#fbf4f4}
+.sg .card-frame{width:100%;max-width:630px;margin:0 auto;background:var(--paper);border:1px solid #d9d0c6;box-shadow:0 8px 14px rgba(67,39,43,.08),0 2px 2px rgba(67,39,43,.04);padding:12px;aspect-ratio:1.55;position:relative}
+.sg .card-inner{width:100%;height:100%;border:1px solid #8b827e;padding:8px;position:relative}
+.sg .scratch-surface{position:relative;width:100%;height:100%;overflow:hidden;background:#ece6df;border-radius:2px}
+.sg .gift-content{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:19px 25px;overflow-wrap:anywhere}
+.sg .gift-to{font:600 10px/1.5 var(--sans);letter-spacing:.2em;text-transform:uppercase;color:#8c7775}
+.sg .gift-value{font:500 clamp(27px,3.6vw,49px)/.95 var(--serif);letter-spacing:-.025em;max-width:100%;margin:10px 0 0}
+.sg .gift-message{font:italic 400 clamp(15px,1.9vw,23px)/1.2 var(--serif);color:var(--wine);max-width:92%;margin:14px 0 0;white-space:pre-line}
+.sg .gift-from{font:500 10px/1.5 var(--sans);letter-spacing:.06em;color:#867573;margin-top:17px}
+.sg .scratch-canvas{position:absolute;inset:0;width:100%;height:100%;touch-action:none;cursor:crosshair;display:block;transition:opacity .55s}
+.sg .scratch-canvas.gone{opacity:0;pointer-events:none}
+.sg .scratch-caption{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;color:#5a5353;font:italic 400 clamp(24px,3.4vw,37px)/1 var(--serif);transition:opacity .2s}
+.sg .scratch-caption:before,.sg .scratch-caption:after{content:"";display:block;height:1px;width:clamp(25px,7vw,67px);background:#7c7675;margin:0 20px}
+.sg .scratch-caption.hidden{opacity:0}
+.sg .preview-foot{font:italic 19px/1.4 var(--serif);color:#766769;margin:20px 0 0}
+.sg .preview-buttons{display:flex;justify-content:center;gap:10px;margin-top:14px}
+.sg .preview-buttons button{border:0;background:transparent;text-decoration:underline;text-underline-offset:4px;color:#6d6264;font-size:11px;padding:7px}
+.sg .preview-buttons button:hover{color:var(--wine)}
+.sg.recipient-mode .shell{max-width:900px;padding-top:clamp(64px,12vh,130px)}
+.sg.recipient-mode .workspace{display:block;margin-top:60px}
+.sg.recipient-mode .form-panel,.sg.recipient-mode .preview-head,.sg.recipient-mode .intro,.sg.recipient-mode .view-switch{display:none!important}
+.sg.recipient-mode .card-frame{max-width:725px}
+.sg.recipient-mode .preview-foot{margin-top:29px}
+.sg.recipient-mode h1{font-size:clamp(64px,11vw,112px)}
+.sg.recipient-mode .preview-buttons{margin-top:20px}
+.sg .footer{text-align:center;margin-top:65px;font-size:10px;letter-spacing:.07em;color:#a08d92}
+.sg.recipient-mode .footer{margin-top:80px}
+@media(max-width:800px){.sg .shell{padding-top:42px}
+.sg .workspace{grid-template-columns:1fr;gap:35px;margin-top:42px}
+.sg .form-panel{max-width:620px;margin:auto;width:100%;order:2}
+.sg .preview-area{order:1}
+.sg .card-frame{max-width:620px}
+.sg .preview-head{margin-bottom:18px}
+.sg.recipient-mode .workspace{margin-top:38px}}
+@media(max-width:480px){.sg .shell{width:calc(100% - 30px)}
+.sg .top-rule{gap:12px}
+.sg .top-rule:before,.sg .top-rule:after{width:38px}
+.sg .eyebrow{font-size:9px}
+.sg h1{font-size:66px}
+.sg .card-frame{padding:7px;aspect-ratio:1.25}
+.sg .card-inner{padding:5px}
+.sg .form-panel{padding:23px}
+.sg .gift-content{padding:10px 13px}
+.sg .gift-value{font-size:30px}
+.sg .gift-message{font-size:16px;margin-top:8px}
+.sg .gift-from{margin-top:8px}
+.sg .scratch-caption:before,.sg .scratch-caption:after{margin:0 10px}}
+@media(prefers-reduced-motion:reduce){.sg *,.sg *:before,.sg *:after{scroll-behavior:auto!important;transition:none!important}}
+.sg .shell{width:min(1020px,calc(100% - 44px));padding:76px 0 60px}
+.sg .masthead h1{font-size:clamp(66px,9vw,116px);line-height:.9;font-weight:500;letter-spacing:-.065em}
+.sg .masthead h1 em{font-size:.65em;line-height:1.05;margin-top:10px;color:#993d55}
+.sg .workspace{display:flex;flex-direction:column;align-items:center;gap:0;margin-top:59px}
+.sg .preview-area{order:0;width:100%}
+.sg .preview-head{margin:0 0 26px}
+.sg .preview-sub{font:italic 19px/1.2 var(--serif);color:#8a7579;margin:0}
+.sg .view-switch{margin:18px auto 0;gap:14px}
+.sg .view-switch button{padding:5px 10px;font-size:10px;letter-spacing:.04em;text-underline-offset:4px}
+.sg .view-switch button[aria-pressed="true"]{background:none;border-color:transparent;text-decoration:underline;color:#573f45}
+.sg .card-frame{max-width:570px;padding:11px;aspect-ratio:1.59;box-shadow:0 8px 15px rgba(66,38,43,.13),0 2px 3px rgba(66,38,43,.06);background:#f1eee7}
+.sg .card-inner{padding:7px;border-color:#8b837d}
+.sg .scratch-surface{border-radius:3px}
+.sg .scratch-caption{font-size:clamp(25px,3.5vw,39px);color:#575151}
+.sg .preview-foot{margin:21px 0 0;font-size:19px}
+.sg .preview-buttons{margin:9px 0 0;gap:25px}
+.sg .preview-buttons button{font-size:10px;text-decoration:none;border-bottom:1px solid #bbaeb0}
+.sg .form-panel{order:1;width:min(650px,100%);max-width:none;margin:65px 0 0;padding:34px 40px 38px;background:rgba(255,255,255,.12);border:1px solid #dfcbd0;text-align:left}
+.sg .form-panel h2{font-size:46px;line-height:1.05}
+.sg .form-panel .hint{font:italic 21px/1.2 var(--serif);margin:8px 0 29px;color:#7b6c6e}
+.sg .field{margin-bottom:22px}
+.sg .field label{font:600 10px/1.5 var(--sans);letter-spacing:.13em;text-transform:uppercase;color:#66565b}
+.sg .field input,.sg .field textarea{background:#faf4f3;border:1px solid #d9c7c9;padding:13px 15px;font-family:var(--serif);font-size:21px;line-height:1.2;color:#292326}
+.sg .field textarea{height:100px;min-height:85px}
+.sg .field input::placeholder,.sg .field textarea::placeholder{font-style:italic;color:#aa999d}
+.sg .btn{min-height:49px;font-size:11px;letter-spacing:.075em;text-transform:uppercase}
+.sg .section-label{font-size:10px;letter-spacing:.22em;color:#9c4058}
+.sg .share-panel{margin-top:26px}
+.sg .footer{margin-top:62px;letter-spacing:.2em}
+.sg.recipient-mode .shell{max-width:980px;padding-top:clamp(66px,10vh,105px)}
+.sg.recipient-mode .workspace{margin-top:65px}
+.sg.recipient-mode .form-panel,.sg.recipient-mode .preview-head,.sg.recipient-mode .preview-buttons{display:none!important}
+.sg.recipient-mode .card-frame{max-width:570px}
+.sg.recipient-mode .preview-foot{margin-top:30px}
+@media(min-width:720px){.sg .form-panel{display:grid;grid-template-columns:1fr 1fr;column-gap:20px}
+.sg .form-panel>.section-label,.sg .form-panel>h2,.sg .form-panel>.hint,.sg .form-panel>.full,.sg .form-panel>.share-panel{grid-column:1/-1}
+.sg .form-panel>.field:has(textarea){grid-column:1/-1}}
+@media(max-width:600px){.sg .shell{width:calc(100% - 32px);padding-top:58px}
+.sg .masthead h1{font-size:clamp(55px,12vw,82px)}
+.sg .workspace{margin-top:40px}
+.sg .preview-head{margin-bottom:20px}
+.sg .card-frame{padding:8px;aspect-ratio:1.30}
+.sg .card-inner{padding:6px}
+.sg .scratch-caption:before,.sg .scratch-caption:after{width:25px;margin:0 10px}
+.sg .form-panel{margin-top:55px;padding:26px 22px}
+.sg .form-panel h2{font-size:39px}
+.sg .form-panel .hint{font-size:19px}
+.sg .gift-value{font-size:30px}
+.sg .gift-message{font-size:17px}
+.sg .preview-sub{font-size:17px}}
+.sg:not(.recipient-mode) .shell{width:min(1120px,calc(100% - 42px));padding-top:46px}
+.sg:not(.recipient-mode) .masthead h1{font-size:clamp(57px,7.5vw,90px)}
+.sg:not(.recipient-mode) .workspace{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.92fr);gap:48px;align-items:start;margin-top:39px}
+.sg:not(.recipient-mode) .form-panel{order:0;display:block;width:100%;margin:0;padding:31px 34px 33px;min-width:0}
+.sg:not(.recipient-mode) .preview-area{order:1;width:100%;padding-top:20px;min-width:0}
+.sg:not(.recipient-mode) .card-frame{max-width:425px}
+.sg:not(.recipient-mode) .preview-head{margin-bottom:19px}
+.sg:not(.recipient-mode) .preview-sub{font-size:20px}
+.sg:not(.recipient-mode) .form-panel h2{font-size:43px}
+.sg:not(.recipient-mode) .form-panel .hint{margin-bottom:22px}
+.sg:not(.recipient-mode) .field{margin-bottom:16px}
+.sg:not(.recipient-mode) .field input,.sg:not(.recipient-mode) .field textarea{padding:10px 13px;font-size:19px}
+.sg:not(.recipient-mode) .field textarea{min-height:76px;height:84px}
+.sg:not(.recipient-mode) .preview-foot{margin-top:18px}
+.sg:not(.recipient-mode) .footer{margin-top:50px}
+@media(max-width:760px){.sg:not(.recipient-mode) .shell{padding-top:32px}
+.sg:not(.recipient-mode) .masthead h1{font-size:clamp(55px,12vw,80px)}
+.sg:not(.recipient-mode) .workspace{grid-template-columns:1fr;gap:28px;margin-top:30px}
+.sg:not(.recipient-mode) .form-panel{order:0;padding:24px 22px}
+.sg:not(.recipient-mode) .preview-area{order:1;padding-top:0}
+.sg:not(.recipient-mode) .card-frame{max-width:425px;aspect-ratio:1.55}
+.sg:not(.recipient-mode) .form-panel h2{font-size:40px}}
+.sg{background:transparent;min-height:0}
+.sg .shell{padding-top:12px!important}
+.sg.recipient-mode .shell{padding-top:clamp(20px,6vh,60px)!important}

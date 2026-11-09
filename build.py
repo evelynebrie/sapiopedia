@@ -101,7 +101,7 @@ def layout(lang, title, desc, body, path, alt_path, section=None, canonical=None
 </html>
 """
 
-def ad(lang): return f'<div class="ad">{UI[lang]["ad"]}</div>'
+def ad(lang): return ""   # empty ad placeholders hidden during the AdSense review; Auto ads places ads once approved
 
 def write(path, content):
     full = os.path.join(os.path.dirname(__file__), path.lstrip("/"))

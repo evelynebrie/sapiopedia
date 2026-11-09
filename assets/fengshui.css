@@ -210,3 +210,6 @@ html.embed body{background:transparent}
 html.embed header.site,html.embed footer.site,html.embed main>h1,html.embed main>p.lead,html.embed .fs-intro,html.embed .related,
 html.embed .fs .toolbar,html.embed .fs .furn,html.embed .fs .side .block{display:none!important}
 html.embed main.page{padding:0;margin:0;max-width:none}
+html.embed3d .fs .viewbar,html.embed3d .fs .look,html.embed3d .fs .status,html.embed3d .fs .lswitch,html.embed3d .fs .side,html.embed3d .fs .marks3d{display:none!important}
+html.embed3d .fs .grid{display:block}
+html.embed3d .fs .sheet.work{background:transparent;border:0;box-shadow:none;padding:0}

@@ -27,7 +27,10 @@ def body(lang, design=False, nursery=False):
     mode = "nursery" if nursery else "design" if design else ""
     fr = '<script src="/assets/fengshui-fr.js"></script>' if lang == "fr" else ""
     return f"""<link rel="stylesheet" href="/assets/fengshui.css">
-<script>if(/[?&]embed=1/.test(location.search)){{document.documentElement.classList.add("embed");addEventListener("load",function(){{var s=function(){{parent.postMessage({{fsEmbedH:document.querySelector(".fs").offsetHeight}},"*");}};s();new ResizeObserver(s).observe(document.body);}});}}</script>
+<script>/* compact versions for the home page: ?embed=1 (plan) or ?embed=3d (the 3D view alone, turning, lamps on and off) */
+if(/[?&]embed=(1|3d)/.test(location.search)){{var E3=/[?&]embed=3d/.test(location.search);document.documentElement.classList.add("embed");if(E3)document.documentElement.classList.add("embed3d");
+ addEventListener("load",function(){{var s=function(){{parent.postMessage({{fsEmbedH:document.querySelector(".fs").offsetHeight}},"*");}};s();new ResizeObserver(s).observe(document.body);
+  if(E3){{var n=0,q=function(x){{return document.querySelector(x);}};setInterval(function(){{n++;var l=q(".fs .lswitch");if(l)l.click();if(n%2===0){{var r=q(".fs [data-rot]");if(r)r.click();}}}},3500);}}}});}}</script>
 <div class="fs">
 <div class="grid">
   <div class="sheet work">

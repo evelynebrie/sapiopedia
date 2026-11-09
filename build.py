@@ -61,7 +61,7 @@ UI = {
 
 def esc(s): return html.escape(s, quote=True)
 
-def layout(lang, title, desc, body, path, alt_path, section=None, canonical=None, main_class="page"):
+def layout(lang, title, desc, body, path, alt_path, section=None, canonical=None, main_class="page", robots=None):
     u = UI[lang]
     nav = "".join(f'<a href="/{lang}/{SECTIONS[s][lang][0]}/">{SECTIONS[s][lang][1]}</a>' for s in SECTIONS)
     other = "fr" if lang == "en" else "en"
@@ -71,7 +71,7 @@ def layout(lang, title, desc, body, path, alt_path, section=None, canonical=None
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{esc(title)} · Sapiopedia</title>
-<meta name="description" content="{esc(desc)}">
+<meta name="description" content="{esc(desc)}">{f'<meta name="robots" content="{robots}">' if robots else ""}
 <link rel="canonical" href="{SITE}{canonical or path}">
 <link rel="alternate" hreflang="{lang}" href="{SITE}{path}">
 <link rel="alternate" hreflang="{other}" href="{SITE}{alt_path}">
@@ -172,6 +172,9 @@ for lang in ("en", "fr"):
             path = f"/{lang}/{slug}/{pslug}/"; alt = f"/{other}/{d[other][0]}/{p[other][0]}/"
             write(path + "index.html", layout(lang, ptitle, pdesc, body, path, alt, main_class=("page wide " + p.get("main_class", "")).strip() if p.get("wide") else "page"))
             add_url(path)
+        if s == "names":
+            from content import names_fr
+            names_fr.build_cards(lang, layout, write, add_url)
     # legal pages
     legal_text = {
         "en": {"about": ("About Sapiopedia", "<p>Sapiopedia is an independent site that builds small, useful pages: quizzes, room planners, a dream dictionary, French first names and party games. Every tool states its method and its sources. The site is written and maintained by a university professor and data scientist based in Montréal.</p><p>Nothing here is medical, legal or financial advice.</p>"),

@@ -9,15 +9,14 @@
   document.querySelectorAll(".ixl li").forEach(function (li) {
     var al = li.querySelector(".al");
     if (al) { var first = al.querySelector("a"); if (!first) return;
-      items.push({ k: fold(al.firstChild.textContent), label: al.firstChild.textContent.replace(/\s*→\s*$/, ""), to: first.getAttribute("href").slice(1), see: Array.prototype.map.call(al.querySelectorAll("a"), function (a) { return a.textContent; }).join(", ") }); }
-    else { var a = li.querySelector("a"); items.push({ k: fold(a.textContent), label: a.textContent, to: a.getAttribute("href").slice(1) }); }
+      items.push({ k: fold(al.firstChild.textContent), label: al.firstChild.textContent.replace(/\s*→\s*$/, ""), href: first.getAttribute("href"), one: first.dataset.one || "", see: Array.prototype.map.call(al.querySelectorAll("a"), function (a) { return a.textContent; }).join(", ") }); }
+    else { var a = li.querySelector("a"); items.push({ k: fold(a.textContent), label: a.textContent, href: a.getAttribute("href"), one: a.dataset.one || "" }); }
   });
   var q = document.getElementById("dd-q"), res = document.getElementById("dd-res"), none = document.getElementById("dd-none"), sel = -1;
-  function lead(id) { var el = document.getElementById(id); var p = el && el.querySelector("p.lead"); return p ? p.textContent : ""; }
   function show(list) {
     sel = -1;
-    res.innerHTML = list.map(function (it, i) {
-      return '<li><a href="#' + it.to + '" data-i="' + i + '">' + esc(it.label) + (it.see ? ' <i>→ ' + esc(it.see) + '</i>' : "") + '<small>' + esc(lead(it.to)) + "</small></a></li>";
+    res.innerHTML = list.map(function (it) {
+      return '<li><a href="' + it.href + '">' + esc(it.label) + (it.see ? ' <i>→ ' + esc(it.see) + '</i>' : "") + '<small>' + esc(it.one) + "</small></a></li>";
     }).join("");
     res.hidden = !list.length;
   }
@@ -31,17 +30,17 @@
     show(list);
     none.hidden = !!list.length; if (!list.length) none.textContent = none.dataset.t.replace("{q}", q.value);
   }
-  function go(id) { res.hidden = true; var el = document.getElementById(id); if (!el) return; history.replaceState(null, "", "#" + id); el.scrollIntoView({ block: "start" }); el.querySelector("h2").setAttribute("tabindex", "-1"); el.querySelector("h2").focus({ preventScroll: true }); }
+  function go(href) { res.hidden = true; location.href = href; }
   if (q) {
     q.addEventListener("input", search);
     q.addEventListener("keydown", function (e) {
       var links = res.querySelectorAll("a"); if (!links.length) return;
       if (e.key === "ArrowDown" || e.key === "ArrowUp") { e.preventDefault(); sel = (sel + (e.key === "ArrowDown" ? 1 : -1) + links.length) % links.length;
         links.forEach(function (a, i) { a.setAttribute("aria-selected", i === sel); }); links[sel].scrollIntoView({ block: "nearest" }); }
-      else if (e.key === "Enter") { e.preventDefault(); go(links[Math.max(0, sel)].getAttribute("href").slice(1)); }
+      else if (e.key === "Enter") { e.preventDefault(); go(links[Math.max(0, sel)].getAttribute("href")); }
       else if (e.key === "Escape") { res.hidden = true; }
     });
-    res.addEventListener("click", function (e) { var a = e.target.closest("a"); if (a) { e.preventDefault(); go(a.getAttribute("href").slice(1)); } });
+    res.addEventListener("click", function (e) { var a = e.target.closest("a"); if (a) { e.preventDefault(); go(a.getAttribute("href")); } });
     document.addEventListener("click", function (e) { if (!e.target.closest(".dd-search")) res.hidden = true; });
   }
 
@@ -61,7 +60,7 @@
     var sitSec = art.querySelector("ul.sit"), flSecs = art.querySelectorAll("ul.fl");
     return {
       id: art.id, letter: g(".ini"), prev: guide[0] ? guide[0].textContent.replace("←", "").trim() : "", next: guide[2] ? guide[2].textContent.replace("→", "").trim() : "",
-      title: g("h2"), names: (art.querySelector(".pos").firstChild.textContent || "").replace(/\s*·\s*$/, ""), toneLabel: (art.querySelector(".pos").lastChild.textContent || "").trim(), tone: (art.querySelector(".dots") ? art.querySelector(".dots").textContent.replace(art.querySelector(".dots s").textContent, "").length : 0),
+      title: g("h1, h2"), names: (art.querySelector(".pos").firstChild.textContent || "").replace(/\s*·\s*$/, ""), toneLabel: (art.querySelector(".pos").lastChild.textContent || "").trim(), tone: (art.querySelector(".dots") ? art.querySelector(".dots").textContent.replace(art.querySelector(".dots s").textContent, "").length : 0),
       lead: g("p.lead"),
       sits: sitSec ? Array.prototype.map.call(sitSec.querySelectorAll("li"), function (li) { return [li.className].concat(split(li)); }) : [],
       feels: flSecs[0] && flSecs[0].closest("section").querySelector("h3").textContent === C.feel ? Array.prototype.map.call(flSecs[0].querySelectorAll("li"), split) : [],
@@ -118,7 +117,7 @@
     var total = y + 30 + M - 40 + BAND; if (!draw) return total;
     var by = c.height - BAND; g.fillStyle = "#F7E9EC"; g.fillRect(0, by, W, BAND); g.fillStyle = "#DCC9CE"; g.fillRect(0, by, W, 2);
     if (logo.complete && logo.naturalWidth) { var lh = 100; g.drawImage(logo, M - 10, by + (BAND - lh) / 2, logo.naturalWidth * lh / logo.naturalHeight, lh); }
-    g.textAlign = "right"; g.fillStyle = "#2A1F26"; g.font = "600 30px " + F.sans; g.fillText(C.url + "#" + E.id, W - M, by + 84);
+    g.textAlign = "right"; g.fillStyle = "#2A1F26"; g.font = "600 30px " + F.sans; g.fillText(C.url + E.id + "/", W - M, by + 84);
     g.fillStyle = "#6E5A62"; g.font = "400 22px " + F.sans; g.fillText(C.book + " · " + E.title, W - M, by + 120); g.textAlign = "left";
     return c;
   }
@@ -132,7 +131,7 @@
     var b = e.target.closest(".dd-e .share"); if (!b) return;
     var art = b.closest(".dd-e"), label = b.textContent; b.disabled = true; b.textContent = C.preparing; lastBtn = b;
     try { var c = await makePNG(art); current = { blob: await new Promise(function (r) { c.toBlob(r, "image/png"); }), name: "sapiopedia-dream-" + art.id + ".png" };
-      ov.querySelector("img").src = URL.createObjectURL(current.blob); ov.querySelector("img").alt = art.querySelector("h2").textContent; ov.hidden = false; ov.querySelector('[data-a="dl"]').focus(); }
+      ov.querySelector("img").src = URL.createObjectURL(current.blob); ov.querySelector("img").alt = art.querySelector("h1, h2").textContent; ov.hidden = false; ov.querySelector('[data-a="dl"]').focus(); }
     finally { b.disabled = false; b.textContent = label; }
   });
   ov.addEventListener("click", function (e) {

@@ -90,3 +90,19 @@ main.page.dream h1{font-family:'IM Fell English',Georgia,serif;font-variation-se
   .dd-az{font-size:17px}
   .bigl{font-size:72px !important}
 }
+
+/* one page per entry: the title is the page's h1 */
+.dd-e h1{font-family:'IM Fell English',Georgia,serif;font-weight:400;font-size:42px;letter-spacing:0;margin:0;line-height:1.08;color:var(--ink6)}
+.dd-one .dd-e{margin-top:0}
+.dd-e p.extra{font-size:18px;line-height:1.55;color:#3A302B;margin:0}
+@media (max-width:640px){.dd-e h1{font-size:30px}}
+/* dictionary page: compact A-Z list */
+.dd-list{list-style:none;margin:0;padding:0;columns:2 340px;column-gap:34px;column-rule:1px solid var(--edge)}
+.dd-list li{break-inside:avoid;margin:0 !important;border-bottom:1px dotted var(--rule6)}
+.dd-list a{display:block;padding:8px 2px;color:var(--ink6);text-decoration:none}
+.dd-list a:hover b{color:var(--wine)}
+.dd-list b{font-family:'IM Fell English',Georgia,serif;font-weight:400;font-size:21px}
+.dd-list .dots{font-size:11px;letter-spacing:1px;color:var(--wine);margin-left:6px;vertical-align:2px}
+.dd-list .dots s{text-decoration:none;color:#E2D5CB}
+.dd-list .one{display:block;font-style:italic;font-size:15.5px;color:var(--sepia);line-height:1.35}
+.dd-letter{contain-intrinsic-size:auto 2400px}

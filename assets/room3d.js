@@ -338,7 +338,7 @@ const onClick = e => {
 };
 bar.addEventListener("click", onClick); lookEl.addEventListener("click", onClick);
 colorIn.addEventListener("input", () => { look().wall = colorIn.value; A.save(); sync(); update(); });
-try { on = localStorage.getItem(VKEY) === "3d"; } catch (_) {}
+on = false;   /* every visit opens on the 2D plan (the home page turntable switches to 3D itself) */
 if (window.ResizeObserver) new ResizeObserver(() => update()).observe(stage);
 if (TURN) { on = true; sync();
   if (document.documentElement.classList.contains("capture")) {   /* video pins (?capture=1, read before the preset clears the address): frames rendered one by one, at a given angle and lamp state */

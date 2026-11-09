@@ -320,9 +320,9 @@ for pid, key, h1, sub, desc, tags in NURSERIES:
     add(id=pid, group="baby", slow=True, link=f"{SITE}{base}?preset={key}&view=3d", title=re.sub("<.*?>", "", h1), board="Gift ideas", desc=desc, tags=tags)
 
 # ---------------------------------------------------------------- video pin frame (tools/video_pin.py fills #shot with the turning 3D room)
-page("v-en-fs-turn", "Feng shui room planner", "Your room in 3D, <em>lamps on or off</em>", "Plan your room, then walk around it in 3D.",
-     '<div class="shot" id="shot" style="height:800px;background:transparent;box-shadow:none;border:0"></div><div class="chips">' + "".join(f"<span>{c}</span>" for c in ["Verdict for every piece", "Lights on and off", "Plan ↔ 3D"]) + "</div>",
-     "sapiopedia.com/en/tools/fengshui/", "Free feng shui room planner")
+page("v-en-rp-turn", "Free room planner", "Your room in 3D, <em>lamps on or off</em>", "Plan your room to the centimetre, then walk around it in 3D.",
+     '<div class="shot" id="shot" style="height:800px;background:transparent;box-shadow:none;border:0"></div><div class="chips">' + "".join(f"<span>{c}</span>" for c in ["Exact sizes", "Lights on and off", "Plan ↔ 3D"]) + "</div>",
+     "sapiopedia.com/en/tools/room-planner/", "Free, in your browser")
 
 # ---------------------------------------------------------------- the French names index itself, scrolled to one letter
 IXCSS = '<style>.ixf{flex:1;min-height:0;border-radius:20px;overflow:hidden;box-shadow:0 24px 50px -24px rgba(42,31,38,.45);background:#F6E9EC;margin-bottom:36px}.ixf iframe{width:560px;height:720px;border:0;display:block;transform:scale(1.53);transform-origin:0 0}</style>'

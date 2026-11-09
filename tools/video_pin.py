@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Video pin: the 3D room turning once, lamps switching every 3 s, inside the usual pin frame.
-Needs the local server (python3 -m http.server 8765 from the repo root) and _pins_batch/v-en-fs-turn.html (written by tools/pins_batch.py).
-Writes Desktop/Sapiopedia/Pinterest/batch-2026-11/v-en-fs-turn.mp4 and its cover image v-en-fs-turn.png."""
+Needs the local server (python3 -m http.server 8765 from the repo root) and _pins_batch/v-en-rp-turn.html (written by tools/pins_batch.py).
+Writes Desktop/Sapiopedia/Pinterest/batch-2026-11/v-en-rp-turn.mp4 and its cover image v-en-rp-turn.png."""
 import base64, concurrent.futures as cf, html, io, json, math, os, re, shutil, subprocess, sys
 from PIL import Image
 
@@ -9,7 +9,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TMP = os.path.join(ROOT, "_pins_batch")
 OUT = os.path.expanduser("~/Desktop/Sapiopedia/Pinterest/batch-2026-11")
 CHROME = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
-SRC = "/en/tools/fengshui/?preset=evening-living&view=3d&embed=3d&capture=1"
+SRC = "/en/tools/room-planner/?preset=evening-living&view=3d&embed=3d&capture=1"
 FPS, SECONDS, LIGHT_EVERY = 24, 12, 3          # one full turn in 12 s, lamps switch every 3 s
 N, CHUNK = FPS * SECONDS, 48
 FRAMES = os.path.join(TMP, "video-frames")
@@ -20,14 +20,14 @@ def chrome(args, timeout=600):
 
 def base():
     """The pin frame, rendered once, and the box the room goes into."""
-    page = os.path.join(TMP, "v-en-fs-turn.html")
+    page = os.path.join(TMP, "v-en-rp-turn.html")
     probe = open(page, encoding="utf-8").read().replace("</body>", '<script>addEventListener("load",function(){setTimeout(function(){var r=document.getElementById("shot").getBoundingClientRect();'
         'document.body.setAttribute("data-rect",[r.left,r.top,r.width,r.height].join(","));},1500);});</script></body>', 1)
     open(os.path.join(TMP, "_v-probe.html"), "w", encoding="utf-8").write(probe)
     dom = chrome(["--virtual-time-budget=6000", "--window-size=1000,1500", "--dump-dom", "http://127.0.0.1:8765/_pins_batch/_v-probe.html"])
     rect = [float(v) for v in re.search(r'data-rect="([^"]+)"', dom).group(1).split(",")]
     png = os.path.join(TMP, "_v-base.png")
-    chrome(["--virtual-time-budget=6000", "--window-size=1000,1500", f"--screenshot={png}", "http://127.0.0.1:8765/_pins_batch/v-en-fs-turn.html"])
+    chrome(["--virtual-time-budget=6000", "--window-size=1000,1500", f"--screenshot={png}", "http://127.0.0.1:8765/_pins_batch/v-en-rp-turn.html"])
     os.remove(os.path.join(TMP, "_v-probe.html"))
     return Image.open(png).convert("RGB"), rect
 
@@ -62,8 +62,8 @@ if __name__ == "__main__":
         s = min(w / room.width, h / room.height); room = room.resize((round(room.width * s), round(room.height * s)), Image.LANCZOS)
         frame = bg.copy(); frame.paste(room, (round(x + (w - room.width) / 2), round(y + (h - room.height) / 2)), room)
         frame.save(os.path.join(FRAMES, f"pin_{f:03d}.png"))
-    mp4 = os.path.join(OUT, "v-en-fs-turn.mp4")
+    mp4 = os.path.join(OUT, "v-en-rp-turn.mp4")
     subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-framerate", str(FPS), "-i", os.path.join(FRAMES, "pin_%03d.png"),
                     "-c:v", "libx264", "-pix_fmt", "yuv420p", "-crf", "18", "-movflags", "+faststart", mp4], check=True)
-    shutil.copy(os.path.join(FRAMES, "pin_000.png"), os.path.join(OUT, "v-en-fs-turn.png"))
+    shutil.copy(os.path.join(FRAMES, "pin_000.png"), os.path.join(OUT, "v-en-rp-turn.png"))
     print("wrote", mp4)

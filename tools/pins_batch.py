@@ -431,7 +431,7 @@ with concurrent.futures.ThreadPoolExecutor(4) as ex:
     for r in ex.map(render, todo): pass
 print("rendered", len(todo))
 # the baby pins have their own CSV and dates (16:00, a slot the main schedule never uses)
-BABY_DATES = {"n3d-en-nursery": "2026-11-11T16:00:00", "bc-en-gender": "2026-11-13T16:00:00", "bc-en-pregnancy": "2026-11-15T16:00:00", "n3d-en-shared-nursery": "2026-11-17T16:00:00"}
+BABY_DATES = {"n3d-en-nursery": "2026-11-09T21:00:00", "bc-en-gender": "2026-11-10T16:00:00", "bc-en-pregnancy": "2026-11-11T16:00:00", "n3d-en-shared-nursery": "2026-11-12T16:00:00"}
 with open(os.path.join(DESK, "pinterest-bulk-upload-baby.csv"), "w", encoding="utf-8", newline="") as fh:
     wr = csv.writer(fh); wr.writerow(["Title", "Media URL", "Pinterest board", "Thumbnail", "Description", "Link", "Publish date", "Keywords"])
     for p in sorted((p for p in PINS if p["group"] == "baby"), key=lambda p: BABY_DATES[p["id"]]):

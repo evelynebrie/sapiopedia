@@ -45,6 +45,7 @@ UI = {
            "h1": "For people who can't stop asking <em>questions</em>.",
            "cta": "What colour are you?", "cta_sub": "· 60 s",
            "mini": "New tool", "mini_t": "Feng Shui Room Planner",
+           "demo_k": "Try it here", "demo_h": "Drag the bed. <em>The room tells you where it sleeps best.</em>", "demo_p": "This is the real feng shui planner: move any piece and its verdict updates. The floor colours show the best spots for the piece you select.", "demo_a": "Open the full planner", "demo_t": "Feng shui room planner, interactive example",
            "note_k": "Method note", "note": "Every answer is built on real, open-source data, with sources when they matter.", "note_a": "How Sapiopedia is made",
            "counts": {"quizzes": "quizzes", "tools": "tools", "meanings": "entries", "names": "first names", "games": "games", "dreams": "dreams"}},
     "fr": {"home": "Accueil", "tagline": "L'espèce qui n'arrête pas de poser des questions.",
@@ -55,6 +56,7 @@ UI = {
            "h1": "Pour les gens qui ne cessent de poser des <em>questions</em>.",
            "cta": "Quelle couleur êtes-vous ?", "cta_sub": "· 60 s",
            "mini": "Nouvel outil", "mini_t": "Planificateur de pièce feng shui",
+           "demo_k": "Essayez ici", "demo_h": "Glissez le lit. <em>La pièce vous dit où il dort le mieux.</em>", "demo_p": "C'est le vrai planificateur feng shui : déplacez un meuble et son verdict se met à jour. Les couleurs du sol montrent les meilleures places pour le meuble sélectionné.", "demo_a": "Ouvrir le planificateur complet", "demo_t": "Planificateur feng shui, exemple interactif",
            "note_k": "Note de méthode", "note": "Chaque réponse s'appuie sur de vraies données ouvertes, avec ses sources quand elles comptent.", "note_a": "Comment Sapiopedia est fait",
            "counts": {"quizzes": "quiz", "tools": "outils", "meanings": "entrées", "names": "prénoms", "games": "jeux", "dreams": "rêves"}},
 }
@@ -149,6 +151,11 @@ for lang in ("en", "fr"):
     </a>
   </div>
 </section></div>
+<section class="fsdemo"><div class="head"><span class="kicker">{u['demo_k']}</span><i></i></div>
+  <div class="txt"><h2>{u['demo_h']}</h2><p>{u['demo_p']}</p><a href="{fs_url}">{u['demo_a']} →</a></div>
+  <iframe id="fsdemo" src="{fs_url}?preset=cosy-bedroom&amp;embed=1" title="{u['demo_t']}" loading="lazy"></iframe>
+</section>
+<script>addEventListener("message",function(e){{if(e.data&&e.data.fsEmbedH)document.getElementById("fsdemo").style.height=(e.data.fsEmbedH+4)+"px";}});</script>
 <section class="cats"><div class="head"><span class="kicker">{u['explore']}</span><i></i></div>{rows}</section>
 <section class="note"><span class="kicker">{u['note_k']}</span><div><p>{u['note']}</p><a href="/{lang}/{LEGAL[lang]['about']}/">{u['note_a']}</a></div></section>
 """

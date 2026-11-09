@@ -204,3 +204,9 @@ main.page.wide{max-width:var(--max)}
 .fs .cat:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .fs .pieces-row{display:flex;flex-wrap:wrap;gap:7px}
 @media (max-width:600px){.fs .pieces-row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}.fs .pieces-row .chip{text-align:center}}
+
+/* compact embed on the home page (?embed=1): the plan and the verdict panel only */
+html.embed body{background:transparent}
+html.embed header.site,html.embed footer.site,html.embed main>h1,html.embed main>p.lead,html.embed .fs-intro,html.embed .related,
+html.embed .fs .toolbar,html.embed .fs .furn,html.embed .fs .side .block{display:none!important}
+html.embed main.page{padding:0;margin:0;max-width:none}

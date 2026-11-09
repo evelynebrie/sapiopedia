@@ -27,6 +27,7 @@ def body(lang, design=False, nursery=False):
     mode = "nursery" if nursery else "design" if design else ""
     fr = '<script src="/assets/fengshui-fr.js"></script>' if lang == "fr" else ""
     return f"""<link rel="stylesheet" href="/assets/fengshui.css">
+<script>if(/[?&]embed=1/.test(location.search)){{document.documentElement.classList.add("embed");addEventListener("load",function(){{var s=function(){{parent.postMessage({{fsEmbedH:document.querySelector(".fs").offsetHeight}},"*");}};s();new ResizeObserver(s).observe(document.body);}});}}</script>
 <div class="fs">
 <div class="grid">
   <div class="sheet work">

@@ -130,7 +130,7 @@ function render(W, H){
     ctx.fillStyle = s.soft; ctx.font = '600 ' + (34*u) + "px 'Source Sans 3', sans-serif";
     spaced(T('kGoals','GOALS AND DREAMS'), cx, y, 9*u);
     y += 30*u;
-    var fs = (goals.length > 5 ? 54 : 60) * u, rowH = fs * 1.85;
+    var fs = (goals.length > 5 ? 54 : 60) * u, rowH = fs * (goals.length > 5 ? 1.7 : 1.85);
     goals.forEach(function(g, i){
       var top = y, mid = top + rowH/2;
       ctx.textAlign = 'center'; ctx.fillStyle = s.icon; ctx.font = (fs*.9) + "px 'Fraunces', serif";
@@ -149,7 +149,7 @@ function render(W, H){
   if ($('onQuote').checked && quote){
     ctx.font = 'italic 400 ' + (70*u) + "px 'Fraunces', serif";
     var lines = wrap(T('ql', '“') + quote + T('qr', '”'), colW);
-    var qy = H - 200*u - (lines.length - 1) * 86*u;
+    var qy = Math.max(H - 200*u - (lines.length - 1) * 86*u, y + 250*u);   /* pinned to the bottom, but never over a long goals list */
     ctx.fillStyle = s.line; ctx.fillRect(cx - colW*.25, qy - 210*u, colW*.5, 3*u);
     ctx.fillStyle = s.soft; ctx.font = '600 ' + (32*u) + "px 'Source Sans 3', sans-serif";
     spaced(T('kQuote','QUOTE OF THE YEAR'), cx, qy - 130*u, 9*u);

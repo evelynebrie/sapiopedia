@@ -4,7 +4,8 @@
 /* i18n: English strings are the keys; window.FS_FR (fengshui-fr.js) supplies French. */
 const NURSERY=window.FS_MODE==="nursery";   /* nursery planner: the room planner with nursery furniture and safety checks */
 const DESIGN=window.FS_MODE==="design"||NURSERY;
-const STORE=NURSERY?"sapiopedia-nurseryplanner":DESIGN?"sapiopedia-roomplanner":"sapiopedia-fengshui";
+const EMBED=/[?&]embed=1/.test(location.search);   /* compact version shown on the home page: its own save slot, never the visitor's plan */
+const STORE=(NURSERY?"sapiopedia-nurseryplanner":DESIGN?"sapiopedia-roomplanner":"sapiopedia-fengshui")+(EMBED?"-embed":"");
 const FR=document.documentElement.lang==="fr"&&window.FS_FR?window.FS_FR:null;
 function T(s,v){let r=FR&&FR[s]!=null?FR[s]:s;if(v)for(const k in v)r=r.split("{"+k+"}").join(v[k]);return r;}
 const THE={bed:"the bed",desk:"the desk",sofa:"the sofa",lamp:"the lamp",bedSingle:"the single bed",bunk:"the bunk bed",crib:"the crib",bassinet:"the bassinet",changing:"the changing table",glider:"the glider",toychest:"the toy chest",playmat:"the play mat",nightstand:"the nightstand",sofaCorner:"the corner sofa",tvstand:"the TV stand",tableRound:"the round table",fridge:"the fridge",stove:"the stove",bathtub:"the bathtub",toilet:"the toilet",washbasin:"the washbasin",rug:"the rug",office:"the office chair",coatrack:"the coat rack",barstool:"the bar stool",coffee:"the coffee table",armchair:"the armchair",chair:"the chair",table:"the table",countertop:"the countertop",appliance:"the appliance",tv:"the TV",wardrobe:"the wardrobe",shelf:"the bookshelf",screen:"the folding screen",plant:"the plant",door:"the door",window:"the window",mirror:"the mirror"};

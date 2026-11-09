@@ -1,0 +1,29 @@
+<!doctype html><html><head><meta charset="utf-8">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..600&family=Source+Sans+3:wght@400;600&display=swap">
+<style>*{box-sizing:border-box}html,body{margin:0}
+body{width:1000px;height:1500px;overflow:hidden;background:#F4E6E9;color:#2A1F26;font-family:'Source Sans 3',sans-serif;position:relative}
+h1{position:absolute;left:78px;right:78px;top:70px;margin:0;font-family:'Fraunces',Georgia,serif;font-weight:400;font-size:78px;line-height:1;letter-spacing:-.03em}
+h1 em{color:#A83A57}
+.phone{position:absolute;left:50%;top:330px;transform:translateX(-50%);width:452px;height:930px;border-radius:58px;background:#1f1a1c;padding:16px;box-shadow:0 30px 60px -30px rgba(42,31,38,.55)}
+.phone iframe{width:420px;height:898px;border:0;border-radius:44px;background:#F7E9EC;display:block}
+p{position:absolute;left:90px;right:90px;top:1292px;margin:0;font-size:30px;line-height:1.35;color:#4A3C42;text-align:center}
+.u{position:absolute;left:0;right:0;bottom:46px;text-align:center;font-size:24px;letter-spacing:.04em;color:#6E5A62}.u b{color:#2A1F26;font-weight:600}
+</style></head><body>
+<h1>{{H1}}</h1><div class="phone"><iframe id="f" src="{{URL}}"></iframe></div><p>{{P}}</p><div class="u"><b>sapiopedia.com</b> · {{FOOT}}</div>
+<script>
+var f=document.getElementById('f'), TARGET={{TARGET}};
+f.onload=function(){setTimeout(function(){
+  var d=f.contentDocument, c=d.getElementById('scratch'), r=c.getBoundingClientRect(), W=r.width, H=r.height, g=c.getContext('2d');
+  function ev(t,x,y){c.dispatchEvent(new PointerEvent(t,{clientX:r.left+x,clientY:r.top+y,pointerId:1,bubbles:true}));}
+  function stroke(pts){ev('pointerdown',pts[0][0],pts[0][1]);pts.forEach(function(p){ev('pointermove',p[0],p[1]);});ev('pointerup',pts[pts.length-1][0],pts[pts.length-1][1]);}
+  function scratched(){var px=g.getImageData(0,0,c.width,c.height).data,n=0,t=0;for(var i=3;i<px.length;i+=4*37){t++;if(px[i]<60)n++;}return n/t;}
+  var S=[function(){var a=[];for(var x=W*.12;x<W*.86;x+=4)a.push([x,H*.46+Math.sin(x/23)*9+Math.sin(x/7)*3+(x-W*.12)*.06]);return a;},
+    function(){var a=[];for(var x=W*.82;x>W*.22;x-=4)a.push([x,H*.60+Math.sin(x/19)*11-(W*.82-x)*.05]);return a;},
+    function(){var a=[];for(var x=W*.30;x<W*.70;x+=4)a.push([x,H*.33+Math.sin(x/17)*7]);return a;},
+    function(){var a=[];for(var x=W*.18;x<W*.62;x+=4)a.push([x,H*.72+Math.sin(x/21)*8]);return a;},
+    function(){var a=[];for(var x=W*.66;x>W*.28;x-=4)a.push([x,H*.22+Math.sin(x/15)*6+(W*.66-x)*.04]);return a;}];
+  for(var i=0;i<S.length;i++){ if(i>=3 && scratched()>=TARGET) break; stroke(S[i]()); if(TARGET && scratched()>.3) break; }
+  setTimeout(function(){d.getElementById('scratchCaption').classList.add('hidden');},50);
+  if(TARGET){var e=[];for(var x=W*.45;x<W*.55;x+=2)e.push([x,H*.46]);stroke(e);}
+},2800);};
+</script></body></html>

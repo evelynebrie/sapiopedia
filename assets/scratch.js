@@ -14,9 +14,12 @@
   function decode(str) {
     const bytes = Uint8Array.from(atob(str.replace(/-/g, '+').replace(/_/g, '/')), c => c.charCodeAt(0));
     const o = JSON.parse(new TextDecoder().decode(bytes));
-    return { recipient: String(o.recipient || '').slice(0, 70), gift: String(o.gift || '').slice(0, 120), message: String(o.message || '').slice(0, 320), sender: String(o.sender || '').slice(0, 70) };
+    return { recipient: String(o.recipient || '').slice(0, 70), gift: String(o.gift || '').slice(0, 120), message: String(o.message || '').slice(0, 320), sender: String(o.sender || '').slice(0, 70), fx: FX.includes(o.fx) ? o.fx : 'none' };
   }
-  function readForm() { return { recipient: els.recipient.value.trim(), gift: els.gift.value.trim(), message: els.message.value.trim(), sender: els.sender.value.trim() }; }
+  const FX = ['none', 'confetti', 'hearts', 'snow'];
+  const fxButtons = Array.from(root.querySelectorAll('[data-fx]'));
+  let fxChoice = 'confetti';
+  function readForm() { return { recipient: els.recipient.value.trim(), gift: els.gift.value.trim(), message: els.message.value.trim(), sender: els.sender.value.trim(), fx: fxChoice }; }
   function show(d) {
     $('#displayTo').textContent = forLine(d.recipient);
     $('#displayGift').textContent = d.gift || S.giftFallback;
@@ -37,8 +40,8 @@
     drawn = false; strokes = 0; els.canvas.classList.remove('gone'); els.canvas.style.pointerEvents = 'auto'; els.caption.classList.remove('hidden');
     $('#coveredMode').setAttribute('aria-pressed', 'true'); $('#revealedMode').setAttribute('aria-pressed', 'false');
   }
-  function showReveal() {
-    if (drawn) return; drawn = true; els.canvas.classList.add('gone'); els.canvas.style.pointerEvents = 'none'; els.caption.classList.add('hidden');
+  function showReveal(silent) {
+    if (drawn) return; drawn = true; if (silent !== true) celebrate(data.fx); els.canvas.classList.add('gone'); els.canvas.style.pointerEvents = 'none'; els.caption.classList.add('hidden');
     $('#coveredMode').setAttribute('aria-pressed', 'false'); $('#revealedMode').setAttribute('aria-pressed', 'true');
   }
   function pos(e) { const r = els.canvas.getBoundingClientRect(); return { x: e.clientX - r.left, y: e.clientY - r.top }; }
@@ -64,7 +67,7 @@
     root.classList.toggle('recipient-mode', recipient); document.body.classList.toggle('sg-recipient', recipient);
     $('#belowCard').textContent = recipient ? S.belowRecipient : S.belowCreator;
   }
-  function initRecipient(obj) { data = obj; setMode(true); show(data); window.scrollTo(0, 0); requestAnimationFrame(paintCover); }
+  function initRecipient(obj) { data = obj; setMode(true); fxButtons.forEach(x => x.setAttribute('aria-checked', x.dataset.fx === (obj.fx || 'none'))); show(data); window.scrollTo(0, 0); requestAnimationFrame(paintCover); }
   function initCreator() {
     setMode(false);
     if (!els.recipient.dataset.filled) { Object.entries(defaults).forEach(([k, v]) => { els[k].value = v; }); els.recipient.dataset.filled = '1'; }
@@ -87,11 +90,50 @@
     if (navigator.share) { try { await navigator.share({ title: S.shareTitle, text: S.shareText, url: sharedUrl }); } catch (e) {} } else { $('#copy').click(); }
   });
   $('#openGift').addEventListener('click', () => { if (sharedUrl) window.open(sharedUrl, '_blank', 'noopener,noreferrer'); });
-  $('#reset').addEventListener('click', paintCover); $('#reveal').addEventListener('click', showReveal);
-  $('#coveredMode').addEventListener('click', paintCover); $('#revealedMode').addEventListener('click', showReveal);
+  $('#reset').addEventListener('click', paintCover); $('#reveal').addEventListener('click', () => showReveal());
+  $('#coveredMode').addEventListener('click', paintCover); $('#revealedMode').addEventListener('click', () => showReveal(true));
   const makeOwn = $('#makeOwn'); if (makeOwn) makeOwn.addEventListener('click', e => { e.preventDefault(); history.pushState(null, '', location.pathname); loadHash(); });
   let resizeTimer;
-  window.addEventListener('resize', () => { clearTimeout(resizeTimer); resizeTimer = setTimeout(() => { const was = drawn; paintCover(); if (was) showReveal(); }, 130); });
+  window.addEventListener('resize', () => { clearTimeout(resizeTimer); resizeTimer = setTimeout(() => { const was = drawn; paintCover(); if (was) showReveal(true); }, 130); });
+  fxButtons.forEach(b => b.addEventListener('click', () => {
+    fxChoice = b.dataset.fx; fxButtons.forEach(x => x.setAttribute('aria-checked', x === b)); updateContent(); celebrate(fxChoice, true);
+  }));
+  root.querySelector('.fx-choice').addEventListener('keydown', e => {
+    const i = fxButtons.findIndex(b => b.dataset.fx === fxChoice), d = e.key === 'ArrowRight' || e.key === 'ArrowDown' ? 1 : e.key === 'ArrowLeft' || e.key === 'ArrowUp' ? -1 : 0;
+    if (!d) return; e.preventDefault(); const nb = fxButtons[(i + d + fxButtons.length) % fxButtons.length]; nb.focus(); nb.click();
+  });
+
+  /* ---------- reveal effects: confetti, hearts or falling snow, drawn on a full-screen canvas ---------- */
+  let fxCanvas = null, fxRun = 0;
+  function celebrate(kind, preview) {
+    if (!kind || kind === 'none') return;
+    const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!fxCanvas) { fxCanvas = document.createElement('canvas'); fxCanvas.className = 'sg-fx'; fxCanvas.setAttribute('aria-hidden', 'true'); document.body.appendChild(fxCanvas); }
+    const run = ++fxRun, g = fxCanvas.getContext('2d'), dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const W = innerWidth, H = innerHeight; fxCanvas.width = W * dpr; fxCanvas.height = H * dpr; g.setTransform(dpr, 0, 0, dpr, 0, 0); fxCanvas.style.opacity = '1';
+    const dur = reduced ? 1200 : preview ? 2200 : 4500, n = Math.round((reduced ? 0.25 : preview ? 0.6 : 1) * (kind === 'snow' ? 140 : kind === 'hearts' ? 60 : 170));
+    const COL = ['#973C55', '#E9A9B8', '#D4AE52', '#B9CFE0', '#6E8F63', '#F3D9DF'], R = Math.random, P = [];
+    for (let i = 0; i < n; i++) {
+      if (kind === 'confetti') P.push({ x: W / 2 + (R() - .5) * W * .4, y: H * .35 + (R() - .5) * 60, vx: (R() - .5) * 16, vy: -R() * 15 - 4, w: 6 + R() * 6, h: 9 + R() * 8, r: R() * 6, vr: (R() - .5) * .35, c: COL[i % COL.length] });
+      else if (kind === 'hearts') P.push({ x: R() * W, y: H * .45 + R() * H * .75, vy: -(2 + R() * 2.6), s: 10 + R() * 16, ph: R() * 6, c: COL[i % 2 ? 0 : 1], a: .7 + R() * .3 });
+      else P.push({ x: R() * W, y: R() * H * .5 - H * .15, vy: 1.4 + R() * 2, s: 1.5 + R() * 3.5, ph: R() * 6, a: .6 + R() * .4 });
+    }
+    const heart = (x, y, s) => { g.beginPath(); g.moveTo(x, y + s * .3); g.bezierCurveTo(x, y, x - s * .5, y, x - s * .5, y + s * .3); g.bezierCurveTo(x - s * .5, y + s * .6, x, y + s * .8, x, y + s); g.bezierCurveTo(x, y + s * .8, x + s * .5, y + s * .6, x + s * .5, y + s * .3); g.bezierCurveTo(x + s * .5, y, x, y, x, y + s * .3); g.fill(); };
+    const t0 = performance.now();
+    (function frame(now) {
+      if (run !== fxRun) return;
+      const t = now - t0, fade = Math.min(1, Math.max(0, (dur - t) / 600));
+      g.clearRect(0, 0, W, H); g.globalAlpha = fade;
+      P.forEach(p => {
+        if (kind === 'confetti') { p.vy += .32; p.vx *= .99; p.x += p.vx; p.y += p.vy; p.r += p.vr;
+          g.save(); g.translate(p.x, p.y); g.rotate(p.r); g.fillStyle = p.c; g.fillRect(-p.w / 2, -p.h / 2 * Math.abs(Math.cos(p.r * 2)), p.w, p.h * Math.abs(Math.cos(p.r * 2)) + 1); g.restore(); }
+        else if (kind === 'hearts') { p.y += p.vy; p.x += Math.sin(t / 600 + p.ph) * .8; g.globalAlpha = fade * p.a; g.fillStyle = p.c; heart(p.x, p.y, p.s); }
+        else { p.y += p.vy; p.x += Math.sin(t / 900 + p.ph) * .6; g.globalAlpha = fade * p.a; g.beginPath(); g.arc(p.x, p.y, p.s, 0, Math.PI * 2); g.fillStyle = '#FFFFFF'; g.fill(); g.lineWidth = 1; g.strokeStyle = 'rgba(110,130,160,.35)'; g.stroke(); }
+      });
+      g.globalAlpha = 1;
+      if (t < dur) requestAnimationFrame(frame); else { g.clearRect(0, 0, W, H); fxCanvas.style.opacity = '0'; }
+    })(t0);
+  }
   window.addEventListener('hashchange', loadHash);   /* a gift link pasted into an open tab now opens the gift */
   loadHash();
 })();

@@ -174,3 +174,12 @@ body.sg-recipient main.page>h1,body.sg-recipient main.page>p.lead,body.sg-recipi
 .sg{background:transparent;min-height:0}
 .sg .shell{padding-top:12px!important}
 .sg.recipient-mode .shell{padding-top:clamp(20px,6vh,60px)!important}
+
+/* reveal effect choice + full-screen effect layer */
+.sg .fx-label{display:block;font:600 10px/1.5 var(--sans);letter-spacing:.13em;text-transform:uppercase;color:#66565b;margin-bottom:8px}
+.sg .fx-choice{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
+.sg .fx-choice button{border:1px solid #d9c7c9;background:#faf4f3;color:var(--ink);padding:10px 6px;font:italic 400 17px/1.1 var(--serif);text-align:center}
+.sg .fx-choice button[aria-checked="true"]{background:var(--wine);border-color:var(--wine);color:#fff}
+.sg .fx-choice button:hover{border-color:var(--wine)}
+@media(max-width:480px){.sg .fx-choice{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.sg-fx{position:fixed;inset:0;width:100vw;height:100vh;pointer-events:none;z-index:60;transition:opacity .3s}

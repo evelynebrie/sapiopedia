@@ -6,7 +6,7 @@ from sp import PAGES
 T = {
     "en": dict(h1="Scratch to reveal", h1em="A gift awaits.", label="Create your card", h2="Make it personal.",
                hint="Write your surprise here. See the card come to life beside it.",
-               recipient="Recipient's name", gift="Gift or surprise", message="Personal message (optional)", sender="From (optional)",
+               recipient="Recipient's name", gift="Gift or surprise", message="Personal message (optional)", sender="From (optional)", fx="Reveal effect", fxo=("No effect", "Confetti", "Hearts", "Falling snow"),
                ph=("e.g. Camille", "e.g. A weekend in Paris", "A few words to make it yours…", "Your name"),
                create="Create & share your gift link →", ready="Your card is ready", readyp="Copy the link and send it by text, email or wherever you like.",
                linklabel="Shareable gift link", copy="Copy", copied="Copied", share="Share card", open="Open recipient view",
@@ -18,7 +18,7 @@ T = {
                defaults={"recipient": "Camille", "gift": "A weekend in Paris", "message": "Just because you deserve something wonderful.", "sender": "With love"}),
     "fr": dict(h1="À gratter", h1em="Une surprise vous attend.", label="Créez votre carte", h2="Rendez-la personnelle.",
                hint="Écrivez votre surprise ici. La carte prend vie à côté.",
-               recipient="Prénom du destinataire", gift="Cadeau ou surprise", message="Message personnel (facultatif)", sender="De la part de (facultatif)",
+               recipient="Prénom du destinataire", gift="Cadeau ou surprise", message="Message personnel (facultatif)", sender="De la part de (facultatif)", fx="Effet à la découverte", fxo=("Aucun effet", "Confettis", "Cœurs", "Neige qui tombe"),
                ph=("ex. Camille", "ex. Un week-end à Paris", "Quelques mots bien à vous…", "Votre prénom"),
                create="Créer et partager le lien du cadeau →", ready="Votre carte est prête", readyp="Copiez le lien et envoyez-le par texto, courriel ou où vous voulez.",
                linklabel="Lien du cadeau à partager", copy="Copier", copied="Copié", share="Partager la carte", open="Voir comme le destinataire",
@@ -46,6 +46,7 @@ def body(lang):
    <div class="field"><label for="gift">{t["gift"]}</label><input id="gift" maxlength="120" placeholder="{ph[1]}" value="{html.escape(d["gift"])}"></div>
    <div class="field"><label for="message">{t["message"]}</label><textarea id="message" maxlength="320" placeholder="{ph[2]}">{html.escape(d["message"])}</textarea></div>
    <div class="field"><label for="sender">{t["sender"]}</label><input id="sender" maxlength="70" placeholder="{ph[3]}" value="{html.escape(d["sender"])}"></div>
+   <div class="field fx-field"><span class="fx-label" id="fx-label">{t["fx"]}</span><div class="fx-choice" role="radiogroup" aria-labelledby="fx-label">{"".join(f'<button type="button" role="radio" data-fx="{k}" aria-checked="{"true" if k == "confetti" else "false"}">{T[lang]["fxo"][i]}</button>' for i, k in enumerate(("none", "confetti", "hearts", "snow")))}</div></div>
    <button class="btn full" id="createLink" type="button">{t["create"]}</button>
    <div class="share-panel" id="sharePanel" hidden>
     <p class="section-label">{t["ready"]}</p><p>{t["readyp"]}</p>

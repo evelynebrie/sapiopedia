@@ -112,7 +112,7 @@
     if (!fxCanvas) { fxCanvas = document.createElement('canvas'); fxCanvas.className = 'sg-fx'; fxCanvas.setAttribute('aria-hidden', 'true'); document.body.appendChild(fxCanvas); }
     const run = ++fxRun, g = fxCanvas.getContext('2d'), dpr = Math.min(window.devicePixelRatio || 1, 2);
     const W = innerWidth, H = innerHeight; fxCanvas.width = W * dpr; fxCanvas.height = H * dpr; g.setTransform(dpr, 0, 0, dpr, 0, 0); fxCanvas.style.opacity = '1';
-    const dur = reduced ? 1500 : preview ? 3000 : 6500, n = Math.round((reduced ? 0.25 : preview ? 0.6 : 1) * (kind === 'snow' ? 140 : kind === 'hearts' ? 60 : 170));
+    const dur = reduced ? 1500 : preview ? 3000 : 6500, n = Math.round((reduced ? 0.25 : preview ? 0.6 : 1) * (kind === 'snow' ? 320 : kind === 'hearts' ? 60 : 170));
     const COL = ['#973C55', '#E9A9B8', '#D4AE52', '#B9CFE0', '#6E8F63', '#F3D9DF'], R = Math.random, P = [];
     for (let i = 0; i < n; i++) {
       if (kind === 'confetti') P.push({ x: W / 2 + (R() - .5) * W * .4, y: H * .35 + (R() - .5) * 60, vx: (R() - .5) * 16, vy: -R() * 15 - 4, w: 6 + R() * 6, h: 9 + R() * 8, r: R() * 6, vr: (R() - .5) * .35, c: COL[i % COL.length] });

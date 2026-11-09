@@ -139,6 +139,24 @@ try{const s=JSON.parse(localStorage.getItem((DESIGN?"sapiopedia-roomplanner-1":"
 const hot=window.claude&&window.claude.hot;
 if(hot&&hot.data&&hot.data.v===7){Object.assign(S,hot.data,{armed:null,drawing:null});loaded=true;}
 if(!loaded||!valid())example();
+/* Ready-made rooms, opened by a link such as ?preset=cosy-bedroom (used by the Pinterest pins). Rooms are in plan pixels, 80 px = 1 m. */
+const R4=(w,h)=>{const W=w*PXM,H=h*PXM;return[[320-W/2,320-H/2],[320+W/2,320-H/2],[320+W/2,320+H/2],[320-W/2,320+H/2]];};
+const PRESETS={
+ "cosy-bedroom":{room:R4(4,3.6),items:[["bed",320,200],["nightstand",246,190],["nightstand",394,190],["wardrobe",184,330],["rug",320,330],["plant",452,190],["lamp",452,440],["armchair",440,340]],opens:[["door",3,0.82],["window",1,0.5]],look:{floor:"oak",wall:"#D5DCCB"}},
+ "small-studio":{room:R4(5.2,4),items:[["bed",230,200],["nightstand",165,190],["sofa",330,450],["coffee",330,380],["rug",330,370],["tvstand",470,330],["tv",470,330],["desk",400,186],["office",400,232,180],["plant",515,190],["lamp",130,445],["shelf",130,330]],opens:[["door",2,0.88],["window",0,0.66]],look:{floor:"light",wall:"#F4F2EE"}},
+ "living-room":{room:R4(5,4),items:[["sofaCorner",240,440],["coffee",300,350],["rug",300,345],["armchair",430,370,90],["tvstand",300,186],["tv",300,186],["shelf",136,250],["plant",505,195],["lamp",505,445]],opens:[["door",1,0.25],["window",0,0.8]],look:{floor:"walnut",wall:"#EBD3D6"}},
+ "evening-living":{room:R4(5,4),items:[["sofa",300,450],["coffee",300,375],["rug",300,370],["armchair",160,330,270],["armchair",440,330,90],["tvstand",300,186],["tv",300,186],["lamp",140,195],["lamp",500,445],["plant",500,195],["shelf",140,440]],opens:[["door",3,0.3],["window",0,0.18]],look:{floor:"oak",wall:"#EAE2D8"},lights:true},
+ "home-office":{room:R4(3.6,3.2),items:[["desk",320,212],["office",320,262,180],["shelf",190,300],["armchair",440,410,90],["lamp",450,215],["plant",190,425],["rug",320,320]],opens:[["door",2,0.8],["window",1,0.4]],look:{floor:"grey",wall:"#C9D6E0"}},
+ "kitchen-diner":{room:R4(5,3.8),items:[["countertop",260,195],["stove",370,195],["fridge",445,198],["tableRound",280,360],["chair",280,316,0],["chair",280,404,180],["chair",236,360,270],["chair",324,360,90],["plant",500,440],["shelf",125,330],["lamp",125,200]],opens:[["door",3,0.75],["window",1,0.3]],look:{floor:"tile",wall:"#F4F2EE"}},
+ "bathroom":{room:R4(3,2.6),items:[["bathtub",330,225],["toilet",212,350],["washbasin",212,262],["rug",330,320],["plant",420,390]],opens:[["door",2,0.4],["mirror",3,0.5],["window",0,0.85]],look:{floor:"tile",wall:"#C9D6E0"}},
+ "kids-room":{room:R4(3.8,3.4),items:[["bunk",212,240],["desk",410,200],["chair",410,244,180],["shelf",310,195],["rug",320,350],["armchair",210,420,270],["plant",440,440],["lamp",450,330]],opens:[["door",2,0.6],["window",0,0.55]],look:{floor:"light",wall:"#C9D6E0"}}
+};
+{const PQ=new URLSearchParams(location.search),pk=PQ.get("preset"),P=PRESETS[pk];
+ if(P){let id=1;Object.assign(S,{shape:"sized",room:P.room.map(p=>p.slice()),north:0,items:[],opens:[],sel:null,armed:null,drawing:null,lights:!!P.lights,look:Object.assign({rot:0},P.look),v:7});
+  buildEdges();P.opens.forEach(([k,e,t])=>S.opens.push({id:id++,k,edge:e,t}));
+  P.items.forEach(([k,x,y,rot])=>{const it={id:id++,k,x,y};if(rot!=null)it.rot=rot;const o=oi(it);it.x=o.x;it.y=o.y;S.items.push(it);});S.next=id;
+  if(PQ.get("view")==="3d")try{localStorage.setItem(DESIGN?"sapiopedia-roomplanner-view":"sapiopedia-fengshui-view","3d");}catch(e){}
+  history.replaceState(null,"",location.pathname);}}
 buildEdges();
 if(hot&&hot.snapshot)hot.snapshot(()=>S);
 let HIST=[],LAST=null;

@@ -74,7 +74,7 @@ window.FS_FR = {
 "Placing {x}: move over a wall and click. Esc to cancel.":"Ajout d'{x} : survolez un mur et cliquez. Échap pour annuler.",
 "Coloured floor: where {x} works.":"Sol coloré : là où {x} est bien placé.",
 "{x} selected.":"Sélection : {x}.",
-"Pick a piece to see where it works.":"Choisissez un meuble pour voir où il convient.",
+"Pick a piece of furniture.":"Choisissez un meuble.",
 "Click corner by corner to draw the walls. Dots are 50 cm apart.":"Cliquez coin par coin pour tracer les murs. Les points sont espacés de 50 cm.",
 "Click the green first corner, or Finish, to close the room.":"Cliquez sur le premier coin (vert), ou sur Terminer, pour fermer la pièce.",
 "Click to place {x}":"Cliquez pour placer {x}",

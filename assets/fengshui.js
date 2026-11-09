@@ -468,7 +468,7 @@ function draw(){
   const dimTxt=T("Room ≈ {w} × {h} m. Drag a corner to resize. ",{w:num((Math.max(...xs)-Math.min(...xs))/PXM,1),h:num((Math.max(...ys)-Math.min(...ys))/PXM,1)});
   if(S.armed)m.textContent=T("Placing {x}: move over a wall and click. Esc to cancel.",{x:a1(S.armed)});
   else if(HEAT)m.textContent=dimTxt.trim();
-  else m.textContent=dimTxt+(sel?T("{x} selected.",{x:sel}):T("Pick a piece to see where it works."));
+  else m.textContent=dimTxt+(sel?T("{x} selected.",{x:sel}):T("Pick a piece of furniture."));
 }
 function selName(){if(S.sel&&S.sel.t==="open"){const o=S.opens.find(i=>i.id===S.sel.id);return o?OPEN[o.k].name:null;}if(S.sel&&S.sel.t==="item"){const i=S.items.find(i=>i.id===S.sel.id);return i?FI(i).name:null;}return null;}
 function drawDrawing(){

@@ -131,7 +131,7 @@ body.sg-recipient main.page>h1,body.sg-recipient main.page>p.lead,body.sg-recipi
 .sg.recipient-mode .shell{max-width:980px;padding-top:clamp(66px,10vh,105px)}
 .sg.recipient-mode .workspace{margin-top:65px}
 .sg.recipient-mode .form-panel,.sg.recipient-mode .preview-head,.sg.recipient-mode .preview-buttons{display:none!important}
-.sg.recipient-mode .card-frame{max-width:480px}
+.sg.recipient-mode .card-frame{max-width:620px}
 .sg.recipient-mode .preview-foot{margin-top:30px}
 @media(min-width:720px){.sg .form-panel{display:grid;grid-template-columns:1fr 1fr;column-gap:20px}
 .sg .form-panel>.section-label,.sg .form-panel>h2,.sg .form-panel>.hint,.sg .form-panel>.full,.sg .form-panel>.share-panel{grid-column:1/-1}
@@ -154,7 +154,7 @@ body.sg-recipient main.page>h1,body.sg-recipient main.page>p.lead,body.sg-recipi
 .sg:not(.recipient-mode) .workspace{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.92fr);gap:48px;align-items:start;margin-top:39px}
 .sg:not(.recipient-mode) .form-panel{order:0;display:block;width:100%;margin:0;padding:31px 34px 33px;min-width:0}
 .sg:not(.recipient-mode) .preview-area{order:1;width:100%;padding-top:20px;min-width:0}
-.sg:not(.recipient-mode) .card-frame{max-width:360px}
+.sg:not(.recipient-mode) .card-frame{max-width:460px}
 .sg:not(.recipient-mode) .preview-head{margin-bottom:19px}
 .sg:not(.recipient-mode) .preview-sub{font-size:20px}
 .sg:not(.recipient-mode) .form-panel h2{font-size:43px}
@@ -169,7 +169,7 @@ body.sg-recipient main.page>h1,body.sg-recipient main.page>p.lead,body.sg-recipi
 .sg:not(.recipient-mode) .workspace{grid-template-columns:1fr;gap:28px;margin-top:30px}
 .sg:not(.recipient-mode) .form-panel{order:0;padding:24px 22px}
 .sg:not(.recipient-mode) .preview-area{order:1;padding-top:0}
-.sg:not(.recipient-mode) .card-frame{max-width:360px;aspect-ratio:1.55}
+.sg:not(.recipient-mode) .card-frame{max-width:460px;aspect-ratio:1.55}
 .sg:not(.recipient-mode) .form-panel h2{font-size:40px}}
 .sg{background:transparent;min-height:0}
 .sg .shell{padding-top:12px!important}

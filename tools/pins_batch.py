@@ -24,7 +24,7 @@ SITE = "https://sapiopedia.com"
 def band(url, label):
     return f'<div class="band"><img src="/assets/logo-horizontal.png" alt=""><div class="u"><b>{esc(url)}</b><span>{esc(label)}</span></div></div>'
 
-FREE_CSS = '<style>.free{position:absolute;top:26px;right:40px;z-index:5;background:#8E2F48;color:#fff;font:700 21px "Source Sans 3",sans-serif;letter-spacing:.12em;text-transform:uppercase;padding:9px 18px;border-radius:999px;box-shadow:0 4px 12px -4px rgba(42,31,38,.4)}</style>'
+FREE_CSS = '<style>.free{position:absolute;top:26px;right:40px;z-index:5;background:#8E2F48;color:#fff;font:700 24px "Source Sans 3",sans-serif;letter-spacing:.12em;text-transform:uppercase;padding:9px 18px;border-radius:999px;box-shadow:0 4px 12px -4px rgba(42,31,38,.4)}</style>'
 def free(lang): return f'{FREE_CSS}<div class="free">{"Free · No sign-up" if lang == "en" else "Gratuit · Sans inscription"}</div>'
 def page(pid, kick, title, sub, mid, url, label, extra=""):
     lang = "fr" if "/fr/" in url else "en"
@@ -48,7 +48,7 @@ for r in old:
 def dots(n): return "●" * n + f'<s>{"●" * (5 - n)}</s>'
 def dream_pin(pid, e, lang, h1):
     sits = e["situations"]
-    pick = ([s for s in sits if s[2] == "up"][:2] + [s for s in sits if s[2] == "mid"][:1] + [s for s in sits if s[2] == "down"][:2])[:5]
+    pick = ([s for s in sits if s[2] == "up"][:2] + [s for s in sits if s[2] == "mid"][:1] + [s for s in sits if s[2] == "down"][:1])[:4]
     lis = "".join(f'<li><svg class="th {s[2]}" viewBox="0 0 24 24"><use href="#th"/></svg><span><i>{esc(s[0])}:</i> {esc(s[1])}</span></li>' for s in pick)
     lab = "What happens in the dream" if lang == "en" else "Ce qui se passe dans le rêve"
     mid = (f'<div class="book"><div class="dtitle"><span class="ini">{esc(e["word"][0])}</span><div><h2>{esc(e["title"])}</h2><p><span class="dots">{dots(e["tone"])}</span> {esc(e["tone_label"])}</p></div></div>'
@@ -191,27 +191,182 @@ for pid, lang, kind, h1, sub in [("fs-fr-0", "fr", "fengshui", "Votre lit est-il
         tags=("Feng shui bedroom, Bed placement, Bedroom layout, Feng shui tips, Bedroom ideas, Interior design" if kind == "fengshui" else "Room layout, Room planner, Living room layout, Furniture arrangement, Interior design, Floor plan")
         if lang == "en" else ("Feng shui chambre, Aménagement chambre, Déco chambre, Feng shui, Disposition du lit" if kind == "fengshui" else "Aménagement salon, Plan de pièce, Déco intérieur, Disposition des meubles"))
 
-# ---------------------------------------------------------------- schedule: 28 days from Tue 10 Nov 2026
+# ---------------------------------------------------------------- the room planner's ready-made rooms, shown big in 3D (one link per room)
+ROOMS = {
+ "cosy-bedroom": ("A cosy bedroom, <em>ready to try in 3D</em>", "Une chambre douillette <em>à essayer en 3D</em>", "Bedroom layout", "Aménagement chambre"),
+ "small-studio": ("Small studio? <em>Make it all fit</em>", "Petit studio ? <em>Tout peut rentrer</em>", "Studio apartment layout", "Aménagement studio"),
+ "living-room": ("A living room layout <em>that flows</em>", "Un salon <em>bien aménagé</em>", "Living room layout", "Aménagement salon"),
+ "evening-living": ("See your room <em>with the lamps on</em>", "Votre pièce <em>lampes allumées</em>", "Cozy living room", "Salon cosy"),
+ "home-office": ("A home office <em>in 3.6 × 3.2 m</em>", "Un bureau à la maison <em>en 3,6 × 3,2 m</em>", "Home office layout", "Bureau à la maison"),
+ "kitchen-diner": ("Kitchen and dining <em>in one room</em>", "Cuisine et salle à manger <em>dans une pièce</em>", "Kitchen layout", "Aménagement cuisine"),
+ "bathroom": ("Plan your bathroom <em>before you renovate</em>", "Votre salle de bain, <em>planifiée avant les travaux</em>", "Bathroom layout", "Aménagement salle de bain"),
+ "kids-room": ("A kids' room <em>with a bunk bed</em>", "Une chambre d'enfant <em>avec lits superposés</em>", "Kids room ideas", "Chambre enfant"),
+}
+def rp_base(lang, fs=False):
+    return f"/{lang}/{'tools' if lang == 'en' else 'outils'}/{'fengshui' if fs else ('room-planner' if lang == 'en' else 'planificateur-de-piece')}/"
+CAP3D = ('<script>var f=document.createElement("iframe");f.style.cssText="position:absolute;left:-4000px;width:1300px;height:1000px";f.src="{SRC}";'
+         'f.onload=function(){setTimeout(function(){var c=f.contentDocument.querySelector(".v3dwrap canvas");if(c){var i=new Image();i.src=c.toDataURL("image/png");'
+         'i.style.cssText="width:100%;display:block";document.getElementById("shot").appendChild(i);}},5000);};document.body.appendChild(f);</script>')
+for key, (h_en, h_fr, tag_en, tag_fr) in ROOMS.items():
+    for lang in ("en", "fr"):
+        base = rp_base(lang); h1 = h_en if lang == "en" else h_fr; pid = f"r3d-{lang}-{key}"
+        chips = ["Exact sizes", "Your floor and walls", "Plan ↔ 3D"] if lang == "en" else ["Tailles exactes", "Vos sols et murs", "Plan ↔ 3D"]
+        page(pid, "Free room planner" if lang == "en" else "Planificateur de pièce gratuit", h1,
+             "Open this exact room, then make it yours." if lang == "en" else "Ouvrez cette pièce, puis adaptez-la.",
+             '<div class="shot" id="shot" style="background:#fff;padding:10px"></div><div class="chips">' + "".join(f"<span>{c}</span>" for c in chips) + "</div>",
+             "sapiopedia.com" + base, "Free, in your browser" if lang == "en" else "Gratuit, dans votre navigateur", extra=CAP3D.replace("{SRC}", f"{base}?preset={key}&view=3d"))
+        add(id=pid, group="room", slow=True, link=f"{SITE}{base}?preset={key}&view=3d", title=re.sub("<.*?>", "", h1),
+            desc=("This room is ready to open in Sapiopedia's free room planner: real furniture at real sizes, a clearance check, and a 3D view in your own floor and wall colours. Move anything, then save it as an image."
+                  if lang == "en" else "Cette pièce s'ouvre telle quelle dans le planificateur gratuit de Sapiopedia : vrais meubles aux vraies tailles, vérification des passages et vue 3D dans vos couleurs. Déplacez tout, puis enregistrez l'image."),
+            board="Room layout ideas", tags=(f"{tag_en}, Room planner, Room layout, Furniture arrangement, Interior design, Home decor, Floor plan, 3D room design" if lang == "en"
+                                             else f"{tag_fr}, Plan de pièce, Disposition des meubles, Déco intérieur, Aménagement, Plan 3D"))
+
+# ---------------------------------------------------------------- the exact PNG the room planner saves (2D plan + 3D view), used as the pin image as-is
+EXPORTS = [("en", "living-room", False), ("en", "cosy-bedroom", False), ("en", "small-studio", False), ("en", "kitchen-diner", False), ("en", "home-office", False),
+           ("fr", "evening-living", False), ("fr", "bathroom", False), ("fr", "kids-room", False), ("en", "cosy-bedroom", True), ("fr", "living-room", True)]
+for lang, key, fs in EXPORTS:
+    base = rp_base(lang, fs); pid = f"x-{'fs' if fs else 'rp'}-{lang}-{key}"
+    nm = re.sub("<.*?>", "", ROOMS[key][0 if lang == "en" else 1])
+    if fs:
+        title = "Feng shui check: the plan and the 3D view in one image" if lang == "en" else "Vérification feng shui : le plan et la 3D en une image"
+        desc = ("This is the image the free feng shui room planner saves: every piece coloured by its verdict on the plan, next to the 3D view. Draw your own room and get yours."
+                if lang == "en" else "Voici l'image qu'enregistre le planificateur feng shui gratuit : chaque meuble coloré selon son verdict sur le plan, à côté de la vue 3D. Dessinez votre pièce pour obtenir la vôtre.")
+        board, tags = "Feng shui bedroom", ("Feng shui bedroom, Feng shui, Bedroom layout, Bed placement, Floor plan, Interior design" if lang == "en" else "Feng shui, Feng shui chambre, Plan de pièce, Aménagement, Déco intérieur")
+    else:
+        title = (f"{nm}: plan and 3D view, saved in one image" if lang == "en" else f"{nm} : le plan et la vue 3D en une image")
+        desc = ("What you get when you save from the free Room Planner: the 2D plan with every piece checked for clearance, next to the 3D view. This room opens as-is from the link."
+                if lang == "en" else "Ce que vous obtenez en enregistrant depuis le planificateur gratuit : le plan 2D avec chaque meuble vérifié, à côté de la vue 3D. Cette pièce s'ouvre telle quelle depuis le lien.")
+        board, tags = "Room layout ideas", (f"{ROOMS[key][2]}, Floor plan, Room planner, Room layout, Furniture arrangement, Interior design" if lang == "en" else f"{ROOMS[key][3]}, Plan de pièce, Disposition des meubles, Aménagement, Déco intérieur")
+    add(id=pid, group="room", export=f"{base}?preset={key}", link=f"{SITE}{base}?preset={key}", title=title, desc=desc, board=board, tags=tags)
+
+# ---------------------------------------------------------------- the scratch card as the recipient sees it once scratched (a phone screen, nothing else)
+REVEAL = [("en", {"recipient": "Sam", "gift": "Concert tickets for two", "message": "Friday, 8 pm. I'll drive.", "sender": "Alex", "fx": "confetti"},
+           "What they see when they scratch your gift", "Gift ideas", "evergreen"),
+          ("en", {"recipient": "Emma", "gift": "A weekend in Québec City", "message": "Happy anniversary. Pack light.", "sender": "Noah", "fx": "hearts"},
+           "A virtual gift, revealed with hearts", "Gift ideas", "evergreen"),
+          ("fr", {"recipient": "Léa", "gift": "Un souper au restaurant", "message": "Joyeux anniversaire ! Samedi, 19 h.", "sender": "Max", "fx": "confetti"},
+           "Ce que voit la personne qui gratte votre cadeau", "Gift ideas", "evergreen"),
+          ("fr", {"recipient": "Papa", "gift": "Une journée de pêche", "message": "Joyeux Noël. Je m'occupe du café.", "sender": "Camille", "fx": "snow"},
+           "Un cadeau de Noël révélé sous la neige", "Christmas gift ideas", "seasonal")]
+REVEAL_HTML = open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "scratch_reveal_template.html"), encoding="utf-8").read()
+for i, (lang, gift, title, board, grp) in enumerate(REVEAL):
+    base = "/en/tools/scratch-gift-card/" if lang == "en" else "/fr/outils/carte-cadeau-a-gratter/"
+    pid = f"sr-{lang}-{i}"
+    open(os.path.join(TMP, pid + ".html"), "w", encoding="utf-8").write(REVEAL_HTML.replace("{{URL}}", base + "#gift=" + b64(gift)))
+    add(id=pid, group=grp, slow=True, win=(420, 630, 2.4), link=SITE + base, title=title, board=board,
+        desc=("A scratch-off card you send as a link: this is the screen they see once it's scratched, with the effect you picked (confetti, hearts or snow)."
+              if lang == "en" else "Une carte à gratter envoyée par lien : voici l'écran qu'on voit une fois la carte grattée, avec l'effet choisi (confettis, cœurs ou neige)."),
+        tags=("Virtual gift ideas, Scratch off card, Digital gift, Surprise reveal, Gift ideas, Birthday surprise, Anniversary gift ideas, Gift card ideas" if lang == "en"
+              else "Cadeau virtuel, Carte à gratter, Idée cadeau, Surprise, Cadeau d'anniversaire, Cadeau de Noël"))
+
+# ---------------------------------------------------------------- the French names index itself, scrolled to one letter
+IXCSS = '<style>.ixf{flex:1;min-height:0;border-radius:20px;overflow:hidden;box-shadow:0 24px 50px -24px rgba(42,31,38,.45);background:#F6E9EC;margin-bottom:36px}.ixf iframe{width:560px;height:720px;border:0;display:block;transform:scale(1.53);transform-origin:0 0}</style>'
+IXJS = ('<script>var f=document.getElementById("ix");f.onload=function(){setTimeout(function(){var d=f.contentDocument,w=f.contentWindow;'
+        'd.querySelectorAll("*").forEach(function(el){var p=w.getComputedStyle(el).position;if(p==="sticky"||p==="fixed")el.style.position="static";});'
+        'd.querySelectorAll("section.nf-l").forEach(function(x){if(x.id!=="l-{L}")x.style.display="none";});function go(){var e=d.getElementById("l-{L}");w.scrollTo(0,e.getBoundingClientRect().top+w.scrollY-14);}go();setTimeout(go,800);setTimeout(go,2000);},1200);};</script>')
+for lang, L in (("en", "L"), ("fr", "C")):
+    base = "/en/names/french/" if lang == "en" else "/fr/prenoms/francais/"; pid = f"ix-{lang}-{L}"
+    h1 = "9,128 French names, <em>from A to Z</em>" if lang == "en" else "9 128 prénoms, <em>de A à Z</em>"
+    page(pid, "French first names" if lang == "en" else "Prénoms français", h1,
+         "♀ girls · ♂ boys · ⚥ both, with how to say each one" if lang == "en" else "♀ filles · ♂ garçons · ⚥ mixtes, avec leur prononciation",
+         IXCSS + f'<div class="ixf"><iframe id="ix" src="{base}"></iframe></div>', "sapiopedia.com" + base,
+         "Every name with its origin and a recording" if lang == "en" else "Chaque prénom avec son origine et un enregistrement", extra=IXJS.replace("{L}", L))
+    add(id=pid, group="evergreen", slow=True, link=SITE + base, title=re.sub("<.*?>", "", h1),
+        desc=("The full list of French first names, A to Z, marked for girls, boys or both. Open any name for its origin, its French pronunciation and a recording."
+              if lang == "en" else "La liste complète des prénoms français de A à Z, pour filles, garçons ou mixtes. Chaque prénom a son origine, sa prononciation et un enregistrement."),
+        board="French baby names", tags=("French baby names, French girl names, French boy names, Baby names, Baby name ideas, Unique baby names, Pregnancy, French aesthetic" if lang == "en"
+                                         else "Prénoms, Idées de prénoms, Prénoms français, Prénom fille, Prénom garçon, Grossesse, Bébé"))
+
+# ---------------------------------------------------------------- the original 07, 08 and 09a-c, rebuilt in the bigger style (same files, same rows)
+page("07-room-planner-3d", "Free room planner", 'Plan your room, <em>then see it in 3D</em>', "Exact sizes, real furniture, your floor and wall colours.",
+     '<div class="shot" id="shot" style="background:#fff;padding:10px"></div><div class="chips"><span>2D plan → 3D</span><span>Clearance check</span><span>Lamps & lighting</span></div>',
+     "sapiopedia.com/en/tools/room-planner/", "Free, in your browser", extra=CAP3D.replace("{SRC}", "/en/tools/room-planner/?preset=living-room&view=3d"))
+fsh = open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "fengshui_pin_template.html"), encoding="utf-8").read()
+fsh = (fsh.replace("{{H1}}", "Is your bed in the <em>right place?</em>").replace("{{SUB}}", "Draw your room: every piece gets a feng shui verdict.").replace("{{TOOL}}", "/en/tools/fengshui/")
+       .replace("{{URL}}", "sapiopedia.com/en/tools/fengshui/").replace("{{KICK}}", "Feng shui room planner").replace("{{VARIANT}}", "fs-en-1").replace('<div class="pin">', free("en") + '<div class="pin">', 1))
+open(os.path.join(TMP, "08-feng-shui-bed.html"), "w", encoding="utf-8").write(fsh)
+for pid, gift, h1, sub, target in [
+        ("09a-scratch-mid", {"recipient": "Camille", "gift": "A weekend in Paris", "message": "Just us two, in May.", "sender": "Jules", "fx": ""}, "The prettiest way to send <em>a virtual gift</em>", "Hide it under a scratch-off card and send the link.", "0.25"),
+        ("09b-scratch-confetti", {"recipient": "Nora", "gift": "Two tickets to the show", "message": "Saturday, front row!", "sender": "Ben", "fx": "confetti"}, "Scratch… <em>and confetti!</em>", "Choose the ending: confetti, hearts or snow.", "0.3"),
+        ("09c-scratch-hearts", {"recipient": "Maya", "gift": "Dinner at our favourite place", "message": "Happy birthday, love.", "sender": "Eli", "fx": "hearts"}, "Perfect for <em>last-minute gifts</em>", "Ready in a minute. They scratch it on their phone.", "0.3")]:
+    h = (PHONE.replace("{{H1}}", h1).replace("{{P}}", sub).replace("{{URL}}", "/en/tools/scratch-gift-card/#gift=" + b64(gift)).replace("{{TARGET}}", target)
+         .replace("{{FOOT}}", "scratch-off gift card").replace("<body>", "<body>" + free("en"), 1))
+    open(os.path.join(TMP, pid + ".html"), "w", encoding="utf-8").write(h)
+for p in PINS:
+    if p.get("old") and p["id"][:2] in ("07", "08", "09"): p["slow"] = True
+for p in PINS:   # 01-06 and 10 come from tools/make_pins.py (_pins/), with the free badge added
+    if p.get("old") and not os.path.exists(os.path.join(TMP, p["id"] + ".html")):
+        h = open(os.path.join(ROOT, "_pins", p["id"] + ".html"), encoding="utf-8").read()
+        open(os.path.join(TMP, p["id"] + ".html"), "w", encoding="utf-8").write(h.replace("<body>", "<body>" + free("en"), 1))
+
+# ---------------------------------------------------------------- schedule from Tue 10 Nov 2026: weeks 1-2 three a day, then five a day; 3D rooms get the first slot every day
 start = datetime.date(2026, 11, 10)
-plan = [(start + datetime.timedelta(d), (["12:00:00"], ["19:00:00"]) if d < 14 else (["09:00:00", "16:00:00"], ["12:00:00", "20:00:00"])) for d in range(28)]
-last = {}; queue = {"seasonal": [p for p in PINS if p["group"] == "seasonal"], "evergreen": [p for p in PINS if p["group"] == "evergreen"]}
-for q in queue.values():                      # interleave so pins for the same page are far apart
-    q.sort(key=lambda p: (0 if p.get("old") else 1, random.random()))
-sched = []
-for day, (s_times, e_times) in plan:
-    today_links = set()
-    for grp, times in (("seasonal", s_times), ("evergreen", e_times)):
-        for tm in times:
-            pick = next((p for p in queue[grp] if p["link"] not in today_links and (p["link"] not in last or (day - last[p["link"]]).days >= 7)), None)
-            if not pick: continue
-            queue[grp].remove(pick); today_links.add(pick["link"]); last[pick["link"]] = day
-            sched.append((f"{day.isoformat()}T{tm}", pick))
-sched.sort(key=lambda x: x[0])
-# ---- checks
-by_link = {}
-for when, p in sched: by_link.setdefault(p["link"], []).append(datetime.date.fromisoformat(when[:10]))
-bad = [(l, d) for l, d in by_link.items() if any((b - a).days < 7 for a, b in zip(sorted(d), sorted(d)[1:]))]
+def key(link): return re.sub(r"[&?]view=3d", "", link.split("#")[0])
+queue = {g: [p for p in PINS if p["group"] == g] for g in ("room", "seasonal", "evergreen")}
+for q in queue.values(): q.sort(key=lambda p: (0 if p.get("old") else 1, random.random()))
+last, sched, day = {}, [], start
+while any(queue.values()) and (day - start).days < 70:
+    d = (day - start).days
+    slots = (["room", "seasonal", "evergreen"], ["09:00:00", "13:00:00", "19:00:00"]) if d < 14 else \
+            (["room", "seasonal", "room", "evergreen", "seasonal"], ["08:00:00", "11:00:00", "14:00:00", "17:00:00", "20:00:00"])
+    if day >= datetime.date(2026, 12, 26): slots = ([g if g != "seasonal" else "evergreen" for g in slots[0]], slots[1])
+    today = set()
+    for grp, tm in zip(*slots):
+        ok = lambda p: key(p["link"]) not in today and (key(p["link"]) not in last or (day - last[key(p["link"])]).days >= 7)
+        order = [grp] + [g for g in ("room", "evergreen", "seasonal") if g != grp and not (g == "seasonal" and day >= datetime.date(2026, 12, 26))]
+        pick = next((p for g in order for p in queue[g] if ok(p)), None)
+        if not pick: continue
+        queue[pick["group"]].remove(pick); today.add(key(pick["link"])); last[key(pick["link"])] = day
+        sched.append((f"{day.isoformat()}T{tm}", pick))
+    day += datetime.timedelta(1)
+by = {}
+for w, p in sched: by.setdefault(key(p["link"]), []).append(datetime.date.fromisoformat(w[:10]))
+bad = [l for l, ds in by.items() if any((b - a).days < 7 for a, b in zip(sorted(ds), sorted(ds)[1:]))]
 perday = {}
-for when, p in sched: perday[when[:10]] = perday.get(when[:10], 0) + 1
-print(f"{len(PINS)} pins prepared, {len(sched)} scheduled; per day: {sorted(set(perday.values()))}; spacing violations: {len(bad)}; unscheduled: {[p['id'] for q in queue.values() for p in q]}")
-json.dump([{"when": w, **{k: v for k, v in p.items()}} for w, p in sched], open(os.path.join(TMP, "schedule.json"), "w"), ensure_ascii=False, indent=0)
+for w, p in sched: perday[w[:10]] = perday.get(w[:10], 0) + 1
+late_seasonal = [p["id"] for w, p in sched if p["group"] == "seasonal" and w[:10] > "2026-12-24"]
+print(f"{len(PINS)} pins, {len(sched)} scheduled, {sched[0][0][:10]} to {sched[-1][0][:10]}; per day {sorted(set(perday.values()))}; spacing violations {len(bad)}; "
+      f"seasonal after Christmas {late_seasonal}; unscheduled {[p['id'] for q in queue.values() for p in q]}")
+
+# ---------------------------------------------------------------- render
+import concurrent.futures, shutil, sys as _s
+_s.path.insert(0, os.path.dirname(os.path.abspath(__file__))); from export_capture import capture  # noqa: E402
+CHROME = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+def outfile(p): return os.path.join(DESK, p["file"]) if p.get("old") else os.path.join(OUTD, p["id"] + ".png")
+def render(p):
+    out = outfile(p)
+    if p.get("export"): capture(p["export"], out); return p["id"]
+    src = os.path.join(TMP, p["id"] + ".html")
+    rel = f"_pins_batch/{p['id']}.html" if os.path.exists(src) else f"_pins/{p['id']}.html"
+    w, h, s = p.get("win", (1000, 1500, 1))
+    subprocess.run([CHROME, "--headless=new", "--use-angle=swiftshader", "--enable-unsafe-swiftshader", "--hide-scrollbars", f"--force-device-scale-factor={s}",
+                    f"--virtual-time-budget={20000 if p.get('slow') else 6000}", f"--window-size={w},{h}", f"--screenshot={out}", f"http://127.0.0.1:8765/{rel}"],
+                   capture_output=True, timeout=240)
+    return p["id"]
+only = os.environ.get("ONLY")
+todo = [p for p in PINS if not only or re.search(only, p["id"])]
+with concurrent.futures.ThreadPoolExecutor(4) as ex:
+    for r in ex.map(render, todo): pass
+print("rendered", len(todo))
+if only: raise SystemExit
+
+# ---------------------------------------------------------------- bulk-upload CSVs (Pinterest schedules up to ~30 days ahead: part 2 is uploaded later), overview, site copies
+def media(p): return f"{SITE}/pins/{p['file']}" if p.get("old") else f"{SITE}/pins/b1/{p['id']}.png"
+cut1 = (start + datetime.timedelta(27)).isoformat()
+cols = ["Title", "Media URL", "Pinterest board", "Thumbnail", "Description", "Link", "Publish date", "Keywords"]
+for name, rows in (("pinterest-bulk-upload.csv", [x for x in sched if x[0][:10] <= cut1]), ("pinterest-bulk-upload-part2.csv", [x for x in sched if x[0][:10] > cut1])):
+    with open(os.path.join(DESK, name), "w", encoding="utf-8", newline="") as fh:
+        wr = csv.writer(fh); wr.writerow(cols)
+        for w, p in rows: wr.writerow([p["title"][:100], media(p), p["board"], "", p["desc"], p["link"], w, p["tags"]])
+    print(name, len(rows), "pins", rows[0][0][:10] if rows else "", "to", rows[-1][0][:10] if rows else "")
+fig = "".join(f'<figure><img src="{os.path.relpath(outfile(p), DESK)}" loading="lazy" alt=""><figcaption><b>{w[:10]} · {w[11:16]}</b><span>{html.escape(p["title"])}</span><i>{html.escape(p["board"])}</i>'
+              f'<a href="{html.escape(p["link"])}">{html.escape(p["link"].replace("https://", ""))}</a></figcaption></figure>' for w, p in sched)
+open(os.path.join(DESK, "overview.html"), "w", encoding="utf-8").write(
+    f'<!doctype html><html><head><meta charset="utf-8"><title>Sapiopedia pins</title><style>body{{font-family:-apple-system,system-ui,sans-serif;background:#F7E9EC;color:#2A1F26;margin:0;padding:28px}}h1{{font-weight:600;margin:0 0 4px}}p{{margin:0 0 22px;color:#6E5A62}}'
+    '.g{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:18px}figure{margin:0;background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.08)}'
+    'img{width:100%;display:block;aspect-ratio:2/3;object-fit:contain;background:#f3eef0}figcaption{padding:10px 12px;display:grid;gap:3px;font-size:13px}figcaption b{color:#8E2F48}figcaption i{color:#6E5A62}figcaption a{color:#2E5F6E;word-break:break-all}</style></head>'
+    f'<body><h1>Sapiopedia pins</h1><p>{len(sched)} pins, {sched[0][0][:10]} to {sched[-1][0][:10]}, in publishing order. Upload pinterest-bulk-upload.csv now and pinterest-bulk-upload-part2.csv after {cut1}.</p><div class="g">{fig}</div></body></html>')
+os.makedirs(os.path.join(ROOT, "pins", "b1"), exist_ok=True)
+for w, p in sched: shutil.copy(outfile(p), os.path.join(ROOT, "pins", p["file"]) if p.get("old") else os.path.join(ROOT, "pins", "b1", p["id"] + ".png"))
+json.dump([{"when": w, **p} for w, p in sched], open(os.path.join(TMP, "schedule.json"), "w"), ensure_ascii=False, indent=0)
+print("copied to pins/")

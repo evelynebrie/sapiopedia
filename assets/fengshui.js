@@ -56,6 +56,7 @@ const ALIAS={bedSingle:"bed",bunk:"bed",sofaCorner:"sofa",tvstand:"tv",tableRoun
 const FBY=Object.fromEntries(FURN.map(f=>[f.k,f]));
 function FI(it){const b=FBY[it.k];return it!==b&&it.w>0&&it.h>0?Object.assign({},b,{w:it.w,h:it.h}):b;}
 const SEAT=k=>k==="chair"||k==="office"||k==="barstool",TOP=k=>k==="table"||k==="desk"||k==="tableRound"||k==="countertop";
+const ONTOP=(a,b)=>(a==="tv"&&b==="tvstand")||(a==="tvstand"&&b==="tv");   /* a TV stands on its stand */
 const TUCK=(a,b)=>(SEAT(a)&&TOP(b))||(SEAT(b)&&TOP(a));
 const OPEN_H={door:205,window:124,mirror:85}; /* default heights in cm */
 const OPEN={door:{name:T("Door"),len:72},window:{name:T("Window"),len:96},mirror:{name:T("Mirror"),len:52}};
@@ -142,14 +143,14 @@ if(!loaded||!valid())example();
 /* Ready-made rooms, opened by a link such as ?preset=cosy-bedroom (used by the Pinterest pins). Rooms are in plan pixels, 80 px = 1 m. */
 const R4=(w,h)=>{const W=w*PXM,H=h*PXM;return[[320-W/2,320-H/2],[320+W/2,320-H/2],[320+W/2,320+H/2],[320-W/2,320+H/2]];};
 const PRESETS={
- "cosy-bedroom":{room:R4(4,3.6),items:[["bed",320,200],["nightstand",246,190],["nightstand",394,190],["wardrobe",184,330],["rug",320,330],["plant",452,190],["lamp",452,440],["armchair",440,340]],opens:[["door",3,0.82],["window",1,0.5]],look:{floor:"oak",wall:"#D5DCCB"}},
- "small-studio":{room:R4(5.2,4),items:[["bed",230,200],["nightstand",165,190],["sofa",330,450],["coffee",330,380],["rug",330,370],["tvstand",470,330],["tv",470,330],["desk",400,186],["office",400,232,180],["plant",515,190],["lamp",130,445],["shelf",130,330]],opens:[["door",2,0.88],["window",0,0.66]],look:{floor:"light",wall:"#F4F2EE"}},
- "living-room":{room:R4(5,4),items:[["sofaCorner",240,440],["coffee",300,350],["rug",300,345],["armchair",430,370,90],["tvstand",300,186],["tv",300,186],["shelf",136,250],["plant",505,195],["lamp",505,445]],opens:[["door",1,0.25],["window",0,0.8]],look:{floor:"walnut",wall:"#EBD3D6"}},
- "evening-living":{room:R4(5,4),items:[["sofa",300,450],["coffee",300,375],["rug",300,370],["armchair",160,330,270],["armchair",440,330,90],["tvstand",300,186],["tv",300,186],["lamp",140,195],["lamp",500,445],["plant",500,195],["shelf",140,440]],opens:[["door",3,0.3],["window",0,0.18]],look:{floor:"oak",wall:"#EAE2D8"},lights:true},
- "home-office":{room:R4(3.6,3.2),items:[["desk",320,212],["office",320,262,180],["shelf",190,300],["armchair",440,410,90],["lamp",450,215],["plant",190,425],["rug",320,320]],opens:[["door",2,0.8],["window",1,0.4]],look:{floor:"grey",wall:"#C9D6E0"}},
- "kitchen-diner":{room:R4(5,3.8),items:[["countertop",260,195],["stove",370,195],["fridge",445,198],["tableRound",280,360],["chair",280,316,0],["chair",280,404,180],["chair",236,360,270],["chair",324,360,90],["plant",500,440],["shelf",125,330],["lamp",125,200]],opens:[["door",3,0.75],["window",1,0.3]],look:{floor:"tile",wall:"#F4F2EE"}},
- "bathroom":{room:R4(3,2.6),items:[["bathtub",330,225],["toilet",212,350],["washbasin",212,262],["rug",330,320],["plant",420,390]],opens:[["door",2,0.4],["mirror",3,0.5],["window",0,0.85]],look:{floor:"tile",wall:"#C9D6E0"}},
- "kids-room":{room:R4(3.8,3.4),items:[["bunk",212,240],["desk",410,200],["chair",410,244,180],["shelf",310,195],["rug",320,350],["armchair",210,420,270],["plant",440,440],["lamp",450,330]],opens:[["door",2,0.6],["window",0,0.55]],look:{floor:"light",wall:"#C9D6E0"}}
+ "cosy-bedroom":{room:R4(4,3.6),items:[["bed",320,200],["nightstand",246,190],["nightstand",394,190],["wardrobe",184,400],["rug",320,330],["plant",452,204],["lamp",230,440],["armchair",441,410]],opens:[["door",3,0.82],["window",1,0.5]],look:{floor:"oak",wall:"#D5DCCB"}},
+ "small-studio":{room:R4(5.2,4),items:[["bed",230,200],["nightstand",150,181],["sofa",330,450],["coffee",330,355],["rug",330,360],["tvstand",470,330],["tv",470,330],["desk",400,186],["office",400,240,180],["plant",505,185],["lamp",450,290],["shelf",130,330]],opens:[["door",2,0.88],["window",0,0.66]],look:{floor:"light",wall:"#F4F2EE"}},
+ "living-room":{room:R4(5,4),items:[["sofaCorner",208,416],["coffee",330,300],["rug",310,320],["armchair",430,370,90],["tvstand",300,186],["tv",300,186],["shelf",136,250],["plant",480,450],["lamp",140,330]],opens:[["door",1,0.25],["window",0,0.8]],look:{floor:"walnut",wall:"#EBD3D6"}},
+ "evening-living":{room:R4(5,4),items:[["sofa",300,450],["coffee",300,360],["rug",300,365],["armchair",160,330,270],["armchair",440,330,90],["tvstand",300,186],["tv",300,186],["lamp",140,195],["lamp",500,445],["plant",500,195],["shelf",420,175]],opens:[["door",2,0.9],["window",0,0.18]],look:{floor:"oak",wall:"#EAE2D8"},lights:true},
+ "home-office":{room:R4(3.6,3.2),items:[["desk",320,212],["office",320,268,180],["shelf",190,300],["armchair",430,400,90],["lamp",440,220],["plant",196,212],["rug",320,320]],opens:[["door",2,0.8],["window",1,0.4]],look:{floor:"grey",wall:"#C9D6E0"}},
+ "kitchen-diner":{room:R4(5,4),items:[["countertop",330,185],["stove",434,185],["fridge",492,250],["tableRound",290,350],["chair",290,290,0],["chair",290,410,180],["chair",230,350,270],["chair",350,350,90],["plant",140,445],["shelf",125,330],["lamp",145,190]],opens:[["door",2,0.2],["window",1,0.7]],look:{floor:"tile",wall:"#F4F2EE"}},
+ "bathroom":{room:R4(3,2.6),items:[["bathtub",370,225],["toilet",212,350],["washbasin",212,262],["rug",300,330],["plant",420,300]],opens:[["door",2,0.4],["mirror",3,0.5],["window",0,0.85]],look:{floor:"tile",wall:"#C9D6E0"}},
+ "kids-room":{room:R4(3.8,3.4),items:[["bunk",204,264],["desk",410,200],["chair",410,254,180],["shelf",458,338],["rug",320,330],["armchair",210,410,270],["plant",330,438],["lamp",190,360]],opens:[["door",2,0.15],["window",0,0.55]],look:{floor:"light",wall:"#C9D6E0"}}
 };
 {const PQ=new URLSearchParams(location.search),pk=PQ.get("preset"),P=PRESETS[pk];
  if(P){let id=1;Object.assign(S,{shape:"sized",room:P.room.map(p=>p.slice()),north:0,items:[],opens:[],sel:null,armed:null,drawing:null,lights:!!P.lights,look:Object.assign({rot:0},P.look),v:7});
@@ -187,7 +188,7 @@ const cm=px=>Math.max(0,Math.round(px/PXM*100));
 const sizeTxt=f=>T("{w} × {d} cm",{w:cm(f.w),d:cm(f.h)});
 function frontClear(f,o,selfId,back){ /* free distance straight out from the front (or back) of a piece */
   if(f.round)return null;const fx=back?o.bx:-o.bx,fy=back?o.by:-o.by,x1=o.x+fx*f.h/2,y1=o.y+fy*f.h/2;let d=rayDist(x1,y1,fx,fy);if(d>5000)return null;
-  let hit=null;for(let s=2;s<d;s+=3){const x=x1+fx*s,y=y1+fy*s;hit=S.items.find(it=>it.id!==selfId&&!FLAT(it.k)&&!((f.k==="table"||f.k==="desk")&&it.k==="chair")&&contains(it,x,y));if(hit){d=s;break;}}
+  let hit=null;for(let s=2;s<d;s+=3){const x=x1+fx*s,y=y1+fy*s;hit=S.items.find(it=>it.id!==selfId&&!FLAT(it.k)&&!(TOP(f.k)&&SEAT(it.k))&&!ONTOP(f.k,it.k)&&contains(it,x,y));if(hit){d=s;break;}}
   return{x1,y1,x2:x1+fx*d,y2:y1+fy*d,d,hit};
 }
 function inSwing(f,o,op){ /* does the piece sit in the quarter-circle a door sweeps? */
@@ -198,7 +199,7 @@ function inSwing(f,o,op){ /* does the piece sit in the quarter-circle a door swe
 function blocksWindow(f,o,k){if(k!=="wardrobe"&&k!=="shelf")return null;return S.opens.find(op=>{if(op.k!=="window")return false;const p=openPos(op);return p&&p.edge===o.edge&&o.gap<30&&Math.abs(dot(p.x-o.x,p.y-o.y,o.tx,o.ty))<f.w/2+p.len/2-6;});}
 function evalDesign(k,o,selfId){
   const me=S.items.find(i=>i.id===selfId),f=me?FI(me):FBY[k],C=[],add=(v,t,x)=>C.push({v,t:T(t,x)});
-  const A=aabb(f,o),hit=S.items.find(it=>{if(it.id===selfId||FLAT(k)||FLAT(it.k))return false;const B=aabb(FI(it),oi(it));return A[0]<B[2]-4&&A[2]>B[0]+4&&A[1]<B[3]-4&&A[3]>B[1]+4;});
+  const A=aabb(f,o),hit=S.items.find(it=>{if(it.id===selfId||FLAT(k)||FLAT(it.k)||ONTOP(k,it.k))return false;const B=aabb(FI(it),oi(it));return A[0]<B[2]-4&&A[2]>B[0]+4&&A[1]<B[3]-4&&A[3]>B[1]+4;});
   if(!fits(f,o))add("bad","Doesn't fit inside the walls.");
   if(hit)add("bad","Overlaps {x}.",{x:the(hit.k)});
   if(f.wall){if(o.gap<14)add("good","Against the wall.");else add("neutral","Free-standing, {d} cm from the wall.",{d:cm(o.gap)});}
@@ -212,7 +213,7 @@ function evalDesign(k,o,selfId){
     if(need>0)add(d<Math.min(30,r/2)?"bad":"caution","{x} needs {n} cm more clearance in front ({d} cm free, {r} cm recommended).",{x:f.name,n:need,d,r});
     else add("good","{d} cm free in front ({r} cm recommended).",{d,r});}
   if(k==="lamp")add("neutral","Lights about {r} m around it.",{r:num(LR/PXM,1)});
-  if(S.opens.some(op=>op.k==="door"&&inSwing(f,o,op)))add("bad","The door swing intersects {x}: the door can't open fully.",{x:the(k)});
+  if(!FLAT(k)&&S.opens.some(op=>op.k==="door"&&inSwing(f,o,op)))add("bad","The door swing intersects {x}: the door can't open fully.",{x:the(k)});
   if(blocksWindow(f,o,k))add("caution","Tall piece in front of a window: it blocks daylight.");
   return C;
 }
@@ -359,7 +360,7 @@ function evaluate(k,o,selfId){
 function evaluateOpen(op){
   const p=openPos(op),C=[],add=(v,t,x)=>C.push({v,t:T(t,x)});if(!p)return C;
   if(DESIGN){
-    if(op.k==="door"){const h=S.items.find(it=>inSwing(FI(it),oi(it),op));if(h)add("bad","Door swing intersects {x}.",{x:the(h.k)});else add("good","The door can swing open freely.");}
+    if(op.k==="door"){const h=S.items.find(it=>!FLAT(it.k)&&inSwing(FI(it),oi(it),op));if(h)add("bad","Door swing intersects {x}.",{x:the(h.k)});else add("good","The door can swing open freely.");}
     else if(op.k==="window"){const h=S.items.find(it=>blocksWindow(FI(it),oi(it),it.k));if(h)add("caution","Partly blocked by {x}.",{x:the(h.k)});else add("good","Nothing tall in front of it.");}
     else add("neutral","A mirror across from a window makes a room feel bigger and brighter.");
     return C;
@@ -753,7 +754,7 @@ const LSW=(()=>{const st=document.querySelector(".fs .stage");if(!st)return null
   b.innerHTML=`<svg viewBox="0 0 32 44" aria-hidden="true"><rect class="pl" x="1" y="1" width="30" height="42" rx="7"/><rect class="sl" x="9" y="7" width="14" height="30" rx="4"/><rect class="rk" x="10.5" y="8.5" width="11" height="13" rx="3"/></svg><span>${T("Lights")}</span>`;
   b.addEventListener("click",()=>{S.lights=!S.lights;persist();render();});st.appendChild(b);return b;})();
 function syncSwitch(){if(!LSW)return;const has=S.items.some(i=>i.k==="lamp");if(!has&&S.lights)S.lights=false;LSW.hidden=!has;LSW.setAttribute("aria-pressed",!!S.lights);LSW.title=T(S.lights?"Turn the lights off":"Turn the lights on");LSW.setAttribute("aria-label",LSW.title);}
-window.FSAPI={OPEN_H,DESIGN,verdict:it=>overall(evaluate(it.k,oi(it),it.id)),planShot:()=>buildPNG(true),get S(){return S;},FBY,FI,OPEN,PXM,T,FR,pts,oi,openPos,centroid,save,render:()=>render()};
+window.FSAPI={OPEN_H,DESIGN,verdict:it=>overall(evaluate(it.k,oi(it),it.id)),explain:it=>evaluate(it.k,oi(it),it.id),planShot:()=>buildPNG(true),get S(){return S;},FBY,FI,OPEN,PXM,T,FR,pts,oi,openPos,centroid,save,render:()=>render()};
 computeHeat();render();
 
 /* ---------- Export PNG with Sapiopedia branding ---------- */

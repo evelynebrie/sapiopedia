@@ -1,0 +1,14 @@
+<!doctype html><html><head><meta charset="utf-8"><style>html,body{margin:0;width:420px;height:630px;overflow:hidden;background:#F7E9EC}iframe{width:420px;height:630px;border:0;display:block}</style></head>
+<body><iframe id="f" src="{{URL}}"></iframe>
+<script>
+/* the recipient's phone screen once the card is scratched: strokes start late so the effect is mid-air when the screenshot is taken */
+var f=document.getElementById('f');
+function ready(cb){var c=f.contentDocument&&f.contentDocument.getElementById("scratch");if(c&&c.width>0){var a=c.getContext("2d").getImageData(c.width>>1,c.height>>1,1,1).data[3];if(a>200)return cb();}setTimeout(function(){ready(cb);},150);}
+f.onload=function(){setTimeout(function(){var _st=f.contentDocument.createElement("style");_st.textContent="*{transition:none!important}.sg .scratch-canvas.gone,.sg .scratch-caption.hidden{visibility:hidden!important}";f.contentDocument.head.appendChild(_st);f.contentWindow.dispatchEvent(new Event("resize"));ready(function(){f.contentWindow.addEventListener("resize",function(e){e.stopImmediatePropagation();},true);
+  var d=f.contentDocument,c=d.getElementById('scratch'),r=c.getBoundingClientRect(),W=r.width,H=r.height;
+  function ev(t,x,y){c.dispatchEvent(new PointerEvent(t,{clientX:r.left+x,clientY:r.top+y,pointerId:1,bubbles:true}));}
+  for(var row=0;row<9;row++){var y=H*(.08+row*.105),a=[];for(var x=W*.04;x<W*.96;x+=4)a.push([x,y+Math.sin(x/19)*7]);if(row%2)a.reverse();
+    ev('pointerdown',a[0][0],a[0][1]);a.forEach(function(p){ev('pointermove',p[0],p[1]);});ev('pointerup',a[a.length-1][0],a[a.length-1][1]);}
+  var b=d.getElementById('reveal');if(b)b.click();setTimeout(function(){d.getElementById("scratch").style.visibility="hidden";d.getElementById("scratchCaption").style.visibility="hidden";},60);
+});},12500);};
+</script></body></html>

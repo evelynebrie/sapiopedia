@@ -17,44 +17,44 @@ HEAD = '''<!doctype html><html><head><meta charset="utf-8">
 body{width:1000px;height:1500px;overflow:hidden;background:#F7E9EC;color:#2A1F26;font-family:'Source Sans 3',sans-serif;position:relative}
 .pin{position:absolute;inset:0;display:flex;flex-direction:column}
 .top{padding:70px 72px 0;display:grid;gap:18px}
-.kick{font-size:20px;letter-spacing:.24em;text-transform:uppercase;font-weight:700;color:#8E2F48}
-h1{font-family:'Fraunces',Georgia,serif;font-weight:400;font-size:84px;line-height:.98;letter-spacing:-.035em;margin:0}
+.kick{font-size:24px;letter-spacing:.24em;text-transform:uppercase;font-weight:700;color:#8E2F48}
+h1{font-family:'Fraunces',Georgia,serif;font-weight:400;font-size:96px;line-height:.98;letter-spacing:-.035em;margin:0}
 h1 em{color:#B8405E}
-.sub{font-family:'Fraunces',Georgia,serif;font-weight:300;font-size:32px;line-height:1.3;color:#4A3C42;margin:0}
-.mid{flex:1;padding:36px 72px 0;display:flex;flex-direction:column;justify-content:center;min-height:0}
+.sub{font-family:'Fraunces',Georgia,serif;font-weight:300;font-size:38px;line-height:1.3;color:#4A3C42;margin:0}
+.main{flex:1;padding:36px 72px 0;display:flex;flex-direction:column;justify-content:center;min-height:0}
 .band{height:150px;background:#F1DCE1;border-top:2px solid #DCC9CE;display:flex;align-items:center;justify-content:space-between;padding:0 64px}
 .band img{height:86px}
-.band .u{text-align:right}.band .u b{display:block;font-size:30px;font-weight:700;color:#2A1F26}.band .u span{font-size:21px;color:#6E5A62}
+.band .u{text-align:right}.band .u b{display:block;font-size:34px;font-weight:700;color:#2A1F26}.band .u span{font-size:25px;color:#6E5A62}
 /* old-book card (dreams) */
 .book{background:#FCF7F2;border:1px solid #E6D9CC;box-shadow:inset 0 0 0 9px #FCF7F2,inset 0 0 0 10px #E6D9CC,0 18px 40px -20px rgba(42,31,38,.35);padding:46px 52px;font-family:'EB Garamond',Georgia,serif;color:#2B2320}
-.book .lead{font-style:italic;font-size:31px;line-height:1.35;text-align:center;margin:0 0 26px}
-.book h3{font-family:'IM Fell English SC',Georgia,serif;font-weight:400;font-size:28px;display:flex;align-items:center;gap:16px;margin:0 0 14px}
+.book .lead{font-style:italic;font-size:36px;line-height:1.35;text-align:center;margin:0 0 26px}
+.book h3{font-family:'IM Fell English SC',Georgia,serif;font-weight:400;font-size:32px;display:flex;align-items:center;gap:16px;margin:0 0 14px}
 .book h3::before,.book h3::after{content:"";flex:1;border-top:3px double #BFAE9F}
 .book ul{list-style:none;margin:0;padding:0;display:grid;gap:12px}
-.book li{display:grid;grid-template-columns:40px 1fr;gap:6px;font-size:27px;line-height:1.3;color:#3A302B}
+.book li{display:grid;grid-template-columns:46px 1fr;gap:6px;font-size:32px;line-height:1.3;color:#3A302B}
 .book li i{color:#2B2320}
-.th{width:30px;height:30px;margin-top:3px;stroke-width:1.1}
+.th{width:36px;height:36px;margin-top:3px;stroke-width:1.1}
 .th.up{fill:#6E8F63;stroke:#3E5638}.th.mid{fill:#D4AE52;stroke:#8A6A22;transform:rotate(-90deg)}.th.down{fill:#B0564A;stroke:#6E2C25;transform:rotate(180deg)}
 .dots{color:#8E2F48;letter-spacing:4px}.dots s{text-decoration:none;color:#E2D5CB}
 .dtitle{display:grid;grid-template-columns:auto 1fr;gap:0 20px;align-items:center;margin-bottom:22px;border-bottom:3px double #BFAE9F;padding-bottom:18px}
 .dtitle .ini{font-family:'IM Fell English',serif;font-size:120px;line-height:.8;color:#8E2F48}
-.dtitle h2{font-family:'IM Fell English',serif;font-weight:400;font-size:56px;margin:0;line-height:1}
-.dtitle p{margin:8px 0 0;font-style:italic;font-size:24px;color:#5B4A40}
+.dtitle h2{font-family:'IM Fell English',serif;font-weight:400;font-size:66px;margin:0;line-height:1}
+.dtitle p{margin:8px 0 0;font-style:italic;font-size:28px;color:#5B4A40}
 /* name list */
 .names{columns:2;column-gap:40px;background:#FCF7F2;border:1px solid #E6D9CC;box-shadow:inset 0 0 0 9px #FCF7F2,inset 0 0 0 10px #E6D9CC;padding:44px 48px;font-family:'EB Garamond',serif}
 .names div{break-inside:avoid;padding:10px 0;border-bottom:1px dotted #BFAE9F}
-.names b{font-family:'IM Fell English',serif;font-weight:400;font-size:44px;color:#2B2320;display:block;line-height:1}
-.names span{font-size:23px;color:#5B4A40}
+.names b{font-family:'IM Fell English',serif;font-weight:400;font-size:52px;color:#2B2320;display:block;line-height:1}
+.names span{font-size:27px;color:#5B4A40}
 .sym{font-size:32px;margin-left:8px;vertical-align:4px}
 /* question cards */
 .q{display:grid;gap:16px}
-.q div{background:#fff;border-radius:22px;padding:24px 30px;font-family:'Fraunces',serif;font-size:31px;line-height:1.25;box-shadow:0 6px 16px -10px rgba(42,31,38,.4)}
-.q small{display:block;font-family:'Source Sans 3',sans-serif;font-size:17px;letter-spacing:.2em;text-transform:uppercase;font-weight:700;margin-bottom:6px}
+.q div{background:#fff;border-radius:22px;padding:24px 30px;font-family:'Fraunces',serif;font-size:36px;line-height:1.25;box-shadow:0 6px 16px -10px rgba(42,31,38,.4)}
+.q small{display:block;font-family:'Source Sans 3',sans-serif;font-size:20px;letter-spacing:.2em;text-transform:uppercase;font-weight:700;margin-bottom:6px}
 .q .t small{color:#2E5F6E}.q .d small{color:#B8405E}
 .shot{border-radius:20px;overflow:hidden;box-shadow:0 24px 50px -24px rgba(42,31,38,.45);background:#fff}
 .shot img{display:block;width:100%}
 .chips{display:flex;flex-wrap:wrap;gap:12px;margin-top:26px}
-.chips span{background:#fff;border-radius:999px;padding:12px 22px;font-size:24px;font-weight:600;color:#8E2F48}
+.chips span{background:#fff;border-radius:999px;padding:12px 22px;font-size:28px;font-weight:600;color:#8E2F48}
 </style></head><body>'''
 
 def band(url, label):
@@ -62,14 +62,14 @@ def band(url, label):
 
 def page(name, kick, title, sub, mid, url, label):
     open(os.path.join(OUT, name + ".html"), "w", encoding="utf-8").write(
-        HEAD + THUMB + f'<div class="pin"><div class="top"><div class="kick">{kick}</div><h1>{title}</h1>{f"<p class=sub>{sub}</p>" if sub else ""}</div><div class="mid">{mid}</div>{band(url, label)}</div></body></html>')
+        HEAD + THUMB + f'<div class="pin"><div class="top"><div class="kick">{kick}</div><h1>{title}</h1>{f"<p class=sub>{sub}</p>" if sub else ""}</div><div class="main">{mid}</div>{band(url, label)}</div></body></html>')
 
 def dots(n): return '●' * n + f'<s>{"●" * (5 - n)}</s>'
 
 def dream(pid, key, title, n=5):
     e = E[key]; sits = e["situations"]
     pick = [s for s in sits if s[2] == "up"][:2] + [s for s in sits if s[2] == "mid"][:1] + [s for s in sits if s[2] == "down"][:2]
-    pick = pick[:n]
+    pick = pick[:4]
     lis = "".join(f'<li><svg class="th {s[2]}" viewBox="0 0 24 24"><use href="#th"/></svg><span><i>{esc(s[0])}:</i> {esc(s[1])}</span></li>' for s in pick)
     mid = (f'<div class="book"><div class="dtitle"><span class="ini">{esc(e["word"][0])}</span><div><h2>{esc(e["title"])}</h2><p><span class="dots">{dots(e["tone"])}</span> {esc(e["tone_label"])}</p></div></div>'
            f'<p class="lead">{esc(e["one"])}</p><h3>What happens in the dream</h3><ul>{lis}</ul></div>')

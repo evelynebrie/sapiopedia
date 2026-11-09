@@ -14,7 +14,7 @@ import os, datetime, html, json
 SITE = "https://sapiopedia.com"
 # Visit statistics: GoatCounter (no cookies, no personal data). Dashboard: https://sapiopedia.goatcounter.com
 ANALYTICS = '<script data-goatcounter="https://sapiopedia.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>'
-ADSENSE = ""    # paste your AdSense <script> here once approved
+ADSENSE = '<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4904694456946317" crossorigin="anonymous"></script>'
 TODAY = datetime.date.today().isoformat()
 BIG_MARK = '<svg class="bigmark" aria-hidden="true" viewBox="22 4 160 202"><g style="mix-blend-mode:multiply"><path d="M62 70 C58 36 96 20 124 28 C160 38 164 86 132 104 C114 114 104 122 104 144" fill="none" stroke="#B9CFE0" stroke-width="24" stroke-linecap="round" stroke-linejoin="round" transform="translate(-6,5)"/><path d="M62 70 C58 36 96 20 124 28 C160 38 164 86 132 104 C114 114 104 122 104 144" fill="none" stroke="#E9A9B8" stroke-width="24" stroke-linecap="round" stroke-linejoin="round" transform="translate(6,-4)"/><path d="M62 70 C58 36 96 20 124 28 C160 38 164 86 132 104 C114 114 104 122 104 144" fill="none" stroke="#B8405E" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" /></g><path d="M77.6 176 A26.400000000000002 7.199999999999999 0 0 1 130.4 176" fill="none" stroke="#B9CFE0" stroke-width="4" transform="rotate(-18 104 176)"/><circle cx="104" cy="176" r="12" fill="#B8405E"/><path d="M77.6 176 A26.400000000000002 7.199999999999999 0 0 0 130.4 176" fill="none" stroke="#B9CFE0" stroke-width="4" transform="rotate(-18 104 176)"/><path d="M108 53 Q108 62 117 62 Q108 62 108 71 Q108 62 99 62 Q108 62 108 53Z" fill="#B8405E"/><path d="M128 44.5 Q128 48 131.5 48 Q128 48 128 51.5 Q128 48 124.5 48 Q128 48 128 44.5Z" fill="#B8405E"/><path d="M90 77 Q90 80 93 80 Q90 80 90 83 Q90 80 87 80 Q90 80 90 77Z" fill="#B8405E"/></svg>'
 SMALL_MARK = '<svg aria-hidden="true" viewBox="22 4 160 202"><g style="mix-blend-mode:multiply"><path d="M62 70 C58 36 96 20 124 28 C160 38 164 86 132 104 C114 114 104 122 104 144" fill="none" stroke="#B9CFE0" stroke-width="24" stroke-linecap="round" stroke-linejoin="round" transform="translate(-6,5)"/><path d="M62 70 C58 36 96 20 124 28 C160 38 164 86 132 104 C114 114 104 122 104 144" fill="none" stroke="#E9A9B8" stroke-width="24" stroke-linecap="round" stroke-linejoin="round" transform="translate(6,-4)"/><path d="M62 70 C58 36 96 20 124 28 C160 38 164 86 132 104 C114 114 104 122 104 144" fill="none" stroke="#B8405E" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" /></g><path d="M77.6 176 A26.400000000000002 7.199999999999999 0 0 1 130.4 176" fill="none" stroke="#B9CFE0" stroke-width="4" transform="rotate(-18 104 176)"/><circle cx="104" cy="176" r="12" fill="#B8405E"/><path d="M77.6 176 A26.400000000000002 7.199999999999999 0 0 0 130.4 176" fill="none" stroke="#B9CFE0" stroke-width="4" transform="rotate(-18 104 176)"/><path d="M108 53 Q108 62 117 62 Q108 62 108 71 Q108 62 99 62 Q108 62 108 53Z" fill="#B8405E"/><path d="M128 44.5 Q128 48 131.5 48 Q128 48 128 51.5 Q128 48 124.5 48 Q128 48 128 44.5Z" fill="#B8405E"/><path d="M90 77 Q90 80 93 80 Q90 80 90 83 Q90 80 87 80 Q90 80 90 77Z" fill="#B8405E"/></svg>'
@@ -191,12 +191,14 @@ for lang in ("en", "fr"):
         add_url(path)
 
 write("/assets/favicon.svg", FAVICON)
+write("/ads.txt", "google.com, pub-4904694456946317, DIRECT, f08c47fec0942fa0\n")   # AdSense authorised seller
 
 # root: language chooser with auto-redirect
 write("/index.html", f"""<!DOCTYPE html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Sapiopedia</title><link rel="stylesheet" href="/assets/style.css">
 <link rel="alternate" hreflang="en" href="{SITE}/en/"><link rel="alternate" hreflang="fr" href="{SITE}/fr/"><link rel="alternate" hreflang="x-default" href="{SITE}/en/">
+{ADSENSE}
 <script>var l=(navigator.language||'en').slice(0,2);location.replace(l==='fr'?'/fr/':'/en/');</script>
 </head><body><main><h1>Sapiopedia</h1><p><a href="/en/">English</a> · <a href="/fr/">Français</a></p></main></body></html>
 """)

@@ -290,6 +290,35 @@ for i, (lang, gift, title, board, grp) in enumerate(REVEAL):
         tags=("Virtual gift ideas, Scratch off card, Digital gift, Surprise reveal, Gift ideas, Birthday surprise, Anniversary gift ideas, Gift card ideas" if lang == "en"
               else "Cadeau virtuel, Carte à gratter, Idée cadeau, Surprise, Cadeau d'anniversaire, Cadeau de Noël"))
 
+# ---------------------------------------------------------------- baby pins (Nov 2026): gender reveal, pregnancy announcement, two nurseries.
+# Group "baby" is left out of the schedule below (the first 103 pins were already uploaded): they get their own CSV, pinterest-bulk-upload-baby.csv.
+BABY_CARDS = [("bc-en-gender", "/en/tools/gender-reveal-scratch-card/",
+               {"recipient": "Grandma and Grandpa", "gift": "It's a girl!", "message": "Due in May. We can't wait for you to meet the baby.", "sender": "Love, Sam and Alex", "fx": "pink"},
+               "Gender reveal scratch card: pink or blue confetti",
+               "Boy or girl? Make a scratch-off card and send the link: they scratch it on their phone and pink or blue confetti bursts out. For a party or at a distance.",
+               "Gender reveal ideas, Gender reveal, Baby gender reveal, Boy or girl, Gender reveal party, Baby shower ideas, Pregnancy announcement, Scratch off card"),
+              ("bc-en-pregnancy", "/en/tools/pregnancy-announcement-scratch-card/",
+               {"recipient": "Mom and Dad", "gift": "You're going to be grandparents!", "message": "Baby arrives in June. We couldn't wait to tell you.", "sender": "Love, Sam and Alex", "fx": "confetti"},
+               "Scratch-off pregnancy announcement for grandparents",
+               "Tell them with a scratch-off card sent as a link: they scratch it on their phone and find out they're going to be grandparents. Ideas for aunts, uncles and big sisters too.",
+               "Pregnancy announcement, Pregnancy announcement to grandparents, Baby announcement, Pregnancy reveal ideas, Grandparents announcement, Baby announcement ideas, Scratch off card, Pregnancy")]
+for pid, base, gift, title, desc, tags in BABY_CARDS:
+    badge = '<style>body{position:relative}.free{top:28px;right:17px;font-size:10px;padding:4px 8px}</style>'   # the page is 420 px wide, shot at 2.4x
+    open(os.path.join(TMP, pid + ".html"), "w", encoding="utf-8").write(REVEAL_HTML.replace("{{URL}}", base + "#gift=" + b64(gift)).replace("<body>", "<body>" + free("en") + badge, 1))
+    add(id=pid, group="baby", slow=True, win=(420, 630, 2.4), link=SITE + base, title=title, board="Gift ideas", desc=desc, tags=tags)
+NURSERIES = [("n3d-en-nursery", "nursery", "Plan the nursery <em>before baby arrives</em>", "Open this nursery, then make it yours.",
+              "Crib, changing table, glider and storage at real sizes, with safety checks: the crib away from windows and blind cords, tall furniture flagged for anchoring. In 2D and 3D.",
+              "Nursery ideas, Nursery layout, Baby room ideas, Nursery decor, Small nursery ideas, Baby nursery, Nursery inspiration, Room planner"),
+             ("n3d-en-shared-nursery", "shared-nursery", "Baby in your room: <em>where the bassinet fits</em>", "A bassinet beside your bed, planned in 3D.",
+              "Many parents keep the baby in their room for the first months. Open this bedroom with a bassinet beside the bed and a glider for night feeds, then move things to fit your room.",
+              "Bassinet in parents room, Room sharing with baby, Nursery in master bedroom, Small space nursery, Baby room ideas, Nursery ideas, Bedroom layout, Room planner")]
+for pid, key, h1, sub, desc, tags in NURSERIES:
+    base = "/en/tools/nursery-planner/"
+    page(pid, "Free nursery planner", h1, sub,
+         '<div class="shot" id="shot" style="background:#fff;padding:10px"></div><div class="chips">' + "".join(f"<span>{c}</span>" for c in ["Crib, changing table, glider", "Safety checks", "Plan ↔ 3D"]) + "</div>",
+         "sapiopedia.com" + base, "Free, in your browser", extra=CAP3D.replace("{SRC}", f"{base}?preset={key}&view=3d"))
+    add(id=pid, group="baby", slow=True, link=f"{SITE}{base}?preset={key}&view=3d", title=re.sub("<.*?>", "", h1), board="Gift ideas", desc=desc, tags=tags)
+
 # ---------------------------------------------------------------- the French names index itself, scrolled to one letter
 IXCSS = '<style>.ixf{flex:1;min-height:0;border-radius:20px;overflow:hidden;box-shadow:0 24px 50px -24px rgba(42,31,38,.45);background:#F6E9EC;margin-bottom:36px}.ixf iframe{width:560px;height:720px;border:0;display:block;transform:scale(1.53);transform-origin:0 0}</style>'
 IXJS = ('<script>var f=document.getElementById("ix");f.onload=function(){setTimeout(function(){var d=f.contentDocument,w=f.contentWindow;'
@@ -401,6 +430,12 @@ todo = [p for p in PINS if (not only or re.search(only, p["id"])) and (only or o
 with concurrent.futures.ThreadPoolExecutor(4) as ex:
     for r in ex.map(render, todo): pass
 print("rendered", len(todo))
+# the baby pins have their own CSV and dates (16:00, a slot the main schedule never uses)
+BABY_DATES = {"n3d-en-nursery": "2026-11-11T16:00:00", "bc-en-gender": "2026-11-13T16:00:00", "bc-en-pregnancy": "2026-11-15T16:00:00", "n3d-en-shared-nursery": "2026-11-17T16:00:00"}
+with open(os.path.join(DESK, "pinterest-bulk-upload-baby.csv"), "w", encoding="utf-8", newline="") as fh:
+    wr = csv.writer(fh); wr.writerow(["Title", "Media URL", "Pinterest board", "Thumbnail", "Description", "Link", "Publish date", "Keywords"])
+    for p in sorted((p for p in PINS if p["group"] == "baby"), key=lambda p: BABY_DATES[p["id"]]):
+        wr.writerow([p["title"][:100], f"{SITE}/pins/b1/{p['id']}.png", "Gift ideas", "", p["desc"], p["link"], BABY_DATES[p["id"]], p["tags"]])
 if only or os.environ.get("DRY"): raise SystemExit
 
 # ---------------------------------------------------------------- bulk-upload CSVs (Pinterest schedules up to ~30 days ahead: part 2 is uploaded later), overview, site copies

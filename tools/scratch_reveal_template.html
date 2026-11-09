@@ -1,14 +1,29 @@
-<!doctype html><html><head><meta charset="utf-8"><style>html,body{margin:0;width:420px;height:630px;overflow:hidden;background:#F7E9EC}iframe{width:420px;height:630px;border:0;display:block}</style></head>
+<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@700&display=swap"><style>html,body{margin:0;width:420px;height:630px;overflow:hidden;background:#F7E9EC}iframe{width:420px;height:630px;border:0;display:block}</style></head>
 <body><iframe id="f" src="{{URL}}"></iframe>
 <script>
-/* the recipient's phone screen once the card is scratched: strokes start late so the effect is mid-air when the screenshot is taken */
+/* the recipient's phone screen while the card is being scratched: a few strokes show the gift through the silver coating
+   (past the 22% that starts the effect, below the 36% that removes the coating); the effect is then frozen mid-air */
 var f=document.getElementById('f');
 function ready(cb){var c=f.contentDocument&&f.contentDocument.getElementById("scratch");if(c&&c.width>0){var a=c.getContext("2d").getImageData(c.width>>1,c.height>>1,1,1).data[3];if(a>200)return cb();}setTimeout(function(){ready(cb);},150);}
-f.onload=function(){setTimeout(function(){var _st=f.contentDocument.createElement("style");_st.textContent="*{transition:none!important}.sg .scratch-canvas.gone,.sg .scratch-caption.hidden{visibility:hidden!important}";f.contentDocument.head.appendChild(_st);f.contentWindow.dispatchEvent(new Event("resize"));ready(function(){f.contentWindow.addEventListener("resize",function(e){e.stopImmediatePropagation();},true);
-  var d=f.contentDocument,c=d.getElementById('scratch'),r=c.getBoundingClientRect(),W=r.width,H=r.height;
+/* thinner confetti for the still image: about two pieces in seven are drawn, mixing all colours */
+function thinConfetti(w){var gc=w.HTMLCanvasElement.prototype.getContext;w.HTMLCanvasElement.prototype.getContext=function(){var g=gc.apply(this,arguments);
+  if(this.className==="sg-fx"&&g&&!g._thin){g._thin=1;var k=0,cr=g.clearRect,fr=g.fillRect;g.clearRect=function(){k=0;return cr.apply(this,arguments);};g.fillRect=function(){var j=k++%7;if(j===0||j===3)return fr.apply(this,arguments);};}return g;};}
+f.onload=function(){setTimeout(function(){var _st=f.contentDocument.createElement("style");_st.textContent="*{transition:none!important}.sg .scratch-caption.hidden{visibility:hidden!important}";f.contentDocument.head.appendChild(_st);thinConfetti(f.contentWindow);f.contentWindow.dispatchEvent(new Event("resize"));ready(function(){f.contentWindow.addEventListener("resize",function(e){e.stopImmediatePropagation();},true);
+  var d=f.contentDocument,c=d.getElementById('scratch'),r=c.getBoundingClientRect(),W=r.width,H=r.height,g=c.getContext('2d');
   function ev(t,x,y){c.dispatchEvent(new PointerEvent(t,{clientX:r.left+x,clientY:r.top+y,pointerId:1,bubbles:true}));}
-  for(var row=0;row<9;row++){var y=H*(.08+row*.105),a=[];for(var x=W*.04;x<W*.96;x+=4)a.push([x,y+Math.sin(x/19)*7]);if(row%2)a.reverse();
-    ev('pointerdown',a[0][0],a[0][1]);a.forEach(function(p){ev('pointermove',p[0],p[1]);});ev('pointerup',a[a.length-1][0],a[a.length-1][1]);}
-  var b=d.getElementById('reveal');if(b)b.click();setTimeout(function(){d.getElementById("scratch").style.visibility="hidden";d.getElementById("scratchCaption").style.visibility="hidden";},60);
-});},12500);};
+  function stroke(pts){ev('pointerdown',pts[0][0],pts[0][1]);pts.forEach(function(p){ev('pointermove',p[0],p[1]);});ev('pointerup',pts[pts.length-1][0],pts[pts.length-1][1]);}
+  function scratched(){var px=g.getImageData(0,0,c.width,c.height).data,n=0,t=0;for(var i=3;i<px.length;i+=4*37){t++;if(px[i]<60)n++;}return n/t;}
+  var S=[function(){var a=[];for(var x=W*.10;x<W*.90;x+=4)a.push([x,H*.46+Math.sin(x/23)*9+Math.sin(x/7)*3+(x-W*.10)*.05]);return a;},
+    function(){var a=[];for(var x=W*.86;x>W*.16;x-=4)a.push([x,H*.60+Math.sin(x/19)*11-(W*.86-x)*.05]);return a;},
+    function(){var a=[];for(var x=W*.26;x<W*.74;x+=4)a.push([x,H*.33+Math.sin(x/17)*7]);return a;},
+    function(){var a=[];for(var x=W*.20;x<W*.60;x+=4)a.push([x,H*.72+Math.sin(x/21)*8]);return a;}];
+  /* run the effect on its own clock: 55 frames of 1/60 s, then stop, so every pin shows the same moment (headless frames are irregular) */
+  var w=f.contentWindow,raf=w.requestAnimationFrame.bind(w),base=w.performance.now(),nf=0;
+  w.requestAnimationFrame=function(cb){if(++nf>55)return 0;var k=nf;return raf(function(){cb(base+k*1000/60);});};
+  for(var i=0;i<S.length&&scratched()<.25;i++)stroke(S[i]());
+  if(scratched()<.3){var e=[];for(var x=W*.40;x<W*.60;x+=2)e.push([x,H*.46]);stroke(e);}   /* a few more moves so the effect check runs past 22% */
+  d.getElementById('scratchCaption').classList.add('hidden');
+  /* freeze the scratched coating as an image: the screenshot's resize would otherwise repaint a fresh cover */
+  var im=d.createElement('img');im.src=c.toDataURL();im.style.cssText='position:absolute;inset:0;width:100%;height:100%;pointer-events:none';c.parentNode.insertBefore(im,c.nextSibling);c.style.visibility='hidden';d.getElementById('scratchCaption').style.visibility='hidden';
+});},4000);};
 </script></body></html>

@@ -6,7 +6,7 @@ Rules checked before writing: same link never twice the same day, >= 7 days betw
 Seasonal = Christmas framing of the scratch card and the party games. Evergreen = dreams, names, feng shui, room planner.
 Writes _pins_batch/<id>.html (rendered by Chrome), then Desktop/Sapiopedia/Pinterest/batch-2026-11/ + the bulk CSV.
 """
-import csv, datetime, json, os, random, re, subprocess, base64, html
+import csv, datetime, json, os, random, re, subprocess, base64, html, struct
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DESK = os.path.expanduser("~/Desktop/Sapiopedia/Pinterest")
@@ -15,7 +15,7 @@ TMP = os.path.join(ROOT, "_pins_batch"); os.makedirs(TMP, exist_ok=True)
 GAMES = json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "games.json"), encoding="utf-8"))
 src = open(os.path.join(ROOT, "tools", "make_pins.py"), encoding="utf-8").read()
 exec(src[:src.index("def band(")])            # HEAD (styles), THUMB, E (EN dreams), N (names), IDX, esc
-HEAD = HEAD.replace(".mid{flex:1;", ".main{flex:1;")
+HEAD = HEAD.replace(".mid{flex:1;", ".main{flex:1;").replace(".top{padding:70px ", ".top{padding:104px ")   # room under the free badge
 EF = {e["id"]: e for e in json.load(open(os.path.join(ROOT, "data", "dreams_fr.json")))["entries"]}
 READY = json.load(open(os.path.join(ROOT, "data", "ready.json")))["batches"][0]
 random.seed(2026)
@@ -24,7 +24,7 @@ SITE = "https://sapiopedia.com"
 def band(url, label):
     return f'<div class="band"><img src="/assets/logo-horizontal.png" alt=""><div class="u"><b>{esc(url)}</b><span>{esc(label)}</span></div></div>'
 
-FREE_CSS = '<style>.free{position:absolute;top:26px;right:40px;z-index:5;background:#8E2F48;color:#fff;font:700 24px "Source Sans 3",sans-serif;letter-spacing:.12em;text-transform:uppercase;padding:9px 18px;border-radius:999px;box-shadow:0 4px 12px -4px rgba(42,31,38,.4)}</style>'
+FREE_CSS = '<style>.free{position:absolute;top:18px;right:40px;z-index:5;background:#8E2F48;color:#fff;font:700 24px "Source Sans 3",sans-serif;letter-spacing:.12em;text-transform:uppercase;padding:9px 18px;border-radius:999px;box-shadow:0 4px 12px -4px rgba(42,31,38,.4)}</style>'
 def free(lang): return f'{FREE_CSS}<div class="free">{"Free · No sign-up" if lang == "en" else "Gratuit · Sans inscription"}</div>'
 def page(pid, kick, title, sub, mid, url, label, extra=""):
     lang = "fr" if "/fr/" in url else "en"
@@ -170,7 +170,7 @@ for i, (lang, gift, h1, sub) in enumerate(XMAS):
     add(id=pid, group="seasonal", link=SITE + base, title=re.sub("<.*?>", "", h1), slow=True,
         desc=("A scratch-off Christmas card you send as a link: they scratch on their phone and the gift appears under falling snow. Perfect for virtual gifts and long-distance Christmas. Free." if lang == "en"
               else "Une carte de Noël à gratter, envoyée par lien : on gratte sur son téléphone et le cadeau apparaît. Idéal pour les cadeaux virtuels et Noël à distance. Gratuit."),
-        board="Christmas gift ideas", tags=("Christmas gift ideas, Virtual gift ideas, Digital gift, Scratch off card, Long distance Christmas, Last minute gifts, Gift card ideas, Christmas surprise" if lang == "en"
+        board="Gift ideas", tags=("Christmas gift ideas, Virtual gift ideas, Digital gift, Scratch off card, Long distance Christmas, Last minute gifts, Gift card ideas, Christmas surprise" if lang == "en"
               else "Idées cadeaux Noël, Cadeau virtuel, Carte à gratter, Cadeau de dernière minute, Noël à distance, Idée cadeau, Surprise"))
 
 # ---------------------------------------------------------------- feng shui and room planner variants (FR pages + a second EN angle)
@@ -277,12 +277,13 @@ REVEAL = [("en", {"recipient": "Sam", "gift": "Concert tickets for two", "messag
           ("fr", {"recipient": "Léa", "gift": "Un souper au restaurant", "message": "Joyeux anniversaire ! Samedi, 19 h.", "sender": "Max", "fx": "confetti"},
            "Ce que voit la personne qui gratte votre cadeau", "Gift ideas", "evergreen"),
           ("fr", {"recipient": "Papa", "gift": "Une journée de pêche", "message": "Joyeux Noël. Je m'occupe du café.", "sender": "Camille", "fx": "snow"},
-           "Un cadeau de Noël révélé sous la neige", "Christmas gift ideas", "seasonal")]
+           "Un cadeau de Noël révélé sous la neige", "Gift ideas", "seasonal")]
 REVEAL_HTML = open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "scratch_reveal_template.html"), encoding="utf-8").read()
 for i, (lang, gift, title, board, grp) in enumerate(REVEAL):
     base = "/en/tools/scratch-gift-card/" if lang == "en" else "/fr/outils/carte-cadeau-a-gratter/"
     pid = f"sr-{lang}-{i}"
-    open(os.path.join(TMP, pid + ".html"), "w", encoding="utf-8").write(REVEAL_HTML.replace("{{URL}}", base + "#gift=" + b64(gift)))
+    badge = '<style>body{position:relative}.free{top:28px;right:17px;font-size:10px;padding:4px 8px}</style>'   # the page is 420 px wide, shot at 2.4x
+    open(os.path.join(TMP, pid + ".html"), "w", encoding="utf-8").write(REVEAL_HTML.replace("{{URL}}", base + "#gift=" + b64(gift)).replace("<body>", "<body>" + free(lang) + badge, 1))
     add(id=pid, group=grp, slow=True, win=(420, 630, 2.4), link=SITE + base, title=title, board=board,
         desc=("A scratch-off card you send as a link: this is the screen they see once it's scratched, with the effect you picked (confetti, hearts or snow)."
               if lang == "en" else "Une carte à gratter envoyée par lien : voici l'écran qu'on voit une fois la carte grattée, avec l'effet choisi (confettis, cœurs ou neige)."),
@@ -371,15 +372,29 @@ import concurrent.futures, shutil, sys as _s
 _s.path.insert(0, os.path.dirname(os.path.abspath(__file__))); from export_capture import capture  # noqa: E402
 CHROME = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
 def outfile(p): return os.path.join(DESK, p["file"]) if p.get("old") else os.path.join(OUTD, p["id"] + ".png")
+def shoot(rel, out, w, h, s, budget):
+    subprocess.run([CHROME, "--headless=new", "--use-angle=swiftshader", "--enable-unsafe-swiftshader", "--hide-scrollbars", f"--force-device-scale-factor={s}",
+                    f"--virtual-time-budget={budget}", f"--window-size={w},{h}", f"--screenshot={out}", f"http://127.0.0.1:8765/{rel}"],
+                   capture_output=True, timeout=240)
 def render(p):
     out = outfile(p)
-    if p.get("export"): capture(p["export"], out); return p["id"]
+    if p.get("export"):   # the planner's own PNG export under a title band that names the tool and carries the free badge
+        raw = os.path.join(TMP, p["id"] + "-raw.png"); capture(p["export"], raw)
+        w, h = (x // 2 for x in struct.unpack(">II", open(raw, "rb").read()[16:24]))
+        lang = "fr" if "-fr-" in p["id"] else "en"; band_h = 120
+        title = ({"en": "Feng shui <em>room planner</em>", "fr": "Planificateur <em>feng shui</em>"} if p["id"].startswith("x-fs-") else
+                 {"en": "Room planner <em>in 2D and 3D</em>", "fr": "Plan de pièce <em>en 2D et 3D</em>"})[lang]
+        open(os.path.join(TMP, p["id"] + "-badge.html"), "w", encoding="utf-8").write(
+            '<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;1,9..144,400&family=Source+Sans+3:wght@700&display=swap">'
+            f'<style>html,body{{margin:0;width:{w}px;height:{h + band_h}px;overflow:hidden;background:#F7E9EC;position:relative}}img{{display:block;width:{w}px;height:{h}px}}'
+            f'.t{{height:{band_h}px;display:flex;align-items:center;padding:0 40px;font:400 50px/1 "Fraunces",Georgia,serif;letter-spacing:-.02em;color:#2A1F26}}.t em{{color:#A83A57}}'
+            f'body .free{{top:{(band_h - 48) // 2}px}}</style></head>'
+            f'<body>{free(lang)}<div class="t"><span>{title}</span></div><img src="{p["id"]}-raw.png" alt=""></body></html>')
+        shoot(f"_pins_batch/{p['id']}-badge.html", out, w, h + band_h, 2, 6000); return p["id"]
     src = os.path.join(TMP, p["id"] + ".html")
     rel = f"_pins_batch/{p['id']}.html" if os.path.exists(src) else f"_pins/{p['id']}.html"
     w, h, s = p.get("win", (1000, 1500, 1))
-    subprocess.run([CHROME, "--headless=new", "--use-angle=swiftshader", "--enable-unsafe-swiftshader", "--hide-scrollbars", f"--force-device-scale-factor={s}",
-                    f"--virtual-time-budget={20000 if p.get('slow') else 6000}", f"--window-size={w},{h}", f"--screenshot={out}", f"http://127.0.0.1:8765/{rel}"],
-                   capture_output=True, timeout=240)
+    shoot(rel, out, w, h, s, 20000 if p.get("slow") else 6000)
     return p["id"]
 only = os.environ.get("ONLY")
 todo = [p for p in PINS if (not only or re.search(only, p["id"])) and (only or os.environ.get("RENDER") == "all" or not os.path.exists(outfile(p)))]
@@ -392,12 +407,13 @@ if only or os.environ.get("DRY"): raise SystemExit
 def media(p): return f"{SITE}/pins/{p['file']}" if p.get("old") else f"{SITE}/pins/b1/{p['id']}.png"
 cut1 = (start + datetime.timedelta(28)).isoformat()
 cols = ["Title", "Media URL", "Pinterest board", "Thumbnail", "Description", "Link", "Publish date", "Keywords"]
+BOARD = "Gift ideas"   # the only board on the account; set to None to use each pin's own board once those exist
 for name, rows in (("pinterest-bulk-upload.csv", [x for x in sched if x[0][:10] <= cut1]), ("pinterest-bulk-upload-part2.csv", [x for x in sched if x[0][:10] > cut1])):
     with open(os.path.join(DESK, name), "w", encoding="utf-8", newline="") as fh:
         wr = csv.writer(fh); wr.writerow(cols)
-        for w, p in rows: wr.writerow([p["title"][:100], media(p), p["board"], "", p["desc"], p["link"], w, p["tags"]])
+        for w, p in rows: wr.writerow([p["title"][:100], media(p), BOARD or p["board"], "", p["desc"], p["link"], w, p["tags"]])
     print(name, len(rows), "pins", rows[0][0][:10] if rows else "", "to", rows[-1][0][:10] if rows else "")
-fig = "".join(f'<figure><img src="{os.path.relpath(outfile(p), DESK)}" loading="lazy" alt=""><figcaption><b>{w[:10]} · {w[11:16]}</b><span>{html.escape(p["title"])}</span><i>{html.escape(p["board"])}</i>'
+fig = "".join(f'<figure><img src="{os.path.relpath(outfile(p), DESK)}" loading="lazy" alt=""><figcaption><b>{w[:10]} · {w[11:16]}</b><span>{html.escape(p["title"])}</span><i>{html.escape(BOARD or p["board"])}</i>'
               f'<a href="{html.escape(p["link"])}">{html.escape(p["link"].replace("https://", ""))}</a></figcaption></figure>' for w, p in sched)
 open(os.path.join(DESK, "overview.html"), "w", encoding="utf-8").write(
     f'<!doctype html><html><head><meta charset="utf-8"><title>Sapiopedia pins</title><style>body{{font-family:-apple-system,system-ui,sans-serif;background:#F7E9EC;color:#2A1F26;margin:0;padding:28px}}h1{{font-weight:600;margin:0 0 4px}}p{{margin:0 0 22px;color:#6E5A62}}'

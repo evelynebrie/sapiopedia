@@ -5,7 +5,7 @@
 const DESIGN=window.FS_MODE==="design";
 const FR=document.documentElement.lang==="fr"&&window.FS_FR?window.FS_FR:null;
 function T(s,v){let r=FR&&FR[s]!=null?FR[s]:s;if(v)for(const k in v)r=r.split("{"+k+"}").join(v[k]);return r;}
-const THE={bed:"the bed",desk:"the desk",sofa:"the sofa",lamp:"the lamp",coffee:"the coffee table",armchair:"the armchair",chair:"the chair",table:"the table",countertop:"the countertop",appliance:"the appliance",tv:"the TV",wardrobe:"the wardrobe",shelf:"the bookshelf",screen:"the folding screen",plant:"the plant",door:"the door",window:"the window",mirror:"the mirror"};
+const THE={bed:"the bed",desk:"the desk",sofa:"the sofa",lamp:"the lamp",bedSingle:"the single bed",bunk:"the bunk bed",nightstand:"the nightstand",sofaCorner:"the corner sofa",tvstand:"the TV stand",tableRound:"the round table",fridge:"the fridge",stove:"the stove",bathtub:"the bathtub",toilet:"the toilet",washbasin:"the washbasin",rug:"the rug",office:"the office chair",coatrack:"the coat rack",barstool:"the bar stool",coffee:"the coffee table",armchair:"the armchair",chair:"the chair",table:"the table",countertop:"the countertop",appliance:"the appliance",tv:"the TV",wardrobe:"the wardrobe",shelf:"the bookshelf",screen:"the folding screen",plant:"the plant",door:"the door",window:"the window",mirror:"the mirror"};
 const A1={door:"a door",window:"a window",mirror:"a mirror"};
 const the=k=>T(THE[k]),a1=k=>T(A1[k]),dirT=d=>T(d);
 const num=(n,d)=>Number(n).toLocaleString(document.documentElement.lang||"en",{minimumFractionDigits:d,maximumFractionDigits:d});
@@ -26,20 +26,42 @@ const FURN=[
  {k:"shelf",name:T("Bookshelf"),w:76,h:28,wall:true},
  {k:"screen",name:T("Folding screen"),w:116,h:12,wall:false},
  {k:"plant",name:T("Plant"),w:36,h:36,wall:false,round:true},
- {k:"lamp",name:T("Lamp"),w:32,h:32,wall:false,round:true}
+ {k:"lamp",name:T("Lamp"),w:32,h:32,wall:false,round:true},
+ {k:"bedSingle",name:T("Single bed"),w:72,h:160,wall:true},
+ {k:"bunk",name:T("Bunk bed"),w:72,h:160,wall:true},
+ {k:"nightstand",name:T("Nightstand"),w:36,h:32,wall:true},
+ {k:"sofaCorner",name:T("Corner sofa"),w:176,h:128,wall:true},
+ {k:"tvstand",name:T("TV stand"),w:112,h:32,wall:true},
+ {k:"tableRound",name:T("Round table"),w:80,h:80,wall:false,round:true},
+ {k:"fridge",name:T("Fridge"),w:56,h:56,wall:true},
+ {k:"stove",name:T("Stove"),w:48,h:48,wall:true},
+ {k:"bathtub",name:T("Bathtub"),w:136,h:60,wall:true},
+ {k:"toilet",name:T("Toilet"),w:32,h:52,wall:true},
+ {k:"washbasin",name:T("Washbasin"),w:48,h:36,wall:true},
+ {k:"rug",name:T("Rug"),w:160,h:112,wall:false},
+ {k:"office",name:T("Office chair"),w:48,h:48,wall:false},
+ {k:"coatrack",name:T("Coat rack"),w:36,h:36,wall:false,round:true},
+ {k:"barstool",name:T("Bar stool"),w:32,h:32,wall:false,round:true}
 ];
 const PXM=80; /* pixels per metre */
 const LR=2.5*PXM; /* lamp light radius */
 /* recommended free space in front of each piece, in cm */
-const REQ={bed:60,desk:90,sofa:60,armchair:60,chair:60,table:60,coffee:45,tv:60,wardrobe:90,countertop:100,appliance:90,shelf:60,screen:0,plant:0,lamp:0};
+const REQ={bedSingle:60,bunk:60,nightstand:0,sofaCorner:60,tvstand:60,tableRound:0,fridge:100,stove:100,bathtub:70,toilet:60,washbasin:70,rug:0,office:0,coatrack:0,barstool:0,bed:60,desk:90,sofa:60,armchair:60,chair:60,table:60,coffee:45,tv:60,wardrobe:90,countertop:100,appliance:90,shelf:60,screen:0,plant:0,lamp:0};
+const CATS=[["bedroom",T("Bedroom"),["bed","bedSingle","bunk","nightstand","wardrobe"]],["living",T("Living room"),["sofa","sofaCorner","armchair","coffee","tv","tvstand","rug"]],
+  ["dining",T("Dining & work"),["table","tableRound","chair","desk","office","barstool"]],["kitchen",T("Kitchen"),["countertop","fridge","stove","appliance"]],
+  ["bath",T("Bathroom"),["bathtub","toilet","washbasin"]],["decor",T("Decor & storage"),["shelf","screen","plant","lamp","coatrack"]]];
+let CAT=CATS[0][0];
+const FLAT=k=>k==="rug";   /* rugs sit under furniture: never an obstacle */
+const ALIAS={bedSingle:"bed",bunk:"bed",sofaCorner:"sofa",tvstand:"tv",tableRound:"table",office:"chair",stove:"countertop",fridge:"appliance"};
 const FBY=Object.fromEntries(FURN.map(f=>[f.k,f]));
 function FI(it){const b=FBY[it.k];return it!==b&&it.w>0&&it.h>0?Object.assign({},b,{w:it.w,h:it.h}):b;}
-const TUCK=(a,b)=>(a==="chair"&&(b==="table"||b==="desk"))||(b==="chair"&&(a==="table"||a==="desk"));
+const SEAT=k=>k==="chair"||k==="office"||k==="barstool",TOP=k=>k==="table"||k==="desk"||k==="tableRound"||k==="countertop";
+const TUCK=(a,b)=>(SEAT(a)&&TOP(b))||(SEAT(b)&&TOP(a));
 const OPEN_H={door:205,window:124,mirror:85}; /* default heights in cm */
 const OPEN={door:{name:T("Door"),len:72},window:{name:T("Window"),len:96},mirror:{name:T("Mirror"),len:52}};
 const VL=DESIGN?{good:T("Fits"),caution:T("Tight"),bad:T("Blocked"),neutral:T("Note")}:{good:T("Good"),caution:T("Caution"),bad:T("Avoid"),neutral:T("No rule")};
 const VW=DESIGN?{good:T("fit"),caution:T("tight"),bad:T("blocked")}:{good:T("good"),caution:T("caution"),bad:T("avoid")};
-const ACTIVE=["desk","tv","sofa","armchair","appliance","countertop"],DIVIDERS=["screen","shelf","plant"];
+const ACTIVE=["desk","tv","sofa","armchair","appliance","countertop","sofaCorner","tvstand","stove","fridge"],DIVIDERS=["screen","shelf","plant"];
 
 /* ---------- Geometry ---------- */
 const SHAPES={
@@ -61,7 +83,7 @@ const dir8=b=>POINT8[Math.round(b/45)%8];
 function halfOf(x,y){const[cx,cy]=centroid(pts());const b=bearingOf(x-cx,y-cy);return{north:b<90||b>270,east:b>0&&b<180,south:b>90&&b<270,west:b>180};}
 function rayDist(px,py,dx,dy){let best=1e9;EDGES.forEach(e=>{const rx=e.dx,ry=e.dy,den=dx*ry-dy*rx;if(Math.abs(den)<1e-9)return;const qx=e.a[0]-px,qy=e.a[1]-py,t=(qx*ry-qy*rx)/den,u=(qx*dy-qy*dx)/den;if(t>.5&&u>=0&&u<=1)best=Math.min(best,t);});return best;}
 function contains(it,x,y){const f=FI(it),o=oi(it);if(f.round)return Math.hypot(x-o.x,y-o.y)<f.w/2;const u=dot(x-o.x,y-o.y,o.tx,o.ty),v=dot(x-o.x,y-o.y,o.bx,o.by);return Math.abs(u)<f.w/2&&Math.abs(v)<f.h/2;}
-function blockers(A,B,skipIds){const out=[];S.items.forEach(it=>{if(skipIds.includes(it.id))return;for(let k=1;k<30;k++){const x=A[0]+(B[0]-A[0])*k/30,y=A[1]+(B[1]-A[1])*k/30;if(contains(it,x,y)){out.push(it);break;}}});return out;}
+function blockers(A,B,skipIds){const out=[];S.items.forEach(it=>{if(skipIds.includes(it.id)||FLAT(it.k))return;for(let k=1;k<30;k++){const x=A[0]+(B[0]-A[0])*k/30,y=A[1]+(B[1]-A[1])*k/30;if(contains(it,x,y)){out.push(it);break;}}});return out;}
 function containsAt(f,o,x,y){if(f.round)return Math.hypot(x-o.x,y-o.y)<f.w/2;const u=dot(x-o.x,y-o.y,o.tx,o.ty),v=dot(x-o.x,y-o.y,o.bx,o.by);return Math.abs(u)<f.w/2&&Math.abs(v)<f.h/2;}
 function bedPaths(bo,bedId){ /* circulation from the bed to each door and window */
   if(!bo){const bed=S.items.find(i=>i.k==="bed");if(!bed)return[];bo=oi(bed);bedId=bed.id;}
@@ -92,7 +114,7 @@ const oi=(it,x,y)=>orient(it.k,x==null?it.x:x,y==null?it.y:y,it.rot,FI(it));
 function corners(f,o){const hw=f.w/2,hh=f.h/2;return[[-1,-1],[1,-1],[1,1],[-1,1]].map(([a,b])=>[o.x+o.tx*hw*a+o.bx*hh*-b,o.y+o.ty*hw*a+o.by*hh*-b]);}
 function fits(f,o){const P=pts();return inside(o.x,o.y,P)&&corners(f,o).every(([x,y])=>inside(x+(o.x-x)*.04,y+(o.y-y)*.04,P));}
 function aabb(f,o){const c=corners(f,o),xs=c.map(p=>p[0]),ys=c.map(p=>p[1]);return[Math.min(...xs),Math.min(...ys),Math.max(...xs),Math.max(...ys)];}
-function overlaps(f,o,skip){const A=aabb(f,o);return S.items.some(it=>{if(it.id===skip)return false;const g=FI(it),B=aabb(g,oi(it));return A[0]<B[2]-4&&A[2]>B[0]+4&&A[1]<B[3]-4&&A[3]>B[1]+4;});}
+function overlaps(f,o,skip){const A=aabb(f,o);return S.items.some(it=>{if(it.id===skip||FLAT(f.k)||FLAT(it.k))return false;const g=FI(it),B=aabb(g,oi(it));return A[0]<B[2]-4&&A[2]>B[0]+4&&A[1]<B[3]-4&&A[3]>B[1]+4;});}
 function openPos(o){const e=EDGES[o.edge];if(!e)return null;const t=Math.max(.06,Math.min(.94,o.t));return{x:e.a[0]+t*e.dx,y:e.a[1]+t*e.dy,nx:e.nx,ny:e.ny,tx:e.tx,ty:e.ty,edge:o.edge,len:o.len>0?o.len:OPEN[o.k].len};}
 
 /* ---------- State ---------- */
@@ -147,7 +169,7 @@ const cm=px=>Math.max(0,Math.round(px/PXM*100));
 const sizeTxt=f=>T("{w} × {d} cm",{w:cm(f.w),d:cm(f.h)});
 function frontClear(f,o,selfId,back){ /* free distance straight out from the front (or back) of a piece */
   if(f.round)return null;const fx=back?o.bx:-o.bx,fy=back?o.by:-o.by,x1=o.x+fx*f.h/2,y1=o.y+fy*f.h/2;let d=rayDist(x1,y1,fx,fy);if(d>5000)return null;
-  let hit=null;for(let s=2;s<d;s+=3){const x=x1+fx*s,y=y1+fy*s;hit=S.items.find(it=>it.id!==selfId&&!((f.k==="table"||f.k==="desk")&&it.k==="chair")&&contains(it,x,y));if(hit){d=s;break;}}
+  let hit=null;for(let s=2;s<d;s+=3){const x=x1+fx*s,y=y1+fy*s;hit=S.items.find(it=>it.id!==selfId&&!FLAT(it.k)&&!((f.k==="table"||f.k==="desk")&&it.k==="chair")&&contains(it,x,y));if(hit){d=s;break;}}
   return{x1,y1,x2:x1+fx*d,y2:y1+fy*d,d,hit};
 }
 function inSwing(f,o,op){ /* does the piece sit in the quarter-circle a door sweeps? */
@@ -158,14 +180,14 @@ function inSwing(f,o,op){ /* does the piece sit in the quarter-circle a door swe
 function blocksWindow(f,o,k){if(k!=="wardrobe"&&k!=="shelf")return null;return S.opens.find(op=>{if(op.k!=="window")return false;const p=openPos(op);return p&&p.edge===o.edge&&o.gap<30&&Math.abs(dot(p.x-o.x,p.y-o.y,o.tx,o.ty))<f.w/2+p.len/2-6;});}
 function evalDesign(k,o,selfId){
   const me=S.items.find(i=>i.id===selfId),f=me?FI(me):FBY[k],C=[],add=(v,t,x)=>C.push({v,t:T(t,x)});
-  const A=aabb(f,o),hit=S.items.find(it=>{if(it.id===selfId)return false;const B=aabb(FI(it),oi(it));return A[0]<B[2]-4&&A[2]>B[0]+4&&A[1]<B[3]-4&&A[3]>B[1]+4;});
+  const A=aabb(f,o),hit=S.items.find(it=>{if(it.id===selfId||FLAT(k)||FLAT(it.k))return false;const B=aabb(FI(it),oi(it));return A[0]<B[2]-4&&A[2]>B[0]+4&&A[1]<B[3]-4&&A[3]>B[1]+4;});
   if(!fits(f,o))add("bad","Doesn't fit inside the walls.");
   if(hit)add("bad","Overlaps {x}.",{x:the(hit.k)});
   if(f.wall){if(o.gap<14)add("good","Against the wall.");else add("neutral","Free-standing, {d} cm from the wall.",{d:cm(o.gap)});}
   const fc=frontClear(f,o,selfId);
-  if(k==="chair"&&fc&&fc.hit&&TUCK("chair",fc.hit.k)&&fc.d<PXM*.6){add("good","Pulled up to {x}.",{x:the(fc.hit.k)});
+  if(SEAT(k)&&fc&&fc.hit&&TUCK("chair",fc.hit.k)&&fc.d<PXM*.6){add("good","Pulled up to {x}.",{x:the(fc.hit.k)});
     const bc=frontClear(f,o,selfId,true);if(bc){const d=cm(bc.d),need=60-d;if(need>0)add(d<30?"bad":"caution","{x} needs {n} cm more clearance behind it to pull out ({d} cm free, 60 cm recommended).",{x:f.name,n:need,d});else add("good","{d} cm behind it to pull out.",{d});}}
-  else if(k==="chair"&&!(fc&&fc.d<PXM*.6))add("neutral","Pull it up to a table or desk.");
+  else if(SEAT(k)&&!(fc&&fc.d<PXM*.6))add("neutral","Pull it up to a table or desk.");
   else if((k==="sofa"||k==="armchair")&&fc&&fc.hit&&fc.hit.k==="coffee"&&fc.d<PXM*.65){const d=cm(fc.d);
     if(d<30)add("caution","Only {d} cm to the coffee table: 40 to 50 cm leaves room for your legs.",{d});else add("good","{d} cm to the coffee table: within easy reach.",{d});}
   else if(fc&&REQ[k]){const d=cm(fc.d),r=REQ[k],need=r-d;
@@ -188,7 +210,15 @@ function evaluate(k,o,selfId){
   const zone=zoneOf(o.x,o.y),others=S.items.filter(i=>i.id!==selfId);
   const facing=dir8(bearingOf(fx,fy)),headDir=dir8(bearingOf(o.bx,o.by));
 
-  if(k==="bed"){
+  k=ALIAS[k]||k;
+  if(k==="nightstand"){const bed=others.find(i=>i.k==="bed"||i.k==="bedSingle"||i.k==="bunk");
+    if(bed&&Math.hypot(oi(bed).x-o.x,oi(bed).y-o.y)<FI(bed).w/2+f.w+30)add("good","Beside the bed: a pair, one on each side, brings balance.");else add("neutral","Place it beside the bed; two matching ones balance the room.");}
+  else if(k==="toilet"){if(doors.some(d=>dot(d.x-o.x,d.y-o.y,fx,fy)>10&&Math.abs(dot(d.x-o.x,d.y-o.y,o.tx,o.ty))<90))add("caution","Facing the door: in feng shui, keep the toilet out of sight of the entrance.");else add("good","Out of the door's line of sight.");}
+  else if(k==="bathtub"||k==="washbasin"){if(against)add("good","Against a solid wall.");if(inLine.some(l=>l.kind==="door-window"))add("caution","In the straight line between the door and a window.");}
+  else if(k==="rug"){add("good","A rug grounds the space and gathers the furniture around it.");}
+  else if(k==="coatrack"){if(doors.some(d=>Math.hypot(d.x-o.x,d.y-o.y)<PXM*1.3))add("good","Near the entrance: coats stay by the door, not in the room.");else add("neutral","Coat racks belong near the entrance door.");}
+  else if(k==="barstool"){add("neutral","Pull it up to a counter or a high table.");}
+  else if(k==="bed"){
     if(behind.some(p=>p.op.k==="window"))add("bad","Headboard under a window: it feels insecure. If you can't move it, use a tall solid headboard and close the curtains at night.");
     else if(behind.some(p=>p.op.k==="door"))add("bad","Headboard against a door: it needs a solid wall behind it.");
     else if(against)add("good","Headboard against a solid wall.");
@@ -406,7 +436,7 @@ function draw(){
     }
   });
   // furniture
-  S.items.forEach(it=>{
+  [...S.items].sort((a,b)=>(FLAT(b.k)?1:0)-(FLAT(a.k)?1:0)).forEach(it=>{
     const f=FI(it),o=oi(it),v=overall(evaluate(it.k,o,it.id)),sel=S.sel&&S.sel.t==="item"&&S.sel.id===it.id,col=VCOL(v);
     const ang=Math.atan2(o.bx,-o.by)*180/Math.PI;
     const ig=el("g",{transform:`translate(${o.x.toFixed(1)} ${o.y.toFixed(1)})`,"data-id":it.id,style:"cursor:grab"});
@@ -425,6 +455,15 @@ function draw(){
       if(it.k==="table")el("rect",{x:-f.w/2+7,y:-f.h/2+7,width:f.w-14,height:f.h-14,rx:3,fill:"none",stroke:col,"stroke-width":1,opacity:.6},rg);
       if(it.k==="countertop"){el("rect",{x:-f.w/2+14,y:-f.h/2+8,width:34,height:24,rx:5,fill:"none",stroke:col,"stroke-width":1.3},rg);[0,1].forEach(s=>el("circle",{cx:f.w/2-34+s*18,cy:-2,r:6,fill:"none",stroke:col,"stroke-width":1.2},rg));}
       if(it.k==="lamp"){el("circle",{cx:0,cy:0,r:f.w/2-7,fill:S.lights?"#FFD98A":"none",stroke:col,"stroke-width":1.3},rg);el("circle",{cx:0,cy:0,r:2.5,fill:col},rg);}
+      if(it.k==="bedSingle"||it.k==="bunk"){el("rect",{x:-f.w/2+8,y:-f.h/2+8,width:f.w-16,height:16,rx:4,fill:css("--sheet"),stroke:col,"stroke-width":1.2},rg);el("line",{x1:-f.w/2,y1:-f.h/2+34,x2:f.w/2,y2:-f.h/2+34,stroke:col,"stroke-width":1},rg);if(it.k==="bunk")el("rect",{x:-f.w/2+4,y:-f.h/2+4,width:f.w-8,height:f.h-8,rx:3,fill:"none",stroke:col,"stroke-width":1,"stroke-dasharray":"4 3"},rg);}
+      if(it.k==="rug")el("rect",{x:-f.w/2+7,y:-f.h/2+7,width:f.w-14,height:f.h-14,rx:3,fill:"none",stroke:col,"stroke-width":1,"stroke-dasharray":"2 4"},rg);
+      if(it.k==="sofaCorner"){el("rect",{x:-f.w/2,y:-f.h/2,width:f.w,height:12,rx:3,fill:col,opacity:.35},rg);el("rect",{x:f.w/2-12,y:-f.h/2,width:12,height:f.h,rx:3,fill:col,opacity:.35},rg);}
+      if(it.k==="stove")[[-1,-1],[1,-1],[-1,1],[1,1]].forEach(([a,b2])=>el("circle",{cx:a*f.w/4.5,cy:b2*f.h/4.5,r:5,fill:"none",stroke:col,"stroke-width":1.2},rg));
+      if(it.k==="fridge"||it.k==="nightstand"||it.k==="tvstand")el("line",{x1:-f.w/2+5,y1:f.h/2-6,x2:f.w/2-5,y2:f.h/2-6,stroke:col,"stroke-width":1},rg);
+      if(it.k==="bathtub")el("rect",{x:-f.w/2+7,y:-f.h/2+7,width:f.w-14,height:f.h-14,rx:14,fill:"none",stroke:col,"stroke-width":1.2},rg);
+      if(it.k==="toilet")el("ellipse",{cx:0,cy:f.h/8,rx:f.w/2-4,ry:f.h/3,fill:"none",stroke:col,"stroke-width":1.2},rg);
+      if(it.k==="washbasin")el("ellipse",{cx:0,cy:2,rx:f.w/3,ry:f.h/4,fill:"none",stroke:col,"stroke-width":1.2},rg);
+      if(it.k==="office"||it.k==="barstool"||it.k==="coatrack"||it.k==="tableRound")el("circle",{cx:0,cy:0,r:Math.max(4,f.w/2-8),fill:"none",stroke:col,"stroke-width":1},rg);
       if(it.k==="appliance")el("circle",{cx:0,cy:2,r:13,fill:"none",stroke:col,"stroke-width":1.4},rg);
       if(it.k==="tv")el("line",{x1:-f.w/2+6,y1:f.h/2,x2:f.w/2-6,y2:f.h/2,stroke:col,"stroke-width":3},rg);
       if(it.k==="wardrobe")el("line",{x1:0,y1:-f.h/2,x2:0,y2:f.h/2,stroke:col,"stroke-width":1.2},rg);
@@ -664,9 +703,15 @@ function drawControls(){
   Object.entries(OPEN).forEach(([k,o])=>{const b=document.createElement("button");b.type="button";b.className="chip";b.textContent="+ "+o.name;b.setAttribute("aria-pressed",S.armed===k);b.disabled=!!S.drawing;
     b.addEventListener("click",()=>{S.armed=S.armed===k?null:k;S.sel=null;HEAT=null;render();});op.appendChild(b);});
   const pc=document.getElementById("pieces");pc.innerHTML="";
-  FURN.forEach(f=>{const b=document.createElement("button");b.type="button";b.className="chip";b.textContent="+ "+f.name;b.disabled=!!S.drawing;
+  const tabs=document.createElement("div");tabs.className="cats";tabs.setAttribute("role","tablist");
+  CATS.forEach(([key,label])=>{const t=document.createElement("button");t.type="button";t.className="cat";t.textContent=label;t.setAttribute("role","tab");t.setAttribute("aria-selected",key===CAT);
+    t.addEventListener("click",()=>{CAT=key;drawControls();});tabs.appendChild(t);});
+  pc.appendChild(tabs);
+  const row=document.createElement("div");row.className="pieces-row";pc.appendChild(row);
+  const keys=(CATS.find(c=>c[0]===CAT)||CATS[0])[2];
+  FURN.filter(f=>keys.includes(f.k)).forEach(f=>{const b=document.createElement("button");b.type="button";b.className="chip";b.textContent="+ "+f.name;b.disabled=!!S.drawing;
     b.addEventListener("click",()=>{let s=bestSpot(f.k);if(!s){const[cx,cy]=centroid(pts());const o=orient(f.k,cx,cy);s={x:o.x,y:o.y};}
-      const it={id:S.next++,k:f.k,x:s.x,y:s.y};S.items.push(it);S.sel={t:"item",id:it.id};S.armed=null;computeHeat();save();render();});pc.appendChild(b);});
+      const it={id:S.next++,k:f.k,x:s.x,y:s.y};S.items.push(it);S.sel={t:"item",id:it.id};S.armed=null;computeHeat();save();render();});row.appendChild(b);});
 }
 function syncSize(){if(!DESIGN)return;const P=pts(),xs=P.map(q=>q[0]),ys=P.map(q=>q[1]),rw=document.getElementById("rw"),rl=document.getElementById("rl");
   if(rw&&document.activeElement!==rw)rw.value=num((Math.max(...xs)-Math.min(...xs))/PXM,1);if(rl&&document.activeElement!==rl)rl.value=num((Math.max(...ys)-Math.min(...ys))/PXM,1);}

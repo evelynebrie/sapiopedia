@@ -195,3 +195,12 @@ main.page.wide{max-width:var(--max)}
   .fs .fs-ovbox{padding:10px}
   .fs .fs-ovact .chip{flex:1;text-align:center;padding:12px}
 }
+
+/* furniture by category: one category at a time */
+.fs .pieces{display:block}
+.fs .cats{display:flex;flex-wrap:wrap;gap:4px;margin:0 0 10px;padding:4px;background:var(--panel);border-radius:12px}
+.fs .cat{all:unset;cursor:pointer;padding:7px 12px;border-radius:9px;font:600 13.5px var(--sans);color:var(--muted)}
+.fs .cat[aria-selected="true"]{background:var(--sheet);color:var(--accent);box-shadow:0 1px 3px rgba(42,31,38,.14)}
+.fs .cat:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.fs .pieces-row{display:flex;flex-wrap:wrap;gap:7px}
+@media (max-width:600px){.fs .pieces-row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}.fs .pieces-row .chip{text-align:center}}

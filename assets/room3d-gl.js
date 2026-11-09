@@ -5,11 +5,16 @@ import { GLTFLoader } from "/assets/vendor/three/examples/jsm/loaders/GLTFLoader
 const MODEL = {
   bed: "bedDouble", desk: "desk", chair: "chair", table: "table", coffee: "tableCoffee", sofa: "loungeSofa",
   armchair: "loungeChair", tv: "televisionModern", wardrobe: "bookcaseClosedDoors", shelf: "bookcaseOpen",
-  appliance: "washer", plant: "pottedPlant", lamp: "lampRoundFloor", countertop: "kitchenCabinet"
+  appliance: "washer", plant: "pottedPlant", lamp: "lampRoundFloor", countertop: "kitchenCabinet",
+  bedSingle: "bedSingle", bunk: "bedBunk", nightstand: "sideTableDrawers", sofaCorner: "loungeSofaCorner", tvstand: "cabinetTelevision",
+  tableRound: "tableRound", fridge: "kitchenFridgeLarge", stove: "kitchenStove", bathtub: "bathtub", toilet: "toilet", washbasin: "bathroomSink",
+  rug: "rugRectangle", office: "chairDesk", coatrack: "coatRackStanding", barstool: "stoolBar"
 };
 const EXTRA = ["kitchenSink"];
 /* real-world heights in cm (the footprint comes from the plan) */
-const HEIGHT = { bed: 95, desk: 75, chair: 90, table: 75, coffee: 42, sofa: 82, armchair: 80, tv: 70, wardrobe: 205, shelf: 185, appliance: 85, plant: 110, lamp: 160, countertop: 90 };
+const HEIGHT = { bed: 95, desk: 75, chair: 90, table: 75, coffee: 42, sofa: 82, armchair: 80, tv: 70, wardrobe: 205, shelf: 185, appliance: 85, plant: 110, lamp: 160, countertop: 90,
+  bedSingle: 90, bunk: 165, nightstand: 55, sofaCorner: 82, tvstand: 50, tableRound: 75, fridge: 180, stove: 90, bathtub: 60, toilet: 78, washbasin: 88,
+  rug: 1.5, office: 100, coatrack: 180, barstool: 75 };
 
 export function create(A, look) {
   const PX = A.PXM, cm = c => c * PX / 100, WALL_H = cm(250), WT = cm(12), SLAB = cm(14), LR = 2.5 * PX;
@@ -128,7 +133,7 @@ export function create(A, look) {
         m.traverse(c => { if (c.isMesh) { c.castShadow = true; c.receiveShadow = true; if (matTweak) { c.material = c.material.clone(); matTweak(c.material); } } });
         grp.add(inner); return true; };
       const h = cm(HEIGHT[it.k] || 60);
-      const FABRIC = { sofa: 0xBFB8AE, armchair: 0xBFB8AE, bed: 0xC5D1D8 }[it.k];
+      const FABRIC = { sofa: 0xBFB8AE, armchair: 0xBFB8AE, bed: 0xC5D1D8, bedSingle: 0xC5D1D8, bunk: 0xC5D1D8, sofaCorner: 0xBFB8AE, rug: 0xCFA9AE, office: 0x6F6A66, barstool: 0xBFB8AE }[it.k];
       const neutral = FABRIC ? (mt => { const hsl = {}; mt.color.getHSL(hsl); if (hsl.s > .25) mt.color.set(FABRIC); }) : null;
       if (it.k === "countertop") {
         const k = Math.max(1, Math.round(f.w / cm(60))), cw = f.w / k;

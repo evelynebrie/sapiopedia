@@ -320,8 +320,9 @@ function ensureGL() {
     .catch(err => { console.warn("3D view fallback:", err); GL = null; return null; });
   return glp;
 }
+const TURN = document.documentElement.classList.contains("embed3d");   /* home page: the room turns and its lamps switch on and off */
 function update() {
-  if (!on) return; const W = Math.max(280, stage.clientWidth), dpr = Math.min(2, window.devicePixelRatio || 1);
+  if (!on || TURN) return; const W = Math.max(280, stage.clientWidth), dpr = Math.min(2, window.devicePixelRatio || 1);
   if (busy) { again = true; return; } busy = true;
   ensureGL().then(gl => gl ? gl.render(W, dpr).then(() => placeMarks(gl)) : draw(cv, W, dpr)).catch(() => draw(cv, W, dpr))
     .finally(() => { busy = false; if (again) { again = false; update(); } });
@@ -339,6 +340,14 @@ bar.addEventListener("click", onClick); lookEl.addEventListener("click", onClick
 colorIn.addEventListener("input", () => { look().wall = colorIn.value; A.save(); sync(); update(); });
 try { on = localStorage.getItem(VKEY) === "3d"; } catch (_) {}
 if (window.ResizeObserver) new ResizeObserver(() => update()).observe(stage);
+if (TURN) { on = true; sync();
+  ensureGL().then(gl => { if (!gl || !gl.turn) return;
+    const W = () => Math.max(280, stage.clientWidth), dpr = Math.min(2, window.devicePixelRatio || 1), lamps = A.S.items.some(i => i.k === "lamp");
+    let az = Math.PI / 4, last = performance.now(), t = 0, w = W(), ready = gl.turn(w, dpr, az);
+    const tick = now => { const dt = Math.min(100, now - last); last = now; az += dt * 2 * Math.PI / 24000; t += dt;   /* one turn every 24 s */
+      if ((lamps && t > 3500) || W() !== w) { t = 0; if (lamps && W() === w) A.S.lights = !A.S.lights; w = W(); ready = gl.turn(w, dpr, az); }
+      ready.then(() => gl.spin(az)); requestAnimationFrame(tick); };
+    ready.then(() => requestAnimationFrame(tick)); }); }
 
 /* PNG export: 2D plan on the left, 3D view on the right, Sapiopedia band below */
 async function png() {

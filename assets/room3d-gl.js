@@ -110,11 +110,12 @@ export function create(A, look) {
   };
 
   /* ---------- scene build ---------- */
-  function build(width) {
+  function build(width, opts) {
+    opts = opts || {};
     const S = A.S, L = look(), FL = L.floors[L.floor] || L.floors.oak, P = A.pts(), n = P.length;
     const scene = new THREE.Scene();
     const [cx, cz] = A.centroid(P);
-    const az = Math.PI / 4 + (L.rot || 0) * Math.PI / 2, view = [Math.sin(az), Math.cos(az)];
+    const az = opts.az != null ? opts.az : Math.PI / 4 + (L.rot || 0) * Math.PI / 2, view = [Math.sin(az), Math.cos(az)];
     const lightsOn = !!S.lights && S.items.some(i => i.k === "lamp");
 
     /* edges with inward normals */
@@ -139,9 +140,10 @@ export function create(A, look) {
       const len = s1 - s0, d = depth1 - depth0, m = new THREE.Mesh(new THREE.BoxGeometry(len, z1 - z0, d), mat);
       const sm = (s0 + s1) / 2, dm = (depth0 + depth1) / 2;
       m.position.set(e.a[0] + e.dx * sm + e.nx * dm, (z0 + z1) / 2, e.a[1] + e.dy * sm + e.ny * dm);
-      m.rotation.y = Math.atan2(-e.dy, e.dx); m.castShadow = !!cast; m.receiveShadow = true; scene.add(m); return m; };
+      m.rotation.y = Math.atan2(-e.dy, e.dx); m.castShadow = !!cast; m.receiveShadow = true; tgt.add(m); return m; };
+    let tgt = scene;
     const opens = S.opens.map(op => Object.assign({ op }, A.openPos(op))).filter(p => p && isFinite(p.x));
-    E.forEach(e => {
+    const wallsOf = e => {
       const H = e.back ? WALL_H : cm(8), list = opens.filter(p => p.edge === e.i && p.op.k !== "mirror")
         .map(p => { const c = (p.x - e.a[0]) * e.dx + (p.y - e.a[1]) * e.dy; return { p, s0: c - p.len / 2, s1: c + p.len / 2 }; }).sort((x, y) => x.s0 - y.s0);
       let s = -WT;
@@ -173,7 +175,11 @@ export function create(A, look) {
         const mh = cm(p.op.h || A.OPEN_H.mirror), m0 = Math.max(cm(5), Math.min(cm(95), WALL_H - mh - cm(20))), m1 = m0 + mh;
         boxOnEdge(e, c - p.len / 2, c + p.len / 2, m0, m1, 0, cm(2), M(0xC9AE8A, { roughness: .6 }));
         boxOnEdge(e, c - p.len / 2 + cm(3), c + p.len / 2 - cm(3), m0 + cm(3), m1 - cm(3), cm(2), cm(2.4), M(0xD3DFE6, { metalness: .15, roughness: .12 })); });
-    });
+    };
+    /* turntable (home page): every wall is built tall and low, and setAz() shows the right one for the angle */
+    const turnWalls = [];
+    E.forEach(e => { if (!opts.turn) return wallsOf(e);
+      [true, false].forEach(b => { const g = new THREE.Group(); tgt = g; wallsOf(Object.assign({}, e, { back: b })); tgt = scene; scene.add(g); turnWalls.push({ nx: e.nx, ny: e.ny, back: b, g }); }); });
 
     /* furniture */
     S.items.forEach(it => {
@@ -210,22 +216,26 @@ export function create(A, look) {
     const span = Math.max(...P.map(p => Math.hypot(p[0] - cx, p[1] - cz))) + WT * 2;
     const hemi = new THREE.HemisphereLight(0xFFFFFF, 0xE2DAD0, lightsOn ? .18 : 1.7); scene.add(hemi);
     const sun = new THREE.DirectionalLight(0xFFF6EA, lightsOn ? .12 : 1.9);
-    const la = az - 1.0; sun.position.set(cx + Math.sin(la) * span * 1.4, span * 2.2, cz + Math.cos(la) * span * 1.4); sun.target.position.set(cx, 0, cz);
+    const placeSun = a => { const la = a - 1.0; sun.position.set(cx + Math.sin(la) * span * 1.4, span * 2.2, cz + Math.cos(la) * span * 1.4); }; placeSun(az); sun.target.position.set(cx, 0, cz);
     sun.castShadow = true; sun.shadow.mapSize.set(2048, 2048); const sc = sun.shadow.camera; sc.left = sc.bottom = -span * 1.3; sc.right = sc.top = span * 1.3; sc.near = 1; sc.far = span * 6;
     sun.shadow.bias = -0.0008; sun.shadow.normalBias = 0.6; sun.shadow.radius = 4; scene.add(sun, sun.target);
     if (lightsOn) scene.add(new THREE.AmbientLight(0x3A3355, .6));
 
     /* camera: isometric, fitted to the room */
     const cam = new THREE.OrthographicCamera(-1, 1, 1, -1, -10000, 10000), el2 = Math.atan(1 / Math.SQRT2);
-    cam.position.set(cx + Math.sin(az) * Math.cos(el2) * 1000, WALL_H * .3 + Math.sin(el2) * 1000, cz + Math.cos(az) * Math.cos(el2) * 1000);
-    cam.lookAt(cx, WALL_H * .3, cz); cam.updateMatrixWorld();
-    const inv = cam.matrixWorldInverse; let x0 = 1e9, x1 = -1e9, y0 = 1e9, y1 = -1e9;
-    outer.forEach(p => [-SLAB, WALL_H].forEach(y => { const v = new THREE.Vector3(p.x, y, p.y).applyMatrix4(inv); x0 = Math.min(x0, v.x); x1 = Math.max(x1, v.x); y0 = Math.min(y0, v.y); y1 = Math.max(y1, v.y); }));
+    const placeCam = a => { cam.position.set(cx + Math.sin(a) * Math.cos(el2) * 1000, WALL_H * .3 + Math.sin(el2) * 1000, cz + Math.cos(a) * Math.cos(el2) * 1000);
+      cam.lookAt(cx, WALL_H * .3, cz); cam.updateMatrixWorld(); };
+    let x0 = 1e9, x1 = -1e9, y0 = 1e9, y1 = -1e9;
+    (opts.turn ? Array.from({ length: 24 }, (_, i) => i * Math.PI / 12) : [az]).forEach(a => { placeCam(a); const inv = cam.matrixWorldInverse;   /* turntable: one frame that fits every angle */
+      outer.forEach(p => [-SLAB, WALL_H].forEach(y => { const v = new THREE.Vector3(p.x, y, p.y).applyMatrix4(inv); x0 = Math.min(x0, v.x); x1 = Math.max(x1, v.x); y0 = Math.min(y0, v.y); y1 = Math.max(y1, v.y); })); });
+    placeCam(az);
     const m = (x1 - x0) * .04; cam.left = x0 - m; cam.right = x1 + m; cam.top = y1 + m; cam.bottom = y0 - m; cam.updateProjectionMatrix();
     const height = Math.round(width * (cam.top - cam.bottom) / (cam.right - cam.left));
     const marks = S.items.map(it => { const f = A.FI(it), q = A.oi(it), v = new THREE.Vector3(q.x, cm(HEIGHT[it.k] || 60) + cm(18), q.y).project(cam);
       return { id: it.id, x: (v.x + 1) / 2, y: (1 - v.y) / 2 }; });
-    return { scene, cam, height, marks };
+    const setAz = a => { const vx = Math.sin(a), vz = Math.cos(a); turnWalls.forEach(w => { w.g.visible = (w.nx * vx + w.ny * vz > 0.02) === w.back; }); placeSun(a); placeCam(a); };
+    if (opts.turn) setAz(az);
+    return { scene, cam, height, marks, setAz };
   }
 
   async function render(width, dpr) {
@@ -238,6 +248,15 @@ export function create(A, look) {
     scene.traverse(o => { if (o.isMesh && !keep.has(o.geometry)) o.geometry.dispose(); });
     return height;
   }
-  const api = { el, render, ready: loadAll, marks: [] };
+  /* turntable: turn() builds the scene once (again when the lamps change), spin() only moves the camera, the sun and the cut-away walls */
+  let TT = null;
+  const free = sc => { const keep = new Set(); Object.values(cache).forEach(m => m.traverse(c => { if (c.isMesh) keep.add(c.geometry); })); sc.traverse(o => { if (o.isMesh && !keep.has(o.geometry)) o.geometry.dispose(); }); };
+  async function turn(width, dpr, az) {
+    await loadAll; const old = TT; TT = build(width, { turn: true, az }); if (old) free(old.scene);
+    renderer.setPixelRatio(dpr || 1); renderer.setSize(width, TT.height, false);
+    el.style.width = "100%"; el.style.height = "auto"; el.style.aspectRatio = `${width} / ${TT.height}`; renderer.render(TT.scene, TT.cam); return TT.height;
+  }
+  function spin(az) { if (!TT) return; TT.setAz(az); renderer.render(TT.scene, TT.cam); }
+  const api = { el, render, turn, spin, ready: loadAll, marks: [] };
   return api;
 }

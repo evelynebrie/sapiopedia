@@ -98,10 +98,10 @@ export function create(A, look) {
       b.position.y = (h - seatY) / 2; back.add(b); back.position.set(0, seatY, -f.h / 2 + cm(10)); back.rotation.x = -.16; grp.add(back);
     },
     toychest(f, h, box) {   /* box with an overhanging lid and two handles */
-      box(f.w - cm(2), h - cm(5), f.h - cm(2), 0, (h - cm(5)) / 2, 0, M(0xF1E3C6));
+      box(f.w - cm(2), h - cm(5), f.h - cm(2), 0, (h - cm(5)) / 2, 0, M(0xE8BFC9));
       box(f.w, cm(5), f.h, 0, h - cm(2.5), 0, WOOD2);
       [-1, 1].forEach(a => box(cm(3), cm(4), cm(9), a * (f.w / 2), h * .6, 0, M(0xB8A182)));
-      box(f.w - cm(10), cm(1), cm(1), 0, h * .55, f.h / 2, M(0xE7C2CB));
+      box(f.w - cm(10), cm(1), cm(1), 0, h * .55, f.h / 2, M(0xF7EEE6));
     },
     playmat(f, h, box) {   /* 3 × 3 foam tiles in soft colours */
       const C = [0xB9CFE0, 0xF4D9A9, 0xEBCFD6, 0xC9DCC4], tw = f.w / 3, td = f.h / 3;

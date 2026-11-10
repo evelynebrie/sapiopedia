@@ -153,7 +153,7 @@ for lang in ("en", "fr"):
 </section></div>
 <section class="fsdemo"><div class="head"><span class="kicker">{u['demo_k']}</span><i></i></div>
   <div class="txt"><h2>{u['demo_h']}</h2><p>{u['demo_p']}</p><a href="{fs_url}">{u['demo_a']} →</a></div>
-  <iframe id="fsdemo" src="{fs_url}?preset=evening-living&amp;view=3d&amp;embed=3d" title="{u['demo_t']}" loading="lazy"></iframe>
+  <iframe id="fsdemo" src="{fs_url}?preset=evening-living&amp;view=3d&amp;embed=3d" title="{u['demo_t']}" loading="lazy" scrolling="no"></iframe>
 </section>
 <script>addEventListener("message",function(e){{if(e.data&&e.data.fsEmbedH)document.getElementById("fsdemo").style.height=(e.data.fsEmbedH+4)+"px";}});</script>
 <section class="cats"><div class="head"><span class="kicker">{u['explore']}</span><i></i></div>{rows}</section>

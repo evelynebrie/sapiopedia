@@ -215,3 +215,4 @@ html.embed3d .fs .grid{display:block}
 html.embed3d .fs .sheet.work{background:transparent;border:0;box-shadow:none;padding:0}
 html.embed3d .fs .v3dwrap canvas,html.embed3d .fs canvas.v3d{background:transparent}
 html.embed3d,html.embed3d body,html.embed3d main.page{background:transparent!important}
+html.embed,html.embed body{overflow:hidden}

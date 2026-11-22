@@ -67,6 +67,16 @@ def build(lang, layout, write, add_url, slug, alt_path):
     overlay = f'''<div class="dd-ov" id="dd-ov" hidden role="dialog" aria-modal="true" aria-label="{e(t["preview"])}"><div class="dd-ovbox"><img alt=""><div class="dd-ovact"><button type="button" data-a="close">{t["close"]}</button><button type="button" data-a="dl" class="solid">{t["download"]}</button></div></div></div>'''
     cfg = json.dumps({"lang": lang, "book": t["book"], "sit": t["sit"], "feel": t["feel"], "q": t["q"], "also": t["also"], "src": t["src"], "searched": t["searched"], "preparing": t["preparing"], "share": "❦ " + t["share"], "url": f"sapiopedia.com/{lang}/{slug}/"}, ensure_ascii=False)
     scripts = f'<script>window.DD={cfg};</script><script src="/assets/dreams.js"></script>'
+    # ---- engraved plates with a verse for some entries (data/dream_images.json)
+    ip = os.path.join(ROOT, "data", "dream_images.json")
+    IMG = json.load(open(ip, encoding="utf-8")).get(lang, {}) if os.path.exists(ip) else {}
+    def plate(i):
+        m = IMG.get(i)
+        if not m: return ""
+        verse = "<br>".join(e(v) for v in m["verse"])
+        return (f'<figure class="dd-plate"><img src="/assets/dreams/{m["img"]}.webp" alt="{e(m["alt"])}" width="1600" height="900" fetchpriority="high">'
+                f'<figcaption>{m["cap"]}</figcaption></figure>'
+                f'<blockquote class="dd-verse" lang="{lang}"><p>{verse}</p><footer>{m["cite"]}</footer></blockquote>')
     # ---- one page per entry
     n_ready = 0
     for n, x in enumerate(E):
@@ -79,7 +89,7 @@ def build(lang, layout, write, add_url, slug, alt_path):
         art = f'''<article class="dd-e" id="{x["id"]}" data-l="{x["letter"]}">
 <div class="guide">{f'<a href="{P(prev["id"])}">← {e(prev["word"])}</a>' if prev else "<span></span>"}<a href="/{lang}/{slug}/#l-{x["letter"]}">{e(t["book"])} · {x["letter"]}</a>{f'<a href="{P(nxt["id"])}">{e(nxt["word"])} →</a>' if nxt else "<span></span>"}</div>
 <header><span class="ini" aria-hidden="true">{e(x["word"][:1].upper())}</span><div><h1>{e(x["title"])}</h1><p class="pos">{e(", ".join([x["word"].lower()] + x["aliases"][:4]))} · {dots(x["tone"])} {e(x["tone_label"])}</p></div></header>
-<p class="lead">{e(x["one"])}</p>
+{plate(x["id"])}<p class="lead">{e(x["one"])}</p>
 {f'<section><h3>{t["sit"]}</h3><ul class="sit">{sits}</ul></section>' if sits else ""}
 {f'<section><h3>{t["feel"]}</h3><ul class="fl">{feels}</ul></section>' if feels else ""}
 {f'<section><h3>{t["q"]}</h3><ul class="fl">{qs}</ul></section>' if qs else ""}

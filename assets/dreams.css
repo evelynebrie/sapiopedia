@@ -106,3 +106,15 @@ main.page.dream h1{font-family:'IM Fell English',Georgia,serif;font-variation-se
 .dd-list .dots s{text-decoration:none;color:#E2D5CB}
 .dd-list .one{display:block;font-style:italic;font-size:15.5px;color:var(--sepia);line-height:1.35}
 .dd-letter{contain-intrinsic-size:auto 2400px}
+/* engraved plate and verse at the top of some entries (data/dream_images.json) */
+.dd-plate{margin:2px 0 0;padding:12px 14px 9px;border:1px solid var(--edge);box-shadow:inset 0 0 0 4px var(--paper),inset 0 0 0 5px var(--edge);background:var(--paper);display:grid;gap:8px}
+.dd-plate img{display:block;width:100%;height:auto;aspect-ratio:16/9}
+.dd-plate figcaption{font-family:'EB Garamond',Georgia,serif;font-style:italic;font-size:14px;color:var(--sepia);text-align:center;line-height:1.35}
+.dd-plate figcaption em{font-style:normal}
+.dd-plate figcaption a{color:inherit}
+.dd-verse{margin:0 auto;padding:4px 0 2px;max-width:560px;text-align:center;border:0}
+.dd-verse p{font-family:'EB Garamond',Georgia,serif;font-style:italic;font-size:21px;line-height:1.45;color:var(--ink6);margin:0}
+.dd-verse footer{margin-top:6px;font-family:'IM Fell English SC',Georgia,serif;font-size:15px;letter-spacing:.04em;color:var(--sepia)}
+.dd-verse footer::before{content:"— "}
+.dd-verse footer em{font-style:italic}
+@media(max-width:560px){.dd-plate{padding:8px 8px 6px}.dd-verse p{font-size:18px}}

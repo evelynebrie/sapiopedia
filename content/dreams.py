@@ -91,7 +91,7 @@ def build(lang, layout, write, add_url, slug, alt_path):
         art = f'''<article class="dd-e" id="{x["id"]}" data-l="{x["letter"]}">
 <div class="guide">{f'<a href="{P(prev["id"])}">← {e(prev["word"])}</a>' if prev else "<span></span>"}<a href="/{lang}/{slug}/#l-{x["letter"]}">{e(t["book"])} · {x["letter"]}</a>{f'<a href="{P(nxt["id"])}">{e(nxt["word"])} →</a>' if nxt else "<span></span>"}</div>
 <header><span class="ini" aria-hidden="true">{e(x["word"][:1].upper())}</span><div><h1>{e(x["title"])}</h1><p class="pos">{e(", ".join([x["word"].lower()] + x["aliases"][:4]))} · {dots(x["tone"])} {e(x["tone_label"])}</p></div></header>
-{plate(x["id"])}<p class="lead">{e(x["one"])}</p>
+{plate(x["id"])}<p class="lead dd-sum"><b>{"Résumé\u00a0:" if lang == "fr" else "Summary:"}</b> {e(x["one"])}</p>
 {f'<section><h3>{t["sit"]}</h3><ul class="sit">{sits}</ul></section>' if sits else ""}
 {f'<section><h3>{t["feel"]}</h3><ul class="fl">{feels}</ul></section>' if feels else ""}
 {f'<section><h3>{t["q"]}</h3><ul class="fl">{qs}</ul></section>' if qs else ""}

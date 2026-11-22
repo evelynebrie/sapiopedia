@@ -41,6 +41,44 @@ PINS = [  # id, set, letter, h1 (image), title (CSV, unique), description
   "Adèle, Agathe, Apolline, Arthur: the French first names starting with A, marked for girls, boys or both. Open any name for its origin, its French pronunciation and a recording."),
 ]
 
+# curated lists: the most beautiful names (picked by hand among cards with a pronunciation), shown as a list in the same box
+CUR = [  # id, set, gender, h1, title, names
+ ("cur-fr-girls", FR, "f", "The most beautiful <em>French girl names</em>", "The most beautiful French girl names, with how to say them",
+  "Adèle Agathe Apolline Capucine Clémence Colette Héloïse Joséphine Juliette Louise Margaux Rose"),
+ ("cur-de-boys", DE, "m", "The most beautiful <em>German boy names</em>", "The most beautiful German boy names, with how to say them",
+  "Anton Emil Felix Friedrich Heinrich Jakob Konrad Leopold Ludwig Moritz Oskar Theodor"),
+ ("cur-fr-boys", FR, "m", "The most beautiful <em>French boy names</em>", "The most beautiful French boy names, with how to say them",
+  "Arthur Augustin Bastien Côme Émile Gabriel Gaspard Jules Léon Louis Lucien Raphaël"),
+ ("cur-de-girls", DE, "f", "The most beautiful <em>German girl names</em>", "The most beautiful German girl names, with how to say them",
+  "Antonia Charlotte Clara Emilia Frieda Helene Johanna Lotte Magdalena Marlene Rosa Theresa"),
+ ("cur-fr-unisex", FR, "n", "Beautiful French names <em>for girls and boys</em>", "Beautiful French unisex names, for girls and boys",
+  "Alix Anouk Camille Céleste Charlie Claude Dominique Eden Lou Maxime"),
+]
+CUR_CSS = ('<style>.cur{flex:1;min-height:0;border-radius:20px;background:#FBF6F0;box-shadow:0 24px 50px -24px rgba(42,31,38,.45);margin-bottom:36px;'
+           'padding:34px 44px;display:grid;grid-template-columns:1fr 1fr;grid-auto-rows:1fr;gap:0 40px;align-content:stretch}'
+           '.cur div{display:flex;flex-direction:column;justify-content:center;border-bottom:1px solid #E8D9DD;padding:4px 0}'
+           '.cur div:nth-last-child(-n+2){border-bottom:0}.cur b{font-family:Fraunces,Georgia,serif;font-weight:400;font-size:46px;letter-spacing:-.02em;color:#2A1F26;line-height:1.05}'
+           '.cur b i{font-style:normal;font-size:30px;color:#B8405E;margin-left:10px;vertical-align:4px}.cur span{font-family:Fraunces,Georgia,serif;font-style:italic;font-weight:300;font-size:25px;color:#6E5A62}</style>')
+SYMB = {"f": "♀", "m": "♂", "n": "⚥"}
+
+def card(k, w):
+    """(name shown, gender, pronunciation) from the site's own data."""
+    rows = {r[0]: r[3] for r in json.load(open(os.path.join(ROOT, "data", f"names_{k}_list.json"), encoding="utf-8"))}
+    D = json.load(open(os.path.join(ROOT, "assets", f"names-{k}.json"), encoding="utf-8"))
+    r = D[rows[w]]; ipa = (r.get("ipa") or "").strip("\\")
+    return w, r["g"], (f"/{ipa}/" if ipa and not ipa.startswith(("[", "/")) else ipa)
+
+def page_cur(pid, S, g, h1, names):
+    k = "de" if S is DE else "fr"
+    items = "".join(f'<div><b>{w}<i>{SYMB.get(gg, "")}</i></b><span>{ipa}</span></div>' for w, gg, ipa in (card(k, w) for w in names.split()))
+    h = re.sub(r'<div class="kick">.*?</div>', f'<div class="kick">{S["kick"]}</div>', TEMPLATE, 1)
+    h = re.sub(r"<h1>.*?</h1>", f"<h1>{h1}</h1>", h, 1).replace("<p class=sub>♀ girls · ♂ boys · ⚥ both, with how to say each one</p>",
+        f"<p class=sub>{len(names.split())} favourites, with how to say each one</p>")
+    h = re.sub(r'<div class="ixf">.*?</div></div>', CUR_CSS + f'<div class="cur">{items}</div></div>', h, 1, flags=re.S)
+    h = re.sub(r"<script>var f=document.*?</script>", "", h, 1, flags=re.S)
+    h = re.sub(r'<div class="u"><b>.*?</b><span>.*?</span>', f'<div class="u"><b>sapiopedia.com{S["base"]}</b><span>{S["label"]}</span>', h, 1)
+    open(os.path.join(TMP, pid + ".html"), "w", encoding="utf-8").write(h)
+
 def page(pid, S, L, h1):
     h = re.sub(r'<div class="kick">.*?</div>', f'<div class="kick">{S["kick"]}</div>', TEMPLATE, 1)
     h = re.sub(r"<h1>.*?</h1>", f"<h1>{h1}</h1>", h, 1).replace("<p class=sub>♀ girls · ♂ boys · ⚥ both, with how to say each one</p>", f"<p class=sub>{S['sub']}</p>")
@@ -48,15 +86,25 @@ def page(pid, S, L, h1):
     h = re.sub(r'<div class="u"><b>.*?</b><span>.*?</span>', f'<div class="u"><b>sapiopedia.com{S["base"]}</b><span>{S["label"]}</span>', h, 1)
     open(os.path.join(TMP, pid + ".html"), "w", encoding="utf-8").write(h)
 
-def shoot(pid):
-    out = os.path.join(OUT, pid + ".png")
-    subprocess.run([CHROME, "--headless=new", "--hide-scrollbars", "--virtual-time-budget=20000", "--window-size=1000,1500", f"--screenshot={out}",
-                    f"http://127.0.0.1:8765/_pins_batch/{pid}.html"], capture_output=True, timeout=240)
-    shutil.copy(out, os.path.join(ROOT, "pins", "b1", pid + ".png")); return pid
+def filled(png):
+    """True when the box shows the list (a blank box is one flat colour)."""
+    from PIL import Image, ImageStat
+    return ImageStat.Stat(Image.open(png).convert("L").crop((100, 520, 900, 1250))).stddev[0] > 10
+
+def shoot(pid, w=1000, h=1500):
+    out = os.path.join(TMP, pid + "-shot.png")   # only a filled render reaches the Desktop and pins/b1
+    for budget in (20000, 30000, 45000):   # a screenshot taken before the index has loaded shows an empty box: check and retry
+        subprocess.run([CHROME, "--headless=new", "--hide-scrollbars", f"--virtual-time-budget={budget}", f"--window-size={w},{h}", f"--screenshot={out}",
+                        f"http://127.0.0.1:8765/_pins_batch/{pid}.html"], capture_output=True, timeout=300)
+        if filled(out): break
+    else: raise SystemExit(f"{pid}: the box is still empty")
+    shutil.copy(out, os.path.join(OUT, pid + ".png")); shutil.copy(out, os.path.join(ROOT, "pins", "b1", pid + ".png")); return pid
 
 if __name__ == "__main__":
     for pid, S, L, h1, *_ in PINS: page(pid, S, L, h1)
-    with cf.ThreadPoolExecutor(4) as ex: print("rendered", list(ex.map(shoot, [p[0] for p in PINS])))
+    for pid, S, g, h1, title, names in CUR: page_cur(pid, S, g, h1, names)
+    only = os.environ.get("ONLY")
+    with cf.ThreadPoolExecutor(2) as ex: print("rendered", list(ex.map(shoot, [p[0] for p in PINS + CUR if not only or re.search(only, p[0])])))
     # days that already have a pin to the same index page (any CSV on the Desktop) are skipped for that page
     busy, titles = set(), set()
     for f in os.listdir(DESK):
@@ -70,6 +118,22 @@ if __name__ == "__main__":
         assert title not in titles and len(title) <= 100 and len(desc) <= 480, pid
         rows.append([title, f"{SITE}/pins/b1/{pid}.png", BOARD, "", desc + " Free, no sign-up.", f"{link}#l-{L}", f"{day.isoformat()}T{SLOT}", S["tags"].format(L=L)])
         day += datetime.timedelta(1)
+    for pid, S, g, h1, title, names in CUR:
+        link = SITE + S["base"]
+        while (link, day.isoformat()) in busy: day += datetime.timedelta(1)
+        lang = "German" if S is DE else "French"; who = {"f": "girls", "m": "boys", "n": "girls and boys"}[g]
+        ns = names.split(); desc = (f"{', '.join(ns[:-1])} and {ns[-1]}: {len(ns)} beautiful {lang} names for {who}, with how to say each one. "
+                                    f"Open the {lang} names on Sapiopedia to hear every name and see its origin. Free, no sign-up.")
+        assert title not in titles and len(title) <= 100 and len(desc) <= 500, pid
+        rows.append([title, f"{SITE}/pins/b1/{pid}.png", BOARD, "", desc, link, f"{day.isoformat()}T{SLOT}",
+                     S["tags"].split(", Names starting")[0] + f", Beautiful {lang} names, {lang} {'unisex' if g == 'n' else ('girl' if g == 'f' else 'boy')} names"])
+        day += datetime.timedelta(1)
+    FIXED = ("ixde-en-H", "ixde-en-K", "ixde-en-W")   # first published with an empty box: new image URL so Pinterest fetches the fixed one
+    for r in rows:
+        if any(f"/{p}.png" in r[1] for p in FIXED): r[1] += "?v=2"
+    cols = ["Title", "Media URL", "Pinterest board", "Thumbnail", "Description", "Link", "Publish date", "Keywords"]
     with open(os.path.join(DESK, "pinterest-bulk-upload-index.csv"), "w", encoding="utf-8", newline="") as fh:
-        w = csv.writer(fh); w.writerow(["Title", "Media URL", "Pinterest board", "Thumbnail", "Description", "Link", "Publish date", "Keywords"]); w.writerows(rows)
+        w = csv.writer(fh); w.writerow(cols); w.writerows(rows)
+    with open(os.path.join(DESK, "pinterest-bulk-upload-index-update.csv"), "w", encoding="utf-8", newline="") as fh:   # for an account that already has the first ten
+        w = csv.writer(fh); w.writerow(cols); w.writerows([r for r in rows if "?v=2" in r[1] or "/cur-" in r[1]])
     for r in rows: print(r[6][:16], r[1].rsplit("/", 1)[1], "·", r[0])

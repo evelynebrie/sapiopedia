@@ -1,5 +1,5 @@
 /* Sapiopedia: Dream Dictionary (old dream-book look, scoped under .dd) */
-@import url("https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,600;1,400&family=IM+Fell+English:ital@0;1&family=IM+Fell+English+SC&family=Caveat:wght@500&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,600;1,400&family=IM+Fell+English:ital@0;1&family=IM+Fell+English+SC&family=Pinyon+Script&display=swap");
 main.page.dream{max-width:900px}
 main.page.dream h1{font-family:'IM Fell English',Georgia,serif;font-variation-settings:normal;letter-spacing:0}
 .dd{--ink6:#2B2320;--sepia:#5B4A40;--rule6:#BFAE9F;--paper:#FCF7F2;--edge:#E6D9CC;--wine:#8E2F48;--g6:#6E8F63;--g6s:#3E5638;--y6:#D4AE52;--y6s:#8A6A22;--r6:#B0564A;--r6s:#6E2C25;font-family:'EB Garamond',Georgia,serif;color:var(--ink6)}
@@ -113,8 +113,12 @@ main.page.dream h1{font-family:'IM Fell English',Georgia,serif;font-variation-se
 .dd-plate figcaption em{font-style:normal}
 .dd-plate figcaption a{color:inherit}
 .dd-verse{margin:0 auto;padding:4px 0 2px;max-width:none;text-align:center;border:0}
-.dd-e .dd-verse p{font-family:'Caveat','Segoe Script','Bradley Hand',cursive;font-weight:500;font-style:normal;font-size:36px;line-height:1.2;color:#141010;margin:0}
+.dd-e .dd-verse p{font-family:'Pinyon Script','Snell Roundhand',cursive;font-weight:400;font-style:normal;font-size:40px;line-height:1.3;color:#141010;margin:0}
 .dd-verse footer{margin-top:6px;font-family:'IM Fell English SC',Georgia,serif;font-size:15px;letter-spacing:.04em;color:var(--sepia)}
 .dd-verse footer::before{content:"— "}
 .dd-verse footer em{font-style:italic}
-@media(max-width:560px){.dd-plate{padding:8px 8px 6px}.dd-plate img{max-height:480px}.dd-e .dd-verse p{font-size:32px}}
+@media(max-width:560px){.dd-plate{padding:8px 8px 6px}.dd-plate img{max-height:480px}.dd-e .dd-verse p{font-size:30px}}
+/* summary line in a light box, readable at a glance */
+.dd-e p.lead.dd-sum{font-style:normal;font-size:19px;line-height:1.5;text-align:left;background:#F5E7EA;border:1px solid #E8D3D9;border-radius:8px;padding:14px 18px;margin:6px 0 2px;color:#2A1F26}
+.dd-e p.lead.dd-sum b{font-family:'IM Fell English SC',Georgia,serif;font-weight:400;font-size:19px;letter-spacing:.04em;color:var(--wine);margin-right:4px}
+@media(max-width:560px){.dd-e p.lead.dd-sum{font-size:17px;padding:12px 14px}}

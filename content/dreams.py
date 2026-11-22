@@ -69,12 +69,14 @@ def build(lang, layout, write, add_url, slug, alt_path):
     scripts = f'<script>window.DD={cfg};</script><script src="/assets/dreams.js"></script>'
     # ---- engraved plates with a verse for some entries (data/dream_images.json)
     ip = os.path.join(ROOT, "data", "dream_images.json")
-    IMG = json.load(open(ip, encoding="utf-8")).get(lang, {}) if os.path.exists(ip) else {}
+    _di = json.load(open(ip, encoding="utf-8")) if os.path.exists(ip) else {}
+    IMG, SIZE = _di.get(lang, {}), _di.get("sizes", {})
     def plate(i):
         m = IMG.get(i)
         if not m: return ""
-        verse = "<br>".join(e(v) for v in m["verse"])
-        return (f'<figure class="dd-plate"><img src="/assets/dreams/{m["img"]}.webp" alt="{e(m["alt"])}" width="1600" height="900" fetchpriority="high">'
+        o, c = ("«\u00a0", "\u00a0»") if lang == "fr" else ("“", "”")   # quotation marks of the page's language
+        verse = o + "<br>".join(e(v) for v in m["verse"]) + c
+        return (f'<figure class="dd-plate"><img src="/assets/dreams/{m["img"]}.webp" alt="{e(m["alt"])}" width="{SIZE[m["img"]][0]}" height="{SIZE[m["img"]][1]}" fetchpriority="high">'
                 f'<figcaption>{m["cap"]}</figcaption></figure>'
                 f'<blockquote class="dd-verse" lang="{lang}"><p>{verse}</p><footer>{m["cite"]}</footer></blockquote>')
     # ---- one page per entry

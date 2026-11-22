@@ -122,7 +122,7 @@ def merge(names):
         for w in members:
             if w == main: continue
             o = names[w]
-            for f in ("ipa", "mp3", "by", "acc", "att", "et", "q", "pf", "o", "oe"):
+            for f in ("ipa", "mp3", "by", "acc", "file", "att", "et", "ete", "q", "pf", "o", "oe", "nick", "cf", "vf"):
                 if f not in rec and f in o: rec[f] = o[f]
             for lang, words in o.get("tr", {}).items():
                 cur = rec.setdefault("tr", {}).setdefault(lang, [])

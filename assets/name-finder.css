@@ -1,0 +1,9 @@
+.nm{max-width:860px}.nm-form{display:grid;gap:14px;background:#FBF6F0;border:1px solid #E6D9CC;border-radius:14px;padding:20px}
+.nm label{display:grid;gap:4px;font-size:14px;font-weight:600;color:#6E5A62}.nm input,.nm select{font:inherit;font-weight:400;font-size:17px;padding:9px 11px;border:1px solid #D8C7C9;border-radius:8px;background:#fff;color:#2A1F26}
+.nm-big input{font-size:22px}.nm-mode{display:flex;gap:18px;flex-wrap:wrap}.nm-mode label,.nm-check{display:flex;align-items:center;gap:8px;font-size:16px;color:#2A1F26}
+.nm-filters{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;align-items:end}
+.nm-list{margin:14px 0 0;font-size:16px}.nm-list span{color:#8E2F48;font-weight:600}.nm-list button{margin-left:8px;padding:4px 12px;font-size:14px}
+.nm-out h3{margin:22px 0 6px;font-size:20px}.nm-res{list-style:none;padding:0;margin:12px 0;display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:6px 18px}
+.nm-res li{display:grid;grid-template-columns:28px 1fr;align-items:baseline;padding:6px 0;border-bottom:1px solid #EFE4DA}
+.nm-res a{font-size:18px;color:#2A1F26;text-decoration:none}.nm-res a:hover{color:#8E2F48}.nm-res span{grid-column:2;font-size:13px;font-style:italic;color:#7A675C}
+.nm-heart{border:0;background:none;font-size:20px;color:#B8405E;cursor:pointer;padding:0;line-height:1}.nm-none{color:#6E5A62;font-style:italic}.nm-how{margin-top:28px}

@@ -149,6 +149,37 @@ def lead_line(lang, r, k="fr"):
     kind = {"f": "A French girl's name", "m": "A French boy's name", "n": "A French name for girls and boys", "u": "A French first name"}[r["g"]]
     return kind + (f" of {r['oe']} origin" if r.get("oe") else "") + (f", first recorded around {at}" if at else "") + "."
 
+# ---------------------------------------------------------------- "Goes well with": middle names and siblings (data/names_pairs.json, tools/name_matching.py)
+_PAIRS = None
+def pairs():
+    global _PAIRS
+    if _PAIRS is None:
+        p = os.path.join(ROOT, "data", "names_pairs.json")
+        _PAIRS = json.load(open(p, encoding="utf-8")) if os.path.exists(p) else {}
+    return _PAIRS
+_MID = None
+def mid_pages():
+    global _MID
+    if _MID is None:
+        p = os.path.join(ROOT, "data", "names_middle_pages.json")
+        _MID = json.load(open(p, encoding="utf-8")) if os.path.exists(p) else {}
+    return _MID
+GW = {"en": dict(h="Goes well with", mid="Middle names", sib="Brothers and sisters", more="40 middle names for {n} →", tool="Try your own combinations →",
+                 tool_url="/en/tools/middle-name-finder/", mid_slug="middle-names"),
+      "fr": dict(h="Va bien avec", mid="Deuxièmes prénoms", sib="Frères et sœurs", more="40 idées de deuxième prénom pour {n} →", tool="Essayer vos propres combinaisons →",
+                 tool_url="/fr/outils/deuxieme-prenom/", mid_slug="deuxieme-prenom")}
+def goes_with(lang, k, name):
+    v = pairs().get(f"{k}:{name}")
+    if not v: return ""
+    c, E = GW[lang], html.escape
+    link = lambda b, n, sl: f'<a href="{SETS[b]["base"][lang]}{sl}/">{E(n)}</a>'
+    mids = " · ".join(link(b, n, sl) for b, n, sl, _ in v["m"])
+    sibs = " · ".join(link(b, n, sl) for b, n, sl, _ in v["s"])
+    base = SETS[k]["base"][lang]; slug = card_slugs(k)[0][name]
+    more = f'<a href="{base}{slug}/{c["mid_slug"]}/">{E(c["more"].format(n=name))}</a> · ' if f"{k}:{name}" in mid_pages() else ""
+    return (f'<section class="goes">{f"<h3>{c[chr(104)]}</h3>"}<p><b>{c["mid"]}</b> {mids}</p>' + (f'<p><b>{c["sib"]}</b> {sibs}</p>' if sibs else "")
+            + f'<p class="small">{more}<a href="{c["tool_url"]}#n={E(name)}&amp;b={k}">{c["tool"]}</a></p></section>')
+
 TWIN = {"en": {"fr": "Also a French name: {n} →", "de": "Also a German name: {n} →"}, "fr": {"fr": "Aussi un prénom français : {n} →", "de": "Aussi un prénom allemand : {n} →"}}
 
 def card_html(lang, name, r, prev, nxt, base, ids, k="fr", twin=None):
@@ -183,6 +214,7 @@ def card_html(lang, name, r, prev, nxt, base, ids, k="fr", twin=None):
            + (f'<section class="bearers">{h3(c["bears"])}<div class="split"><span class="f" style="width:{r["pf"]}%">♀ {r["pf"]}{" %" if lang == "fr" else "%"}</span><span class="m" style="width:{100 - r["pf"]}%">♂ {100 - r["pf"]}{" %" if lang == "fr" else "%"}</span></div><p>{E(c["bearsTxt"].format(f=r["pf"], m=100 - r["pf"]))}</p></section>' if r.get("pf") is not None else "")
            + (f'<section>{h3(c["where"])}<ul class="places">' + "".join(f"<li>{E(FRC.get(x, x) if lang == 'fr' else x)}</li>" for x in r["c"]) + "</ul></section>" if r.get("c") else "")
            + (f'<section>{h3(c["world"])}<ul class="world">' + "".join(f'<li><span class="lg">{E(FRL.get(l, l) if lang == "fr" else l)}</span><span class="dl"></span><span class="fm">{E(", ".join(ws))}</span></li>' for l, ws in r["tr"].items()) + "</ul></section>" if r.get("tr") else "")
+           + goes_with(lang, k, name)
            + (f'<section>{h3(c["lit"])}<blockquote lang="{S["qlang"]}">{quote}<footer>{E(r["q"][1])}</footer></blockquote></section>' if r.get("q") else "")
            + f'<p class="cr">{t["src"]}' + credit + "</p>"
            + (f'<p class="back"><a href="{twin[0]}">{E(TWIN[lang][twin[1]].format(n=name))}</a></p>' if twin else "")
@@ -217,3 +249,76 @@ a.onended=a.onpause=function(){{b.textContent=H;b.setAttribute('aria-pressed','f
 
 
 register()
+
+
+# ---------------------------------------------------------------- middle-name pages for the best-known names (data/names_middle_pages.json)
+WHY = {"en": {"pair": "families really pair them", "flow": "flows well", "origin": "same origin", "distinct": "different enough"},
+       "fr": {"pair": "un vrai prénom composé", "flow": "rythme équilibré", "origin": "même origine", "distinct": "assez différent"}}
+STY = {"en": {"short": "short", "classic": "classic", "rare": "rare", "vintage": "vintage", "nature": "nature", "mythological": "mythological",
+              "biblical": "biblical", "international": "international", "modern": "modern"},
+       "fr": {"short": "court", "classic": "classique", "rare": "rare", "vintage": "rétro", "nature": "nature", "mythological": "mythologique",
+              "biblical": "biblique", "international": "international", "modern": "moderne"}}
+MP = {"en": dict(title="Middle Names for {n}: 40 Names That Flow", desc="40 middle names that go with {n}, sorted into short, classic, rare and international, with the rule behind each one.",
+                 groups={"short": "Short", "classic": "Classic", "rare": "Rare", "international": "International", "more": "More ideas"}, faq="Questions",
+                 back="← {n}: meaning and pronunciation", tool="Check your own combination, with your surname →"),
+      "fr": dict(title="Deuxième prénom pour {n} : 40 idées", desc="40 deuxièmes prénoms qui vont avec {n}, classés en courts, classiques, rares et internationaux, avec la raison de chaque choix.",
+                 groups={"short": "Courts", "classic": "Classiques", "rare": "Rares", "international": "Internationaux", "more": "Autres idées"}, faq="Questions",
+                 back="← {n} : origine et prononciation", tool="Tester votre propre combinaison, avec votre nom de famille →")}
+
+def why(lang, codes):
+    out = []
+    for c in codes:
+        out.append(f"{STY[lang].get(c[6:], c[6:])} " + ("style" if lang == "en" else "aussi") if c.startswith("style:") else WHY[lang].get(c, c))
+    return " · ".join(out)
+
+def middle_intro(lang, k, n, d):
+    gender = {"en": {"f": "girl's", "m": "boy's", "n": "unisex"}, "fr": {"f": "féminin", "m": "masculin", "n": "mixte"}}[lang][d["g"]]
+    book = {"fr": ("French", "français"), "de": ("German", "allemand")}[k]
+    syl = d["syl"]; pr = d["pairs"]
+    if lang == "en":
+        t = (f"{n} is a {book[0]} {gender} name with {syl} syllable{'s' if syl > 1 else ''}" + (f", of {d['o']} origin" if d["o"] else "") + ". "
+             f"Middle names flow best when they have a different number of syllables, do not rhyme with {n}, and do not start with the sound {n} ends on. "
+             "Every name below was checked against those three rules and sorted into four groups.")
+        if pr: t += f" Some already exist as real compound names, such as {n}-{pr[0]}" + (f" or {n}-{pr[1]}" if len(pr) > 1 else "") + ": families really pair them."
+    else:
+        t = (f"{n} est un prénom {gender} {book[1]} de {syl} syllabe{'s' if syl > 1 else ''}" + (f", d’origine {d['o']}" if d["o"] and False else "") + ". "
+             f"Un deuxième prénom sonne mieux quand il n’a pas le même nombre de syllabes, ne rime pas avec {n} et ne commence pas par le son sur lequel {n} se termine. "
+             "Chaque prénom ci-dessous a été vérifié selon ces trois règles, puis classé en quatre groupes.")
+        if pr: t += f" Certains existent déjà comme vrais prénoms composés, comme {n}-{pr[0]}" + (f" ou {n}-{pr[1]}" if len(pr) > 1 else "") + " : des familles les associent vraiment."
+    return t
+
+def middle_faq(lang, n, d, sib):
+    top = [x[1] for g in ("classic", "short", "international", "rare", "more") for x in d["groups"].get(g, [])][:3]
+    sis = [x[1] for x in sib if x[0] and True][:0]
+    girls = [x[1] for x in sib[:4]][:2]; boys = [x[1] for x in sib[4:]][:2]
+    syl = d["syl"]; other = "1 or 3" if syl == 2 else "2" if syl in (1, 3) else "1 or 2"
+    if lang == "en":
+        return [(f"What is a good middle name for {n}?", f"Names with a different number of syllables flow best with {n}, for example {', '.join(top)}."),
+                (f"What sibling names go with {n}?", f"For a sister, {' or '.join(girls)}; for a brother, {' or '.join(boys)}: the same style, but a different first letter and ending." if girls and boys else f"Names of the same style, with a different first letter and ending."),
+                (f"Does {n} work as a middle name?", f"Yes. With {syl} syllable{'s' if syl > 1 else ''}, {n} sits best after a first name with {other} syllables.")]
+    other = "1 ou 3" if syl == 2 else "2" if syl in (1, 3) else "1 ou 2"
+    return [(f"Quel deuxième prénom choisir avec {n} ?", f"Les prénoms qui n’ont pas le même nombre de syllabes sonnent le mieux avec {n}, par exemple {', '.join(top)}."),
+            (f"Quel prénom pour le frère ou la sœur de {n} ?", f"Pour une sœur, {' ou '.join(girls)} ; pour un frère, {' ou '.join(boys)} : le même style, mais une autre initiale et une autre finale." if girls and boys else "Un prénom du même style, avec une autre initiale et une autre finale."),
+            (f"{n} fonctionne-t-il comme deuxième prénom ?", f"Oui. Avec {syl} syllabe{'s' if syl > 1 else ''}, {n} se place bien après un prénom de {other} syllabes.")]
+
+def build_middle_pages(lang, layout, write, add_url):
+    E = html.escape; c = MP[lang]; n_pages = 0
+    for key, d in mid_pages().items():
+        k, n = key.split(":", 1)
+        base = SETS[k]["base"][lang]; other = SETS[k]["base"]["fr" if lang == "en" else "en"]
+        mslug = GW[lang]["mid_slug"]; oslug = GW["fr" if lang == "en" else "en"]["mid_slug"]
+        path = f"{base}{d['slug']}/{mslug}/"; alt = f"{other}{d['slug']}/{oslug}/"
+        groups = "".join(f'<section><h3>{c["groups"][g]}</h3><ul class="grp">' + "".join(
+            f'<li><a href="{SETS[b]["base"][lang]}{sl}/">{E(nm)}</a><span>{E(why(lang, w))}</span></li>' for b, nm, sl, w in items) + "</ul></section>"
+            for g, items in d["groups"].items() if items)
+        faq = middle_faq(lang, n, d, pairs().get(key, {}).get("s", []))
+        ld = json.dumps({"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in faq]}, ensure_ascii=False)
+        title = c["title"].format(n=n)
+        body = (f'<link rel="stylesheet" href="/assets/dreams.css"><link rel="stylesheet" href="/assets/names.css"><div class="nf-ov nf-page"><article class="nf-box mn">'
+                f'<div class="guide"><a href="{base}{d["slug"]}/">{E(c["back"].format(n=n))}</a><span></span><a href="{GW[lang]["tool_url"]}#n={E(n)}&amp;b={k}">{"Finder →" if lang == "en" else "Outil →"}</a></div>'
+                f'<h1>{E(title)}</h1><p class="lead" style="text-align:left">{E(middle_intro(lang, k, n, d))}</p>{groups}'
+                f'<section class="faq"><h3>{c["faq"]}</h3>' + "".join(f"<h4>{E(q)}</h4><p>{E(a)}</p>" for q, a in faq) + "</section>"
+                f'<p class="back"><a href="{GW[lang]["tool_url"]}#n={E(n)}&amp;b={k}">{E(c["tool"])}</a></p></article></div><script type="application/ld+json">{ld}</script>')
+        write(path + "index.html", layout(lang, title, c["desc"].format(n=n), body, path, alt, main_class="page names-one"))
+        add_url(path); n_pages += 1
+    print(f"  middle-name pages {lang}: {n_pages}")

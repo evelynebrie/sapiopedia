@@ -183,6 +183,7 @@ for lang in ("en", "fr"):
             from content import names_fr
             names_fr.build_cards(lang, layout, write, add_url)
             names_fr.build_cards(lang, layout, write, add_url, "de")
+            names_fr.build_middle_pages(lang, layout, write, add_url)
     # legal pages
     legal_text = {
         "en": {"about": ("About Sapiopedia", "<p>Sapiopedia is an independent site that builds small, useful pages: quizzes, room planners, a dream dictionary, French and German first names and party games. Every tool states its method and its sources. The site is written and maintained by a university professor and data scientist based in Montréal.</p><p>Nothing here is medical, legal or financial advice.</p>"),

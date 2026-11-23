@@ -8,7 +8,7 @@
   var BAD = { en: ["ASS", "PIG", "FAT", "BUM", "DIE", "SAD", "MAD", "BAD", "RAT", "HAG", "COW", "POO", "WTF", "SOS", "FML", "STD", "KKK", "GAY", "SEX", "DUD", "BRA", "PMS", "LSD", "UGH", "BOO"],
              fr: ["CON", "PUE", "PET", "NUL", "CUL", "MOU", "ZOB", "PD", "NAZ", "BOF", "PUR", "SOT", "FOU", "MAL", "RAT", "ZIZ", "VOL", "PIS"] };
   var W = [0.5, 1, 1, 1.5, 1.5, 1.5, 1.5, 1, 1.5];
-  var state = { n: "", b: "", mode: C.mode || "middle", sur: "", style: "", len: "", origin: "", intl: false, book: "same", list: [] };   /* mode is fixed by the page */
+  var state = { n: "", b: "", mode: C.mode || "middle", sur: "", style: "", len: "", origin: "", intl: false, book: "same", sex: "", list: [] };   /* mode is fixed by the page */
 
   function lev(a, b) {
     if (Math.abs(a.length - b.length) > 2) return 3;
@@ -28,7 +28,8 @@
   function score(i, j, mode, gender) {
     var x = R[i], y = R[j], s = 0, why = [];
     if (mode === "middle") {
-      if (y[3] !== x[3] && x[3] !== "n" && !isPair(i, j)) return null;
+      var want = gender || x[3];   /* the gender chosen on the page, else the first name's own */
+      if (y[3] !== want && !(want === "n") && !(y[3] === "n" && x[3] === "n") && !isPair(i, j)) return null;
       if (isPair(i, j)) { s += 4; why.push("pair"); }
       if (y[4] !== x[4]) { s += 2; why.push("flow"); }
       if (y[4] + x[4] >= 6) s -= 2;
@@ -73,7 +74,7 @@
     var out = $("nm-out"); out.innerHTML = "";
     var key = fold(state.n), i = byName[(state.b || "fr") + ":" + key]; if (i === undefined) i = byName["fr:" + key]; if (i === undefined) i = byName["de:" + key];
     if (i === undefined) { if (state.n) out.innerHTML = '<p class="nm-none">' + C.none.replace("{q}", esc(state.n)) + "</p>"; return; }
-    var x = R[i], sur = state.sur.trim(), groups = state.mode === "middle" ? [["", null]] : [[C.sisters, "f"], [C.brothers, "m"]];
+    var x = R[i], sur = state.sur.trim(), groups = state.mode === "middle" ? [["", state.sex || null]] : [[C.sisters, "f"], [C.brothers, "m"]].filter(function (g) { return !state.sex || state.sex === g[1]; });
     groups.forEach(function (g) {
       var res = [];
       for (var j = 0; j < R.length; j++) {
@@ -89,6 +90,7 @@
         res.push([sc[0], j, why]);
       }
       res.sort(function (a, b) { return b[0] - a[0]; });
+      var seen = {}; res = res.filter(function (r) { var k = fold(R[r[1]][1]); if (seen[k]) return false; seen[k] = 1; return true; });   /* same name in both lists: once */
       var h = g[0] ? "<h3>" + g[0] + "</h3>" : "";
       out.insertAdjacentHTML("beforeend", h + '<ul class="nm-res">' + res.slice(0, 24).map(function (r) {
         var y = R[r[1]], on = state.list.indexOf(y[1]) >= 0, full = state.mode === "middle" ? x[1] + " " + y[1] + (sur ? " " + sur : "") : y[1];
@@ -123,9 +125,14 @@
     R.forEach(function (r, i) { byName[r[0] + ":" + fold(r[1])] = i; r[11].forEach(function (v) { if (byName[r[0] + ":" + v] === undefined) byName[r[0] + ":" + v] = i; }); });
     NAMES = R.map(function (r, i) { return [fold(r[1]), r[1], i, r[9]]; }).sort(function (a, b) { return b[3] - a[3]; });
     var og = $("nm-origin"); og.insertAdjacentHTML("beforeend", d.origins.map(function (o, k) { return '<option value="' + k + '">' + esc((C.origins || {})[o] || o) + "</option>"; }).join(""));
-    load(); run(); shortlist();
+    load(); setSexFromName(); var sx = document.querySelector("[name=nm-sex]:checked"); state.sex = sx ? sx.value : ""; run(); shortlist();
   });
+  function setSexFromName() {   /* middle-name page: start on the typed name's gender, the visitor can change it */
+    var i = byName[(state.b || "fr") + ":" + fold($("nm-n").value.trim())]; if (i === undefined) i = byName["fr:" + fold($("nm-n").value.trim())]; if (i === undefined) i = byName["de:" + fold($("nm-n").value.trim())];
+    if (C.mode === "middle" && i !== undefined && "fm".indexOf(R[i][3]) >= 0) document.querySelectorAll("[name=nm-sex]").forEach(function (r) { r.checked = r.value === R[i][3]; });
+  }
   function onChange() {
+    var sx = document.querySelector("[name=nm-sex]:checked"); state.sex = sx ? sx.value : "";
     state.n = $("nm-n").value.trim(); state.sur = $("nm-s") ? $("nm-s").value : ""; state.style = $("nm-style").value; state.len = $("nm-len").value; state.origin = $("nm-origin").value;
     if (R) { run(); save(); }
   }
@@ -136,10 +143,11 @@
     var seen = {}, hits = NAMES.filter(function (n) { if (n[0].indexOf(v) !== 0 || seen[n[1]] || n[0] === v) return false; seen[n[1]] = 1; return true; }).slice(0, 8);
     sug.innerHTML = hits.map(function (n) { return '<button type="button" data-n="' + esc(n[1]) + '" data-b="' + R[n[2]][0] + '">' + esc(n[1]) + "</button>"; }).join("");
   }
-  sug.addEventListener("click", function (e) { var b = e.target.closest("button"); if (!b) return; $("nm-n").value = b.dataset.n; state.b = b.dataset.b; sug.innerHTML = ""; onChange(); });
-  $("nm-n").addEventListener("input", function () { state.b = ""; suggest(); onChange(); });
+  sug.addEventListener("click", function (e) { var b = e.target.closest("button"); if (!b) return; $("nm-n").value = b.dataset.n; state.b = b.dataset.b; sug.innerHTML = ""; setSexFromName(); onChange(); });
+  $("nm-n").addEventListener("input", function () { state.b = ""; suggest(); setSexFromName(); onChange(); });
   if ($("nm-s")) $("nm-s").addEventListener("input", onChange);
   ["nm-style", "nm-len", "nm-origin"].forEach(function (id) { $(id).addEventListener("change", onChange); });
+  document.querySelectorAll("[name=nm-sex]").forEach(function (r) { r.addEventListener("change", onChange); });
   $("nm-out").addEventListener("click", function (e) {
     var b = e.target.closest(".nm-heart"); if (!b) return; var n = b.dataset.n, k = state.list.indexOf(n);
     if (k >= 0) state.list.splice(k, 1); else state.list.push(n);

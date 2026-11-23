@@ -10,3 +10,6 @@
 .nm-sug{display:flex;flex-wrap:wrap;gap:8px;margin-top:-6px}.nm-sug:empty{display:none}
 .nm-sug button{font:inherit;font-size:16px;padding:6px 14px;border:1px solid #D8C7C9;border-radius:999px;background:#fff;color:#2A1F26;cursor:pointer}
 .nm-sug button:hover{border-color:#8E2F48;color:#8E2F48}
+.nm-sex{display:flex;gap:8px;flex-wrap:wrap}.nm-sex label{display:block;margin:0}.nm-sex input{position:absolute;opacity:0}
+.nm-sex label span,.nm-sex label{cursor:pointer}.nm-sex label{padding:8px 18px;border:1px solid #D8C7C9;border-radius:999px;background:#fff;font-size:16px;color:#2A1F26;font-weight:600}
+.nm-sex label:has(input:checked){background:#8E2F48;border-color:#8E2F48;color:#fff}

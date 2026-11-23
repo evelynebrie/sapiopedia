@@ -153,7 +153,7 @@ def main():
         s += 0.5 * ((org[js] == x["o"]) & (org[js] != ""))
         top = np.argsort(-s)[:k * 4 + 40]                                   # near-duplicates (Léo/Théo) are checked on the best ones only: fast
         keep = top[~near(i, js[top])]
-        order = js[keep][:k]
+        seen = set(); order = [j for j in js[keep] if not (rec[j]["f"] in seen or seen.add(rec[j]["f"]))][:k]   # same name in both lists: once
         out = []
         for j in order:
             why = []
@@ -176,7 +176,8 @@ def main():
         if not has_era[i]:   # no era to compare (German names): a name from the other list must share a real style
             real_style = T[js] @ (T[i] * (style_w * np.array([1, 1, 0, 1, 1, 1, 1, 0, 1])))
             s -= 6 * ((book[js] != x["book"]) & (real_style == 0))
-        top = np.argsort(-s)[:k * 4 + 40]; order = js[top[~near(i, js[top])]][:k]
+        top = np.argsort(-s)[:k * 4 + 40]; seen = set()
+        order = [j for j in js[top[~near(i, js[top])]] if not (rec[j]["f"] in seen or seen.add(rec[j]["f"]))][:k]
         out = []
         for j in order:
             why = []

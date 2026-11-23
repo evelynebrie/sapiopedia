@@ -45,10 +45,14 @@ def body(lang, mode):
     js["base"] = {"fr": "/en/names/french/" if lang == "en" else "/fr/prenoms/francais/", "de": "/en/names/german/" if lang == "en" else "/fr/prenoms/allemands/"}
     sty = "".join(f'<option value="{s}">{e(t["js"]["styles"][s])}</option>' for s in STY)
     sur = f'<label>{t["sur"]}<input id="nm-s" autocomplete="off"></label>' if mode == "middle" else ""
+    G = {"en": {"middle": [("f", "Girl"), ("m", "Boy")], "sibling": [("f", "Sister"), ("m", "Brother"), ("", "Both")]},
+         "fr": {"middle": [("f", "Fille"), ("m", "Garçon")], "sibling": [("f", "Sœur"), ("m", "Frère"), ("", "Les deux")]}}[lang][mode]
+    sex = '<div class="nm-sex" role="radiogroup">' + "".join(f'<label><input type="radio" name="nm-sex" value="{v}"{" checked" if (mode == "middle" and v == "f") or (mode == "sibling" and v == "") else ""}> {lb}</label>' for k, (v, lb) in enumerate(G)) + "</div>"
     how = t["how"][0]
     return f'''<link rel="stylesheet" href="/assets/name-finder.css"><div class="nm">
 <div class="nm-form">
  <label class="nm-big">{pg[6][L]}<input id="nm-n" autocomplete="off" placeholder="{e(t["name_ph"])}"></label><div id="nm-sug" class="nm-sug" aria-live="polite"></div>
+ {sex}
  {sur}
  <div class="nm-filters">
   <label>{t["style"]}<select id="nm-style"><option value="">{t["any"]}</option>{sty}</select></label>

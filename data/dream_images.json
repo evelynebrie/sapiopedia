@@ -1,147 +1,161 @@
 {
- "_note": "Engraved plates and verses shown at the top of a dream entry (content/dreams.py). Keys: dream id per language. img: assets/dreams/<img>.webp, the whole plate (tools/dream_plates.py); sizes: its width and height. cap: credit line under the plate (HTML, trusted). verse: lines joined with ' / ' in the source, shown one per line. Images: public domain (Wellcome Collection) except fish (Biodiversity Heritage Library, CC BY 2.0). Sources: Desktop/Sapiopedia/Dreams/dream_images.zip (CREDITS.txt) and poems.rtf.",
+ "_note": "Engraved plates and verses shown at the top of a dream entry (content/dreams.py). Keys: dream id per language. img: assets/dreams/<img>.webp, the whole plate (tools/dream_plates.py); sizes: its width and height. cap: credit line under the plate (HTML, trusted). verse: lines joined with ' / ' in the source, shown one per line. Images: public domain (Wellcome Collection) except fish (Biodiversity Heritage Library, CC BY 2.0). Sources: Desktop/Sapiopedia/Dreams/dream_images.zip (CREDITS.txt) and poems.rtf. file: the image's descriptive file name for that language (assets/dreams/<file>.webp), for image search; <img>.webp is the source the pins use.",
  "en": {
   "mouse": {
    "img": "mouse",
-   "alt": "Coloured wood engraving of two mice nibbling an ear of grain",
+   "alt": "19th-century engraving of two mice nibbling an ear of grain: what it means to dream of mice",
    "cap": "Two mice nibbling on an ear of grain in a corn chamber. Coloured wood engraving by J. W. Whimper. Wellcome Collection (V0020536). Public domain.",
    "verse": [
     "The best-laid schemes o’ mice an’ men",
     "Gang aft agley"
    ],
-   "cite": "Robert Burns, “To a Mouse”, 1785"
+   "cite": "Robert Burns, “To a Mouse”, 1785",
+   "file": "dream-meaning-mice-19th-century-engraving"
   },
   "fish": {
    "img": "fish",
-   "alt": "Hand-coloured plate of a fish from an eighteenth-century natural history",
+   "alt": "18th-century engraved plate of a fish (Bloch, Ichthyologie): what it means to dream of fish",
    "cap": "Marcus Elieser Bloch, <em>Ichthyologie, ou Histoire naturelle des poissons</em>, plate 12 (1785–1797). Biodiversity Heritage Library, <a href=\"https://creativecommons.org/licenses/by/2.0/\" rel=\"license nofollow\">CC BY 2.0</a>.",
    "verse": [
     "I dropped the berry in a stream",
     "And caught a little silver trout."
    ],
-   "cite": "W. B. Yeats, “The Song of Wandering Aengus”, 1899"
+   "cite": "W. B. Yeats, “The Song of Wandering Aengus”, 1899",
+   "file": "dream-meaning-fish-18th-century-engraving"
   },
   "death": {
    "img": "death",
-   "alt": "Woodcut of Death leading away a queen, from Holbein’s Dance of Death",
+   "alt": "Holbein’s 16th-century woodcut of Death leading away a queen: what it means to dream of death",
    "cap": "Hans Holbein the Younger, <em>The Dance of Death</em>: the queen. Woodcut. Wellcome Collection (V0041912EL). Public domain.",
    "verse": [
     "To die, to sleep;",
     "To sleep, perchance to dream"
    ],
-   "cite": "William Shakespeare, <em>Hamlet</em>, c. 1600"
+   "cite": "William Shakespeare, <em>Hamlet</em>, c. 1600",
+   "file": "dream-meaning-death-16th-century-woodcut-holbein"
   },
   "wedding": {
    "img": "wedding",
-   "alt": "Engraving of a couple dancing at their wedding to a fiddler’s music",
+   "alt": "Antique engraving of a couple dancing at their wedding to a fiddler’s music: what it means to dream of a wedding",
    "cap": "The wedding of Kloris and Roosje: a couple dance to the music of a fiddler. Engraving. Wellcome Collection (V0040575). Public domain.",
    "verse": [
     "Let me not to the marriage of true minds",
     "Admit impediments."
    ],
-   "cite": "William Shakespeare, Sonnet 116, 1609"
+   "cite": "William Shakespeare, Sonnet 116, 1609",
+   "file": "dream-meaning-wedding-antique-engraving"
   },
   "ghost": {
    "img": "ghost",
-   "alt": "Engraving of a boy appearing as a ghost to two frightened girls",
+   "alt": "Antique engraving of a boy dressed as a ghost frightening two girls: what it means to dream of a ghost",
    "cap": "A boy appearing to two girls as a ghost. Stipple engraving after R. Westall. Wellcome Collection (V0036040). Public domain.",
    "verse": [
     "All houses wherein men have lived and died",
     "Are haunted houses."
    ],
-   "cite": "Henry Wadsworth Longfellow, “Haunted Houses”, 1858"
+   "cite": "Henry Wadsworth Longfellow, “Haunted Houses”, 1858",
+   "file": "dream-meaning-ghost-antique-engraving"
   },
   "mother": {
    "img": "mere",
-   "alt": "Engraving of a mother watching over her sleeping child",
+   "alt": "19th-century engraving of a mother watching over her sleeping child: what it means to dream of your mother",
    "cap": "<em>The Child’s Dream</em>: a mother watches her child sleep. Engraving by C. Heath after R. Westall. Wellcome Collection (V0038817). Public domain.",
    "verse": [
     "Because I feel that, in the Heavens above,",
     "The angels, whispering to one another"
    ],
-   "cite": "Edgar Allan Poe, “To My Mother”, 1849"
+   "cite": "Edgar Allan Poe, “To My Mother”, 1849",
+   "file": "dream-meaning-mother-19th-century-engraving"
   },
   "blood": {
    "img": "sang",
-   "alt": "Anatomical engraving of the heart with blood vessels in red and blue",
+   "alt": "19th-century anatomical engraving of the heart with its blood vessels: what it means to dream of blood",
    "cap": "Heart: six figures, with blood-vessels and nerves in red and blue. Coloured line engraving by W. H. Lizars, 1822/1826. Wellcome Collection (V0008385ER). Public domain.",
    "verse": [
     "Will all great Neptune’s ocean wash this blood",
     "Clean from my hand?"
    ],
-   "cite": "William Shakespeare, <em>Macbeth</em>, c. 1606"
+   "cite": "William Shakespeare, <em>Macbeth</em>, c. 1606",
+   "file": "dream-meaning-blood-19th-century-anatomical-engraving"
   }
  },
  "fr": {
   "souris": {
    "img": "mouse",
-   "alt": "Gravure sur bois colorée : deux souris grignotent un épi",
+   "alt": "Gravure du XIXᵉ siècle : deux souris grignotent un épi, pour illustrer la signification d’un rêve de souris",
    "cap": "Deux souris grignotant un épi dans un grenier à blé. Gravure sur bois colorée de J. W. Whimper. Wellcome Collection (V0020536). Domaine public.",
    "verse": [
     "On a souvent besoin d’un plus petit que soi."
    ],
-   "cite": "Jean de La Fontaine, « Le Lion et le Rat », 1668"
+   "cite": "Jean de La Fontaine, « Le Lion et le Rat », 1668",
+   "file": "reve-souris-signification-gravure-19e-siecle"
   },
   "poisson": {
    "img": "fish",
-   "alt": "Planche coloriée d’un poisson, tirée d’une histoire naturelle du XVIIIᵉ siècle",
+   "alt": "Planche gravée du XVIIIᵉ siècle représentant un poisson (Bloch, Ichthyologie) : la signification d’un rêve de poisson",
    "cap": "Marcus Elieser Bloch, <em>Ichthyologie, ou Histoire naturelle des poissons</em>, planche 12 (1785-1797). Biodiversity Heritage Library, <a href=\"https://creativecommons.org/licenses/by/2.0/deed.fr\" rel=\"license nofollow\">CC BY 2.0</a>.",
    "verse": [
     "Homme libre, toujours tu chériras la mer !",
     "La mer est ton miroir"
    ],
-   "cite": "Charles Baudelaire, « L’Homme et la mer », 1857"
+   "cite": "Charles Baudelaire, « L’Homme et la mer », 1857",
+   "file": "reve-poisson-signification-gravure-18e-siecle"
   },
   "mort": {
    "img": "mort",
-   "alt": "Gravure : un crâne, un squelette, des bougies et d’autres symboles de la mort",
+   "alt": "Gravure ancienne d’un crâne, d’un squelette et de bougies : la signification d’un rêve de mort",
    "cap": "Un crâne, un squelette, des bougies et d’autres symboles de la mort. Gravure. Wellcome Collection (V0042118). Domaine public.",
    "verse": [
     "Demain, dès l’aube, à l’heure où blanchit la campagne,",
     "Je partirai."
    ],
-   "cite": "Victor Hugo, <em>Les Contemplations</em>, 1856"
+   "cite": "Victor Hugo, <em>Les Contemplations</em>, 1856",
+   "file": "reve-mort-signification-gravure-ancienne-crane"
   },
   "mariage": {
    "img": "wedding",
-   "alt": "Gravure : un couple danse à son mariage au son d’un violoneux",
+   "alt": "Gravure ancienne d’un couple qui danse à son mariage au son d’un violon : la signification d’un rêve de mariage",
    "cap": "Le mariage de Kloris et Roosje : un couple danse au son d’un violoneux. Gravure. Wellcome Collection (V0040575). Domaine public.",
    "verse": [
     "Mignonne, allons voir si la rose",
     "Qui ce matin avait déclose",
     "Sa robe de pourpre au soleil"
    ],
-   "cite": "Pierre de Ronsard, 1550 (orthographe modernisée)"
+   "cite": "Pierre de Ronsard, 1550 (orthographe modernisée)",
+   "file": "reve-mariage-signification-gravure-ancienne"
   },
   "fantome": {
    "img": "ghost",
-   "alt": "Gravure : un garçon apparaît en fantôme à deux jeunes filles effrayées",
+   "alt": "Gravure ancienne d’un garçon déguisé en fantôme qui effraie deux jeunes filles : la signification d’un rêve de fantôme",
    "cap": "Un garçon apparaissant en fantôme à deux jeunes filles. Gravure au pointillé d’après R. Westall. Wellcome Collection (V0036040). Domaine public.",
    "verse": [
     "Comme les anges à l’œil fauve,",
     "Je reviendrai dans ton alcôve"
    ],
-   "cite": "Charles Baudelaire, « Le Revenant », 1857"
+   "cite": "Charles Baudelaire, « Le Revenant », 1857",
+   "file": "reve-fantome-signification-gravure-ancienne"
   },
   "mere": {
    "img": "mere",
-   "alt": "Gravure : une mère veille sur le sommeil de son enfant",
+   "alt": "Gravure du XIXᵉ siècle d’une mère qui veille sur son enfant endormi : la signification d’un rêve de sa mère",
    "cap": "<em>Le Rêve de l’enfant</em> : une mère regarde dormir son enfant. Gravure de C. Heath d’après R. Westall. Wellcome Collection (V0038817). Domaine public.",
    "verse": [
     "Ô l’amour d’une mère ! amour que nul n’oublie !",
     "Pain merveilleux qu’un dieu partage et multiplie !"
    ],
-   "cite": "Victor Hugo, <em>Les Feuilles d’automne</em>, 1831"
+   "cite": "Victor Hugo, <em>Les Feuilles d’automne</em>, 1831",
+   "file": "rever-de-sa-mere-signification-gravure-19e-siecle"
   },
   "sang": {
    "img": "sang",
-   "alt": "Gravure anatomique du cœur, vaisseaux sanguins en rouge et en bleu",
+   "alt": "Gravure anatomique du XIXᵉ siècle du cœur et de ses vaisseaux sanguins : la signification d’un rêve de sang",
    "cap": "Le cœur : six figures, vaisseaux et nerfs en rouge et en bleu. Gravure coloriée de W. H. Lizars, 1822/1826. Wellcome Collection (V0008385ER). Domaine public.",
    "verse": [
     "Il me semble parfois que mon sang coule à flots,",
     "Ainsi qu’une fontaine aux rythmiques sanglots."
    ],
-   "cite": "Charles Baudelaire, « La Fontaine de sang », 1857"
+   "cite": "Charles Baudelaire, « La Fontaine de sang », 1857",
+   "file": "reve-sang-signification-gravure-anatomique-19e-siecle"
   }
  },
  "sizes": {

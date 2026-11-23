@@ -76,7 +76,7 @@ def build(lang, layout, write, add_url, slug, alt_path):
         if not m: return ""
         o, c = ("«\u00a0", "\u00a0»") if lang == "fr" else ("“", "”")   # quotation marks of the page's language
         verse = o + "<br>".join(e(v) for v in m["verse"]) + c
-        return (f'<figure class="dd-plate"><img src="/assets/dreams/{m["img"]}.webp" alt="{e(m["alt"])}" width="{SIZE[m["img"]][0]}" height="{SIZE[m["img"]][1]}" fetchpriority="high">'
+        return (f'<figure class="dd-plate"><img src="/assets/dreams/{m.get("file", m["img"])}.webp" alt="{e(m["alt"])}" width="{SIZE[m["img"]][0]}" height="{SIZE[m["img"]][1]}" fetchpriority="high">'
                 f'<figcaption>{m["cap"]}</figcaption></figure>'
                 f'<blockquote class="dd-verse" lang="{lang}"><p>{verse}</p><footer>{m["cite"]}</footer></blockquote>')
     # ---- long-form text for the main dreams (data/dream_long_{lang}.json): opening, the old books side by side, today, how common, FAQ

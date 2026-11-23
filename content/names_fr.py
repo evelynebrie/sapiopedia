@@ -165,9 +165,9 @@ def mid_pages():
         _MID = json.load(open(p, encoding="utf-8")) if os.path.exists(p) else {}
     return _MID
 GW = {"en": dict(h="Goes well with", mid="Middle names", sib="Brothers and sisters", more="40 middle names for {n} →", tool="Try your own combinations →",
-                 tool_url="/en/tools/middle-name-finder/", mid_slug="middle-names"),
+                 tool_url="/en/names/middle-name-finder/", mid_slug="middle-names"),
       "fr": dict(h="Va bien avec", mid="Deuxièmes prénoms", sib="Frères et sœurs", more="40 idées de deuxième prénom pour {n} →", tool="Essayer vos propres combinaisons →",
-                 tool_url="/fr/outils/deuxieme-prenom/", mid_slug="deuxieme-prenom")}
+                 tool_url="/fr/prenoms/deuxieme-prenom/", mid_slug="deuxieme-prenom")}
 def goes_with(lang, k, name):
     v = pairs().get(f"{k}:{name}")
     if not v: return ""

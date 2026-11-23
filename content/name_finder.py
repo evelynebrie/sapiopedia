@@ -1,4 +1,4 @@
-"""Middle-name and sibling finder (Tools). Logic: /assets/name-finder.js on /assets/names-match.json (tools/name_matching.py).
+"""Middle-name and sibling finder (Names section). Logic: /assets/name-finder.js on /assets/names-match.json (tools/name_matching.py).
 Results link to the name pages; the shortlist lives in the link after #."""
 import html, json
 from sp import PAGES
@@ -48,6 +48,6 @@ def body(lang):
 </div>
 <script>window.NM={json.dumps(js, ensure_ascii=False)};</script><script src="/assets/name-finder.js"></script>'''
 
-PAGES.append({"section": "tools", "wide": True,
+PAGES.append({"section": "names", "wide": True,
     "en": ("middle-name-finder", T["en"]["title"], T["en"]["desc"], body("en")),
     "fr": ("deuxieme-prenom", T["fr"]["title"], T["fr"]["desc"], body("fr"))})

@@ -77,6 +77,60 @@
    ],
    "cite": "William Shakespeare, <em>Macbeth</em>, c. 1606",
    "file": "dream-meaning-blood-19th-century-anatomical-engraving"
+  },
+  "fall": {
+   "img": "fall",
+   "file": "dream-meaning-falling-antique-etching-phaethon",
+   "alt": "Antique etching of Phaethon falling from the sky as Jupiter strikes: what it means to dream of falling",
+   "cap": "Phaethon falling from the sky as Jupiter strikes from above. Etching. Wellcome Collection (V0040956). Public domain.",
+   "verse": [
+    "Him the Almighty Power",
+    "Hurled headlong flaming from th’ ethereal sky"
+   ],
+   "cite": "John Milton, <em>Paradise Lost</em>, 1667"
+  },
+  "flying": {
+   "img": "flying",
+   "file": "dream-meaning-flying-antique-wood-engraving",
+   "alt": "Antique wood engraving of a man in a winged flying frame above the fields: what it means to dream of flying",
+   "cap": "“The flying man’s parachute”: a man in a winged frame. Wood engraving. Wellcome Collection (V0040964). Public domain.",
+   "verse": [
+    "Higher still and higher",
+    "From the earth thou springest"
+   ],
+   "cite": "Percy Bysshe Shelley, “To a Skylark”, 1820"
+  },
+  "naked": {
+   "img": "naked",
+   "file": "dream-meaning-naked-18th-century-engraving-bathers",
+   "alt": "18th-century engraving of bathers at Ramsgate in 1788: what it means to dream of being naked",
+   "cap": "Ramsgate: the bathing place in 1788. Engraving. Wellcome Collection (V0014391). Public domain.",
+   "verse": [
+    "For there’s more enterprise",
+    "In walking naked."
+   ],
+   "cite": "W. B. Yeats, “A Coat”, 1914"
+  },
+  "snake": {
+   "img": "snake",
+   "file": "dream-meaning-snakes-18th-century-engraving",
+   "alt": "18th-century engraving of two snakes of the boa family: what it means to dream of snakes",
+   "cap": "Two snakes of the boa family, <em>Histoire naturelle</em>, about 1778. Engraving. Wellcome Collection (V0022713). Public domain.",
+   "verse": [
+    "A narrow Fellow in the Grass",
+    "Occasionally rides"
+   ],
+   "cite": "Emily Dickinson, 1866"
+  },
+  "teeth": {
+   "img": "teeth",
+   "file": "dream-meaning-teeth-falling-out-18th-century-engraving",
+   "alt": "18th-century anatomical engraving of jaws and teeth (Cheselden, 1733): what it means to dream of teeth falling out",
+   "cap": "W. Cheselden, <em>Osteographia</em>, 1733: jaws and teeth. Engraving. Wellcome Collection (L0013638). Public domain.",
+   "verse": [
+    "Sans teeth, sans eyes, sans taste, sans everything."
+   ],
+   "cite": "William Shakespeare, <em>As You Like It</em>, c. 1599"
   }
  },
  "fr": {
@@ -156,6 +210,61 @@
    ],
    "cite": "Charles Baudelaire, « La Fontaine de sang », 1857",
    "file": "reve-sang-signification-gravure-anatomique-19e-siecle"
+  },
+  "chute": {
+   "img": "fall",
+   "file": "reve-chute-tomber-signification-gravure-ancienne",
+   "alt": "Gravure ancienne de Phaéton qui tombe du ciel, frappé par Jupiter : la signification d’un rêve de chute",
+   "cap": "Phaéton tombant du ciel, frappé par Jupiter. Eau-forte. Wellcome Collection (V0040956). Domaine public.",
+   "verse": [
+    "Pascal avait son gouffre, avec lui se mouvant."
+   ],
+   "cite": "Charles Baudelaire, « Le Gouffre », 1868"
+  },
+  "voler": {
+   "img": "flying",
+   "file": "reve-voler-signification-gravure-ancienne",
+   "alt": "Gravure sur bois ancienne d’un homme dans une machine volante à ailes : la signification d’un rêve où l’on vole",
+   "cap": "« Le parachute de l’homme volant » : un homme dans une machine à ailes. Gravure sur bois. Wellcome Collection (V0040964). Domaine public.",
+   "verse": [
+    "Au-dessus des étangs, au-dessus des vallées,",
+    "Des montagnes, des bois, des nuages, des mers,"
+   ],
+   "cite": "Charles Baudelaire, « Élévation », 1857"
+  },
+  "nu": {
+   "img": "naked",
+   "file": "reve-etre-nu-signification-gravure-18e-siecle",
+   "alt": "Gravure du XVIIIᵉ siècle de baigneurs à Ramsgate en 1788 : la signification d’un rêve où l’on est nu",
+   "cap": "Ramsgate : la plage des bains en 1788. Gravure. Wellcome Collection (V0014391). Domaine public.",
+   "verse": [
+    "J’aime le souvenir de ces époques nues,"
+   ],
+   "cite": "Charles Baudelaire, <em>Les Fleurs du mal</em>, V, 1857"
+  },
+  "serpent": {
+   "img": "snake",
+   "file": "reve-serpent-signification-gravure-18e-siecle",
+   "alt": "Gravure du XVIIIᵉ siècle de deux serpents de la famille des boas : la signification d’un rêve de serpent",
+   "cap": "Deux serpents de la famille des boas, <em>Histoire naturelle</em>, vers 1778. Gravure. Wellcome Collection (V0022713). Domaine public.",
+   "verse": [
+    "Que j’aime voir, chère indolente,",
+    "De ton corps si beau,",
+    "Comme une étoffe vacillante,",
+    "Miroiter la peau !"
+   ],
+   "cite": "Charles Baudelaire, « Le Serpent qui danse », 1857"
+  },
+  "dents": {
+   "img": "teeth",
+   "file": "reve-perdre-ses-dents-signification-gravure-18e-siecle",
+   "alt": "Gravure anatomique du XVIIIᵉ siècle de mâchoires et de dents (Cheselden, 1733) : la signification d’un rêve où l’on perd ses dents",
+   "cap": "W. Cheselden, <em>Osteographia</em>, 1733 : mâchoires et dents. Gravure. Wellcome Collection (L0013638). Domaine public.",
+   "verse": [
+    "Je n’ai plus que les os, un squelette je semble,",
+    "Décharné, dénervé, démusclé, dépoulpé,"
+   ],
+   "cite": "Pierre de Ronsard, <em>Derniers vers</em>, 1586"
   }
  },
  "sizes": {
@@ -189,6 +298,26 @@
   ],
   "sang": [
    972,
+   1600
+  ],
+  "fall": [
+   1215,
+   1600
+  ],
+  "flying": [
+   1061,
+   1600
+  ],
+  "naked": [
+   1029,
+   1600
+  ],
+  "snake": [
+   1159,
+   1600
+  ],
+  "teeth": [
+   1058,
    1600
   ]
  }

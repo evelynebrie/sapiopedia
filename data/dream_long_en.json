@@ -2,7 +2,8 @@
  "_sources": {
   "tdq": "Nielsen et al. (2003), “The Typical Dreams of Canadian University Students”, Dreaming 13(4): 211–235. 1,181 first-year students were asked whether they had ever had each of 55 dream themes.",
   "hvdc": "Hall & Van de Castle (1966), The Content Analysis of Dreams: normative tables from 500 men’s and 491 women’s dream reports (dreams.ucsc.edu/Norms).",
-  "hospice": "Wright et al. (2014), “The impact of dreams of the deceased on bereavement: a survey of hospice caregivers”, American Journal of Hospice & Palliative Medicine 31(2): 132–138."
+  "hospice": "Wright et al. (2014), “The impact of dreams of the deceased on bereavement: a survey of hospice caregivers”, American Journal of Hospice & Palliative Medicine 31(2): 132–138.",
+  "teeth2018": "Rozen & Soffer-Dudek (2018), “Dreams of Teeth Falling Out: An Empirical Investigation of Physiological and Psychological Correlates”, Frontiers in Psychology 9: 1812."
  },
  "mother": {
   "intro": "Dreaming of your mother is one of the most common family dreams. It usually reflects your relationship with care, protection or independence, more than anything about her. The details matter: whether she is calm, ill, angry or gone tells you which of those themes the dream is working on.",
@@ -47,6 +48,18 @@
    [
     "What does it mean to dream of fighting with your mother?",
     "The old books found it surprisingly lucky: she would soon do something generous. Today it is usually read as a sign of tension between closeness and independence, often about a decision you want to make on your own. The dream lets you say what you might hold back when awake."
+   ],
+   [
+    "What does it mean to dream of your mother?",
+    "Usually your relationship with care, protection or independence: a peaceful mother reflects a need for comfort, a critical one a push for autonomy."
+   ],
+   [
+    "Is it normal to dream of your mother?",
+    "Yes. Family members are among the most frequent people in dreams, and mothers come up especially often in times of stress, change or grief."
+   ],
+   [
+    "What does your mother symbolize in a dream?",
+    "Care, protection and home, but also control and the step of becoming independent."
    ]
   ]
  },
@@ -90,6 +103,18 @@
    [
     "What does it mean to dream of killing a mouse?",
     "Traditionally it meant overcoming your enemies or catching a thief. Today it is often read as finally taking control of a nagging issue."
+   ],
+   [
+    "What does it mean to dream of mice?",
+    "Usually a small but persistent worry, or a feeling of being overlooked. The old dream books saw thieves and false friends."
+   ],
+   [
+    "Is it normal to dream of mice?",
+    "Yes. Animals appear in a modest but steady share of adult dreams, and small ones like mice often stand for small worries."
+   ],
+   [
+    "What does a mouse symbolize in a dream?",
+    "Small nagging problems, timidity, and in the old books, theft and insincere friends."
    ]
   ]
  },
@@ -133,6 +158,18 @@
    [
     "What does it mean to dream of dead fish?",
     "It is the one fish dream the old books read as clearly negative, the loss of wealth. Today it is often linked to disappointment or something that has run its course."
+   ],
+   [
+    "What does it mean to dream of fish?",
+    "Mostly a good sign: luck, money or an idea coming to the surface. Dead fish are the one gloomy exception."
+   ],
+   [
+    "Is it normal to dream of fish?",
+    "Yes. Fish dreams usually take place in water, one of the most familiar dream settings."
+   ],
+   [
+    "What does a fish symbolize in a dream?",
+    "What lies under the surface: feelings, intuitions, ideas, and in the old books, wealth."
    ]
   ]
  },
@@ -176,6 +213,18 @@
    [
     "Why do I dream of people who have died?",
     "It is a normal part of grief. Such dreams are frequent after a loss and are often calm or comforting; they become rarer as time passes."
+   ],
+   [
+    "What does it mean to dream of death?",
+    "Usually an ending or a change in your life, not a real death. The old books even read it as a wedding or a long life."
+   ],
+   [
+    "Is it normal to dream of death?",
+    "Yes, very. More than half of the students in a large survey had dreamed that someone living was dead."
+   ],
+   [
+    "What does death symbolize in a dream?",
+    "Endings, transformation and the close of a chapter."
    ]
   ]
  },
@@ -219,6 +268,18 @@
    [
     "Why do I dream of my wedding going wrong?",
     "If your wedding is coming up, it is a very common stress dream. Otherwise it may reflect fear of failing at an important commitment or of being judged."
+   ],
+   [
+    "What does it mean to dream of a wedding?",
+    "Usually commitment, a decision or a new stage of life. Stressful wedding dreams reflect pressure to get things right."
+   ],
+   [
+    "Is it normal to dream of a wedding?",
+    "Yes, especially before a real wedding or any big commitment. Running late and wrong clothes are classic stress themes."
+   ],
+   [
+    "What does a wedding symbolize in a dream?",
+    "Union, commitment and new beginnings; in the old books, oddly, often a funeral."
    ]
   ]
  },
@@ -262,6 +323,18 @@
    [
     "Why do I dream of ghosts when I am stressed?",
     "Stress makes dreams more vivid and more threatening. A ghost gives a shape to an unease that has no clear source."
+   ],
+   [
+    "What does it mean to dream of a ghost?",
+    "Usually something from the past that is not settled: a memory, a loss, a guilt or an old fear."
+   ],
+   [
+    "Is it normal to dream of a ghost?",
+    "Yes. Almost half of the students in a large survey had dreamed of vividly sensing a presence."
+   ],
+   [
+    "What does a ghost symbolize in a dream?",
+    "Unfinished business, the past returning, and sometimes a gentle goodbye."
    ]
   ]
  },
@@ -300,6 +373,291 @@
    [
     "What does it mean to dream of bleeding?",
     "It often reflects feeling drained, physically or emotionally. If you have a health worry, the dream may simply be echoing it."
+   ],
+   [
+    "What does it mean to dream of blood?",
+    "Usually stress, hurt or exhaustion; blood on your hands is linked to guilt."
+   ],
+   [
+    "Is it normal to dream of blood?",
+    "Yes. Blood comes with injury and violence in dreams, which are common themes."
+   ],
+   [
+    "What does blood symbolize in a dream?",
+    "Life force and energy, injury, and guilt."
+   ]
+  ]
+ },
+ "teeth": {
+  "intro": "Dreaming of your teeth falling out is one of the classic dreams, and one of the most unsettling. The old dream books read it as a loss to come, often of a friend; today it is linked to stress, to fear of how others see you, and, according to one study, to something as concrete as a clenched jaw.",
+  "books": [
+   [
+    "G. H. Miller",
+    1901,
+    "Loose teeth mean failures and gloomy news; losing them, burdens that will crush your pride; having them knocked out, sudden misfortune. Having them filled means recovering lost valuables."
+   ],
+   [
+    "F. Fontaine",
+    1862,
+    "Losing your teeth means losing friends, troubles and misfortune, and for a lover, losing their sweetheart’s affection. Cutting a new tooth announces the birth of a child who will make a name in the world."
+   ],
+   [
+    "A. H. Noe",
+    1885,
+    "Losing a tooth means losing a friend through death, with troubles to follow. Like Fontaine, Noe sees a new tooth as the birth of a child with a great future."
+   ]
+  ],
+  "today": [
+   "Teeth are visible, they matter for how we look and speak, and losing them is hard to reverse. That is why the most common modern reading links these dreams to fear of losing face, of ageing, or of losing control of a situation. They often turn up before an interview, a performance or any moment when you feel judged.",
+   "There is also a very physical explanation. Freud already mentioned that earlier writers blamed these dreams on “dental irritation”. In 2018, a study of 210 students by Rozen and Soffer-Dudek found that dreams of teeth falling out were linked to tension in the teeth, gums or jaw on waking, and not to psychological distress, while other dream themes were. Grinding or clenching your teeth at night may be enough to bring the dream on.",
+   "Both readings can be true at once: stress tends to make people clench their jaw, and the jaw then feeds the dream. If the dream keeps coming back and you wake with a sore jaw, it is worth mentioning to a dentist."
+  ],
+  "common": [
+   "It is a typical dream, though less frequent than its reputation suggests: in a survey of 1,181 Canadian students, 19% had dreamed of their teeth falling out.",
+   [
+    "tdq",
+    "teeth2018"
+   ]
+  ],
+  "faq": [
+   [
+    "Does dreaming of teeth falling out mean someone will die?",
+    "That was the old reading, in Fontaine and Noe. Nothing supports it. The dream is better explained by stress or by tension in the jaw during sleep."
+   ],
+   [
+    "Why do I keep dreaming my teeth are falling out?",
+    "Repeated teeth dreams are often linked to grinding or clenching at night, and to periods of stress. A 2018 study found a link with jaw and gum tension on waking."
+   ],
+   [
+    "What does it mean to dream of a tooth breaking or crumbling?",
+    "It is usually read the same way as losing teeth: worry about your image, your health or a situation slipping out of your control."
+   ],
+   [
+    "What does it mean to dream of your teeth falling out?",
+    "Usually stress or fear of losing face, and sometimes simply a clenched jaw during sleep."
+   ],
+   [
+    "Is it normal to dream of your teeth falling out?",
+    "Yes. About one person in five has had this dream, and it is linked to grinding or clenching at night."
+   ],
+   [
+    "What does losing your teeth symbolize in a dream?",
+    "Image, confidence and control, and in the old books, losing a friend."
+   ]
+  ]
+ },
+ "snake": {
+  "intro": "Dreaming of a snake is one of the oldest and most widespread dream images. The old dream books nearly all saw an enemy or a betrayal in it. Today a snake is read more broadly: as a hidden threat, a fear, or a sign of transformation, like a skin being shed.",
+  "books": [
+   [
+    "G. H. Miller",
+    1901,
+    "Snakes forebode evil in its various forms. Killing them means victory over enemies; walking over them, constant fear; being bitten, falling to evil influences. A dead snake biting a woman warns of a false friend."
+   ],
+   [
+    "F. Fontaine",
+    1862,
+    "Snakes are a sign of an enemy or of someone slandering you, and of quarrels. A young woman who is engaged and dreams of them should make sure her fiancé is honest before marrying him."
+   ],
+   [
+    "A. H. Noe",
+    1885,
+    "Seeing snakes means danger and even imprisonment, and a false sweetheart. Killing one means overcoming your enemies and success in love, trade or farming, though not at sea."
+   ]
+  ],
+  "today": [
+   "Modern readings start from the feeling the snake gives you. Fear and disgust usually point to a threat you sense without being able to name it: a person you do not trust, a situation that could turn against you. The old idea of the snake as a hidden enemy is not far away.",
+   "Freud gave the snake a sexual meaning, and Jung, in Psychology of the Unconscious (1916), discussed the snake as a symbol of energy turned inward, the libido withdrawing into itself before being renewed. Few people today read every snake dream sexually, but the idea of the snake as a sign of change has stayed: it sheds its skin and comes out new.",
+   "Killing a snake or watching it go away calmly is usually read as overcoming a fear. Being bitten suggests that something you were wary of has already hurt you. A snake that is calm, or even beautiful, can point to healing or to a part of yourself you are learning to accept."
+  ],
+  "common": [
+   "Snakes are among the typical dream themes: in a survey of 1,181 Canadian students, 22% had dreamed of snakes, and women reported them more often than men.",
+   "tdq"
+  ],
+  "faq": [
+   [
+    "Is dreaming of a snake a bad sign?",
+    "The old dream books almost all said so, seeing enemies and betrayal. Today it is read more as a sign of a fear or a change than as a prediction."
+   ],
+   [
+    "What does it mean to dream of a snake biting you?",
+    "It usually points to something or someone that has already hurt you, or to a fear that feels close. The old books saw it as falling into enemies’ hands."
+   ],
+   [
+    "What does it mean to dream of killing a snake?",
+    "Old and modern readings agree: overcoming an enemy, a fear or a difficult situation."
+   ],
+   [
+    "What does it mean to dream of snakes?",
+    "Usually a hidden threat or a fear, but also change and renewal, like a skin being shed."
+   ],
+   [
+    "Is it normal to dream of snakes?",
+    "Yes. Snakes are a typical dream theme, reported by about a fifth of people in a large survey."
+   ],
+   [
+    "What does a snake symbolize in a dream?",
+    "Hidden danger and betrayal, but also transformation and healing."
+   ]
+  ]
+ },
+ "flying": {
+  "intro": "Dreaming that you can fly is one of the happiest typical dreams. Most of the old dream books saw it as an excellent omen, and today it is usually linked to freedom, confidence and the feeling of rising above a situation.",
+  "books": [
+   [
+    "G. H. Miller",
+    1901,
+    "The most detailed and the most cautious: flying high means marital trouble, flying low means illness you will recover from, flying over green fields means prosperity after a setback. Falling while flying means your downfall."
+   ],
+   [
+    "A. H. Noe",
+    1885,
+    "A very excellent omen: rising fortune, honours, a faithful sweetheart, many happy children and an advantageous journey. Fontaine says almost word for word the same."
+   ],
+   [
+    "The Interpretation of Dreams and Moles",
+    1805,
+    "Flying through the air means a quick journey or hasty news. Trying to fly and failing means a restraint on what you are pursuing."
+   ]
+  ],
+  "today": [
+   "Flying is usually read as freedom: escaping a constraint, gaining perspective, feeling capable. How you fly matters. Gliding easily suggests confidence; struggling to stay up, or flying too low, points to effort and doubt, close to the old idea that failing to fly means being held back.",
+   "Freud noted that earlier writers had explained flying dreams by the movement of the lungs during sleep. He argued instead that the sensations of motion in these dreams are taken from memory and reused to express what the dream is about. Whatever their source, these dreams are remembered for the pleasure they give.",
+   "Flying dreams are also closely tied to lucid dreaming: many people who realise they are dreaming choose to fly. If you often fly in dreams, you may be close to becoming aware that you are dreaming."
+  ],
+  "common": [
+   "It is one of the most common typical dreams: in a survey of 1,181 Canadian students, 48% had dreamed of flying or soaring through the air, men a little more often than women.",
+   "tdq"
+  ],
+  "faq": [
+   [
+    "Is dreaming of flying a good sign?",
+    "Most old dream books said so, and modern readings agree that it usually reflects freedom or confidence. Miller was the exception, with many warnings depending on how you fly."
+   ],
+   [
+    "Why can’t I fly high in my dreams?",
+    "Struggling to take off or to stay up often reflects effort, doubt or something holding you back. The 1805 dream book read it the same way: a restraint on what you are pursuing."
+   ],
+   [
+    "Is flying in a dream a sign of lucid dreaming?",
+    "It often goes with it. Many lucid dreamers fly once they realise they are dreaming, and frequent flying dreams can be a step towards lucidity."
+   ],
+   [
+    "What does it mean to dream of flying?",
+    "Usually freedom, confidence or rising above a problem. Struggling to fly points to effort or doubt."
+   ],
+   [
+    "Is it normal to dream of flying?",
+    "Yes, very. Almost half of the students in a large survey had dreamed of flying."
+   ],
+   [
+    "What does flying symbolize in a dream?",
+    "Freedom, perspective and ambition."
+   ]
+  ]
+ },
+ "fall": {
+  "intro": "Dreaming of falling is the most common of all typical dreams after being chased. The old dream books disagreed about it, some seeing a rise in fortune, others a loss. Today it is usually linked to insecurity, loss of control, or simply the moment of falling asleep.",
+  "books": [
+   [
+    "G. H. Miller",
+    1901,
+    "A frightening fall means a great struggle that will end in honour and wealth; but if you are hurt in the fall, hardship and the loss of friends."
+   ],
+   [
+    "F. Fontaine",
+    1862,
+    "Falling from a height means a dignity will be conferred on you, or that you will marry above your station; for a young woman, a rich husband."
+   ],
+   [
+    "A. H. Noe",
+    1885,
+    "The opposite: falling from a high place or a tree means losing your position and goods, and for a lover, never marrying the person you love."
+   ]
+  ],
+  "today": [
+   "Falling is usually read as a loss of footing: a job that feels uncertain, a relationship that is wobbling, a sense that things are moving too fast. The dream gives a physical shape to the fear of losing control.",
+   "Some falling dreams have a simpler cause. The sudden jolt many people feel just as they fall asleep, the “hypnic jerk”, often comes with a brief image of tripping or falling. Freud already reviewed explanations of this kind, from writers who linked falling dreams to the body’s sensations at the edge of sleep, before arguing that the sensations of falling are borrowed from memory to express the dream’s own thoughts.",
+   "Where you fall and how it ends matter. Landing safely, or waking before the impact, often reflects a fear that turns out to be manageable. Being pushed suggests that you feel someone else is undermining you. Falling and then flying turns the dream around: from losing control to finding your feet."
+  ],
+  "common": [
+   "It is one of the most widespread dreams of all: in a survey of 1,181 Canadian students, 74% had dreamed of falling and 58% of being on the verge of falling.",
+   "tdq"
+  ],
+  "faq": [
+   [
+    "Is it true that you die if you hit the ground in a falling dream?",
+    "No. It is a popular myth. Many people dream of landing and wake up perfectly well."
+   ],
+   [
+    "Why do I jerk awake when I dream of falling?",
+    "That is usually a hypnic jerk, a sudden muscle twitch as you fall asleep. The brain often wraps it in a short image of tripping or falling."
+   ],
+   [
+    "What does it mean to dream of falling from a height?",
+    "It is usually read as fear of losing your position or control. Fontaine, oddly, saw it as a promotion or a good marriage."
+   ],
+   [
+    "What does it mean to dream of falling?",
+    "Usually insecurity or loss of control, and sometimes just the jolt of falling asleep."
+   ],
+   [
+    "Is it normal to dream of falling?",
+    "Yes. It is one of the most common dreams of all: three people in four have had it."
+   ],
+   [
+    "What does falling symbolize in a dream?",
+    "Loss of footing, fear of failure, and letting go."
+   ]
+  ]
+ },
+ "naked": {
+  "intro": "Dreaming of being naked in public is one of the best-known embarrassment dreams. The old dream books saw scandal or temptation in it; today it is usually linked to feeling exposed, unprepared or afraid of being judged.",
+  "books": [
+   [
+    "G. H. Miller",
+    1901,
+    "Being naked means scandal and unwise commitments. Suddenly noticing your nudity and trying to hide it means you are trying to give up pleasures you know are wrong. Seeing others naked means temptation to leave the path of duty."
+   ],
+   [
+    "F. Fontaine",
+    1862,
+    "Fontaine looks only at others: seeing a naked man means fear; a beautiful naked woman, honour and joy; for a wife, seeing her husband naked means success and many children. Noe repeats this almost word for word."
+   ]
+  ],
+  "today": [
+   "The key is the feeling. Being naked and ashamed, trying to hide while no one seems to notice, is usually read as a fear of being exposed: that others will see a weakness, a mistake or how unprepared you feel. It is common before a new job, an exam or a public moment.",
+   "Freud gave this dream a central place among typical dreams. In The Interpretation of Dreams he noted that it matters only when shame and embarrassment are felt, when one wishes to flee or hide and feels a strange inhibition that makes it impossible to move. He traced it back to early childhood, when being seen naked caused no shame at all.",
+   "Being naked without any embarrassment is a different dream. It is often read as ease with yourself, honesty, or the wish to drop a role you are tired of playing."
+  ],
+  "common": [
+   "It is a typical dream: in a survey of 1,181 Canadian students, 33% had dreamed of being nude, and just as many of being inappropriately dressed.",
+   "tdq"
+  ],
+  "faq": [
+   [
+    "Why do I dream of being naked in public?",
+    "Usually because you feel exposed or unprepared somewhere in your life, often before an important event."
+   ],
+   [
+    "What does it mean if no one notices I am naked in the dream?",
+    "Freud pointed this out as a typical feature. It is often read as a sign that the fear of being judged is stronger in you than in others."
+   ],
+   [
+    "Is dreaming of being naked a bad sign?",
+    "Miller saw scandal in it, but nothing suggests it predicts anything. It reflects a feeling of vulnerability, and sometimes, when there is no shame, freedom."
+   ],
+   [
+    "What does it mean to dream of being naked?",
+    "Usually feeling exposed, unprepared or afraid of being judged. Being naked without shame suggests ease and honesty."
+   ],
+   [
+    "Is it normal to dream of being naked?",
+    "Yes. About a third of people in a large survey had dreamed of being nude in public."
+   ],
+   [
+    "What does being naked symbolize in a dream?",
+    "Vulnerability and exposure, and sometimes freedom and authenticity."
    ]
   ]
  }

@@ -42,6 +42,18 @@
    [
     "Que veut dire rêver qu’on se dispute avec sa mère ?",
     "Les anciens livres y voyaient un bon présage : un geste généreux de sa part. Aujourd’hui, on y lit plutôt une tension entre proximité et indépendance, souvent autour d’une décision que vous voulez prendre seul. Le rêve vous laisse dire ce que vous retenez éveillé."
+   ],
+   [
+    "Que signifie rêver de sa mère ?",
+    "En général votre rapport au soin, à la protection ou à l’indépendance : une mère paisible traduit un besoin de réconfort, une mère critique un désir d’autonomie."
+   ],
+   [
+    "Est-ce normal de rêver de sa mère ?",
+    "Oui. Les membres de la famille sont parmi les personnes les plus présentes en rêve, et la mère revient surtout en période de stress, de changement ou de deuil."
+   ],
+   [
+    "Que symbolise la mère en rêve ?",
+    "Le soin, la protection et le foyer, mais aussi le contrôle et le passage à l’indépendance."
    ]
   ]
  },
@@ -85,6 +97,18 @@
    [
     "Que veut dire rêver qu’on tue une souris ?",
     "Autrefois, c’était vaincre ses ennemis ou démasquer un voleur. Aujourd’hui, on y lit souvent le fait de reprendre enfin la main sur un souci qui traînait."
+   ],
+   [
+    "Que signifie rêver de souris ?",
+    "En général un petit souci tenace, ou le sentiment de passer inaperçu. Les anciens livres y voyaient voleurs et faux amis."
+   ],
+   [
+    "Est-ce normal de rêver de souris ?",
+    "Oui. Les animaux occupent une place modeste mais régulière dans les rêves adultes, et les petits comme la souris représentent souvent de petits tracas."
+   ],
+   [
+    "Que symbolise la souris en rêve ?",
+    "Les petits soucis qui rongent, la timidité, et pour les anciens livres, le vol et les faux amis."
    ]
   ]
  },
@@ -128,6 +152,18 @@
    [
     "Que veut dire rêver de poissons morts ?",
     "C’est le seul rêve de poisson que les anciens livres lisent comme franchement négatif : la perte de la fortune. Aujourd’hui, on y voit souvent une déception ou une chose arrivée à son terme."
+   ],
+   [
+    "Que signifie rêver de poissons ?",
+    "Surtout un bon signe : chance, argent, ou idée qui remonte à la surface. Les poissons morts sont la seule exception sombre."
+   ],
+   [
+    "Est-ce normal de rêver de poissons ?",
+    "Oui. Ces rêves se passent en général dans l’eau, l’un des décors les plus familiers du rêve."
+   ],
+   [
+    "Que symbolise le poisson en rêve ?",
+    "Ce qui se cache sous la surface : émotions, intuitions, idées, et pour les anciens livres, la richesse."
    ]
   ]
  },
@@ -171,6 +207,18 @@
    [
     "Pourquoi est-ce que je rêve de personnes décédées ?",
     "C’est une part normale du deuil. Ces rêves sont fréquents après une perte, souvent calmes ou réconfortants, et deviennent plus rares avec le temps."
+   ],
+   [
+    "Que signifie rêver de la mort ?",
+    "En général une fin ou un changement dans votre vie, pas un vrai décès. Les anciens livres y lisaient même un mariage ou une longue vie."
+   ],
+   [
+    "Est-ce normal de rêver de la mort ?",
+    "Oui, très. Plus de la moitié des étudiants d’une grande enquête avaient rêvé qu’une personne vivante était morte."
+   ],
+   [
+    "Que symbolise la mort en rêve ?",
+    "Les fins, la transformation et la fin d’un chapitre."
    ]
   ]
  },
@@ -214,6 +262,18 @@
    [
     "Pourquoi est-ce que je rêve que mon mariage tourne mal ?",
     "Si votre mariage approche, c’est un rêve de stress très courant. Sinon, il peut refléter la peur d’échouer dans un engagement important ou d’être jugé."
+   ],
+   [
+    "Que signifie rêver d’un mariage ?",
+    "En général l’engagement, une décision ou une nouvelle étape de vie. Les rêves de mariage stressants traduisent la pression de bien faire."
+   ],
+   [
+    "Est-ce normal de rêver d’un mariage ?",
+    "Oui, surtout avant un vrai mariage ou un engagement important. Le retard et la mauvaise tenue sont des thèmes de stress classiques."
+   ],
+   [
+    "Que symbolise le mariage en rêve ?",
+    "L’union, l’engagement et les nouveaux départs ; pour les anciens livres, curieusement, souvent un enterrement."
    ]
   ]
  },
@@ -257,6 +317,18 @@
    [
     "Pourquoi est-ce que je rêve de fantômes quand je suis stressé ?",
     "Le stress rend les rêves plus intenses et plus menaçants. Le fantôme donne une forme à un malaise qui n’a pas de source claire."
+   ],
+   [
+    "Que signifie rêver d’un fantôme ?",
+    "En général quelque chose du passé qui n’est pas réglé : un souvenir, une perte, une culpabilité ou une vieille peur."
+   ],
+   [
+    "Est-ce normal de rêver d’un fantôme ?",
+    "Oui. Près de la moitié des étudiants d’une grande enquête avaient rêvé de sentir intensément une présence."
+   ],
+   [
+    "Que symbolise un fantôme en rêve ?",
+    "Les affaires non réglées, le passé qui revient, et parfois un au revoir apaisé."
    ]
   ]
  },
@@ -295,7 +367,298 @@
    [
     "Que veut dire rêver qu’on saigne ?",
     "Cela reflète souvent une impression d’épuisement, physique ou émotionnel. Si vous avez une inquiétude de santé, le rêve peut simplement en être l’écho."
+   ],
+   [
+    "Que signifie rêver de sang ?",
+    "En général du stress, une blessure ou de la fatigue ; du sang sur les mains renvoie à la culpabilité."
+   ],
+   [
+    "Est-ce normal de rêver de sang ?",
+    "Oui. Le sang accompagne les blessures et la violence en rêve, des thèmes fréquents."
+   ],
+   [
+    "Que symbolise le sang en rêve ?",
+    "La force vitale et l’énergie, la blessure et la culpabilité."
    ]
   ]
+ },
+ "dents": {
+  "intro": "Rêver de perdre ses dents est l’un des grands rêves classiques, et l’un des plus troublants. Les anciens livres des songes y lisaient une perte à venir, souvent celle d’un ami ; aujourd’hui, on le relie au stress, à la peur du regard des autres et, selon une étude, à quelque chose d’aussi concret qu’une mâchoire crispée.",
+  "books": [
+   [
+    "G. H. Miller",
+    1901,
+    "Des dents qui bougent annoncent échecs et mauvaises nouvelles ; les perdre, des fardeaux qui écraseront votre fierté ; se les faire casser, un malheur soudain. Les faire plomber, c’est retrouver des biens perdus."
+   ],
+   [
+    "F. Fontaine",
+    1862,
+    "Perdre ses dents annonce la perte d’amis, des ennuis et des malheurs, et pour un amoureux, la fin de l’affection de l’autre. Une nouvelle dent annonce la naissance d’un enfant qui fera parler de lui."
+   ],
+   [
+    "A. H. Noe",
+    1885,
+    "Perdre une dent annonce la mort d’un ami et des malheurs à suivre. Comme Fontaine, Noe voit dans une nouvelle dent la naissance d’un enfant promis à un bel avenir."
+   ]
+  ],
+  "today": [
+   "Les dents se voient, elles comptent pour l’apparence et la parole, et les perdre est difficile à réparer. C’est pourquoi la lecture moderne la plus courante relie ce rêve à la peur de perdre la face, de vieillir ou de perdre le contrôle d’une situation. Il revient souvent avant un entretien, une prise de parole ou tout moment où l’on se sent jugé.",
+   "Il existe aussi une explication très physique. Freud mentionnait déjà que des auteurs antérieurs attribuaient ces rêves à une « irritation dentaire ». En 2018, une étude de Rozen et Soffer-Dudek auprès de 210 étudiants a montré que les rêves de dents qui tombent étaient liés à une tension dans les dents, les gencives ou la mâchoire au réveil, et non à la détresse psychologique, contrairement à d’autres thèmes de rêve. Serrer ou grincer des dents la nuit peut suffire à provoquer le rêve.",
+   "Les deux lectures peuvent se rejoindre : le stress fait serrer la mâchoire, et la mâchoire nourrit le rêve. Si le rêve revient souvent et que vous vous réveillez la mâchoire douloureuse, mieux vaut en parler à un dentiste."
+  ],
+  "common": [
+   "C’est un rêve typique, mais moins fréquent que sa réputation : dans une enquête auprès de 1 181 étudiants canadiens, 19 % avaient rêvé de perdre leurs dents.",
+   [
+    "tdq",
+    "teeth2018"
+   ]
+  ],
+  "faq": [
+   [
+    "Rêver de perdre ses dents, est-ce que quelqu’un va mourir ?",
+    "C’était la lecture ancienne, chez Fontaine et Noe. Rien ne l’appuie. Le rêve s’explique mieux par le stress ou par une tension de la mâchoire pendant le sommeil."
+   ],
+   [
+    "Pourquoi est-ce que je rêve souvent que mes dents tombent ?",
+    "Les rêves de dents répétés sont souvent liés au grincement ou au serrement des dents la nuit, et aux périodes de stress. Une étude de 2018 a trouvé un lien avec la tension de la mâchoire et des gencives au réveil."
+   ],
+   [
+    "Que veut dire rêver d’une dent cassée ?",
+    "On le lit en général comme la perte de dents : une inquiétude pour son image, sa santé, ou une situation qui échappe."
+   ],
+   [
+    "Que signifie rêver de perdre ses dents ?",
+    "En général du stress ou la peur de perdre la face, et parfois simplement une mâchoire crispée pendant le sommeil."
+   ],
+   [
+    "Est-ce normal de rêver de perdre ses dents ?",
+    "Oui. Environ une personne sur cinq a déjà fait ce rêve, lié au grincement ou au serrement des dents la nuit."
+   ],
+   [
+    "Que symbolisent les dents en rêve ?",
+    "L’image, la confiance et le contrôle, et pour les anciens livres, la perte d’un ami."
+   ]
+  ]
+ },
+ "serpent": {
+  "intro": "Rêver d’un serpent est l’une des images oniriques les plus anciennes et les plus répandues. Les anciens livres des songes y voyaient presque tous un ennemi ou une trahison. Aujourd’hui, on le lit plus largement : une menace cachée, une peur, ou un signe de transformation, comme une peau qu’on quitte.",
+  "books": [
+   [
+    "G. H. Miller",
+    1901,
+    "Les serpents annoncent le mal sous toutes ses formes. Les tuer, c’est vaincre ses ennemis ; marcher dessus, vivre dans la crainte ; être mordu, céder à de mauvaises influences. Un serpent mort qui mord une femme annonce une fausse amie."
+   ],
+   [
+    "F. Fontaine",
+    1862,
+    "Les serpents signalent un ennemi ou un calomniateur, et des querelles. Une jeune fiancée qui en rêve ferait bien de vérifier l’honnêteté de son promis avant de l’épouser."
+   ],
+   [
+    "A. H. Noe",
+    1885,
+    "Voir des serpents annonce des dangers et même la prison, et un amoureux infidèle. En tuer un, c’est vaincre ses ennemis et réussir en amour, en commerce ou aux champs, mais pas en mer."
+   ]
+  ],
+  "today": [
+   "Les lectures modernes partent de l’émotion que le serpent inspire. La peur et le dégoût signalent en général une menace qu’on sent sans pouvoir la nommer : une personne dont on se méfie, une situation qui pourrait se retourner. L’idée ancienne de l’ennemi caché n’est pas loin.",
+   "Freud a donné au serpent un sens sexuel, et Jung, dans Métamorphoses et symboles de la libido, en a fait le symbole d’une énergie tournée vers l’intérieur, la libido qui se replie avant de se renouveler. Peu de gens lisent aujourd’hui chaque serpent sous un angle sexuel, mais l’idée du changement est restée : le serpent mue et ressort neuf.",
+   "Tuer un serpent ou le voir s’éloigner calmement se lit en général comme le fait de surmonter une peur. Être mordu suggère qu’une chose dont vous vous méfiiez vous a déjà blessé. Un serpent calme, voire beau, peut évoquer une guérison ou une part de vous-même que vous apprenez à accepter."
+  ],
+  "common": [
+   "Les serpents font partie des thèmes typiques : dans une enquête auprès de 1 181 étudiants canadiens, 22 % avaient rêvé de serpents, plus souvent les femmes que les hommes.",
+   "tdq"
+  ],
+  "faq": [
+   [
+    "Rêver d’un serpent, est-ce mauvais signe ?",
+    "Les anciens livres le disaient presque tous, en y voyant ennemis et trahisons. Aujourd’hui, on y lit plutôt une peur ou un changement qu’une prédiction."
+   ],
+   [
+    "Que veut dire rêver d’un serpent qui mord ?",
+    "Il signale en général une chose ou une personne qui vous a déjà blessé, ou une peur toute proche. Les anciens livres y voyaient le fait de tomber aux mains d’ennemis."
+   ],
+   [
+    "Que veut dire rêver qu’on tue un serpent ?",
+    "Lectures anciennes et modernes s’accordent : surmonter un ennemi, une peur ou une situation difficile."
+   ],
+   [
+    "Que signifie rêver de serpents ?",
+    "En général une menace cachée ou une peur, mais aussi le changement et le renouveau, comme une peau qu’on quitte."
+   ],
+   [
+    "Est-ce normal de rêver de serpents ?",
+    "Oui. Les serpents sont un thème typique, cité par environ un cinquième des personnes d’une grande enquête."
+   ],
+   [
+    "Que symbolise le serpent en rêve ?",
+    "Le danger caché et la trahison, mais aussi la transformation et la guérison."
+   ]
+  ]
+ },
+ "voler": {
+  "intro": "Rêver de voler est l’un des rêves typiques les plus heureux. La plupart des anciens livres des songes y voyaient un excellent présage, et aujourd’hui on le relie à la liberté, à la confiance et au sentiment de prendre de la hauteur.",
+  "books": [
+   [
+    "G. H. Miller",
+    1901,
+    "Le plus détaillé et le plus prudent : voler haut annonce des ennuis conjugaux, voler bas une maladie dont on guérit, survoler des champs verts la prospérité après un revers. Tomber en volant annonce votre chute."
+   ],
+   [
+    "A. H. Noe",
+    1885,
+    "Un excellent présage : fortune qui monte, honneurs, amoureux fidèle, enfants nombreux et heureux, voyage profitable. Fontaine dit presque mot pour mot la même chose."
+   ],
+   [
+    "The Interpretation of Dreams and Moles",
+    1805,
+    "Voler dans les airs annonce un voyage rapide ou des nouvelles pressées. Essayer de voler sans y parvenir, c’est être entravé dans ce qu’on poursuit."
+   ]
+  ],
+  "today": [
+   "Voler se lit en général comme la liberté : échapper à une contrainte, prendre du recul, se sentir capable. La façon de voler compte. Planer sans effort suggère la confiance ; peiner à rester en l’air, ou voler trop bas, évoque l’effort et le doute, proche de l’idée ancienne d’être entravé.",
+   "Freud notait que des auteurs antérieurs expliquaient ces rêves par le mouvement des poumons pendant le sommeil. Il soutenait plutôt que les sensations de mouvement de ces rêves sont puisées dans la mémoire et réutilisées pour exprimer ce dont parle le rêve. Quelle qu’en soit la source, on s’en souvient surtout pour le plaisir qu’ils donnent.",
+   "Les rêves de vol sont aussi étroitement liés au rêve lucide : beaucoup de gens qui prennent conscience de rêver choisissent de s’envoler. Si vous volez souvent en rêve, vous n’êtes peut-être pas loin de devenir lucide."
+  ],
+  "common": [
+   "C’est l’un des rêves typiques les plus courants : dans une enquête auprès de 1 181 étudiants canadiens, 48 % avaient rêvé de voler ou de planer dans les airs, les hommes un peu plus que les femmes.",
+   "tdq"
+  ],
+  "faq": [
+   [
+    "Rêver de voler, est-ce bon signe ?",
+    "La plupart des anciens livres le disaient, et les lectures modernes s’accordent : le rêve reflète en général la liberté ou la confiance. Miller faisait exception, avec bien des mises en garde selon la façon de voler."
+   ],
+   [
+    "Pourquoi est-ce que je n’arrive pas à voler haut en rêve ?",
+    "Peiner à décoller ou à rester en l’air reflète souvent un effort, un doute ou une entrave. Le livre de 1805 le lisait déjà ainsi."
+   ],
+   [
+    "Voler en rêve, est-ce un signe de rêve lucide ?",
+    "Les deux vont souvent ensemble. Beaucoup de rêveurs lucides s’envolent dès qu’ils savent qu’ils rêvent, et les rêves de vol fréquents peuvent y mener."
+   ],
+   [
+    "Que signifie rêver de voler ?",
+    "En général la liberté, la confiance ou le fait de prendre de la hauteur. Peiner à voler traduit l’effort ou le doute."
+   ],
+   [
+    "Est-ce normal de rêver de voler ?",
+    "Oui, très. Près de la moitié des étudiants d’une grande enquête avaient rêvé de voler."
+   ],
+   [
+    "Que symbolise le fait de voler en rêve ?",
+    "La liberté, le recul et l’ambition."
+   ]
+  ]
+ },
+ "chute": {
+  "intro": "Rêver de tomber est, après la poursuite, le plus courant de tous les rêves typiques. Les anciens livres des songes ne s’accordaient pas : certains y voyaient une élévation, d’autres une perte. Aujourd’hui, on le relie à l’insécurité, à la perte de contrôle, ou tout simplement au moment de l’endormissement.",
+  "books": [
+   [
+    "G. H. Miller",
+    1901,
+    "Une chute effrayante annonce une grande lutte qui finira dans l’honneur et la richesse ; mais si vous êtes blessé en tombant, des épreuves et la perte d’amis."
+   ],
+   [
+    "F. Fontaine",
+    1862,
+    "Tomber d’une hauteur annonce une distinction, ou un mariage au-dessus de votre condition ; pour une jeune fille, un mari riche."
+   ],
+   [
+    "A. H. Noe",
+    1885,
+    "L’inverse : tomber d’un lieu élevé ou d’un arbre annonce la perte de sa place et de ses biens, et pour un amoureux, qu’il n’épousera jamais l’être aimé."
+   ]
+  ],
+  "today": [
+   "La chute se lit en général comme une perte d’appui : un emploi incertain, une relation qui vacille, l’impression que tout va trop vite. Le rêve donne une forme physique à la peur de perdre le contrôle.",
+   "Certaines chutes ont une cause plus simple. La secousse brutale que beaucoup ressentent au moment de s’endormir, la « secousse hypnique », s’accompagne souvent d’une brève image où l’on trébuche ou tombe. Freud passait déjà en revue ce genre d’explications, chez des auteurs qui reliaient les rêves de chute aux sensations du corps au seuil du sommeil, avant de soutenir que ces sensations sont empruntées à la mémoire pour exprimer les pensées propres du rêve.",
+   "Le lieu et l’issue comptent. Atterrir sans mal, ou se réveiller avant l’impact, reflète souvent une peur qui se révèle gérable. Être poussé suggère qu’on se sent miné par quelqu’un. Tomber puis s’envoler retourne le rêve : de la perte de contrôle au fait de retrouver son équilibre."
+  ],
+  "common": [
+   "C’est l’un des rêves les plus répandus : dans une enquête auprès de 1 181 étudiants canadiens, 74 % avaient rêvé de tomber et 58 % d’être sur le point de tomber.",
+   "tdq"
+  ],
+  "faq": [
+   [
+    "Est-il vrai qu’on meurt si l’on touche le sol en rêve ?",
+    "Non, c’est une légende. Beaucoup de gens rêvent qu’ils atterrissent et se réveillent en parfaite santé."
+   ],
+   [
+    "Pourquoi est-ce que je sursaute quand je rêve que je tombe ?",
+    "C’est en général une secousse hypnique, une contraction musculaire soudaine à l’endormissement. Le cerveau l’habille souvent d’une courte image de chute."
+   ],
+   [
+    "Que veut dire rêver qu’on tombe d’une hauteur ?",
+    "On y lit en général la peur de perdre sa place ou le contrôle. Fontaine, curieusement, y voyait une promotion ou un beau mariage."
+   ],
+   [
+    "Que signifie rêver de tomber ?",
+    "En général l’insécurité ou la perte de contrôle, et parfois juste la secousse de l’endormissement."
+   ],
+   [
+    "Est-ce normal de rêver de tomber ?",
+    "Oui. C’est l’un des rêves les plus courants : trois personnes sur quatre l’ont déjà fait."
+   ],
+   [
+    "Que symbolise une chute en rêve ?",
+    "La perte d’appui, la peur d’échouer, et le lâcher-prise."
+   ]
+  ]
+ },
+ "nu": {
+  "intro": "Rêver d’être nu en public est l’un des rêves d’embarras les plus connus. Les anciens livres des songes y voyaient scandale ou tentation ; aujourd’hui, on le relie au sentiment d’être exposé, pas prêt, ou à la peur d’être jugé.",
+  "books": [
+   [
+    "G. H. Miller",
+    1901,
+    "Être nu annonce scandale et engagements imprudents. Découvrir soudain sa nudité et chercher à la cacher, c’est vouloir renoncer à des plaisirs qu’on sait mauvais. Voir d’autres nus annonce la tentation de quitter le droit chemin."
+   ],
+   [
+    "F. Fontaine",
+    1862,
+    "Fontaine ne regarde que les autres : voir un homme nu annonce la peur ; une belle femme nue, honneur et joie ; pour une épouse, voir son mari nu annonce la réussite et beaucoup d’enfants. Noe le répète presque mot pour mot."
+   ]
+  ],
+  "today": [
+   "Tout tient à l’émotion. Être nu et honteux, chercher à se cacher alors que personne ne semble remarquer quoi que ce soit, se lit en général comme la peur d’être exposé : que les autres voient une faiblesse, une erreur ou à quel point on se sent mal préparé. Ce rêve est fréquent avant un nouvel emploi, un examen ou un moment public.",
+   "Freud a placé ce rêve au premier rang des rêves typiques. Dans L’Interprétation des rêves, il note qu’il n’a d’intérêt que lorsque la honte et l’embarras sont ressentis, quand on veut fuir ou se cacher et qu’une étrange inhibition empêche de bouger. Il le faisait remonter à la petite enfance, où être vu nu ne causait aucune honte.",
+   "Être nu sans aucun embarras est un tout autre rêve. On y lit souvent l’aisance avec soi-même, la sincérité, ou l’envie de quitter un rôle qu’on est las de jouer."
+  ],
+  "common": [
+   "C’est un rêve typique : dans une enquête auprès de 1 181 étudiants canadiens, 33 % avaient rêvé d’être nus, et autant d’être habillés de façon inappropriée.",
+   "tdq"
+  ],
+  "faq": [
+   [
+    "Pourquoi est-ce que je rêve d’être nu en public ?",
+    "En général parce qu’on se sent exposé ou mal préparé dans un domaine de sa vie, souvent avant un événement important."
+   ],
+   [
+    "Que veut dire un rêve où personne ne remarque que je suis nu ?",
+    "Freud en faisait un trait typique de ce rêve. On y lit souvent le signe que la peur du jugement est plus forte en vous que chez les autres."
+   ],
+   [
+    "Rêver d’être nu, est-ce mauvais signe ?",
+    "Miller y voyait un scandale, mais rien n’indique que ce rêve prédise quoi que ce soit. Il reflète un sentiment de vulnérabilité, et parfois, sans honte, une forme de liberté."
+   ],
+   [
+    "Que signifie rêver d’être nu ?",
+    "En général le sentiment d’être exposé, mal préparé ou jugé. Être nu sans honte évoque l’aisance et la sincérité."
+   ],
+   [
+    "Est-ce normal de rêver d’être nu ?",
+    "Oui. Environ un tiers des personnes d’une grande enquête avaient rêvé d’être nues en public."
+   ],
+   [
+    "Que symbolise la nudité en rêve ?",
+    "La vulnérabilité et l’exposition, et parfois la liberté et l’authenticité."
+   ]
+  ]
+ },
+ "_sources": {
+  "tdq": "Nielsen et al. (2003), « The Typical Dreams of Canadian University Students », Dreaming 13(4) : 211-235. On a demandé à 1 181 étudiants de première année s’ils avaient déjà fait chacun de 55 rêves types.",
+  "hvdc": "Hall et Van de Castle (1966), The Content Analysis of Dreams : tables de référence établies sur 500 récits de rêves d’hommes et 491 de femmes (dreams.ucsc.edu/Norms).",
+  "hospice": "Wright et al. (2014), « The impact of dreams of the deceased on bereavement: a survey of hospice caregivers », American Journal of Hospice & Palliative Medicine 31(2) : 132-138.",
+  "teeth2018": "Rozen et Soffer-Dudek (2018), « Dreams of Teeth Falling Out: An Empirical Investigation of Physiological and Psychological Correlates », Frontiers in Psychology 9 : 1812."
  }
 }

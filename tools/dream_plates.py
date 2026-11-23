@@ -13,13 +13,16 @@ WELLCOME = "https://iiif.wellcomecollection.org/image/{}/full/1800,/0/default.jp
 SRC = {"mouse": WELLCOME.format("V0020536"), "death": WELLCOME.format("V0041912EL"), "mort": WELLCOME.format("V0042118"),
        "wedding": WELLCOME.format("V0040575"), "ghost": WELLCOME.format("V0036040"), "mere": WELLCOME.format("V0038817"),
        "sang": WELLCOME.format("V0008385ER"),
+       "fall": WELLCOME.format("V0040956"), "flying": WELLCOME.format("V0040964"), "naked": WELLCOME.format("V0014391"),
+       "snake": WELLCOME.format("V0022713"), "teeth": WELLCOME.format("L0013638"),
        "fish": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Ichthyologie%3B_ou%2C_Histoire_naturelle_des_poissons_%28Plate_12%29_%287064397515%29.jpg/2000px-Ichthyologie%3B_ou%2C_Histoire_naturelle_des_poissons_%28Plate_12%29_%287064397515%29.jpg"}
 # picture edges as fractions of the scan (left, top, right, bottom); None = the whole print
 CROP = {"death": (92 / 600, 212 / 1018, 512 / 600, 748 / 1018),     # the woodcut frame, without the Latin verses above and below
         "mere": (40 / 600, 42 / 900, 560 / 600, 800 / 900),        # the plate with its signatures, without the title line
         "mouse": (60 / 600, 30 / 556, 530 / 600, 410 / 556),       # the vignette, without the column of text
         "wedding": (0, 0, 1, 398 / 460),                            # the scene, without the caption band
-        "mort": None, "sang": None, "ghost": None, "fish": None}
+        "mort": None, "sang": None, "ghost": None, "fish": None,
+        "fall": None, "flying": None, "snake": None, "teeth": None, "naked": "trim"}   # trim: cut the black scanner border
 STOPS = [(0.0, (74, 16, 32)), (0.55, (196, 128, 145)), (1.0, (249, 237, 234))]   # sampled from the first set of plates
 
 def lut():
@@ -39,9 +42,11 @@ def fetch(name):
 
 if __name__ == "__main__":
     L = lut()
-    for name in SRC:
+    only = sys.argv[2:] or list(SRC)
+    for name in only:
         im = fetch(name); W, H = im.size
-        if CROP[name]: l, t, r, b = CROP[name]; im = im.crop((round(l * W), round(t * H), round(r * W), round(b * H)))
+        if CROP[name] == "trim": im = im.crop(ImageOps.grayscale(im).point(lambda v: 255 if v > 60 else 0).getbbox())
+        elif CROP[name]: l, t, r, b = CROP[name]; im = im.crop((round(l * W), round(t * H), round(r * W), round(b * H)))
         g = ImageOps.autocontrast(ImageOps.grayscale(im), cutoff=1)
         out = Image.merge("RGB", (g, g, g)).point(L)
         out.thumbnail((1600, 1600), Image.LANCZOS)

@@ -51,8 +51,9 @@ def body(lang, mode):
     how = t["how"][0]
     return f'''<link rel="stylesheet" href="/assets/name-finder.css"><div class="nm">
 <div class="nm-form">
+ {sex if mode == "middle" else ""}
  <label class="nm-big">{pg[6][L]}<input id="nm-n" autocomplete="off" placeholder="{e(t["name_ph"])}"></label><div id="nm-sug" class="nm-sug" aria-live="polite"></div>
- {sex}
+ {sex if mode == "sibling" else ""}
  {sur}
  <div class="nm-filters">
   <label>{t["style"]}<select id="nm-style"><option value="">{t["any"]}</option>{sty}</select></label>

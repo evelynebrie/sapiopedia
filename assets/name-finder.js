@@ -124,6 +124,7 @@
     Object.keys(d.pairs).forEach(function (k) { PAIRS[+k] = d.pairs[k]; });
     R.forEach(function (r, i) { byName[r[0] + ":" + fold(r[1])] = i; r[11].forEach(function (v) { if (byName[r[0] + ":" + v] === undefined) byName[r[0] + ":" + v] = i; }); });
     NAMES = R.map(function (r, i) { return [fold(r[1]), r[1], i, r[9]]; }).sort(function (a, b) { return b[3] - a[3]; });
+    R.forEach(function (r) { var k = fold(r[1]); GEN[k] = (GEN[k] || "") + r[3]; });   /* every gender a name has in either list */
     var og = $("nm-origin"); og.insertAdjacentHTML("beforeend", d.origins.map(function (o, k) { return '<option value="' + k + '">' + esc((C.origins || {})[o] || o) + "</option>"; }).join(""));
     load(); setSexFromName(); var sx = document.querySelector("[name=nm-sex]:checked"); state.sex = sx ? sx.value : ""; run(); shortlist();
   });
@@ -137,17 +138,22 @@
     if (R) { run(); save(); }
   }
   /* suggestions under the name field while typing (best-known names first), instead of a drop-down list */
-  var NAMES = [], sug = $("nm-sug");
+  var NAMES = [], GEN = {}, sug = $("nm-sug");
   function suggest() {
     var v = fold($("nm-n").value.trim()); if (!v || !NAMES.length) { sug.innerHTML = ""; return; }
-    var seen = {}, hits = NAMES.filter(function (n) { if (n[0].indexOf(v) !== 0 || seen[n[1]] || n[0] === v) return false; seen[n[1]] = 1; return true; }).slice(0, 8);
+    var sx = document.querySelector("[name=nm-sex]:checked"), want = C.mode === "middle" && sx ? sx.value : "";   /* middle-name page: only names of the chosen gender (and unisex ones) */
+    var seen = {}, hits = NAMES.filter(function (n) { var gg = R[n[2]][3];
+      var gs = GEN[n[0]] || "", opp = want === "f" ? "m" : "f";   /* unisex only if no list gives it the other gender (Paula) */
+      if (n[0].indexOf(v) !== 0 || seen[n[1]] || n[0] === v || n[1].indexOf("-") >= 0) return false;
+      if (want && !(gs.indexOf(want) >= 0 || (gs.indexOf("n") >= 0 && gs.indexOf(opp) < 0))) return false;
+      seen[n[1]] = 1; return true; }).slice(0, 8);
     sug.innerHTML = hits.map(function (n) { return '<button type="button" data-n="' + esc(n[1]) + '" data-b="' + R[n[2]][0] + '">' + esc(n[1]) + "</button>"; }).join("");
   }
   sug.addEventListener("click", function (e) { var b = e.target.closest("button"); if (!b) return; $("nm-n").value = b.dataset.n; state.b = b.dataset.b; sug.innerHTML = ""; setSexFromName(); onChange(); });
-  $("nm-n").addEventListener("input", function () { state.b = ""; suggest(); setSexFromName(); onChange(); });
+  $("nm-n").addEventListener("input", function () { state.b = ""; suggest(); if (C.mode !== "middle") setSexFromName(); onChange(); });   /* the visitor's choice of gender stays as set */
   if ($("nm-s")) $("nm-s").addEventListener("input", onChange);
   ["nm-style", "nm-len", "nm-origin"].forEach(function (id) { $(id).addEventListener("change", onChange); });
-  document.querySelectorAll("[name=nm-sex]").forEach(function (r) { r.addEventListener("change", onChange); });
+  document.querySelectorAll("[name=nm-sex]").forEach(function (r) { r.addEventListener("change", function () { suggest(); onChange(); }); });
   $("nm-out").addEventListener("click", function (e) {
     var b = e.target.closest(".nm-heart"); if (!b) return; var n = b.dataset.n, k = state.list.indexOf(n);
     if (k >= 0) state.list.splice(k, 1); else state.list.push(n);

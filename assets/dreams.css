@@ -125,11 +125,11 @@ main.page.dream h1{font-family:'IM Fell English',Georgia,serif;font-variation-se
 /* long-form text on the main dreams (data/dream_long_*.json) */
 .dd-e p.dd-open,.dd-e p.dd-p{font-family:'EB Garamond',Georgia,serif;font-size:19px;line-height:1.6;color:#2A1F26;margin:0 0 10px}
 .dd-e p.dd-open{font-size:20px;margin:4px 0 0}
-.dd-books{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px}
-.dd-books div{background:#FCF7F2;border:1px solid var(--edge);padding:12px 14px}
-.dd-books b{display:block;font-family:'IM Fell English SC',Georgia,serif;font-weight:400;font-size:18px;color:var(--wine)}
-.dd-books span{display:block;font-style:italic;font-size:14px;color:var(--sepia);margin-bottom:6px}
-.dd-books p{font-family:'EB Garamond',Georgia,serif;font-size:17px;line-height:1.5;margin:0;color:#3A302B}
+.dd-oldbooks{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px}
+.dd-oldbooks div{background:#FCF7F2;border:1px solid var(--edge);padding:12px 14px}
+.dd-oldbooks b{display:block;font-family:'IM Fell English SC',Georgia,serif;font-weight:400;font-size:18px;color:var(--wine)}
+.dd-oldbooks span{display:block;font-style:italic;font-size:14px;color:var(--sepia);margin-bottom:6px}
+.dd-oldbooks p{font-family:'EB Garamond',Georgia,serif;font-size:17px;line-height:1.5;margin:0;color:#3A302B}
 .dd-e p.dd-trad,.dd-e p.dd-src{font-family:'EB Garamond',Georgia,serif;font-style:italic;font-size:15px;color:var(--sepia);margin:8px 0 0}
 .dd-faq h4{font-family:'EB Garamond',Georgia,serif;font-weight:600;font-size:19px;color:var(--ink6);margin:12px 0 4px}
 .dd-faq p{font-family:'EB Garamond',Georgia,serif;font-size:18px;line-height:1.55;margin:0;color:#2A1F26}

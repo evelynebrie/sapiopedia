@@ -96,7 +96,7 @@ def build(lang, layout, write, add_url, slug, alt_path):
         cols = "".join(f'<div><b>{e(a)}</b><span>{y}</span><p>{e(tx)}</p></div>' for a, y, tx in m["books"])
         faq = "".join(f"<h4>{e(q)}</h4><p>{e(a)}</p>" for q, a in m["faq"])
         ld = json.dumps({"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in m["faq"]]}, ensure_ascii=False)
-        return (f'<section><h3>{L["books"]}</h3><div class="dd-books">{cols}</div><p class="dd-trad">{L["trad"]}</p></section>'
+        return (f'<section><h3>{L["books"]}</h3><div class="dd-oldbooks">{cols}</div><p class="dd-trad">{L["trad"]}</p></section>'
                 f'<section><h3>{L["today"]}</h3>' + "".join(f'<p class="dd-p">{e(x)}</p>' for x in m["today"]) + "</section>"
                 f'<section><h3>{L["common"]}</h3><p class="dd-p">{e(m["common"][0])}</p><p class="dd-src">{L["src"]} : {e(" ".join(SRC.get(k, "") for k in ([m["common"][1]] if isinstance(m["common"][1], str) else m["common"][1])))}</p></section>'.replace(" : ", ": " if lang == "en" else "\u00a0: ", 1)
                 + f'<section class="dd-faq"><h3>{L["faq"]}</h3>{faq}</section><script type="application/ld+json">{ld}</script>')

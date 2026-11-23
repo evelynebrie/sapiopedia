@@ -11,7 +11,8 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TMP = os.path.join(ROOT, "_pins_batch"); DESK = os.path.expanduser("~/Desktop/Sapiopedia/Pinterest"); OUT = os.path.join(DESK, "batch-2026-11")
 CHROME = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
 SITE, BOARD, SLOT, START = "https://sapiopedia.com", "Gift ideas", "18:00:00", datetime.date(2026, 11, 23)
-TEMPLATE = open(os.path.join(TMP, "ix-en-L.html"), encoding="utf-8").read()
+TEMPLATE = open(os.path.join(TMP, "ix-en-L.html"), encoding="utf-8").read().replace(   # hide the status line above the letter (its last pixels showed above the rule)
+    'd.querySelectorAll("section.nf-l")', 'var _s=d.createElement("style");_s.textContent=".nf-status,.dd-az,.nf-none{visibility:hidden!important}";d.head.appendChild(_s);d.querySelectorAll("section.nf-l")', 1)
 N = {k: len(json.load(open(os.path.join(ROOT, "data", f"names_{k}_list.json"), encoding="utf-8"))) for k in ("fr", "de")}
 
 FR = dict(kick="French first names", base="/en/names/french/", label="Every name with its origin and a recording", sub="♀ girls · ♂ boys · ⚥ both, with how to say each one",
@@ -108,7 +109,7 @@ if __name__ == "__main__":
     # days that already have a pin to the same index page (any CSV on the Desktop) are skipped for that page
     busy, titles = set(), set()
     for f in os.listdir(DESK):
-        if f.startswith("pinterest-bulk-upload") and f.endswith(".csv") and f != "pinterest-bulk-upload-index.csv":
+        if f.startswith("pinterest-bulk-upload") and f.endswith(".csv") and "-index" not in f and "names-dreams" not in f:   # not its own output
             for r in csv.DictReader(open(os.path.join(DESK, f), encoding="utf-8")):
                 busy.add((r["Link"].split("#")[0], r["Publish date"][:10])); titles.add(r["Title"])
     day, rows = START, []
@@ -128,12 +129,11 @@ if __name__ == "__main__":
         rows.append([title, f"{SITE}/pins/b1/{pid}.png", BOARD, "", desc, link, f"{day.isoformat()}T{SLOT}",
                      S["tags"].split(", Names starting")[0] + f", Beautiful {lang} names, {lang} {'unisex' if g == 'n' else ('girl' if g == 'f' else 'boy')} names"])
         day += datetime.timedelta(1)
-    FIXED = ("ixde-en-H", "ixde-en-K", "ixde-en-W")   # first published with an empty box: new image URL so Pinterest fetches the fixed one
-    for r in rows:
-        if any(f"/{p}.png" in r[1] for p in FIXED): r[1] += "?v=2"
+    for r in rows:   # re-rendered after the first upload (empty box, then a sliver of text above the letter): new image URL so Pinterest fetches the fixed one
+        if "/ix" in r[1]: r[1] += "?v=3"
     cols = ["Title", "Media URL", "Pinterest board", "Thumbnail", "Description", "Link", "Publish date", "Keywords"]
     with open(os.path.join(DESK, "pinterest-bulk-upload-index.csv"), "w", encoding="utf-8", newline="") as fh:
         w = csv.writer(fh); w.writerow(cols); w.writerows(rows)
     with open(os.path.join(DESK, "pinterest-bulk-upload-index-update.csv"), "w", encoding="utf-8", newline="") as fh:   # for an account that already has the first ten
-        w = csv.writer(fh); w.writerow(cols); w.writerows([r for r in rows if "?v=2" in r[1] or "/cur-" in r[1]])
+        w = csv.writer(fh); w.writerow(cols); w.writerows([r for r in rows if "?v=3" in r[1] or "/cur-" in r[1]])
     for r in rows: print(r[6][:16], r[1].rsplit("/", 1)[1], "·", r[0])

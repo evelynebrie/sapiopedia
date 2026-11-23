@@ -123,9 +123,12 @@ def main():
                 if a is not None and b is not None and a != b: pairs.setdefault(a, set()).add(b); pairs.setdefault(b, set()).add(a)
     # vectors
     N = len(rec); syl = np.array([x["syl"] for x in rec]); pop = np.array([x["pop"] for x in rec], float)
-    popn = pop / max(1, pop.max())
+    popn = np.zeros(N)   # popularity as a rank inside each book (0-1), so French and German names compare fairly
+    for b in BOOKS:
+        ix = np.array([k for k, x in enumerate(rec) if x["book"] == b]); r = np.argsort(np.argsort(pop[ix])); popn[ix] = r / max(1, len(ix) - 1)
     T = np.array([[t in x["tags"] for t in STYLES] for x in rec], float)
     book = np.array([x["book"] for x in rec]); g = np.array([x["g"] for x in rec]); pool = np.array([x["pool"] for x in rec])
+    cand = np.array([(not x["comp"]) and x["g"] in "fmn" for x in rec])   # suggestions come from the whole database, French and German alike
     en = np.array([x["en"] for x in rec]); st = np.array([x["st"] for x in rec]); first = np.array([x["f"][:1] for x in rec])
     org = np.array([x["o"] for x in rec]); ends_cons = np.array([x["en"][-1:] for x in rec])
     style_w = np.array([0.5, 1, 1, 1.5, 1.5, 1.5, 1.5, 1, 1.5])           # how much a shared tag counts
@@ -133,12 +136,11 @@ def main():
 
     def near(i, js):
         a = rec[i]["f"]; return np.array([lev(a, rec[j]["f"]) <= 2 or rec[j]["f"] in rec[i]["var"] or a in rec[j]["var"] or rec[j]["f"].startswith(a[:4]) and len(a) >= 4
-                         or rec[j]["f"].startswith(a) or a.startswith(rec[j]["f"]) for j in js])   # Léo / Léonard
+                         or rec[j]["f"].startswith(a) or a.startswith(rec[j]["f"]) for j in js], dtype=bool)   # Léo / Léonard
 
     def middle(i, k=8, same_book=True):
         x = rec[i]; real_m = np.zeros(N, bool); real_m[list(pairs.get(i, ()))] = True
-        m = pool & (np.arange(N) != i) & ((g == x["g"]) | (x["g"] == "n") | real_m)   # same gender, unless families really combine them (Jean-Marie)
-        if same_book: m &= book == x["book"]
+        m = cand & (np.arange(N) != i) & ((g == x["g"]) | (x["g"] == "n") | real_m)   # same gender, unless families really combine them (Jean-Marie)
         js = np.nonzero(m)[0]
         s = np.zeros(len(js)); r = [[] for _ in js]
         d = syl[js] != x["syl"]; s += 2 * d
@@ -147,10 +149,11 @@ def main():
         clash = (st[js] == ends_cons[i]) & (np.char.str_len(st[js]) > 0); s -= 2 * clash
         shared = T[js] @ (T[i] * style_w); s += np.minimum(shared, 3)
         real = np.array([j in pairs.get(i, ()) for j in js]); s += 4 * real
-        s += popn[js]
+        s += popn[js] - 2 * ~pool[js]                                      # every name can come up, known names first
         s += 0.5 * ((org[js] == x["o"]) & (org[js] != ""))
-        s -= 10 * near(i, js)
-        order = js[np.argsort(-s)][:k]
+        top = np.argsort(-s)[:k * 4 + 40]                                   # near-duplicates (Léo/Théo) are checked on the best ones only: fast
+        keep = top[~near(i, js[top])]
+        order = js[keep][:k]
         out = []
         for j in order:
             why = []
@@ -162,16 +165,18 @@ def main():
         return out
 
     def sibling(i, gender, k=4):
-        x = rec[i]; m = pool & (np.arange(N) != i) & (g == gender) & (book == x["book"])
+        x = rec[i]; m = cand & (np.arange(N) != i) & (g == gender)
         js = np.nonzero(m)[0]
         s = np.minimum(T[js] @ (T[i] * style_w), 3) * 1.5
         s += 1.5 * ((org[js] == x["o"]) & (org[js] != ""))
         s -= 2 * (first[js] == first[i]); s -= 2 * (en[js] == x["en"])
-        s -= 10 * near(i, js)
         s -= 3 * np.abs(popn[js] - popn[i])
         if has_era[i]: s -= np.where(has_era[js], np.abs(peak[js] - peak[i]) / 10, 3) * 1.2   # same era: a brother for Léo is not a Roger
-        s += popn[js]
-        order = js[np.argsort(-s)][:k]
+        s += popn[js] - 3 * ~pool[js]
+        if not has_era[i]:   # no era to compare (German names): a name from the other list must share a real style
+            real_style = T[js] @ (T[i] * (style_w * np.array([1, 1, 0, 1, 1, 1, 1, 0, 1])))
+            s -= 6 * ((book[js] != x["book"]) & (real_style == 0))
+        top = np.argsort(-s)[:k * 4 + 40]; order = js[top[~near(i, js[top])]][:k]
         out = []
         for j in order:
             why = []
@@ -191,8 +196,8 @@ def main():
     # dedicated pages: the best-known names of each book (200 French, 100 German), 40 middle names in 4 groups
     top = []
     for b, n in (("fr", 200), ("de", 100)):
-        cand = sorted((i for i, x in enumerate(rec) if x["book"] == b and x["pool"] and x["g"] in "fm"), key=lambda i: -rec[i]["pop"])[:n]
-        top += cand
+        best = sorted((i for i, x in enumerate(rec) if x["book"] == b and x["pool"] and x["g"] in "fm"), key=lambda i: -rec[i]["pop"])[:n]
+        top += best
     pages = {}
     for i in top:
         cands = middle(i, k=160)

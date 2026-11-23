@@ -164,9 +164,9 @@ def mid_pages():
         p = os.path.join(ROOT, "data", "names_middle_pages.json")
         _MID = json.load(open(p, encoding="utf-8")) if os.path.exists(p) else {}
     return _MID
-GW = {"en": dict(h="Goes well with", mid="Middle names", sib="Brothers and sisters", more="40 middle names for {n} →", tool="Try your own combinations →",
+GW = {"en": dict(h="Goes well with", mid="Middle names", sib="Brothers and sisters", more="40 middle names for {n} →", tool="Middle name finder →", stool="Sibling name finder →", stool_url="/en/names/sibling-name-finder/",
                  tool_url="/en/names/middle-name-finder/", mid_slug="middle-names"),
-      "fr": dict(h="Va bien avec", mid="Deuxièmes prénoms", sib="Frères et sœurs", more="40 idées de deuxième prénom pour {n} →", tool="Essayer vos propres combinaisons →",
+      "fr": dict(h="Va bien avec", mid="Deuxièmes prénoms", sib="Frères et sœurs", more="40 idées de deuxième prénom pour {n} →", tool="Trouver un deuxième prénom →", stool="Trouver un prénom de frère ou sœur →", stool_url="/fr/prenoms/prenom-frere-soeur/",
                  tool_url="/fr/prenoms/deuxieme-prenom/", mid_slug="deuxieme-prenom")}
 def goes_with(lang, k, name):
     v = pairs().get(f"{k}:{name}")
@@ -178,7 +178,7 @@ def goes_with(lang, k, name):
     base = SETS[k]["base"][lang]; slug = card_slugs(k)[0][name]
     more = f'<a href="{base}{slug}/{c["mid_slug"]}/">{E(c["more"].format(n=name))}</a> · ' if f"{k}:{name}" in mid_pages() else ""
     return (f'<section class="goes">{f"<h3>{c[chr(104)]}</h3>"}<p><b>{c["mid"]}</b> {mids}</p>' + (f'<p><b>{c["sib"]}</b> {sibs}</p>' if sibs else "")
-            + f'<p class="small">{more}<a href="{c["tool_url"]}#n={E(name)}&amp;b={k}">{c["tool"]}</a></p></section>')
+            + f'<p class="small">{more}<a href="{c["tool_url"]}#n={E(name)}&amp;b={k}">{c["tool"]}</a> · <a href="{c["stool_url"]}#n={E(name)}&amp;b={k}">{c["stool"]}</a></p></section>')
 
 TWIN = {"en": {"fr": "Also a French name: {n} →", "de": "Also a German name: {n} →"}, "fr": {"fr": "Aussi un prénom français : {n} →", "de": "Aussi un prénom allemand : {n} →"}}
 
@@ -268,6 +268,7 @@ MP = {"en": dict(title="Middle Names for {n}: 40 Names That Flow", desc="40 midd
 def why(lang, codes):
     out = []
     for c in codes:
+        if c == "style:international": continue   # shared by most pairs: not a reason
         out.append(f"{STY[lang].get(c[6:], c[6:])} " + ("style" if lang == "en" else "aussi") if c.startswith("style:") else WHY[lang].get(c, c))
     return " · ".join(out)
 
@@ -309,7 +310,7 @@ def build_middle_pages(lang, layout, write, add_url):
         mslug = GW[lang]["mid_slug"]; oslug = GW["fr" if lang == "en" else "en"]["mid_slug"]
         path = f"{base}{d['slug']}/{mslug}/"; alt = f"{other}{d['slug']}/{oslug}/"
         groups = "".join(f'<section><h3>{c["groups"][g]}</h3><ul class="grp">' + "".join(
-            f'<li><a href="{SETS[b]["base"][lang]}{sl}/">{E(nm)}</a><span>{E(why(lang, w))}</span></li>' for b, nm, sl, w in items) + "</ul></section>"
+            f'<li><a href="{SETS[b]["base"][lang]}{sl}/">{E(nm)}</a></li>' for b, nm, sl, w in items) + "</ul></section>"
             for g, items in d["groups"].items() if items)
         faq = middle_faq(lang, n, d, pairs().get(key, {}).get("s", []))
         ld = json.dumps({"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in faq]}, ensure_ascii=False)

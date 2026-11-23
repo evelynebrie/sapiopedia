@@ -8,7 +8,7 @@
   var BAD = { en: ["ASS", "PIG", "FAT", "BUM", "DIE", "SAD", "MAD", "BAD", "RAT", "HAG", "COW", "POO", "WTF", "SOS", "FML", "STD", "KKK", "GAY", "SEX", "DUD", "BRA", "PMS", "LSD", "UGH", "BOO"],
              fr: ["CON", "PUE", "PET", "NUL", "CUL", "MOU", "ZOB", "PD", "NAZ", "BOF", "PUR", "SOT", "FOU", "MAL", "RAT", "ZIZ", "VOL", "PIS"] };
   var W = [0.5, 1, 1, 1.5, 1.5, 1.5, 1.5, 1, 1.5];
-  var state = { n: "", b: "", mode: "middle", sur: "", style: "", len: "", origin: "", intl: false, book: "same", list: [] };
+  var state = { n: "", b: "", mode: C.mode || "middle", sur: "", style: "", len: "", origin: "", intl: false, book: "same", list: [] };   /* mode is fixed by the page */
 
   function lev(a, b) {
     if (Math.abs(a.length - b.length) > 2) return 3;
@@ -21,7 +21,7 @@
     return lev(a, b) <= 2 || x[11].indexOf(b) >= 0 || y[11].indexOf(a) >= 0 || (a.length >= 4 && b.indexOf(a.slice(0, 4)) === 0) || b.indexOf(a) === 0 || a.indexOf(b) === 0;
   }
   function shared(x, y) { var s = 0, t; for (t = 0; t < W.length; t++) if ((x[7] >> t) & (y[7] >> t) & 1) s += W[t]; return Math.min(s, 3); }
-  function firstStyle(x, y, skipRare) { for (var t = 0; t < D.styles.length; t++) if ((x[7] >> t) & (y[7] >> t) & 1 && !(skipRare && D.styles[t] === "rare")) return D.styles[t]; return ""; }
+  function firstStyle(x, y, skipRare) { for (var t = 0; t < D.styles.length; t++) if ((x[7] >> t) & (y[7] >> t) & 1 && D.styles[t] !== "international" && !(skipRare && D.styles[t] === "rare")) return D.styles[t]; return ""; }   /* international is shared by most pairs: not a reason */
   function isPair(i, j) { return (PAIRS[i] || []).indexOf(j) >= 0; }
   function sylCount(s) { var w = fold(s).replace(/(?<=[^aeiouy])e\b/g, ""); return Math.max(1, (w.match(/[aeiouy]+/g) || []).length); }
 
@@ -35,15 +35,16 @@
       if (y[6] === x[6]) s -= 3;
       if (y[5] && y[5] === x[6].slice(-1)) s -= 2;
       if (x[8] >= 0 && y[8] === x[8]) s += 0.5;
-      s += y[9] / 100;
+      s += y[9] / 100 - (y[10] ? 0 : 2);   /* every name can come up, known names first */
     } else {
       if (y[3] !== gender) return null;
       s += shared(x, y) * 1.5;
       if (x[8] >= 0 && y[8] === x[8]) { s += 1.5; why.push("origin"); }
       if (fold(y[1])[0] === fold(x[1])[0]) s -= 2;
       if (y[6] === x[6]) s -= 2;
-      s -= 3 * Math.abs(y[9] - x[9]) / 100; s += y[9] / 100;
+      s -= 3 * Math.abs(y[9] - x[9]) / 100; s += y[9] / 100 - (y[10] ? 0 : 3);
       if (x[12] && y[12]) s -= Math.abs(y[12] - x[12]) / 10 * 1.2; else if (x[12]) s -= 3;
+      if (!x[12] && y[0] !== x[0] && !firstStyle(x, y, true)) s -= 6;   /* no era (German names): the other list must share a real style */
     }
     if (mode === "middle") s += shared(x, y);
     var st = firstStyle(x, y, mode === "middle"); if (st) why.splice(mode === "middle" ? why.length : 0, 0, "style:" + st);
@@ -76,7 +77,7 @@
     groups.forEach(function (g) {
       var res = [];
       for (var j = 0; j < R.length; j++) {
-        var y = R[j]; if (j === i || !y[10] || (state.book === "same" && y[0] !== x[0])) continue;
+        var y = R[j]; if (j === i || y[1].indexOf("-") >= 0 || "fmn".indexOf(y[3]) < 0) continue;   /* the whole database, French and German alike */
         if (!filters(y)) continue;
         var sc = score(i, j, state.mode, g[1]); if (!sc) continue;
         var why = sc[1].slice();
@@ -92,7 +93,7 @@
       out.insertAdjacentHTML("beforeend", h + '<ul class="nm-res">' + res.slice(0, 24).map(function (r) {
         var y = R[r[1]], on = state.list.indexOf(y[1]) >= 0, full = state.mode === "middle" ? x[1] + " " + y[1] + (sur ? " " + sur : "") : y[1];
         return '<li><button type="button" class="nm-heart" aria-pressed="' + on + '" data-n="' + esc(y[1]) + '" aria-label="' + C.save + '">' + (on ? "♥" : "♡") + "</button>" +
-          '<a href="' + C.base[y[0]] + y[2] + '/">' + esc(full) + "</a><span>" + r[2].map(label).join(" · ") + "</span></li>";
+          '<a href="' + C.base[y[0]] + y[2] + '/">' + esc(full) + "</a></li>";
       }).join("") + "</ul>");
     });
     if (!out.textContent.trim()) out.innerHTML = '<p class="nm-none">' + C.empty + "</p>";
@@ -101,14 +102,13 @@
   function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
 
   function save() {
-    var h = "n=" + encodeURIComponent(state.n) + "&b=" + state.b + "&m=" + state.mode + (state.sur ? "&s=" + encodeURIComponent(state.sur) : "") + (state.list.length ? "&l=" + encodeURIComponent(state.list.join(",")) : "");
+    var h = "n=" + encodeURIComponent(state.n) + "&b=" + state.b + (state.sur ? "&s=" + encodeURIComponent(state.sur) : "") + (state.list.length ? "&l=" + encodeURIComponent(state.list.join(",")) : "");
     history.replaceState(null, "", "#" + h); shortlist();
   }
   function load() {
     var q = {}; location.hash.slice(1).split("&").forEach(function (kv) { var p = kv.split("="); if (p[0]) q[p[0]] = decodeURIComponent(p[1] || ""); });
-    if (q.n) { state.n = q.n; $("nm-n").value = q.n; } if (q.b) state.b = q.b; if (q.m) state.mode = q.m; if (q.s) { state.sur = q.s; $("nm-s").value = q.s; }
+    if (q.n) { state.n = q.n; $("nm-n").value = q.n; } if (q.b) state.b = q.b; if (q.s && $("nm-s")) { state.sur = q.s; $("nm-s").value = q.s; }
     if (q.l) state.list = q.l.split(",").filter(Boolean);
-    document.querySelectorAll("[name=nm-mode]").forEach(function (r) { r.checked = r.value === state.mode; });
   }
   function shortlist() {
     var box = $("nm-list");
@@ -121,19 +121,25 @@
     D = d; R = d.n; PAIRS = {};
     Object.keys(d.pairs).forEach(function (k) { PAIRS[+k] = d.pairs[k]; });
     R.forEach(function (r, i) { byName[r[0] + ":" + fold(r[1])] = i; r[11].forEach(function (v) { if (byName[r[0] + ":" + v] === undefined) byName[r[0] + ":" + v] = i; }); });
-    var dl = $("nm-names"); dl.innerHTML = R.filter(function (r) { return r[10]; }).map(function (r) { return '<option value="' + esc(r[1]) + '">'; }).join("");
+    NAMES = R.map(function (r, i) { return [fold(r[1]), r[1], i, r[9]]; }).sort(function (a, b) { return b[3] - a[3]; });
     var og = $("nm-origin"); og.insertAdjacentHTML("beforeend", d.origins.map(function (o, k) { return '<option value="' + k + '">' + esc((C.origins || {})[o] || o) + "</option>"; }).join(""));
     load(); run(); shortlist();
   });
   function onChange() {
-    state.n = $("nm-n").value.trim(); state.sur = $("nm-s").value; state.style = $("nm-style").value; state.len = $("nm-len").value; state.origin = $("nm-origin").value;
-    state.intl = $("nm-intl").checked; state.book = $("nm-book").value;
-    var m = document.querySelector("[name=nm-mode]:checked"); state.mode = m ? m.value : "middle";
+    state.n = $("nm-n").value.trim(); state.sur = $("nm-s") ? $("nm-s").value : ""; state.style = $("nm-style").value; state.len = $("nm-len").value; state.origin = $("nm-origin").value;
     if (R) { run(); save(); }
   }
-  ["nm-n", "nm-s"].forEach(function (id) { $(id).addEventListener("input", onChange); });
-  ["nm-style", "nm-len", "nm-origin", "nm-intl", "nm-book"].forEach(function (id) { $(id).addEventListener("change", onChange); });
-  document.querySelectorAll("[name=nm-mode]").forEach(function (r) { r.addEventListener("change", onChange); });
+  /* suggestions under the name field while typing (best-known names first), instead of a drop-down list */
+  var NAMES = [], sug = $("nm-sug");
+  function suggest() {
+    var v = fold($("nm-n").value.trim()); if (!v || !NAMES.length) { sug.innerHTML = ""; return; }
+    var seen = {}, hits = NAMES.filter(function (n) { if (n[0].indexOf(v) !== 0 || seen[n[1]] || n[0] === v) return false; seen[n[1]] = 1; return true; }).slice(0, 8);
+    sug.innerHTML = hits.map(function (n) { return '<button type="button" data-n="' + esc(n[1]) + '" data-b="' + R[n[2]][0] + '">' + esc(n[1]) + "</button>"; }).join("");
+  }
+  sug.addEventListener("click", function (e) { var b = e.target.closest("button"); if (!b) return; $("nm-n").value = b.dataset.n; state.b = b.dataset.b; sug.innerHTML = ""; onChange(); });
+  $("nm-n").addEventListener("input", function () { state.b = ""; suggest(); onChange(); });
+  if ($("nm-s")) $("nm-s").addEventListener("input", onChange);
+  ["nm-style", "nm-len", "nm-origin"].forEach(function (id) { $(id).addEventListener("change", onChange); });
   $("nm-out").addEventListener("click", function (e) {
     var b = e.target.closest(".nm-heart"); if (!b) return; var n = b.dataset.n, k = state.list.indexOf(n);
     if (k >= 0) state.list.splice(k, 1); else state.list.push(n);

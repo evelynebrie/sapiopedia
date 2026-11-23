@@ -25,29 +25,43 @@ T = {
 }
 STY = ["short", "classic", "vintage", "modern", "nature", "mythological", "biblical", "rare"]
 
-def body(lang):
-    t = T[lang]; e = html.escape; js = dict(t["js"]); js["lang"] = lang
+PG = {  # mode: (slug en, slug fr, title en, title fr, meta en, meta fr, name label en/fr, how en/fr)
+ "middle": ("middle-name-finder", "deuxieme-prenom", "Middle Name Finder", "Trouver un deuxième prénom",
+            "Middle name ideas that go with your child's first name, with the reason for each one.",
+            "Des idées de deuxième prénom qui vont avec le prénom de votre enfant, avec la raison de chaque choix.",
+            ("Your child's first name", "Le premier prénom"),
+            ("<p>A middle name flows better with a different number of syllables, when it does not rhyme with the first name and does not start with the sound the first name ends on. Names that families really combine (Marie-Alice, Jean-Paul…) get a bonus. Add your surname to check the initials and the rhythm of the full name.</p><p>Tap ♡ to keep a name: your shortlist is saved in the link, ready to share.</p>",
+             "<p>Un deuxième prénom sonne mieux s’il n’a pas le même nombre de syllabes, ne rime pas avec le premier et ne commence pas par le son sur lequel le premier se termine. Les prénoms que les familles associent vraiment (Marie-Alice, Jean-Paul…) reçoivent un bonus. Ajoutez votre nom de famille pour vérifier les initiales et le rythme du nom complet.</p><p>Touchez ♡ pour garder un prénom : votre sélection est enregistrée dans le lien, prête à partager.</p>")),
+ "sibling": ("sibling-name-finder", "prenom-frere-soeur", "Sibling Name Finder", "Trouver un prénom de frère ou sœur",
+            "Brother and sister name ideas that match your first child's name, in the same style and era.",
+            "Des idées de prénoms de frère ou de sœur assortis au prénom de votre aîné, dans le même style et la même époque.",
+            ("Your first child's name", "Le prénom de l’aîné"),
+            ("<p>The finder looks for names in the same style and era, but with a different first letter and ending, so Léo and Théo are never suggested together. Eras of French names come from the official INSEE birth statistics (1900–2021).</p><p>Tap ♡ to keep a name: your shortlist is saved in the link, ready to share.</p>",
+             "<p>L’outil cherche des prénoms du même style et de la même époque, mais avec une autre initiale et une autre finale : Léo et Théo ne sont jamais proposés ensemble. Les époques des prénoms français viennent des statistiques officielles de l’INSEE (1900-2021).</p><p>Touchez ♡ pour garder un prénom : votre sélection est enregistrée dans le lien, prête à partager.</p>")),
+}
+
+def body(lang, mode):
+    t = T[lang]; e = html.escape; js = dict(t["js"]); js["lang"] = lang; js["mode"] = mode; pg = PG[mode]; L = 0 if lang == "en" else 1
     js["base"] = {"fr": "/en/names/french/" if lang == "en" else "/fr/prenoms/francais/", "de": "/en/names/german/" if lang == "en" else "/fr/prenoms/allemands/"}
     sty = "".join(f'<option value="{s}">{e(t["js"]["styles"][s])}</option>' for s in STY)
+    sur = f'<label>{t["sur"]}<input id="nm-s" autocomplete="off"></label>' if mode == "middle" else ""
+    how = t["how"][0]
     return f'''<link rel="stylesheet" href="/assets/name-finder.css"><div class="nm">
 <div class="nm-form">
- <label class="nm-big">{t["name"]}<input id="nm-n" list="nm-names" autocomplete="off" placeholder="{e(t["name_ph"])}"></label><datalist id="nm-names"></datalist>
- <div class="nm-mode" role="radiogroup"><label><input type="radio" name="nm-mode" value="middle" checked> {t["mode_m"]}</label><label><input type="radio" name="nm-mode" value="sibling"> {t["mode_s"]}</label></div>
- <label>{t["sur"]}<input id="nm-s" autocomplete="off"></label>
+ <label class="nm-big">{pg[6][L]}<input id="nm-n" autocomplete="off" placeholder="{e(t["name_ph"])}"></label><div id="nm-sug" class="nm-sug" aria-live="polite"></div>
+ {sur}
  <div class="nm-filters">
   <label>{t["style"]}<select id="nm-style"><option value="">{t["any"]}</option>{sty}</select></label>
   <label>{t["len"]}<select id="nm-len"><option value="">{t["any"]}</option><option value="1">{t["l1"]}</option><option value="2">{t["l2"]}</option><option value="3">{t["l3"]}</option></select></label>
   <label>{t["origin"]}<select id="nm-origin"><option value="">{t["any"]}</option></select></label>
-  <label>{t["book"]}<select id="nm-book"><option value="same">{t["same"]}</option><option value="both">{t["both"]}</option></select></label>
-  <label class="nm-check"><input type="checkbox" id="nm-intl"> {t["intl"]}</label>
  </div>
 </div>
 <div id="nm-list" class="nm-list"></div>
 <div id="nm-out" class="nm-out"></div>
-<section class="nm-how"><h2>{t["how"][0]}</h2>{t["how"][1]}</section>
+<section class="nm-how"><h2>{how}</h2>{pg[7][L]}</section>
 </div>
 <script>window.NM={json.dumps(js, ensure_ascii=False)};</script><script src="/assets/name-finder.js"></script>'''
 
-PAGES.append({"section": "names", "wide": True,
-    "en": ("middle-name-finder", T["en"]["title"], T["en"]["desc"], body("en")),
-    "fr": ("deuxieme-prenom", T["fr"]["title"], T["fr"]["desc"], body("fr"))})
+for mode, pg in PG.items():
+    PAGES.append({"section": "names", "wide": True, "nolead": True,
+        "en": (pg[0], pg[2], pg[4], body("en", mode)), "fr": (pg[1], pg[3], pg[5], body("fr", mode))})

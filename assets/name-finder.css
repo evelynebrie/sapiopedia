@@ -7,3 +7,6 @@
 .nm-res li{display:grid;grid-template-columns:28px 1fr;align-items:baseline;padding:6px 0;border-bottom:1px solid #EFE4DA}
 .nm-res a{font-size:18px;color:#2A1F26;text-decoration:none}.nm-res a:hover{color:#8E2F48}.nm-res span{grid-column:2;font-size:13px;font-style:italic;color:#7A675C}
 .nm-heart{border:0;background:none;font-size:20px;color:#B8405E;cursor:pointer;padding:0;line-height:1}.nm-none{color:#6E5A62;font-style:italic}.nm-how{margin-top:28px}
+.nm-sug{display:flex;flex-wrap:wrap;gap:8px;margin-top:-6px}.nm-sug:empty{display:none}
+.nm-sug button{font:inherit;font-size:16px;padding:6px 14px;border:1px solid #D8C7C9;border-radius:999px;background:#fff;color:#2A1F26;cursor:pointer}
+.nm-sug button:hover{border-color:#8E2F48;color:#8E2F48}

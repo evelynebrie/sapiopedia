@@ -7,7 +7,7 @@ Desktop/Sapiopedia/Pinterest/pinterest-bulk-upload-videos.csv (+ -videos-part2.c
 import base64, csv, datetime, json, os, re, shutil
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-DESK = os.path.expanduser("~/Desktop/Sapiopedia/Pinterest"); SRC = os.path.join(DESK, "batch-2026-11")
+DESK = os.path.expanduser("~/Library/CloudStorage/Dropbox/Sapiopedia/Pinterest"); SRC = os.path.join(DESK, "batch-2026-11")
 SITE = "https://sapiopedia.com"; BOARD = "Gift ideas"   # the only board on the account (as in pins_batch.py)
 START, SLOT = datetime.date(2026, 11, 13), "21:00:00"
 CUT = datetime.date(2026, 11, 11) + datetime.timedelta(29)   # last day Pinterest accepts in today's upload

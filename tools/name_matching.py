@@ -20,7 +20,7 @@ import numpy as np
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BOOKS = ("fr", "de")
 STYLES = ["short", "classic", "rare", "vintage", "nature", "mythological", "biblical", "international", "modern"]
-INSEE = os.path.expanduser("~/Desktop/Sapiopedia/Names/insee_nat2021.csv")   # births per first name and year in France, 1900-2021 (INSEE)
+INSEE = os.path.expanduser("~/Library/CloudStorage/Dropbox/Sapiopedia/Names/insee_nat2021.csv")   # births per first name and year in France, 1900-2021 (INSEE)
 
 def insee():
     """fold(name) -> (births, peak decade, share born since 2000) from the INSEE national file; {} if absent."""

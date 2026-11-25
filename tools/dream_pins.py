@@ -7,7 +7,7 @@ Desktop/Sapiopedia/Pinterest/pinterest-bulk-upload-dreams.csv."""
 import csv, datetime, json, os, shutil, subprocess
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-TMP = os.path.join(ROOT, "_pins_batch"); DESK = os.path.expanduser("~/Desktop/Sapiopedia/Pinterest"); OUT = os.path.join(DESK, "batch-2026-11")
+TMP = os.path.join(ROOT, "_pins_batch"); DESK = os.path.expanduser("~/Library/CloudStorage/Dropbox/Sapiopedia/Pinterest"); OUT = os.path.join(DESK, "batch-2026-11")
 CHROME = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
 SITE, BOARD, START = "https://sapiopedia.com", "Gift ideas", datetime.date(2026, 11, 24)
 SLOT = {"en": "15:00:00", "fr": "12:00:00"}   # two times no other schedule uses

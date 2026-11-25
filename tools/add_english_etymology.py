@@ -3,12 +3,12 @@
 Wiktionary dump (kaikki raw-wiktextract-data.jsonl.gz). The English site shows "ete"; without it, the origin section
 is left out on the English site rather than shown in French. Run after tools/extract_names.py:
 
-  python3 tools/add_english_etymology.py ~/Desktop/Sapiopedia/Names/raw-wiktextract-data.jsonl.gz
+  python3 tools/add_english_etymology.py ~/Library/CloudStorage/Dropbox/Sapiopedia/Names/raw-wiktextract-data.jsonl.gz
 """
 import gzip, json, os, re, subprocess, sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-SRC = sys.argv[1] if len(sys.argv) > 1 else os.path.expanduser("~/Desktop/Sapiopedia/Names/raw-wiktextract-data.jsonl.gz")
+SRC = sys.argv[1] if len(sys.argv) > 1 else os.path.expanduser("~/Library/CloudStorage/Dropbox/Sapiopedia/Names/raw-wiktextract-data.jsonl.gz")
 
 def clean(et):
     lines = [l.strip() for l in et.replace("\r", "").split("\n") if l.strip()]

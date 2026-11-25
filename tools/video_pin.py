@@ -7,7 +7,7 @@ from PIL import Image
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TMP = os.path.join(ROOT, "_pins_batch")
-OUT = os.path.expanduser("~/Desktop/Sapiopedia/Pinterest/batch-2026-11")
+OUT = os.path.expanduser("~/Library/CloudStorage/Dropbox/Sapiopedia/Pinterest/batch-2026-11")
 CHROME = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
 SRC = "/en/tools/room-planner/?preset=evening-living&view=3d&embed=3d&capture=1"
 FPS, SECONDS, LIGHT_EVERY = 24, 12, 3          # one full turn in 12 s, lamps switch every 3 s

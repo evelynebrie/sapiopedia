@@ -9,7 +9,7 @@ Writes _pins_batch/<id>.html (rendered by Chrome), then Desktop/Sapiopedia/Pinte
 import csv, datetime, json, os, random, re, subprocess, base64, html, struct
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-DESK = os.path.expanduser("~/Desktop/Sapiopedia/Pinterest")
+DESK = os.path.expanduser("~/Library/CloudStorage/Dropbox/Sapiopedia/Pinterest")
 OUTD = os.path.join(DESK, "batch-2026-11"); os.makedirs(OUTD, exist_ok=True)
 TMP = os.path.join(ROOT, "_pins_batch"); os.makedirs(TMP, exist_ok=True)
 GAMES = json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "games.json"), encoding="utf-8"))

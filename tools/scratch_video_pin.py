@@ -9,7 +9,7 @@ import base64, json, os, re, shutil, subprocess, sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TMP = os.path.join(ROOT, "_pins_batch"); os.makedirs(TMP, exist_ok=True)
-OUT = os.path.expanduser("~/Desktop/Sapiopedia/Pinterest/batch-2026-11")
+OUT = os.path.expanduser("~/Library/CloudStorage/Dropbox/Sapiopedia/Pinterest/batch-2026-11")
 FPS, SECONDS = 30, 9
 FREE = ('<style>.free{position:absolute;top:18px;right:40px;z-index:5;background:#8E2F48;color:#fff;font:700 24px "Source Sans 3",sans-serif;letter-spacing:.12em;'
         'text-transform:uppercase;padding:9px 18px;border-radius:999px;box-shadow:0 4px 12px -4px rgba(42,31,38,.4)}</style><div class="free">Free · No sign-up</div>')

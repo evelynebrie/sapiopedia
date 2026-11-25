@@ -12,7 +12,7 @@ Run:  python3 tools/extract_names.py /path/to/fr-extract.jsonl
 import json, os, re, subprocess, sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-SRC = sys.argv[1] if len(sys.argv) > 1 else os.path.expanduser("~/Desktop/Sapiopedia/Names/fr-extract.jsonl")
+SRC = sys.argv[1] if len(sys.argv) > 1 else os.path.expanduser("~/Library/CloudStorage/Dropbox/Sapiopedia/Names/fr-extract.jsonl")
 LANGS = {"en": "English", "es": "Spanish", "it": "Italian", "de": "German", "pt": "Portuguese", "nl": "Dutch", "pl": "Polish",
          "ru": "Russian", "el": "Greek", "la": "Latin", "ar": "Arabic", "he": "Hebrew", "zh": "Chinese", "ja": "Japanese",
          "cs": "Czech", "hu": "Hungarian", "sv": "Swedish", "da": "Danish", "nb": "Norwegian", "no": "Norwegian", "fi": "Finnish",

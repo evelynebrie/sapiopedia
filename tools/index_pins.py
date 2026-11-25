@@ -8,7 +8,7 @@ import csv, datetime, json, os, re, shutil, subprocess
 import concurrent.futures as cf
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-TMP = os.path.join(ROOT, "_pins_batch"); DESK = os.path.expanduser("~/Desktop/Sapiopedia/Pinterest"); OUT = os.path.join(DESK, "batch-2026-11")
+TMP = os.path.join(ROOT, "_pins_batch"); DESK = os.path.expanduser("~/Library/CloudStorage/Dropbox/Sapiopedia/Pinterest"); OUT = os.path.join(DESK, "batch-2026-11")
 CHROME = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
 SITE, BOARD, SLOT, START = "https://sapiopedia.com", "Gift ideas", "18:00:00", datetime.date(2026, 11, 23)
 TEMPLATE = open(os.path.join(TMP, "ix-en-L.html"), encoding="utf-8").read().replace(   # hide the status line above the letter (its last pixels showed above the rule)

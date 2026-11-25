@@ -2,7 +2,7 @@
 """Extract German first names into assets/names-de.json (details, one card per name) and data/names_de_list.json (index rows),
 in the same format as the French names (tools/extract_names.py), so content/names_fr.py builds both.
 
-Sources (kaikki/wiktextract dumps, in ~/Desktop/Sapiopedia/Names):
+Sources (kaikki/wiktextract dumps, in ~/Library/CloudStorage/Dropbox/Sapiopedia/Names):
   de-extract.jsonl.gz          German Wiktionary, "Vorname" entries: gender, pronunciation, recording, origin, other languages,
                                short and pet forms, the feminine or masculine form, a dated quotation (1925 or earlier)
   raw-wiktextract-data.jsonl.gz English Wiktionary, German given names: the English etymology (field "ete", shown on the English site)
@@ -22,7 +22,7 @@ EN.neighbours = lambda k: {n for n in _nb(k) if n != "h" + k and k != "h" + n}
 from add_english_etymology import clean as clean_en
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-SRC = sys.argv[1] if len(sys.argv) > 1 else os.path.expanduser("~/Desktop/Sapiopedia/Names")
+SRC = sys.argv[1] if len(sys.argv) > 1 else os.path.expanduser("~/Library/CloudStorage/Dropbox/Sapiopedia/Names")
 
 # origin languages as German etymologies write them -> (French, English), checked longest first
 ORIG = {"altgriechisch": ("grec ancien", "Ancient Greek"), "griechisch": ("grec", "Greek"), "lateinisch": ("latin", "Latin"), "hebräisch": ("hébreu", "Hebrew"),
